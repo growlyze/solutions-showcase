@@ -182,7 +182,2559 @@ const CASE_STUDIES = [
     description: 'AI agents built for ecommerce brands to automate customer interactions and operations.',
     source: 'Notion',
     url: 'https://bit.ly/42E2n1a',
-    tags: ['ecommerce-agents', 'ai-agents'],
+    tags: [
+      'ecommerce-agents',
+      'ai-agents'
+    ],
+    content: [
+      {
+        type: 'heading',
+        text: 'AI-Powered Customer Support Agent'
+      },
+      {
+        type: 'subheading',
+        text: 'AI-Powered Ticket Resolution Using SOPs & Product Manuals'
+      },
+      {
+        type: 'subheading',
+        text: '1. The Problem: Manual Customer Support Doesn’t Scale'
+      },
+      {
+        type: 'label',
+        text: 'Before automation, customer support teams faced daily operational friction'
+      },
+      {
+        type: 'p',
+        text: 'Agents manually read long tickets and threads'
+      },
+      {
+        type: 'label',
+        text: 'Switching between'
+      },
+      {
+        type: 'list',
+        items: [
+          'SOP documents',
+          'Product manuals',
+          'Order details'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Inconsistent decisions for'
+      },
+      {
+        type: 'list',
+        items: [
+          'Returns',
+          'Refunds',
+          'Warranty claims',
+          'Slow response times during peak volume',
+          'Risk of policy mistakes due to human interpretation',
+          'Outdated manuals leading to incorrect answers'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Resulting Issues'
+      },
+      {
+        type: 'list',
+        items: [
+          'High manual workload for support agents',
+          'Inconsistent, non-standard replies',
+          'Longer resolution times',
+          'Difficult onboarding for new agents',
+          'Poor scalability as ticket volume increased'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'Core challenge: Teams had the knowledge — but no system to retrieve, apply, and respond consistently at scale.'
+      },
+      {
+        type: 'subheading',
+        text: '2. Results After Automation'
+      },
+      {
+        type: 'label',
+        text: 'Once the AI support agent was implemented'
+      },
+      {
+        type: 'list',
+        items: [
+          'Tickets are classified and understood automatically',
+          'SOPs and product manuals are applied consistently',
+          'Draft responses are generated instantly in the customer’s language',
+          'Agents focus only on complex or exceptional cases',
+          'Knowledge stays up-to-date automatically'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Time & Effort Savings'
+      },
+      {
+        type: 'label',
+        text: 'Before'
+      },
+      {
+        type: 'list',
+        items: [
+          '50–100 routine tickets/day',
+          '~2–4 hours/day spent reading manuals and drafting replies'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'After'
+      },
+      {
+        type: 'list',
+        items: [
+          'Fully automated',
+          'Humantime required = 10–15 minutes'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Monthly impact'
+      },
+      {
+        type: 'list',
+        items: [
+          '~50–60 hours saved per team per month',
+          'Equivalent to freeing 1–1.5 full-time support agents'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Accuracy & Consistency Gains'
+      },
+      {
+        type: 'list',
+        items: [
+          '100% rule-based SOP application',
+          'Product-specific questions answered accurately',
+          'Reduced human error and knowledge drift'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '3. The Solution: AI Customer Support Agent'
+      },
+      {
+        type: 'label',
+        text: 'This system acts as a virtual senior support agent'
+      },
+      {
+        type: 'list',
+        items: [
+          'Reads tickets automatically',
+          'Applies SOPs and business rules consistently',
+          'Retrieves answers from product manuals or knowledge bases',
+          'Drafts accurate, human-ready responses',
+          'Keeps knowledge always up-to-date',
+          'Escalates only complex or edge-case tickets'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '4. How the System Works'
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 1: Ticket Intake & Understanding'
+      },
+      {
+        type: 'p',
+        text: 'New customer ticket arrives'
+      },
+      {
+        type: 'label',
+        text: 'AI'
+      },
+      {
+        type: 'list',
+        items: [
+          'Reads full conversation',
+          'Understands customer intent',
+          'Detects language automatically',
+          'Identifies if ticket is valid or spam',
+          'All tickets are logged temporarily to ensure nothing is lost'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 2: Smart Ticket Classification'
+      },
+      {
+        type: 'label',
+        text: 'Identifies'
+      },
+      {
+        type: 'list',
+        items: [
+          'Ticket type: Product usage, warranty, return, refund, missing/defective items, order status, payment issues',
+          'Relevant details: Order ID, Product SKU, Purchase date, Urgency',
+          'Determines which SOP or product manual should be applied'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 3: SOP-Driven Decision Making'
+      },
+      {
+        type: 'label',
+        text: 'Applies company SOPs exactly as written'
+      },
+      {
+        type: 'list',
+        items: [
+          'Warranty rules',
+          'Return eligibility',
+          'Refund conditions',
+          'Price-based thresholds',
+          'Decisions are consistent, never improvised'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 4: Product Manual Intelligence (RAG)'
+      },
+      {
+        type: 'list',
+        items: [
+          'Searches latest product manuals for product-specific questions',
+          'Understands instructions, specifications, troubleshooting',
+          'Provides accurate, up-to-date answers'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 5: Drafting the Response'
+      },
+      {
+        type: 'label',
+        text: 'For every ticket, AI generates'
+      },
+      {
+        type: 'label',
+        text: '1️⃣ Customer Reply Draft'
+      },
+      {
+        type: 'list',
+        items: [
+          'Friendly tone, clear explanation',
+          'Written in the customer’s language',
+          'Ready to send'
+        ]
+      },
+      {
+        type: 'label',
+        text: '2️⃣ Internal Support Notes'
+      },
+      {
+        type: 'list',
+        items: [
+          'Reasoning behind the reply',
+          'SOP/manual used',
+          'Suggested next steps'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 6: Continuous Knowledge Updates'
+      },
+      {
+        type: 'list',
+        items: [
+          'Product manuals monitored and updated automatically',
+          'SOPs synchronized',
+          'Outdated information removed',
+          'Knowledge always current without manual uploads'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '5. Business Value'
+      },
+      {
+        type: 'list',
+        items: [
+          'Massive Reduction in Manual Reading: Agents no longer scan long SOPs/manuals',
+          'Consistent Policy Application: Every customer gets rule-based answers',
+          'Faster First Responses: Drafts created instantly',
+          'Multi-Language Support: Handles multiple languages automatically',
+          'Zero Knowledge Drift: Manuals and SOPs stay current',
+          'Agent Confidence: Clear internal reasoning supports decisions'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '6. Expected Impact'
+      },
+      {
+        type: 'label',
+        text: 'Time Savings'
+      },
+      {
+        type: 'list',
+        items: [
+          'Agents spend less time reading and researching',
+          'Faster handling of routine tickets'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Error Reduction'
+      },
+      {
+        type: 'list',
+        items: [
+          'No policy deviations',
+          'No outdated manual references'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Faster Resolution Times'
+      },
+      {
+        type: 'list',
+        items: [
+          'Accurate replies prepared instantly',
+          'Less back-and-forth with customers'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Knowledge Reuse'
+      },
+      {
+        type: 'list',
+        items: [
+          'SOPs and manuals applied to every ticket',
+          'No unused documentation'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Cost Efficiency'
+      },
+      {
+        type: 'list',
+        items: [
+          'AI costs ~$30–40/month per agent workflow',
+          'Far cheaper than hiring additional support staff',
+          'Enterprise-level intelligence at low cost'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '7. How to Replicate This System'
+      },
+      {
+        type: 'list',
+        items: [
+          'Built using AI + Workflow Automation (n8n, Zapier, etc.) + Knowledge Base (Sheets/PostgreSQL/Supabase)',
+          'Open the JSON workflow'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Copy the attached workflow JSON'
+      },
+      {
+        type: 'p',
+        text: 'Customer support Agent.json'
+      },
+      {
+        type: 'label',
+        text: 'Open Workflow Automation Tool'
+      },
+      {
+        type: 'list',
+        items: [
+          'Create a new workflow',
+          'Import/paste JSON into editor',
+          'Save workflow and rename it'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Connect Credentials'
+      },
+      {
+        type: 'list',
+        items: [
+          'Ticket Platform API: Enable new ticket events → forward to webhook',
+          'Knowledge Base: Google Sheets/PostgreSQL/Supabase for SOPs, manuals, and embeddings',
+          'AI Models: OpenAI GPT models for classification, RAG reasoning, and embedding generation'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Test the Workflow'
+      },
+      {
+        type: 'p',
+        text: 'Send test ticket'
+      },
+      {
+        type: 'label',
+        text: 'Verify'
+      },
+      {
+        type: 'list',
+        items: [
+          'Ticket ingestion works',
+          'Classification & knowledge retrieval run correctly',
+          'Draft responses appear',
+          'Data logged correctly',
+          'No errors or missing outputs'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Enable the Workflow'
+      },
+      {
+        type: 'label',
+        text: 'Toggle Active'
+      },
+      {
+        type: 'label',
+        text: 'From now on'
+      },
+      {
+        type: 'list',
+        items: [
+          'Tickets are processed automatically',
+          'SOPs/manuals applied consistently',
+          'Draft responses ready for human review or auto-send',
+          'Knowledge updates happen automatically'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '8. Final Outcome'
+      },
+      {
+        type: 'label',
+        text: 'With this AI Customer Support Agent'
+      },
+      {
+        type: 'list',
+        items: [
+          'Support teams work faster with less effort',
+          'Customers receive accurate, consistent answers',
+          'Policies and SOPs are applied correctly every time',
+          'Knowledge stays fresh without manual work',
+          'Support scales without adding headcount'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'This system turns manual, error-prone support into a fast, reliable, and fully automated AI-driven operation.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-ecommerce/image1.png'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-ecommerce/image2.png'
+      },
+      {
+        type: 'heading',
+        text: 'AI-Powered Fashion Campaign Image Generation'
+      },
+      {
+        type: 'subheading',
+        text: '1. The Problem: Manual Image Creation for Fashion Campaigns'
+      },
+      {
+        type: 'label',
+        text: 'Before automation, the creative team manually handled photo shoots and model image generation, resulting in'
+      },
+      {
+        type: 'list',
+        items: [
+          'Time-consuming image conceptualization and generation processes',
+          'Need for specialist prompt engineering for AI image generation',
+          'Fragmented workflows managing product images',
+          'Delays and inconsistency in campaign visuals'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'The goal was to integrate the entire creative photo shoot pipeline into one automated, AI-powered system to rapidly produce consistent, high-quality fashion campaign images.'
+      },
+      {
+        type: 'subheading',
+        text: '2. The Goal: Fully Automated Photo Shoot Workflow in One System'
+      },
+      {
+        type: 'label',
+        text: 'By using n8n with AI models and image generation APIs, this workflow'
+      },
+      {
+        type: 'list',
+        items: [
+          'Allows uploading a product item image via a simple form trigger',
+          'Automatically analyzes the product to build a creative prompt',
+          'Generates a photo-realistic product model image matching the style',
+          'Further generates high-quality eCommerce and lifestyle product prompts referencing the model and product images',
+          'Produces final photorealistic campaign images dynamically and uploads them to Google Drive',
+          'Streamlines the entire creative direction and image generation process from one system'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '3. System Architecture (Simplified)'
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 1: Image Input & Model Creation'
+      },
+      {
+        type: 'list',
+        items: [
+          'Form Trigger initiates with a clothing image upload',
+          'Convert uploaded image to base64 for API usage',
+          'Build creative prompt with internal logic for garment analysis and ideal model persona',
+          'Call AI image generation API (Google Gemini model) to create a unique fashion model images',
+          'Save and upload model images to Google Drive'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 2: Prompt Generation & Result Image Creation'
+      },
+      {
+        type: 'list',
+        items: [
+          'Use the generated model image and the original clothing image as references',
+          'Build multiple detailed image prompts for eCommerce studio shots and lifestyle scenarios',
+          'Generate corresponding photorealistic images via AI API calls',
+          'Validate generation success and upload final images to Google Drive'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '4. RealWorld Impact'
+      },
+      {
+        type: 'label',
+        text: 'Here is how the automation changes creative production'
+      },
+      {
+        type: 'label',
+        text: '🟦 Zero manual promptwriting'
+      },
+      {
+        type: 'p',
+        text: 'All creative direction and prompt engineering is baked into the workflow.'
+      },
+      {
+        type: 'label',
+        text: '🟦 Consistent, onbrand visuals'
+      },
+      {
+        type: 'p',
+        text: 'Every product gets a full set of standardized eCommerce shots plus lifestyle scenes.'
+      },
+      {
+        type: 'label',
+        text: '🟦 Massive time savings'
+      },
+      {
+        type: 'p',
+        text: 'What used to take hours of backandforth between creative, photography, and AI tools now runs in minutes.'
+      },
+      {
+        type: 'label',
+        text: '🟦 Scalable for any catalog'
+      },
+      {
+        type: 'p',
+        text: 'You can run this for 1 product or 1,000 products with the same quality bar.'
+      },
+      {
+        type: 'label',
+        text: '🟦 Organized assets'
+      },
+      {
+        type: 'p',
+        text: 'All outputs go straight into the right Google Drive folder, named in a predictable way.'
+      },
+      {
+        type: 'subheading',
+        text: '5. Expected Impact'
+      },
+      {
+        type: 'label',
+        text: 'Here are the KPIs this automation improves'
+      },
+      {
+        type: 'label',
+        text: 'Time Savings'
+      },
+      {
+        type: 'p',
+        text: 'Manual creative + prompt time reduced by 70–90%.'
+      },
+      {
+        type: 'p',
+        text: 'A brand manager or designer saves several hours per campaign.'
+      },
+      {
+        type: 'label',
+        text: 'Error & Inconsistency Reduction'
+      },
+      {
+        type: 'p',
+        text: 'No more forgotten angles, missing lifestyle shots, or halfbaked prompts.'
+      },
+      {
+        type: 'p',
+        text: 'Every product gets the same full coverage: front, angle, back, detail, plus lifestyle.'
+      },
+      {
+        type: 'label',
+        text: 'Content Production Speed'
+      },
+      {
+        type: 'p',
+        text: 'Campaignready visuals can be generated the same day products arrive.'
+      },
+      {
+        type: 'p',
+        text: 'Faster gotomarket for new drops and collections.'
+      },
+      {
+        type: 'label',
+        text: 'Asset Organization'
+      },
+      {
+        type: 'p',
+        text: '100% of generated images land in the correct Google Drive folder.'
+      },
+      {
+        type: 'p',
+        text: 'Standard naming like “AI Model” and “Result #X” keeps sets easy to browse.'
+      },
+      {
+        type: 'label',
+        text: 'Creative ROI'
+      },
+      {
+        type: 'p',
+        text: 'You reuse the same expert logic and creative direction across unlimited products.'
+      },
+      {
+        type: 'p',
+        text: 'More content, more speed, and less dependency on external shoots for every variation.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-ecommerce/image3.png'
+      },
+      {
+        type: 'heading',
+        text: 'AI-Powered 24/7 Voice Support Agent for eCommerce Stores'
+      },
+      {
+        type: 'subheading',
+        text: '1. The Problem: Support Calls Don’t Scale'
+      },
+      {
+        type: 'label',
+        text: 'Before automation, customer support teams manually handled calls'
+      },
+      {
+        type: 'list',
+        items: [
+          'Repeating the same answers about products, sizes, shipping, returns, and order status',
+          'Switching between CRM, store backend, and knowledge documents mid-call',
+          'Missing calls during peak hours or off-hours',
+          'Providing inconsistent answers depending on which agent handled the call'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Impact per team'
+      },
+      {
+        type: 'list',
+        items: [
+          'Long wait times and dropped calls',
+          'Frustrated customers with basic questions',
+          'No standardized knowledge usage',
+          'High dependency on human agents for repetitive FAQs'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'Core challenge: Teams needed a 24/7 system to handle most customer queries automatically, using the store’s own data as a trusted knowledge base.'
+      },
+      {
+        type: 'subheading',
+        text: '2. Results After Automation'
+      },
+      {
+        type: 'label',
+        text: 'Once the AI voice agent was implemented'
+      },
+      {
+        type: 'list',
+        items: [
+          'Calls are answered instantly, any time of day or night',
+          'FAQs are resolved automatically without human intervention',
+          'Escalation happens only for complex or high-risk issues',
+          'Responses are fully aligned with the store’s product and policy data',
+          'Human agents focus on complex, high-value calls'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Time & Effort Savings'
+      },
+      {
+        type: 'label',
+        text: 'Before'
+      },
+      {
+        type: 'list',
+        items: [
+          '100–200 repetitive calls/week',
+          '~2–3 hours/day of agent time spent on FAQs'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'After'
+      },
+      {
+        type: 'list',
+        items: [
+          'Fully automated',
+          'Humantime required = 10–15 minutes'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Monthly impact'
+      },
+      {
+        type: 'list',
+        items: [
+          '~40–60 hours saved per month per support team',
+          'Equivalent to freeing up 1–1.5 full-time support agents'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Accuracy & Consistency Gains'
+      },
+      {
+        type: 'list',
+        items: [
+          '100% of FAQs answered correctly',
+          'Calls aligned with latest store policies',
+          'Reduced human error and improvisation'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '3. The Solution: AI-Powered Voice Agent'
+      },
+      {
+        type: 'label',
+        text: 'This system acts as a virtual support agent, capable of handling most customer queries autonomously'
+      },
+      {
+        type: 'list',
+        items: [
+          '24/7 natural, human-like voice answers',
+          'Uses the eCommerce store’s knowledge base (products, pricing, inventory, policies, FAQs)',
+          'Resolves common queries end-to-end without human intervention',
+          'Escalates only complex or edge-case calls to human agents'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '4. How the System Works'
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 1: Knowledge Base & Store Data'
+      },
+      {
+        type: 'list',
+        items: [
+          'Collect product, pricing, inventory, policy, and FAQ information',
+          'Structure it as a real-time queryable knowledge base',
+          'Keep it synchronized to avoid outdated information'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 2: Voice Agent Flow'
+      },
+      {
+        type: 'label',
+        text: 'Incoming Call'
+      },
+      {
+        type: 'list',
+        items: [
+          'Customer dials the support number',
+          'VAPI answers with a natural greeting'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Intent & Query Understanding'
+      },
+      {
+        type: 'list',
+        items: [
+          'Converts speech to text',
+          'Analyzes intent (product info, order help, policy clarification)'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Knowledge Base Lookup'
+      },
+      {
+        type: 'label',
+        text: 'Searches store data for relevant answers'
+      },
+      {
+        type: 'list',
+        items: [
+          'Product details (sizes, colors, availability)',
+          'Shipping fees and delivery times',
+          'Return/refund/exchange policies',
+          'Promotions and bundles',
+          'Can query order details for authenticated users (order ID/email)'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Voice Response Generation'
+      },
+      {
+        type: 'list',
+        items: [
+          'Crafts a natural, friendly answer',
+          'Converts text to speech and plays it in real-time'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Multi-Turn Conversation'
+      },
+      {
+        type: 'list',
+        items: [
+          'Maintains context across follow-up questions',
+          'Handles dynamic conversations about products, orders, or policies'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Escalation to Human (Optional)'
+      },
+      {
+        type: 'list',
+        items: [
+          'Complex or high-risk calls forwarded',
+          'Callback requests or ticket created with full transcript'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '5. Business Value'
+      },
+      {
+        type: 'list',
+        items: [
+          '24/7 Instant Responses: Customers get accurate answers anytime',
+          'Lower Load on Support Team: AI handles repetitive FAQs automatically',
+          'Consistent, On-Brand Answers: Responses aligned with store knowledge',
+          'Faster Resolution: FAQs resolved in seconds instead of minutes',
+          'Better Data Utilization: Product and policy data powers voice interactions'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '6. Expected Impact'
+      },
+      {
+        type: 'label',
+        text: 'Time Savings'
+      },
+      {
+        type: 'list',
+        items: [
+          'Human agents spend fewer hours on repetitive calls',
+          'Focus shifts to complex, high-value issues'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Error Reduction'
+      },
+      {
+        type: 'list',
+        items: [
+          'Fewer incorrect or improvised answers',
+          'Fully aligned with latest product and policy data'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Call Handling Speed'
+      },
+      {
+        type: 'list',
+        items: [
+          'FAQs resolved in 1–2 exchanges',
+          'Reduced call transfers and hold times'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Knowledge Utilization'
+      },
+      {
+        type: 'list',
+        items: [
+          'Centralized product and policy data reused automatically',
+          'Store knowledge drives consistent voice support'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '7. How You Can Duplicate This System'
+      },
+      {
+        type: 'p',
+        text: 'Built using VAPI + n8n + Slack + Google Sheets.'
+      },
+      {
+        type: 'label',
+        text: 'Create the VAPI Call Agent'
+      },
+      {
+        type: 'list',
+        items: [
+          'Configure greeting & voice tone',
+          'Connect to store knowledge base'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Ensure it can'
+      },
+      {
+        type: 'label',
+        text: 'Answer FAQs'
+      },
+      {
+        type: 'p',
+        text: 'Handle product & policy questions'
+      },
+      {
+        type: 'label',
+        text: 'Add Webhook to VAPI'
+      },
+      {
+        type: 'list',
+        items: [
+          'Add a call-end webhook',
+          'Point to an n8n Webhook node',
+          'Import the n8n Workflow',
+          'Create a new workflow'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Import JSON'
+      },
+      {
+        type: 'label',
+        text: 'ShopTalk AI – Call Summary & Lead Capture (1).json'
+      },
+      {
+        type: 'list',
+        items: [
+          'Connect Tools in n8n',
+          'Webhook → paste URL into VAPI',
+          'Slack → select summary channel',
+          'Sheets → select spreadsheet & columns'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Test the Flow'
+      },
+      {
+        type: 'list',
+        items: [
+          'Make a test call',
+          'Ask questions and express scheduling intent',
+          'End call'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Verify'
+      },
+      {
+        type: 'list',
+        items: [
+          'Slack summary appears',
+          'Sheet row is added (if applicable)'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Enable the Workflow'
+      },
+      {
+        type: 'list',
+        items: [
+          'Activate the workflow',
+          'The AI voice agent now handles customer calls automatically, 24/7, with minimal human input'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '8. Final Outcome'
+      },
+      {
+        type: 'label',
+        text: 'With this automation'
+      },
+      {
+        type: 'list',
+        items: [
+          'Customer queries are answered instantly, any time',
+          'Human agents are freed from repetitive calls (~40–60 hours/month saved)',
+          'Answers are accurate, consistent, and on-brand',
+          'Complex issues are escalated only when necessary',
+          'Support operations scale without adding headcount'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'This system turns manual, error-prone customer support into a fast, reliable, and fully automated 24/7 voice operation.'
+      },
+      {
+        type: 'heading',
+        text: 'AI-Powered Social Media Content Creation'
+      },
+      {
+        type: 'subheading',
+        text: '1. The Problem: Social Media Management Is Inconsistent'
+      },
+      {
+        type: 'label',
+        text: 'Before automation, creating and publishing social media content required juggling multiple tools and manual steps'
+      },
+      {
+        type: 'list',
+        items: [
+          'Writing captions repeatedly for each platform',
+          'Designing post images manually',
+          'Maintaining content variety without duplication',
+          'Tracking approvals via email or chat',
+          'Posting manually on LinkedIn',
+          'Losing visibility into what was drafted, approved, or published'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Impact per team'
+      },
+      {
+        type: 'list',
+        items: [
+          '2–4 hours/day spent manually creating, approving, and publishing posts',
+          'Risk of duplicate, missed, or unapproved posts',
+          'Inconsistent brand messaging across channels'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'Core challenge: Teams needed a single system to reliably create, review, approve, and publish content at scale — without operational chaos.'
+      },
+      {
+        type: 'subheading',
+        text: '2. Results After Automation'
+      },
+      {
+        type: 'label',
+        text: 'Once the automation was implemented'
+      },
+      {
+        type: 'list',
+        items: [
+          'Captions and images are generated automatically',
+          'Posts are published only after approval',
+          'One centralized control panel tracks all content',
+          'Manual effort in content creation and publishing is nearly eliminated'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Time & Effort Savings'
+      },
+      {
+        type: 'label',
+        text: 'Before'
+      },
+      {
+        type: 'p',
+        text: '3 hours/day × 20 workdays ≈ 60 hours/month'
+      },
+      {
+        type: 'label',
+        text: 'After'
+      },
+      {
+        type: 'list',
+        items: [
+          'Fully automated',
+          'Humantime required = 5–10 minutes for approvals'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Monthly impact'
+      },
+      {
+        type: 'list',
+        items: [
+          '~50–55 hours saved per team per month',
+          'Equivalent to freeing more than 1 full-time resource for other tasks'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Accuracy & Consistency Gains'
+      },
+      {
+        type: 'list',
+        items: [
+          '100% approved posts follow brand tone and guidelines',
+          'No accidental or duplicate publishing',
+          'Content is tracked and auditable in one system'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '3. The Solution: AI-Powered Social Media Automation'
+      },
+      {
+        type: 'label',
+        text: 'This automation acts as a virtual social media manager'
+      },
+      {
+        type: 'list',
+        items: [
+          'Generates LinkedIn captions using AI based on topic, brand tone, and content goals',
+          'Creates post images automatically aligned with captions',
+          'Uses Google Sheets as a centralized control panel',
+          'Sends posts for approval and publishes automatically once approved',
+          'Logs all content and live URLs for tracking and reporting'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '4. How the System Works'
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 1: AI Caption Generation'
+      },
+      {
+        type: 'p',
+        text: 'Triggered automatically when a new row is added to Google Sheets'
+      },
+      {
+        type: 'label',
+        text: 'AI generates captions based on'
+      },
+      {
+        type: 'list',
+        items: [
+          'Topic',
+          'Brand context',
+          'Content objective',
+          'Captions are structured, formatted, and optimized for LinkedIn',
+          'Stored in Google Sheets for visibility and approvals'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 2: Image & Post Creation'
+      },
+      {
+        type: 'p',
+        text: 'Caption is used to generate an AI-powered post image'
+      },
+      {
+        type: 'label',
+        text: 'Image uploaded to Google Drive'
+      },
+      {
+        type: 'label',
+        text: 'Google Sheets logs'
+      },
+      {
+        type: 'label',
+        text: 'Image URL'
+      },
+      {
+        type: 'list',
+        items: [
+          'Caption',
+          'Status (pending/approved/published)',
+          'Eliminates manual image design while keeping visuals aligned with content'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 3: Approval & Publishing'
+      },
+      {
+        type: 'list',
+        items: [
+          'Approval emails are sent automatically',
+          'Posts are blocked until approval is received',
+          'Only approved posts are published on LinkedIn'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Google Sheets is updated with'
+      },
+      {
+        type: 'list',
+        items: [
+          'Publishing status',
+          'Live post URL',
+          'Ensures no missed or duplicate posts'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '5. Business Value'
+      },
+      {
+        type: 'list',
+        items: [
+          'End-to-End Automation: From caption generation to publishing in one workflow',
+          'Centralized Control Panel: Full visibility of drafts, approvals, and published posts',
+          'Consistent Brand Voice: AI ensures tone and style are consistent',
+          'Approval-Safe Publishing: No post goes live without explicit approval',
+          'Full Tracking & Reporting: All posts logged with status and live URLs',
+          'Time & Cost Savings: ~50+ hours/month saved per team, reduced reliance on designers'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '6. How You Can Duplicate This System'
+      },
+      {
+        type: 'p',
+        text: 'Open the JSON workflow'
+      },
+      {
+        type: 'label',
+        text: 'Click the attached file'
+      },
+      {
+        type: 'label',
+        text: 'Social Media Automation Workflow.json'
+      },
+      {
+        type: 'list',
+        items: [
+          'Copy all content from the JSON file',
+          'Open n8n (cloud or self-hosted)',
+          'Log in to your n8n instance',
+          '➕ Create a new workflow',
+          'Paste the JSON into the editor',
+          'Save the workflow'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Rename to: Social Media Content Automation'
+      },
+      {
+        type: 'list',
+        items: [
+          'Update credentials & connections',
+          'Google Sheets: Connect OAuth credentials, ensure columns for Topic, Caption, Image URL, Status, Post URL',
+          'AI Caption Generation: Add AI credentials, verify brand context and prompt setup',
+          'Image Generation: Confirm image prompts are derived from captions and saved to Drive',
+          'Approval & Publishing: Configure email/LinkedIn credentials, ensure workflow updates Google Sheets correctly',
+          'Run a full workflow test',
+          'Execute workflow manually'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Verify end-to-end'
+      },
+      {
+        type: 'list',
+        items: [
+          'Captions & images appear in control panel',
+          'Approval logic blocks unapproved posts',
+          'Approved posts publish correctly',
+          'Statuses and URLs update accurately',
+          'Enable the workflow'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Toggle to Active'
+      },
+      {
+        type: 'p',
+        text: 'Content creation, approval, and publishing now run automatically with minimal manual input'
+      },
+      {
+        type: 'subheading',
+        text: '7. Final Outcome'
+      },
+      {
+        type: 'label',
+        text: 'With this automation'
+      },
+      {
+        type: 'list',
+        items: [
+          'Social media content creation becomes fast, consistent, and repeatable',
+          'Posting is approval-safe and error-free',
+          'Teams operate from one centralized control panel',
+          'Social media operations scale without increasing workload',
+          'Manual effort is reduced by ~50 hours/month, freeing time for strategic work'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'This system turns manual, error-prone social media management into a predictable, auditable, and fully automated workflow.'
+      },
+      {
+        type: 'heading',
+        text: 'AI-Powered E-Commerce Product Price Monitoring'
+      },
+      {
+        type: 'subheading',
+        text: '1. The Problem: Manual Price Checking Wastes Time'
+      },
+      {
+        type: 'label',
+        text: 'Before automation, tracking product prices across online stores was slow, repetitive, and error-prone'
+      },
+      {
+        type: 'label',
+        text: 'Users had to manually'
+      },
+      {
+        type: 'list',
+        items: [
+          'Open multiple product pages',
+          'Check prices repeatedly',
+          'Record or remember previous prices'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Often missed opportunities'
+      },
+      {
+        type: 'list',
+        items: [
+          'Price drops',
+          'Limited-time deals',
+          'No historical visibility into price trends',
+          'Buying decisions were based on guesswork rather than data'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Impact per user'
+      },
+      {
+        type: 'list',
+        items: [
+          '30–60 minutes per day spent manually checking prices',
+          'Missed savings on deals and discounts',
+          'Decisions based on incomplete information'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'Core challenge: People want to buy at the right time but don’t want to constantly monitor prices themselves.'
+      },
+      {
+        type: 'subheading',
+        text: '2. Results After Automation'
+      },
+      {
+        type: 'label',
+        text: 'Once the automation was implemented'
+      },
+      {
+        type: 'list',
+        items: [
+          'Price monitoring happens automatically every day',
+          'Alerts are sent only when meaningful changes occur',
+          'Users make data-driven purchasing decisions',
+          'Historical price trends are logged and accessible',
+          'No human involvement is needed for routine checks'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Time & Effort Savings'
+      },
+      {
+        type: 'label',
+        text: 'Before'
+      },
+      {
+        type: 'p',
+        text: '45 minutes/day × 30 days ≈ 22.5 hours/month'
+      },
+      {
+        type: 'label',
+        text: 'After'
+      },
+      {
+        type: 'list',
+        items: [
+          'Fully automated',
+          'Humantime required = near zero'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Monthly impact'
+      },
+      {
+        type: 'list',
+        items: [
+          '~20–25 hours saved per user per month',
+          'Equivalent to freeing 0.5 full-time workdays per user'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Accuracy & Opportunity Gains'
+      },
+      {
+        type: 'list',
+        items: [
+          '100% of monitored prices captured accurately',
+          'Never miss a price drop or limited-time deal',
+          'Improved buying decisions based on AI analysis'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '3. The Solution: AI-Powered Price Monitoring System'
+      },
+      {
+        type: 'label',
+        text: 'This automation acts as a virtual price tracker and analyst'
+      },
+      {
+        type: 'list',
+        items: [
+          'Scheduled scraping collects product prices automatically',
+          'Google Sheets logs historical prices',
+          'AI evaluates trends and identifies best-value opportunities',
+          'Notifications sent via Slack, email, or preferred channels',
+          'Only meaningful changes trigger alerts, reducing noise'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '4. How the System Works'
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 1: Scheduled Price Collection'
+      },
+      {
+        type: 'p',
+        text: 'Workflow runs automatically (daily, or custom schedule)'
+      },
+      {
+        type: 'label',
+        text: 'Visits product pages and extracts'
+      },
+      {
+        type: 'list',
+        items: [
+          'Product name',
+          'Current price',
+          'Skips incomplete or erroneous entries'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 2: Price Comparison & History Logging'
+      },
+      {
+        type: 'list',
+        items: [
+          'Prices for multiple products are compared',
+          'Each run adds a new row to Google Sheets',
+          'Builds a complete price history over time'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 3: AI-Driven Analysis'
+      },
+      {
+        type: 'label',
+        text: 'AI evaluates'
+      },
+      {
+        type: 'list',
+        items: [
+          'Current price vs historical prices',
+          'Which product offers the best value today',
+          'Significant changes worthy of notification'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 4: Smart Notifications'
+      },
+      {
+        type: 'label',
+        text: 'Sends alerts only when'
+      },
+      {
+        type: 'list',
+        items: [
+          'Price drops significantly',
+          'A better deal appears',
+          'Stays silent if no meaningful change occurs',
+          'Notifications sent via Slack, email, or other channels',
+          'Notification'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '5. Business Value'
+      },
+      {
+        type: 'list',
+        items: [
+          'Zero Manual Monitoring: No human effort required for routine checks',
+          'Never Miss a Deal: Immediate alerts for better prices',
+          'Data-Driven Decisions: AI identifies the optimal product choice',
+          'Historical Visibility: Full record of price trends for smarter buying',
+          'Reduced Noise: Only meaningful alerts, no unnecessary notifications',
+          'Time & Cost Savings: ~20–25 hours/month saved per user'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '6. How You Can Duplicate This System'
+      },
+      {
+        type: 'p',
+        text: 'Open the JSON workflow'
+      },
+      {
+        type: 'label',
+        text: 'Click the attached file'
+      },
+      {
+        type: 'label',
+        text: 'E-Commerce Price Monitoring Automation.json'
+      },
+      {
+        type: 'list',
+        items: [
+          'Copy all content from the JSON file',
+          'Open n8n (cloud or self-hosted)',
+          'Log in to your n8n instance',
+          '➕ Create a new workflow'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Click New → Workflow'
+      },
+      {
+        type: 'p',
+        text: 'Name it temporarily; rename later'
+      },
+      {
+        type: 'label',
+        text: 'Import / Paste the JSON'
+      },
+      {
+        type: 'list',
+        items: [
+          'Paste the copied JSON into the workflow editor',
+          'n8n rebuilds all nodes and connections automatically',
+          'Update credentials & connections',
+          'Scheduler / Cron Node: Set frequency (daily, weekly, or custom)',
+          'HTTP / Scraping Nodes: Update product URLs, test extraction',
+          'Google Sheets: Add credentials, select spreadsheet and columns (Product, Price, Date, Comparison Result)'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'AI Analysis Node: Add API credentials (OpenAI / Gemini)'
+      },
+      {
+        type: 'list',
+        items: [
+          'Notification Node: Slack or email credentials, configure messages',
+          'Run a full workflow test',
+          'Manually execute the workflow'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Verify end-to-end'
+      },
+      {
+        type: 'list',
+        items: [
+          'Data collection → analysis → notification',
+          'Ensure no alerts if prices haven’t changed',
+          'Enable the workflow',
+          'Toggle workflow to Active',
+          'System now monitors prices automatically, analyzes trends, and sends alerts only when necessary'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '7. Final Outcome'
+      },
+      {
+        type: 'label',
+        text: 'With this automation'
+      },
+      {
+        type: 'list',
+        items: [
+          'Price monitoring is fully automated',
+          'Buying decisions are data-driven and timely',
+          'Users save 20–25 hours per month',
+          'Deals are never missed',
+          'Alerts are meaningful and non-intrusive'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'This system turns slow, error-prone manual price tracking into a fast, reliable, and fully automated workflow.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-ecommerce/image4.png'
+      },
+      {
+        type: 'heading',
+        text: 'AI-Powered Meta Ads Reporting'
+      },
+      {
+        type: 'subheading',
+        text: '1. The Problem: Manual Meta Ads Analysis Is Time-Consuming'
+      },
+      {
+        type: 'label',
+        text: 'Before this system, marketers spent hours manually collecting and analyzing campaign data for Facebook and Instagram'
+      },
+      {
+        type: 'list',
+        items: [
+          'Gathering metrics from multiple campaigns and ad sets took 6–8 hours per week per marketer',
+          'Detecting underperforming ads was reactive, often 30–40% of low-performing ads weren’t optimized in time',
+          'Scaling campaigns beyond 5–10 ad sets was difficult',
+          'Decisions were based on intuition rather than data'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '2. The Results After Automation'
+      },
+      {
+        type: 'label',
+        text: 'After implementing AI-Powered Meta Ads Reporting'
+      },
+      {
+        type: 'list',
+        items: [
+          'Reporting time dropped from 6–8 hours to under 1 hour per week',
+          '90% of underperforming ads were flagged in real time instead of being missed',
+          'Campaign response time improved from 1–2 days to under 1 hour',
+          'ROAS increased by 15–25% due to faster budget and creative optimizations',
+          'Each marketer saved approximately 7 hours per week (~364 hours per year)',
+          'Campaign management scaled from 10 ad sets to 50+ ad sets without adding staff',
+          'Human errors in campaign adjustments dropped by ~90%'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '3. The Goal: Fully Automated Meta Ads Insights'
+      },
+      {
+        type: 'label',
+        text: 'The system was designed to'
+      },
+      {
+        type: 'list',
+        items: [
+          'Automatically pull campaign, ad set, and ad-level data',
+          'Analyze performance with AI',
+          'Generate actionable recommendations for budgets, targeting, and creatives',
+          'Provide natural language query support through AI assistants',
+          'Monitor campaigns continuously and alert users for deviations'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '3. System Architecture'
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 1: Data Collection & Normalization'
+      },
+      {
+        type: 'list',
+        items: [
+          'Pulls all campaign metrics automatically: impressions, clicks, CTR, conversions, ROAS, CPA, spend, and budget utilization',
+          'Cleans and normalizes data for AI analysis'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 2: AI-Powered Performance Analysis'
+      },
+      {
+        type: 'list',
+        items: [
+          'AI detects trends, anomalies, and underperforming ads automatically',
+          'Flags ads with CTR below benchmark, low ROAS, or conversion anomalies'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 3: Optimization Recommendations'
+      },
+      {
+        type: 'list',
+        items: [
+          'AI suggests budget reallocations, audience adjustments, and creative improvements',
+          'Prioritized by expected impact on KPIs'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 4: Reporting & Alerts'
+      },
+      {
+        type: 'list',
+        items: [
+          'Real-time dashboards for CTR, CPA, ROAS, conversions, spend, and impressions',
+          'Alerts triggered automatically for KPI deviations'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Phase 5: AI-Assisted Campaign Management'
+      },
+      {
+        type: 'list',
+        items: [
+          'Users request campaign changes through natural language',
+          'AI validates and executes changes automatically',
+          'Every adjustment tracked for impact on KPIs'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '4. Real-World Impact'
+      },
+      {
+        type: 'label',
+        text: '🟦 Massive Time Savings'
+      },
+      {
+        type: 'p',
+        text: 'Each marketer saves ~7 hours/week, translating to ~364 hours/year'
+      },
+      {
+        type: 'label',
+        text: '🟦 Faster Optimization'
+      },
+      {
+        type: 'p',
+        text: 'Campaign adjustments happen within 1 hour instead of 1–2 days'
+      },
+      {
+        type: 'label',
+        text: '🟦 Improved ROI'
+      },
+      {
+        type: 'p',
+        text: 'ROAS increases by 15–25% due to timely reallocations and creative optimization'
+      },
+      {
+        type: 'label',
+        text: '🟦 Error Reduction'
+      },
+      {
+        type: 'p',
+        text: 'Human errors in campaign adjustments drop by ~90%'
+      },
+      {
+        type: 'label',
+        text: '🟦 Scalability'
+      },
+      {
+        type: 'p',
+        text: 'Campaign management scales from 10 ad sets to 50+ ad sets per account without extra staff'
+      },
+      {
+        type: 'subheading',
+        text: '5. Final Outcome'
+      },
+      {
+        type: 'label',
+        text: 'With AI-Powered Meta Ads Reporting'
+      },
+      {
+        type: 'list',
+        items: [
+          'Campaign analysis is fully automated',
+          'Marketers make faster, data-driven decisions',
+          'ROI improves through budget and creative optimization',
+          'Time savings allow focus on strategy rather than manual work',
+          'Scaling campaigns is simple, accurate, and efficient'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'AI-Powered Shopify Abandoned Cart Recovery System'
+      },
+      {
+        type: 'subheading',
+        text: '1. The Problem: Abandoned Carts Were Leaving Revenue on the Table'
+      },
+      {
+        type: 'label',
+        text: 'Before automation, abandoned carts were handled manually or not followed up at all'
+      },
+      {
+        type: 'list',
+        items: [
+          'Teams had to manually check Shopify for abandoned checkouts',
+          'Writing reminder emails took time and effort',
+          'Most carts were never followed up consistently',
+          'Emails were generic, not personalized',
+          'Delays caused customers to lose purchase intent'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'On average'
+      },
+      {
+        type: 'list',
+        items: [
+          'Each abandoned cart follow-up took 5–7 minutes',
+          'Most stores only followed up once per day or skipped entirely',
+          'Many potential sales were lost simply due to no timely reminder'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'For stores with 40–60 abandoned carts per day, this resulted in'
+      },
+      {
+        type: 'list',
+        items: [
+          '3–5 hours of manual work daily, or',
+          'No follow-up at all, leading to permanent revenue loss'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '2. Results After Automation'
+      },
+      {
+        type: 'label',
+        text: 'After implementing the abandoned cart recovery automation'
+      },
+      {
+        type: 'list',
+        items: [
+          'Follow-up emails are sent automatically within the right time window',
+          '100% of abandoned carts receive a recovery attempt',
+          'Email personalization happens instantly using AI',
+          'Manual work is reduced by 90–95%',
+          'Recovery emails are sent within minutes, not hours'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Time & Revenue Impact'
+      },
+      {
+        type: 'label',
+        text: 'Before'
+      },
+      {
+        type: 'list',
+        items: [
+          '~6 minutes per cart',
+          '50 carts/day = ~5 hours/day'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'After'
+      },
+      {
+        type: 'list',
+        items: [
+          'Fully automated',
+          'Human effort = near zero'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Monthly time savings'
+      },
+      {
+        type: 'p',
+        text: '~100–120 hours saved per month'
+      },
+      {
+        type: 'label',
+        text: 'Revenue uplift (conservative example)'
+      },
+      {
+        type: 'list',
+        items: [
+          'If only 5–8% of abandoned carts convert',
+          'And average cart value is $50',
+          'That’s $100–$200+ recovered per day',
+          '$3,000–$6,000+ per month in recovered revenue'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '3. The Solution: AI-Powered Abandoned Cart Recovery'
+      },
+      {
+        type: 'label',
+        text: 'This system works like an always-on sales assistant'
+      },
+      {
+        type: 'list',
+        items: [
+          'Detects abandoned carts automatically',
+          'Waits before sending reminders to avoid spamming',
+          'Confirms the cart is still abandoned',
+          'Generates a personalized recovery email using AI',
+          'Sends the email instantly without manual input'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'The entire process runs silently in the background.'
+      },
+      {
+        type: 'subheading',
+        text: '4. How the Automation Works'
+      },
+      {
+        type: 'list',
+        items: [
+          'Shopify provides abandoned checkout data',
+          'n8n controls timing and logic',
+          'AI writes friendly, personalized recovery emails',
+          'Gmail delivers messages directly to customers'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'No dashboards to monitor. No buttons to click.'
+      },
+      {
+        type: 'subheading',
+        text: '5. Business Value'
+      },
+      {
+        type: 'list',
+        items: [
+          'Captures revenue that would otherwise be lost',
+          'Removes repetitive manual follow-up work',
+          'Improves customer experience with timely reminders',
+          'Ensures every cart gets equal attention',
+          'Scales automatically as store traffic grows'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '6. How You Can Duplicate This System'
+      },
+      {
+        type: 'p',
+        text: 'Open the JSON file preview'
+      },
+      {
+        type: 'label',
+        text: 'Open the attached file'
+      },
+      {
+        type: 'list',
+        items: [
+          'Shopify Abandoned Checkout Recovery with Order Verification (1).json',
+          'Select all text (Ctrl/Cmd + A) and copy (Ctrl/Cmd + C)'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Open Make.com'
+      },
+      {
+        type: 'label',
+        text: 'Log in to Make.com'
+      },
+      {
+        type: 'label',
+        text: 'Go to Scenarios'
+      },
+      {
+        type: 'p',
+        text: 'Click Create a new scenario'
+      },
+      {
+        type: 'label',
+        text: 'Choose Import Blueprint'
+      },
+      {
+        type: 'list',
+        items: [
+          'Paste the copied JSON and click Save',
+          'Save & name the scenario'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Click Save'
+      },
+      {
+        type: 'label',
+        text: 'Rename it to'
+      },
+      {
+        type: 'label',
+        text: 'Shopify Abandoned Checkout Recovery with Order Verification'
+      },
+      {
+        type: 'list',
+        items: [
+          'Update connections (important)',
+          'Shopify',
+          'Reconnect your Shopify account',
+          'Ensure checkout status is set to abandoned',
+          'Delay module',
+          'Review delay timing (used to confirm the cart is still abandoned)',
+          'Filter / verification',
+          'Confirms checkout is not duplicated or already completed',
+          'OpenAI',
+          'Add your OpenAI API key',
+          'Verify the email body is generated correctly (no subject, no emojis)'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Email (Gmail / SMTP)'
+      },
+      {
+        type: 'list',
+        items: [
+          'Reconnect email account',
+          'Map customer email dynamically',
+          'Subject: You left something behind',
+          'Test the scenario',
+          'Click Run once'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Confirm flow'
+      },
+      {
+        type: 'list',
+        items: [
+          'Abandoned checkout detected',
+          'Cart rechecked',
+          'AI email generated',
+          'Recovery email sent',
+          'Enable the scenario',
+          'Turn the scenario ON',
+          'Set a schedule (e.g. every 15–60 minutes)'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'The system now automatically sends AI-written recovery emails for verified abandoned checkouts.'
+      },
+      {
+        type: 'subheading',
+        text: '7. Final Outcome'
+      },
+      {
+        type: 'label',
+        text: 'With this automation in place'
+      },
+      {
+        type: 'list',
+        items: [
+          'Abandoned cart recovery becomes reliable and consistent',
+          'Sales teams no longer chase carts manually',
+          'Customers receive timely, personalized reminders',
+          'Revenue increases without increasing workload'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'This workflow transforms abandoned carts from a missed opportunity into an automated revenue recovery system.'
+      },
+      {
+        type: 'heading',
+        text: 'AI-Powered Whatsapp message Assistant'
+      },
+      {
+        type: 'subheading',
+        text: '1. The Problem: WhatsApp Customer Support Didn’t Scale'
+      },
+      {
+        type: 'label',
+        text: 'Before this automation, customer support over WhatsApp was fully manual and increasingly difficult to manage'
+      },
+      {
+        type: 'p',
+        text: 'Staff had to reply to every WhatsApp message manually'
+      },
+      {
+        type: 'label',
+        text: 'Repetitive questions about'
+      },
+      {
+        type: 'list',
+        items: [
+          'Products',
+          'Prices',
+          'Availability',
+          'Store policies',
+          'Voice messages required listening and interpretation',
+          'Image-based questions (e.g. product photos) needed human review',
+          'Responses depended on who was replying, causing inconsistency',
+          'Support was unavailable outside business hours'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'For a small business receiving 80–120 WhatsApp messages per day, this meant'
+      },
+      {
+        type: 'list',
+        items: [
+          '4–6 hours/day spent answering routine questions',
+          'Delayed replies during peak hours',
+          'Missed inquiries outside working hours',
+          'High dependency on trained staff with product knowledge'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Core challenge'
+      },
+      {
+        type: 'p',
+        text: 'WhatsApp was the main customer channel, but human-only support could not keep up without increasing headcount.'
+      },
+      {
+        type: 'subheading',
+        text: '2. Results After Automation'
+      },
+      {
+        type: 'label',
+        text: 'Once the WhatsApp AI Business Assistant was deployed'
+      },
+      {
+        type: 'list',
+        items: [
+          '70–85% of incoming queries were handled automatically',
+          'Customers received instant replies — even outside business hours',
+          'Voice messages were transcribed and answered automatically',
+          'Image-based queries (products, issues) were understood by AI',
+          'Answers were consistent, accurate, and policy-aligned',
+          'Human agents only handled complex or edge-case conversations'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Time & Workload Impact'
+      },
+      {
+        type: 'label',
+        text: 'Before automation'
+      },
+      {
+        type: 'list',
+        items: [
+          '~3–4 minutes per WhatsApp message',
+          '100 messages/day = ~5–6 hours/day'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'After automation'
+      },
+      {
+        type: 'list',
+        items: [
+          'Human involvement only for ~15–30 messages/day',
+          'Manual time reduced to ~1–1.5 hours/day'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Net savings'
+      },
+      {
+        type: 'list',
+        items: [
+          '3–4 hours saved per day',
+          '90–120 hours saved per month'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'This allowed the business to scale WhatsApp support without hiring additional staff.'
+      },
+      {
+        type: 'subheading',
+        text: '3. The Solution: An AI Assistant Inside WhatsApp'
+      },
+      {
+        type: 'label',
+        text: 'The system acts as a virtual support agent that lives directly inside WhatsApp'
+      },
+      {
+        type: 'list',
+        items: [
+          'Understands text, voice, and images',
+          'Remembers conversation context',
+          'Searches business knowledge instantly',
+          'Responds naturally like a human agent',
+          'Chooses whether to reply with text or voice'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'Customers never feel like they’re talking to a bot — just fast, helpful support.'
+      },
+      {
+        type: 'subheading',
+        text: '4. How the System Works'
+      },
+      {
+        type: 'list',
+        items: [
+          'Customers message the business on WhatsApp',
+          'AI understands the message type and intent',
+          'Business knowledge is retrieved using semantic search',
+          'A context-aware response is generated',
+          'Reply is sent instantly via WhatsApp'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'All of this happens automatically in seconds.'
+      },
+      {
+        type: 'subheading',
+        text: '5. Business Value'
+      },
+      {
+        type: 'list',
+        items: [
+          'Major reduction in repetitive support workload',
+          'Faster response times improve customer satisfaction',
+          'Consistent answers across all customers',
+          'Supports multilingual conversations naturally',
+          'Operates 24/7 without staff availability',
+          'No changes required to customer behavior'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: '6. Reliability & Safety'
+      },
+      {
+        type: 'list',
+        items: [
+          'Uses verified business knowledge only',
+          'Falls back gracefully when information is unclear',
+          'Never processes payments or sensitive data',
+          'Human escalation can be added anytime'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'This ensures trust, safety, and accuracy at scale.'
+      },
+      {
+        type: 'subheading',
+        text: '7. How to Replicate This System'
+      },
+      {
+        type: 'p',
+        text: 'Built using WhatsApp Cloud API + n8n + OpenAI + Supabase Vector Store.'
+      },
+      {
+        type: 'label',
+        text: 'Set Up WhatsApp Cloud API'
+      },
+      {
+        type: 'label',
+        text: 'Configure'
+      },
+      {
+        type: 'list',
+        items: [
+          'WhatsApp Business account',
+          'Phone number ID',
+          'Webhook events for incoming messages'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Ensure it can'
+      },
+      {
+        type: 'list',
+        items: [
+          'Receive text, voice, and image messages',
+          'Send text and audio replies'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Create WhatsApp Webhook in n8n'
+      },
+      {
+        type: 'list',
+        items: [
+          'Create a Webhook Trigger node in n8n',
+          'Copy the webhook URL'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Paste this URL into'
+      },
+      {
+        type: 'p',
+        text: 'Meta → WhatsApp → Webhooks configuration'
+      },
+      {
+        type: 'p',
+        text: 'This connects WhatsApp messages to the automation.'
+      },
+      {
+        type: 'list',
+        items: [
+          'Import the n8n Workflow',
+          'Create a new workflow in n8n'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Import the JSON file'
+      },
+      {
+        type: 'label',
+        text: 'AI-Powered WhatsApp Assistant.json'
+      },
+      {
+        type: 'label',
+        text: 'Connect AI & Data Services'
+      },
+      {
+        type: 'label',
+        text: 'Configure the following nodes'
+      },
+      {
+        type: 'list',
+        items: [
+          'OpenAI',
+          'Add your OpenAI API key'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Enable'
+      },
+      {
+        type: 'list',
+        items: [
+          'Chat model',
+          'Audio transcription',
+          'Image analysis',
+          'Text-to-speech'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Supabase Vector Store'
+      },
+      {
+        type: 'p',
+        text: 'Add Supabase project URL & API key'
+      },
+      {
+        type: 'label',
+        text: 'Confirm vector table contains'
+      },
+      {
+        type: 'list',
+        items: [
+          'Products',
+          'FAQs',
+          'Policies',
+          'Business information'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'This enables accurate AI responses (RAG).'
+      },
+      {
+        type: 'label',
+        text: 'Configure Message Routing'
+      },
+      {
+        type: 'p',
+        text: 'Open the Switch node'
+      },
+      {
+        type: 'label',
+        text: 'Verify routing rules'
+      },
+      {
+        type: 'label',
+        text: 'Text → AI Agent'
+      },
+      {
+        type: 'label',
+        text: 'Voice → Transcription → AI Agent'
+      },
+      {
+        type: 'label',
+        text: 'Image → Image analysis → AI Agent'
+      },
+      {
+        type: 'p',
+        text: 'This keeps processing efficient and cost-effective.'
+      },
+      {
+        type: 'label',
+        text: 'Test the Flow'
+      },
+      {
+        type: 'label',
+        text: 'Send test messages on WhatsApp'
+      },
+      {
+        type: 'list',
+        items: [
+          'Text question (e.g., product inquiry)',
+          'Voice message',
+          'Image (product photo)'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Verify'
+      },
+      {
+        type: 'list',
+        items: [
+          'Correct intent detection',
+          'Accurate answers from business knowledge',
+          'Responses returned via WhatsApp',
+          'Voice replies work when triggered'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Enable the Workflow'
+      },
+      {
+        type: 'label',
+        text: 'Toggle the workflow to Active'
+      },
+      {
+        type: 'p',
+        text: 'The assistant is now live'
+      },
+      {
+        type: 'p',
+        text: 'Customers can now chat with your AI assistant 24/7 on WhatsApp.'
+      },
+      {
+        type: 'subheading',
+        text: '8. Final Outcome'
+      },
+      {
+        type: 'label',
+        text: 'With the WhatsApp AI Business Assistant in production'
+      },
+      {
+        type: 'list',
+        items: [
+          'Customer support became faster and more reliable',
+          'Staff focused on higher-value conversations',
+          'Customers received instant, accurate help',
+          'Support scaled naturally with business growth'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'The system transformed WhatsApp from a manual support burden into an always-on AI-powered customer assistant.'
+      }
+    ]
   },
   {
     id: 'make-portfolio',
