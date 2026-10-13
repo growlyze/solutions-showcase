@@ -19,6 +19,7 @@ const CATEGORIES = [
   { slug: 'n8n', icon: '🔗', logoFile: 'logos/n8n.png', fill: true, group: 'automation', name: 'n8n Automations', description: 'Behind-the-scenes workflows that connect your apps and AI models so work moves on its own, no manual steps.' },
   { slug: 'zapier', icon: '⚡', logoFile: 'logos/zapier.png', fill: true, group: 'automation', name: 'Zapier Automations', description: 'Quick, no-code automations that connect your everyday apps so one action triggers the next automatically.' },
   { slug: 'make', icon: '⚡', logoFile: 'logos/make.jpg', fill: true, group: 'automation', name: 'Make Automations', description: 'Visual, no-code workflows in Make.com that move data between your apps without writing any code.' },
+  { slug: 'google-apps-script', icon: '📜', logo: 'googleappsscript', group: 'automation', name: 'Google Apps Script', description: 'Custom scripts that connect Gmail, Sheets, Drive, and Docs directly — automation built right into Google Workspace.' },
   { slug: 'ai-agents', icon: '🤖', tint: 'violet', group: 'ai', name: 'AI Agents', description: 'General-purpose AI agents you can point at almost any repetitive task to take it off your plate.' },
   { slug: 'ai-marketing', icon: '📣', tint: 'pink', group: 'ai', name: 'AI Agents for Marketing', description: 'AI that writes, posts, and tracks content so your marketing keeps running without daily upkeep.' },
   { slug: 'ai-sales', icon: '💰', tint: 'amber', group: 'ai', name: 'AI Agents for Sales', description: 'AI that finds leads, reaches out, and follows up automatically — so your pipeline never goes cold.' },
@@ -4823,6 +4824,277 @@ const CASE_STUDIES = [
       {
         type: 'p',
         text: 'Both dashboards run on Looker Studio so paid media and finance read from the same live numbers instead of separate exports from each ad platform.'
+      }
+    ]
+  },
+  {
+    id: 'google-apps-script-portfolio',
+    title: 'Google Apps Script Portfolio',
+    description: 'A portfolio of Google Workspace automations built with Apps Script — connecting Gmail, Sheets, Drive, and Docs directly.',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'heading',
+        text: 'Automated PDF Data Extraction from Gmail and Google Sheets Integration'
+      },
+      {
+        type: 'p',
+        text: 'Developed an automated solution for a client who received daily PDFs via email. Created a Google Apps Script that scans Gmail for specific emails containing PDF attachments, downloads and parses these PDFs to extract vital information, and transfers this extracted data into a designated Google Sheet. The script is scheduled to run automatically at a pre-defined time each day, ensuring timely data processing and minimal manual intervention.'
+      },
+      {
+        type: 'label',
+        text: 'Features'
+      },
+      {
+        type: 'list',
+        items: [
+          'User Authentication: Secure login mechanism to authenticate users.',
+          'PDF Upload: Interface to upload PDF files manually.',
+          'Data Extraction: Extract specific fields like order code, shipping address, product details, etc., from the uploaded PDF.',
+          'Google Sheets Integration: Populate the extracted data into a Google Sheet.',
+          'Scheduled Email Fetching: Automated function to fetch PDF attachments from a user’s email at scheduled intervals.',
+          'Data Validation: Validation checks to ensure data consistency and accuracy.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image1.png',
+        caption: 'Feature list and the two-workflow design: a scheduled main flow (PDF parsing → validation → sheet integration) alongside a manual upload flow (login → upload).'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image2.png',
+        caption: 'The FastAPI backend that handles the upload, invoice parsing, and Sheets integration.'
+      },
+      {
+        type: 'heading',
+        text: 'Growth Model Development with Defined KPIs'
+      },
+      {
+        type: 'p',
+        text: 'Designed a dynamic growth model in Google Sheets, complete with Key Performance Indicators (KPIs) to enhance visibility and guide decision-making.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image3.png',
+        caption: 'The growth funnel model — awareness, engagement, and retention KPIs tracked month over month.'
+      },
+      {
+        type: 'heading',
+        text: 'BigQuery to Google Sheets Data Pipeline'
+      },
+      {
+        type: 'p',
+        text: 'Implemented a robust data pipeline using SyncWith and SQL to extract and sync data from BigQuery to Google Sheets for real-time analytics and reporting.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image4.png',
+        caption: 'A scheduled BigQuery SQL query joining employer and sign-up data by month for the KPI sheet.'
+      },
+      {
+        type: 'heading',
+        text: 'Google Sheets Data Visualization Dashboard'
+      },
+      {
+        type: 'p',
+        text: 'Created an interactive dashboard within Google Sheets for effective data visualization and tracking, serving as a quick reference tool for stakeholders.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image5.png',
+        caption: 'A CRM dashboard inside Google Sheets tracking hiring totals, job closures, and feedback scores.'
+      },
+      {
+        type: 'heading',
+        text: 'Batch Creation of Folders and Files'
+      },
+      {
+        type: 'list',
+        items: [
+          'The script initiates by creating a structured main folder in Google Drive.',
+          'Within this main folder, it systematically generates a set of predefined subfolders.',
+          'For each subfolder, the script creates specific spreadsheet files from templates designed for various purposes.',
+          'Google Docs templates are duplicated and placed into their respective folders, ready for use.',
+          'A master spreadsheet is updated with the names, IDs, and direct links to all created folders and files, facilitating easy navigation and organization.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image6.png',
+        caption: 'The batch-creation script that generates each client’s folder structure, contract, and accounting files from templates.'
+      },
+      {
+        type: 'heading',
+        text: 'Batch Management of Access'
+      },
+      {
+        type: 'list',
+        items: [
+          'The script reads from a spreadsheet cell that lists email addresses authorized for file access.',
+          'It programmatically adjusts the sharing settings of designated Google Drive files and folders, granting access to the emails provided.',
+          'Concurrently, it ensures that access is removed from email addresses not currently listed in the spreadsheet.',
+          'This process is tailored to manage differing access levels needed for team members versus clients.',
+          'The script offers an efficient mechanism to control document access, reducing the risk of unauthorized viewing or editing.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Email Reminder System'
+      },
+      {
+        type: 'list',
+        items: [
+          'The script is scheduled to run daily to ensure real-time relevancy of its functions.',
+          'It begins by accessing specific files through provided links within a master file.',
+          'Once the file is opened, the script navigates to a particular sub-tab where date-specific data is stored.',
+          'It compares the stored dates against the current date to identify matches.',
+          'When a match is found, indicating a task or event due that day, it triggers the sending of customized email reminders to designated recipients.',
+          'This automation ensures that reminders are sent out without fail, improving the consistency of communications and task management.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image7.png',
+        caption: 'Extracting a hyperlink from a spreadsheet cell to locate the right file before checking its dates.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image8.png',
+        caption: 'A due-diligence checkup variant: comparing today’s date against the sheet before sending a scheduled compliance email.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image9.png',
+        caption: 'The companion screening script that walks each row and extracts the linked spreadsheet before processing it.'
+      },
+      {
+        type: 'heading',
+        text: 'Google Apps Script for Chart Automation'
+      },
+      {
+        type: 'p',
+        text: 'Utilized Google Apps Script to automate the generation and saving of chart images to Google Drive, streamlining the reporting process.'
+      },
+      {
+        type: 'heading',
+        text: 'Automated PDF Invoicing via Email'
+      },
+      {
+        type: 'p',
+        text: 'Created Google Apps Script to automatically format data into PDF invoices and send them via email, saving manual effort and enhancing operational efficiency.'
+      },
+      {
+        type: 'heading',
+        text: 'Automated Column Management in Inventory Sheet'
+      },
+      {
+        type: 'p',
+        text: 'Developed an app script to automatically update columns in an inventory sheet based on values in another sheet, enabling seamless data synchronization within Google Sheets.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image10.png',
+        caption: 'Syncing active/inactive status between a main sheet and a linked inventory spreadsheet.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image11.png',
+        caption: 'A custom menu for updating inventory values and normalizing leading zeros on demand.'
+      },
+      {
+        type: 'heading',
+        text: 'CSV-Based Inventory Data Entry Automation'
+      },
+      {
+        type: 'p',
+        text: 'Created a script to automate data entry in an inventory sheet from CSV files. The script also includes a data cleaning function to ensure accuracy and integrity of the imported data.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image12.png',
+        caption: 'Multi-warehouse inventory data with flagged data-quality issues the cleaning step catches — mismatched locations and unidentified SKUs.'
+      },
+      {
+        type: 'heading',
+        text: 'Project Tracker Management'
+      },
+      {
+        type: 'p',
+        text: 'Worked on developing a Project Tracker in Google Sheets to allocate tasks, track project milestones, and monitor team performance, complete with real-time updates and visual dashboards for easy interpretation.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image13.png',
+        caption: 'A Gantt-style project schedule generated directly in Google Sheets.'
+      },
+      {
+        type: 'heading',
+        text: 'Shopify to Google Sheets Data Transfer with Task Allocation'
+      },
+      {
+        type: 'p',
+        text: 'Leveraged expertise in API integration and Google Sheets to create an automated system that transfers data from Shopify to Google Sheets using the ‘Sync With’ extension. Utilized Google Apps Script and various functions to allocate customer-specific tasks to agents, and integrated this data into Aircall for seamless customer outreach. The system is set to update daily.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image14.png',
+        caption: 'The task-distribution function that splits unattended calls evenly across the agent roster.'
+      },
+      {
+        type: 'heading',
+        text: 'Habit Tracker'
+      },
+      {
+        type: 'p',
+        text: 'Developed a Habit Tracker that empowers users to monitor habits, visualize progress, and compute monthly streaks, all within an easy-to-use Google Sheets interface.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image15.png',
+        caption: 'The dark-mode Habit Tracker — daily checkboxes rolled up into weekly and monthly totals.'
+      },
+      {
+        type: 'heading',
+        text: 'Fitness Tracker'
+      },
+      {
+        type: 'p',
+        text: 'Crafted a Fitness Tracker in Google Sheets allowing users to log activities, monitor habits, and assess the achievement of their fitness goals over time.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image16.png',
+        caption: 'Weekly activity logging with a goal-achievement percentage calculated per exercise.'
+      },
+      {
+        type: 'heading',
+        text: 'Sleep Tracker'
+      },
+      {
+        type: 'p',
+        text: 'Developed a Sleep Tracker in Google Sheets to enable users to input and visualize their daily sleep duration, helping them understand and improve their sleep patterns.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image17.png',
+        caption: 'Daily sleep duration charted alongside longest/shortest sleep insights.'
+      },
+      {
+        type: 'heading',
+        text: 'Finance Tracker'
+      },
+      {
+        type: 'p',
+        text: 'Crafted a comprehensive Finance Tracker in Google Sheets that allows users to set financial goals, input transactions, and gain insights through visual dashboards for monthly and yearly financial planning.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image18.png',
+        caption: 'Budget setup across income, expenses, savings & investments, and debt categories.'
       }
     ]
   },
