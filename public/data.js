@@ -20,6 +20,7 @@ const CATEGORIES = [
   { slug: 'zapier', icon: '⚡', logoFile: 'logos/zapier.png', fill: true, group: 'automation', name: 'Zapier Automations', description: 'Quick, no-code automations that connect your everyday apps so one action triggers the next automatically.' },
   { slug: 'make', icon: '⚡', logoFile: 'logos/make.jpg', fill: true, group: 'automation', name: 'Make Automations', description: 'Visual, no-code workflows in Make.com that move data between your apps without writing any code.' },
   { slug: 'google-apps-script', icon: '📜', logo: 'googleappsscript', group: 'automation', name: 'Google Apps Script', description: 'Custom scripts that connect Gmail, Sheets, Drive, and Docs directly — automation built right into Google Workspace.' },
+  { slug: 'python', icon: '🐍', logo: 'python', group: 'automation', name: 'Python Automation', description: 'Custom Python pipelines and services for teams whose integrations need more than a no-code platform can offer.' },
   { slug: 'ai-agents', icon: '🤖', tint: 'violet', group: 'ai', name: 'AI Agents', description: 'General-purpose AI agents you can point at almost any repetitive task to take it off your plate.' },
   { slug: 'ai-marketing', icon: '📣', tint: 'pink', group: 'ai', name: 'AI Agents for Marketing', description: 'AI that writes, posts, and tracks content so your marketing keeps running without daily upkeep.' },
   { slug: 'ai-sales', icon: '💰', tint: 'amber', group: 'ai', name: 'AI Agents for Sales', description: 'AI that finds leads, reaches out, and follows up automatically — so your pipeline never goes cold.' },
@@ -5532,6 +5533,2005 @@ const CASE_STUDIES = [
         type: 'img',
         file: 'case-content/google-apps-script-portfolio/image18.png',
         caption: 'Budget setup across income, expenses, savings & investments, and debt categories.'
+      }
+    ]
+  },
+  {
+    id: 'whatsapp-voice-business-agent',
+    title: 'WhatsApp Voice & Business Agent with n8n',
+    description: 'Turning customer voice notes, photos and text messages on WhatsApp into instant, database-backed answers through an n8n workflow.',
+    source: 'Notion',
+    url: 'https://app.notion.com/p/Case-Study-WhatsApp-Voice-Business-Agent-with-n8n-3f8b33f9293f80c99ee6e059b27be16e',
+    tags: [
+      'n8n',
+      'ai-whatsapp'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Overview'
+      },
+      {
+        type: 'p',
+        text: 'This project is a WhatsApp business assistant for an online store. Customers write, speak or send a photo, and the workflow replies on WhatsApp with facts taken from the store’s Supabase product database, answering by voice when the customer used voice. It runs on n8n cloud with OpenAI models and replaces manual answering of repetitive product questions.'
+      },
+      {
+        type: 'subheading',
+        text: 'The business problem'
+      },
+      {
+        type: 'p',
+        text: 'Store owners answer the same questions all day: is this in stock, what does it cost, how long is delivery. Customers send these as voice notes, typed messages or screenshots of a product, so a simple keyword bot cannot read them. Slow replies lose sales, and a bot that guesses prices or stock damages trust.'
+      },
+      {
+        type: 'subheading',
+        text: 'The solution'
+      },
+      {
+        type: 'p',
+        text: 'An n8n workflow receives every WhatsApp message and routes it by type. Voice notes are transcribed, photos are described by a vision model, and text goes straight through. All three are normalized into one message and passed to an AI agent that must look up facts in Supabase before answering. The reply goes back as text, or as a voice note when the customer sent audio. Memory keyed on the customer’s phone number keeps the conversation connected.'
+      },
+      {
+        type: 'subheading',
+        text: 'Project snapshot'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Item',
+          'Detail'
+        ],
+        rows: [
+          [
+            'Platform',
+            'n8n cloud'
+          ],
+          [
+            'Channel',
+            'WhatsApp Business Cloud API'
+          ],
+          [
+            'Input types',
+            'Voice note, text, photo'
+          ],
+          [
+            'AI models',
+            'OpenAI transcription, GPT-4o-mini vision, GPT-4.1-mini agent, OpenAI speech'
+          ],
+          [
+            'Knowledge base',
+            'Supabase vector store, products table'
+          ],
+          [
+            'Workflow size',
+            '21 nodes after cleanup (22 in the first export)'
+          ]
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'How the System Works'
+      },
+      {
+        type: 'p',
+        text: 'Every message passes through six stages, from the customer’s WhatsApp message to the reply, in a single n8n workflow.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Step',
+          'Process'
+        ],
+        rows: [
+          [
+            '1. WhatsApp input',
+            'The customer sends a voice note, a text or a photo. The WhatsApp Trigger node receives it.'
+          ],
+          [
+            '2. Routing',
+            'A Switch node checks the message type and sends it down the audio, text or image path.'
+          ],
+          [
+            '3. Media handling',
+            'Voice notes and photos are downloaded through the WhatsApp media API. A voice note is transcribed and a photo is described by a vision model.'
+          ],
+          [
+            '4. Normalizing',
+            'Edit Fields nodes turn each path into the same two fields: the message text and the customer’s phone number as session id.'
+          ],
+          [
+            '5. AI agent',
+            'The agent looks up facts in the Supabase products table, thinks again, and writes a short reply. It remembers the conversation by phone number.'
+          ],
+          [
+            '6. Reply',
+            'If the customer sent audio, the reply is converted to speech and sent as a voice note. Otherwise it is sent as text.'
+          ]
+        ]
+      },
+      {
+        type: 'label',
+        text: 'The workflow in n8n'
+      },
+      {
+        type: 'img',
+        file: 'case-content/whatsapp-voice-business-agent/image1.jpg',
+        caption: 'The top branch handles voice notes, the middle branch handles text, and the bottom branch handles photos. All three meet at the AI Agent, which has its model, memory, a Think tool and the Supabase Vector Store attached.'
+      },
+      {
+        type: 'label',
+        text: 'Supporting integrations'
+      },
+      {
+        type: 'list',
+        items: [
+          'WhatsApp Business Cloud API: receives customer messages, downloads media and sends replies.',
+          'OpenAI: transcribes audio, describes images, runs the agent (GPT-4.1-mini) and creates the spoken reply.',
+          'Supabase: vector store over the products table, queried by the agent as a tool.',
+          'n8n Simple Memory: keeps recent messages per customer phone number.'
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Core Workflow Configuration'
+      },
+      {
+        type: 'p',
+        text: 'The workflow is built from a handful of node groups. Each one has a single job and passes the same two fields forward, so the agent never needs to know how the message arrived.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Node group',
+          'Configuration'
+        ],
+        rows: [
+          [
+            'WhatsApp Trigger',
+            'Listens for message updates from the WhatsApp Business Cloud API.'
+          ],
+          [
+            'Switch',
+            'Three rules: audio (by mime type), text (by message type) and image (by mime type).'
+          ],
+          [
+            'Download media + HTTP Request',
+            'Gets the media URL from WhatsApp, then downloads the file with the WhatsApp credential. Used for both audio and images.'
+          ],
+          [
+            'Transcribe a recording',
+            'OpenAI audio transcription of the downloaded voice note.'
+          ],
+          [
+            'Analyze image',
+            'OpenAI vision (GPT-4o-mini) on the downloaded photo, returned as a text description.'
+          ],
+          [
+            'Edit Fields (three)',
+            'Set userMessage (the text, transcript or image description) and sessionId (the customer’s phone number).'
+          ],
+          [
+            'AI Agent',
+            'GPT-4.1-mini with a system prompt: short WhatsApp-style replies under 80 words, one emoji at most, never guess, answer only from the database, hand complex issues to human support.'
+          ],
+          [
+            'Simple Memory',
+            'Window memory keyed on the customer’s phone number.'
+          ],
+          [
+            'Supabase Vector Store',
+            'Retrieve-as-tool on the products table, with OpenAI embeddings.'
+          ],
+          [
+            'Think',
+            'A reasoning tool the agent can use before answering.'
+          ],
+          [
+            'If',
+            'Checks whether the original message was audio.'
+          ],
+          [
+            'Generate audio + Send voice reply',
+            'Turns the answer into speech and sends it back as an audio message.'
+          ],
+          [
+            'Send message',
+            'Sends the answer as a WhatsApp text message.'
+          ]
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Product Experience'
+      },
+      {
+        type: 'p',
+        text: 'These three mockups show how the assistant is meant to feel on the customer’s phone, one for each input type. They are illustrative designs, not screenshots of live conversations. The status messages (“Transcribing…”, “Searching our catalog…”) and the Shopify order lookup and replacement order shown in scenarios 1 and 3 are not in the current workflow and belong to a planned extension.'
+      },
+      {
+        type: 'subheading',
+        text: 'Scenario 1: voice input'
+      },
+      {
+        type: 'img',
+        file: 'case-content/whatsapp-voice-business-agent/image2.jpg',
+        caption: 'The customer sends a voice note. The workflow transcribes it, the agent finds the answer, and the reply comes back as a voice note because the customer used voice.'
+      },
+      {
+        type: 'subheading',
+        text: 'Scenario 2: text input'
+      },
+      {
+        type: 'img',
+        file: 'case-content/whatsapp-voice-business-agent/image3.png',
+        caption: 'A typed question goes straight to the agent, which checks the product data and answers in two or three short lines, with a follow-up question to move the sale forward.'
+      },
+      {
+        type: 'subheading',
+        text: 'Scenario 3: image input'
+      },
+      {
+        type: 'img',
+        file: 'case-content/whatsapp-voice-business-agent/image4.jpg',
+        caption: 'A photo is described by the vision model, and that description is handled as the customer’s message. In the current workflow the agent matches it against the product table. Order lookup and replacement orders are future work.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'Results & Metrics'
+      },
+      {
+        type: 'p',
+        text: 'The workflow is built and cleaned up, and no live customer data has been measured yet. The figures below describe what was delivered. Response time, accuracy and conversion numbers should be added after a pilot with real conversations.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Metric',
+          'Result'
+        ],
+        rows: [
+          [
+            'Production workflows',
+            '1 main agent workflow'
+          ],
+          [
+            'n8n nodes',
+            '21 after cleanup'
+          ],
+          [
+            'Input types supported',
+            '3: voice note, text, photo'
+          ],
+          [
+            'Reply formats',
+            '2: text and voice note'
+          ],
+          [
+            'AI models used',
+            '4: transcription, vision, agent, speech'
+          ],
+          [
+            'Knowledge source',
+            'Supabase products table, searched by the agent as a tool'
+          ],
+          [
+            'Workflow defects fixed',
+            '2 (placeholder Code node, wrong message type)'
+          ],
+          [
+            'Live response time and accuracy',
+            'Not measured yet'
+          ]
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Technical Challenges & Solutions'
+      },
+      {
+        type: 'p',
+        text: 'Reviewing the exported workflow turned up problems that would have stopped it from working in production.'
+      },
+      {
+        type: 'subheading',
+        text: 'Voice reply could not be sent'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'The voice path ended in a Code node that still held the placeholder YOUR_BASE64_STRING_HERE, and the send node used the document message type.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'Removed the Code node, connected “Generate audio” directly to the send node, renamed it “Send voice reply”, and set its message type to audio with the customer’s number as recipient.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'The voice path is complete from the audio message to the voice reply.'
+      },
+      {
+        type: 'subheading',
+        text: 'Credentials missing after import'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'After importing the workflow into a new n8n account, every WhatsApp, OpenAI and Supabase node showed a warning.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'Reselect the credentials on each flagged node. For presentations, a demo copy with sample output pinned on the main-path nodes can be used.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'The nodes can be run green once credentials are set. A demo copy was prepared for the voice path.'
+      },
+      {
+        type: 'subheading',
+        text: 'AI answers must stay factual'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'A sales assistant that invents prices or stock levels loses customer trust.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'The system prompt requires the agent to retrieve facts from Supabase before answering, to ask when data is missing, and to hand complex issues to human support. Replies are capped at 80 words.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Answers stay short and grounded in the product table.'
+      },
+      {
+        type: 'subheading',
+        text: 'Secrets inside workflow files'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'A related Shopify workflow contains an access token written directly into its HTTP nodes.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'Rotate the token and move it into an n8n credential before sharing or publishing that workflow.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Open item, to be done by the store owner.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'Key Takeaways & Future Development'
+      },
+      {
+        type: 'subheading',
+        text: 'Key takeaways'
+      },
+      {
+        type: 'list',
+        items: [
+          'One agent for three input types: routing by message type and normalizing to the same two fields keeps the agent simple.',
+          'Grounded answers: forcing a database lookup before every reply is what keeps the assistant safe to put in front of customers.',
+          'Voice in, voice out: answering in the customer’s own format makes the assistant feel natural on WhatsApp.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Future development'
+      },
+      {
+        type: 'list',
+        items: [
+          'Connect Shopify so the agent can check order status and create replacement orders, as shown in the mockups.',
+          'Add progress messages such as “Transcribing your voice message” while longer steps run.',
+          'Hand over to a human on WhatsApp, with the conversation passed to the support team.',
+          'Run a pilot with real customers and record response time, answer accuracy and sales conversion.',
+          'Move secrets such as the Shopify token into n8n credentials.'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'enterprise-ticketing-pipeline',
+    title: 'Enterprise Ticketing & Revenue Data Pipeline',
+    description: 'Turning daily ticketing PDFs and emails from multiple vendors into one automated revenue dashboard for a music festival organizer.',
+    source: 'Notion',
+    url: 'https://app.notion.com/p/Case-Study-Enterprise-Ticketing-Revenue-Data-Pipeline-3f8b33f9293f8021af07dd2b4da74de2',
+    tags: [
+      'python'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Overview'
+      },
+      {
+        type: 'p',
+        text: 'Palm Tree Crew, a live music festival organizer, needed accurate daily revenue and attendance numbers across several cities. We built a custom Python pipeline on Google Cloud that reads vendor audit emails, applies the client’s business rules, stores everything in BigQuery and renders an executive dashboard in Google Sheets with no manual steps.'
+      },
+      {
+        type: 'subheading',
+        text: 'The business problem'
+      },
+      {
+        type: 'p',
+        text: 'Every day the operations team downloaded static PDF audits from Ticketmaster, Front Gate Tickets and Posh. They split passes by hand (a 2-Day Pass counts toward both Friday and Saturday) and typed the numbers into a master Google Sheet. The work took hours and invited mistakes. VIP Table and Corporate Sponsorship revenue lived in separate spreadsheets, so leadership never saw total gross and remaining capacity in one place.'
+      },
+      {
+        type: 'subheading',
+        text: 'The solution'
+      },
+      {
+        type: 'p',
+        text: 'A cloud-hosted ETL pipeline runs on a schedule. It intercepts vendor emails through the Gmail API, parses PDF and HTML reports with custom Python code, calculates the client’s metrics, loads the results into Google BigQuery and rebuilds a styled Google Sheets dashboard. Offline revenue from other spreadsheets is linked in through a manual configuration area.'
+      },
+      {
+        type: 'subheading',
+        text: 'Project snapshot'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Item',
+          'Detail'
+        ],
+        rows: [
+          [
+            'Client',
+            'Palm Tree Crew'
+          ],
+          [
+            'Industry',
+            'Live events and entertainment (music festivals)'
+          ],
+          [
+            'Language',
+            'Python, written as custom code'
+          ],
+          [
+            'Cloud',
+            'Google Cloud Run and Cloud Scheduler'
+          ],
+          [
+            'Data warehouse',
+            'Google BigQuery'
+          ],
+          [
+            'Integrations',
+            'Gmail API, Google Sheets API'
+          ],
+          [
+            'Ticketing sources',
+            'Ticketmaster (PDF), Front Gate Tickets (HTML email), Posh'
+          ]
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'How the System Works'
+      },
+      {
+        type: 'p',
+        text: 'The pipeline runs once per reporting cycle with no human steps, from vendor email to finished dashboard.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Step',
+          'Process'
+        ],
+        rows: [
+          [
+            '1. Scheduled start',
+            'Google Cloud Scheduler triggers the Python service on Cloud Run.'
+          ],
+          [
+            '2. Email ingestion',
+            'The Gmail API, with secure OAuth, picks up the daily audit emails from each ticketing vendor.'
+          ],
+          [
+            '3. Parsing',
+            'Vendor-specific parsers read the data: a PDF scraper for Ticketmaster, an HTML table parser for Front Gate Tickets.'
+          ],
+          [
+            '4. Business logic',
+            'Code applies the client’s rules: the 2-Day Rule, wrap rates and capacity detection.'
+          ],
+          [
+            '5. Warehouse load',
+            'Results are written to BigQuery in three tables, so every ticket sold keeps an audit trail.'
+          ],
+          [
+            '6. Dashboard render',
+            'The Google Sheets API rebuilds a formatted executive dashboard, including linked offline revenue.'
+          ]
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Architecture'
+      },
+      {
+        type: 'img',
+        file: 'case-content/enterprise-ticketing-pipeline/image1.jpg',
+        caption: 'Vendor emails enter through Gmail, the Python service on Cloud Run parses them and applies the client’s rules, BigQuery keeps the history, and the Google Sheets dashboard shows the result.'
+      },
+      {
+        type: 'p',
+        text: 'Offline VIP and sponsorship sheets are linked into the dashboard with IMPORTRANGE.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'Core Pipeline Components'
+      },
+      {
+        type: 'p',
+        text: 'The pipeline is custom Python code split into four parts, each with one job.'
+      },
+      {
+        type: 'subheading',
+        text: 'Automated ingestion and parsing'
+      },
+      {
+        type: 'p',
+        text: 'The Gmail API with secure OAuth intercepts the daily audit emails from each vendor. Bespoke parsing engines handle the unstructured formats:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Ticketmaster: a custom PDF scraper that bypasses AWS API Gateway redirects, reads complex tabular data and adjusts to unannounced layout changes by the vendor.',
+          'Front Gate Tickets: an HTML parser that extracts inline tables directly from the email body.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Business logic'
+      },
+      {
+        type: 'p',
+        text: 'The code applies the client’s own rules instead of only moving data:'
+      },
+      {
+        type: 'list',
+        items: [
+          'The 2-Day Rule: splits a multi-day pass into the correct daily attendance buckets, for example one 2-Day Pass counts toward both Friday and Saturday.',
+          'Wrap rates: computes 24-hour sales velocity.',
+          'Dynamic capacities: detects and adjusts venue capacity limits from live vendor reports, so no hardcoded limit goes out of date.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Data warehouse'
+      },
+      {
+        type: 'p',
+        text: 'All parsed data goes into Google BigQuery to keep full fidelity and prevent double-counting. Three tables hold the history of every ticket sold:'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Table',
+          'Purpose'
+        ],
+        rows: [
+          [
+            'raw_reports',
+            'The original report as received from each vendor.'
+          ],
+          [
+            'report_lines',
+            'The individual lines parsed out of each report.'
+          ],
+          [
+            'daily_snapshots',
+            'The calculated daily position used by the dashboard.'
+          ]
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Dynamic dashboard rendering'
+      },
+      {
+        type: 'p',
+        text: 'The final step renders an executive-ready Google Sheets dashboard. The code formats the layout, freezes rows, color-codes stale data feeds and calculates multi-day averages.'
+      },
+      {
+        type: 'p',
+        text: 'A #MANUAL configuration area lets non-technical team members link external spreadsheets with =IMPORTRANGE() for offline VIP Table and Sponsorship revenue. The dashboard syncs this data automatically, so total top-line revenue appears in one view.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'Product Experience'
+      },
+      {
+        type: 'p',
+        text: 'The executive team sees one Google Sheets dashboard that is rebuilt automatically from the BigQuery data. It formats itself, freezes the header rows, color-codes feeds that have not updated and shows multi-day averages, daily wrap rates and remaining capacity per show.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'Results & Impact'
+      },
+      {
+        type: 'p',
+        text: 'The daily reporting cycle went from hours of manual transcription to no manual steps. The report gives no counts of events, hours saved or revenue, so none are stated here.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Area',
+          'Result'
+        ],
+        rows: [
+          [
+            'Manual data entry',
+            'None. The pipeline runs on Google Cloud Scheduler.'
+          ],
+          [
+            'Data accuracy',
+            'Transcription errors and arithmetic mistakes removed. The dashboard is the single source of truth for executives.'
+          ],
+          [
+            'Revenue view',
+            'Online ticket sales and offline VIP and sponsorship revenue in one top-line view.'
+          ],
+          [
+            'Onboarding new shows',
+            'A standard New Show Onboarding Template lets the client add a festival or ticketing platform in minutes.'
+          ],
+          [
+            'Decision support',
+            'Real-time capacity and daily wrap rates inform ad spend and tier pricing.'
+          ]
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Technical Challenges & Solutions'
+      },
+      {
+        type: 'subheading',
+        text: 'Unstructured vendor formats'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'Ticketmaster sends static PDFs behind AWS API Gateway redirects, and Front Gate sends tables inside email bodies.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'A custom PDF scraper that follows the redirects and adapts to layout changes, plus an HTML parser for inline tables.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Both vendors feed the pipeline without manual downloads.'
+      },
+      {
+        type: 'subheading',
+        text: 'Business rules that were done in the operator’s head'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'A 2-Day Pass had to be split across Friday and Saturday by hand.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'The 2-Day Rule, wrap rates and capacity detection are coded into the pipeline.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Consistent daily buckets with no mental math.'
+      },
+      {
+        type: 'subheading',
+        text: 'Outdated hardcoded limits'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'Venue capacities change, and fixed numbers in code go stale.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'Capacities are read from live vendor reports.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'The dashboard shows current remaining capacity.'
+      },
+      {
+        type: 'subheading',
+        text: 'Double-counting and audit trail'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'Daily reports overlap, so repeated loads could count a ticket twice.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'A three-table BigQuery design (raw_reports, report_lines, daily_snapshots) keeps the original data and the calculated snapshots separate.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'A historical record of every ticket sold.'
+      },
+      {
+        type: 'subheading',
+        text: 'Offline revenue in separate sheets'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'VIP Tables and Sponsorships were tracked outside the main sheet and maintained by non-technical staff.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'A #MANUAL configuration area where staff link external sheets with =IMPORTRANGE().'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Offline revenue appears in the dashboard without code changes.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'Key Takeaways & Future Development'
+      },
+      {
+        type: 'subheading',
+        text: 'Key takeaways'
+      },
+      {
+        type: 'list',
+        items: [
+          'End-to-end automation: email ingestion, parsing, calculation, storage and reporting run without human input.',
+          'Custom code where vendors give no API: parsing PDFs and email tables made the data reachable.',
+          'Built for scale: a decoupled design and an onboarding template let the client add shows and platforms quickly.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Future development'
+      },
+      {
+        type: 'list',
+        items: [
+          'Add parsers for further ticketing platforms as the client adds vendors.',
+          'Add alerts when a vendor email is missing or a report layout changes.',
+          'Extend the dashboard with ad-spend data to compare against sales velocity.'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'support-email-clickup-automation',
+    title: 'Support Email to ClickUp Ticket Automation',
+    description: 'Turning every email sent to a shared support inbox into a correctly routed, duplicate-free ClickUp ticket through one n8n workflow.',
+    source: 'Notion',
+    url: 'https://app.notion.com/p/Case-Study-Support-Email-to-ClickUp-Ticket-Automation-3f8b33f9293f805a8817ed5ead187f96',
+    tags: [
+      'n8n',
+      'clickup'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Overview'
+      },
+      {
+        type: 'p',
+        text: 'This project is a support-intake automation for RefureTech. Customers email the shared support address, and the n8n workflow reads each message, works out which client it belongs to from the sender’s email domain, and files it in ClickUp. It becomes a new ticket in that client’s support list, a ticket in a triage list when the client is unknown, or a comment when a ticket for the conversation already exists. Attachments and earlier messages in the thread travel with it.'
+      },
+      {
+        type: 'subheading',
+        text: 'The business problem'
+      },
+      {
+        type: 'p',
+        text: 'Support requests arrive as ordinary email. Copying them into a ticket system by hand is slow and easy to get wrong: the wrong client, a missed reply, an attachment left behind in the inbox. The work grows with every new client. Automating it is not simple either, because ClickUp has its own Email ClickApp that sends a confirmation to the customer and files later replies as comments. A naive automation creates duplicate tickets or, worse, turns its own confirmation emails into new tickets in an endless loop.'
+      },
+      {
+        type: 'subheading',
+        text: 'The solution'
+      },
+      {
+        type: 'p',
+        text: 'A single n8n workflow polls the support inbox every minute. It looks up the client list stored in ClickUp, matches the sender by domain, checks four different ways whether the conversation already has a ticket or is already managed by ClickUp, and only then creates a ticket or comment. It uses plain, explainable rules in code nodes rather than an AI model, so every decision can be traced to a header, a subject line or a ClickUp field. Wherever a step could fail, the workflow prefers a duplicate ticket over a lost customer email.'
+      },
+      {
+        type: 'subheading',
+        text: 'Project snapshot'
+      },
+      {
+        type: 'img',
+        file: 'case-content/support-email-clickup-automation/image1.png',
+        caption: 'Project snapshot.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'How the System Works'
+      },
+      {
+        type: 'p',
+        text: 'Every email passes through six stages, from arrival in the inbox to a ticket in ClickUp, inside one workflow.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Step',
+          'Process'
+        ],
+        rows: [
+          [
+            '1. Email input',
+            'The Gmail Trigger polls the INBOX label every minute. The full message is fetched and its HTML body is converted to Markdown so it reads cleanly inside a ticket.'
+          ],
+          [
+            '2. Client matching',
+            'The workflow reads the client list from ClickUp, where each client has a Domain, a folder id and a support list id. A code node picks the customer contact from the To, Cc and From addresses and matches its domain (or a parent domain) to a client. Free-mail and internal domains are never mapped.'
+          ],
+          [
+            '3. Duplicate checks',
+            'Three lookups run: a ClickUp search by Gmail thread id, a ClickUp search by the thread ClickUp’s own confirmation email started, and a fetch of the full Gmail thread history.'
+          ],
+          [
+            '4. Decision',
+            'Route Decision labels the email new, default, comment or skip. Two guard nodes can still turn a write into a skip: one if ClickUp’s ticket id is at the end of the subject, one if the mail headers show a machine-generated reply.'
+          ],
+          [
+            '5. Ticket action',
+            'A Switch creates a ticket in the client’s list, creates a ticket in the triage list, or adds a comment to the existing ticket. The description holds the new message plus earlier messages in the conversation.'
+          ],
+          [
+            '6. Attachments, label, sync',
+            'Attachments are downloaded and uploaded to the ticket, and the Gmail message is labelled as processed. For new tickets the workflow waits two minutes, finds ClickUp’s confirmation email and stores its thread id on the ticket so later replies are recognised.'
+          ]
+        ]
+      },
+      {
+        type: 'label',
+        text: 'The workflow in n8n'
+      },
+      {
+        type: 'img',
+        file: 'case-content/support-email-clickup-automation/image2.jpg',
+        caption: 'The chain on the left reads the email, matches the client and checks for duplicates. The Switch in the middle sends each email to one of three ticket actions. Each action ends in its own attachment branch and a Gmail label step, and new tickets also pass through the wait and confirmation sync.'
+      },
+      {
+        type: 'label',
+        text: 'Supporting integrations'
+      },
+      {
+        type: 'list',
+        items: [
+          'Gmail: trigger, message fetch with attachments, thread history, and labelling processed messages.',
+          'ClickUp: client routing data, ticket and comment creation, attachment upload, and custom fields that store the Gmail thread id and ClickUp’s email thread id.',
+          'Error workflow: a separate n8n workflow is attached in the settings to handle failures of this one.'
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Core Workflow Configuration'
+      },
+      {
+        type: 'p',
+        text: 'The workflow is built from a handful of node groups. Each has a single job, and the routing decision is carried forward as one item holding the same fields (contact, domain, folder, list, thread id, reason, action), so the ticket nodes never need to know how the decision was reached.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Node group',
+          'Configuration'
+        ],
+        rows: [
+          [
+            'Gmail Trigger',
+            'Polls every minute, restricted to the INBOX label on purpose. ClickUp sends its confirmation as the support address, which leaves a copy in Sent. Polling Sent would turn that confirmation into a ticket and trigger another confirmation, forever.'
+          ],
+          [
+            'Get HTML + Markdown',
+            'Fetches the full message and converts the HTML body to Markdown. Retries up to 3 times, 2 seconds apart.'
+          ],
+          [
+            'Get Support ID',
+            'ClickUp node that lists the client tasks. Each carries the custom fields Domain, folder_id and support_list_id.'
+          ],
+          [
+            'Find ID from Domain (code)',
+            'Builds a domain-to-client map, ignores free-mail and internal domains, records domain collisions, picks the customer contact (mapped client first, then any external address, then the sender), validates every address, fills up to 20 Cc fields and applies the one hard skip: the self-addressed ClickUp acknowledgment.'
+          ],
+          [
+            'Find Existing Ticket / Find ClickUp Email Thread',
+            'Two ClickUp API searches by custom field: the Gmail thread id, and the thread id of ClickUp’s own confirmation. If either call fails the workflow continues with no result, so a ticket is still created.'
+          ],
+          [
+            'Get Thread History',
+            'Gmail API call for every message in the conversation. Failure is non-fatal: the ticket is created with the newest email only.'
+          ],
+          [
+            'Route Decision (code)',
+            'Decides clickup_synced, comment, new or default, and assembles the ticket description with the earlier messages, capped at 60,000 characters.'
+          ],
+          [
+            'ClickUp Already Owns This? (code)',
+            'Skips when the subject ends with a ClickUp ticket id such as #RTS-1234, or the confirmation wording is found. Anchored to the end of the subject so a customer’s own mid-subject reference such as #PO-88231 still gets a ticket.'
+          ],
+          [
+            'Machine Auto-Reply? (code)',
+            'Skips out-of-office and bounce mail by reading headers (Auto-Submitted, X-Auto-Response-Suppress, Precedence, empty Return-Path), never the subject wording.'
+          ],
+          [
+            'Switch',
+            'Six rules: new, default, comment, loop guard (skip), ClickUp synced (skip), auto-reply (skip). The fallback output goes to the triage list so an unexpected value cannot drop an email.'
+          ],
+          [
+            'Create a task / Create Default Task',
+            'ClickUp nodes that create the ticket with the Markdown description, customer contact, recipient, up to 20 Cc contacts and the Gmail thread id as custom fields. Tickets opened mid-chain are titled with an [Ongoing thread] prefix.'
+          ],
+          [
+            'Add Comment to Existing Task',
+            'Posts the new email as a comment on the tracked ticket without notifying everyone.'
+          ],
+          [
+            'Attachment branches (3 sets)',
+            'Re-fetch the message with attachments, split them out, keep only files with a real file extension, upload them to the ticket and add the Gmail label. Emails without attachments still reach the label step.'
+          ],
+          [
+            'Wait + confirmation sync',
+            'Waits 2 minutes, re-reads the task for its custom id, searches Gmail for ClickUp’s confirmation and saves its thread id into the ticket so future replies are recognised.'
+          ]
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Product Experience and Routing Scenarios'
+      },
+      {
+        type: 'p',
+        text: 'Every email the workflow has handled is marked with a Ticketed label in Gmail, so the team can see at a glance which messages already have a ticket or comment in ClickUp. Replies on the same conversation carry the label too.'
+      },
+      {
+        type: 'subheading',
+        text: 'Routing scenarios'
+      },
+      {
+        type: 'p',
+        text: 'These scenarios show how the workflow treats the main kinds of email. They are illustrative, derived from the workflow logic, and are not recordings of real customer emails.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Scenario',
+          'What arrives',
+          'What the workflow does',
+          'Result'
+        ],
+        rows: [
+          [
+            '1. Mapped client, new request',
+            'A first email from someone at a client whose domain is in the ClickUp client list.',
+            'Matches the domain, finds no existing ticket, routes to the client’s folder and support list, uploads attachments, labels the email, then syncs ClickUp’s confirmation thread id after 2 minutes.',
+            'New ticket in the client’s support list.'
+          ],
+          [
+            '2. Unknown domain',
+            'An email from a domain that is not mapped, or with no usable contact address.',
+            'Falls to the default branch. The ticket is still created, in the default triage list, with the sender as contact.',
+            'New ticket in the triage list for a person to assign.'
+          ],
+          [
+            '3. Reply on a tracked conversation',
+            'A follow-up where a ticket already exists for the Gmail thread but ClickUp does not own the thread.',
+            'Finds the ticket by the Gmail thread id custom field and posts the email as a comment, then handles any attachments.',
+            'Comment and files added to the existing ticket.'
+          ],
+          [
+            '4a. ClickUp-owned reply',
+            'A customer reply whose subject ends with a ClickUp ticket id.',
+            'Stops without writing. ClickUp’s Email ClickApp is already filing replies as comments, so acting would duplicate the ticket.',
+            'Skipped, no duplicate.'
+          ],
+          [
+            '4b. Out-of-office or bounce',
+            'A vacation responder or delivery failure notice.',
+            'Detected from mail headers and skipped. A colleague’s real reply on the same thread is not skipped, because headers are checked instead of subject words.',
+            'Skipped, real replies kept.'
+          ],
+          [
+            '4c. Our own confirmation',
+            'The ClickUp acknowledgment, sent from the support address back to the support address.',
+            'Hard skip by the loop guard.',
+            'Skipped, loop prevented.'
+          ]
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Results & Metrics'
+      },
+      {
+        type: 'p',
+        text: 'The workflow is live and has run on the real support inbox. Business figures such as hours saved, tickets per week and routing accuracy have not been measured yet.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Metric',
+          'Result'
+        ],
+        rows: [
+          [
+            'Production workflows',
+            '1 main workflow, plus an error workflow attached in settings'
+          ],
+          [
+            'n8n nodes',
+            '38'
+          ],
+          [
+            'Trigger',
+            'Gmail polling every minute, INBOX only'
+          ],
+          [
+            'Routing outcomes',
+            '6: new, default, comment, and three skip outcomes'
+          ],
+          [
+            'Duplicate guards',
+            '4 layers: Gmail thread id, ClickUp email thread id, ticket id in subject, confirmation wording'
+          ],
+          [
+            'Failure handling',
+            'Retries up to 3 times, 2 seconds apart, on every network node. Lookups fail open, so an email becomes a ticket rather than being lost.'
+          ],
+          [
+            'Reply channels covered',
+            'Mapped client, unknown domain, existing thread, attachments'
+          ]
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Execution history (29 Sep to 12 Oct 2026)'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Metric',
+          'Result'
+        ],
+        rows: [
+          [
+            'Executions retained in n8n',
+            '11'
+          ],
+          [
+            'Successful',
+            '11 (100%)'
+          ],
+          [
+            'Failed or crashed',
+            '0'
+          ],
+          [
+            'Run time',
+            '9 runs took about 2 minutes (the path with the built-in 2-minute wait for ClickUp’s confirmation). 2 runs took about 4 seconds (paths without that wait).'
+          ],
+          [
+            'Hours saved, accuracy, duplicate rate',
+            'Not measured yet'
+          ]
+        ]
+      },
+      {
+        type: 'p',
+        text: 'The execution count reflects only the executions n8n still retains and is not a full volume figure. The link between run time and path is inferred from the workflow design.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'Technical Challenges & Solutions'
+      },
+      {
+        type: 'p',
+        text: 'Most of the engineering effort went into edge cases around ClickUp’s own email feature and around real-world email, where a simple “new email creates ticket” flow breaks quickly.'
+      },
+      {
+        type: 'subheading',
+        text: 'The workflow could answer itself forever'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'ClickUp sends its confirmation email from the support address, so a copy lands in Sent. If the workflow read Sent, that confirmation would become a ticket, which triggers another confirmation, and so on.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'The trigger watches INBOX only, and a loop guard in code skips any email sent from the support address with the support address in To or Cc. It is the only unconditional skip.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'The loop is closed twice, at the trigger and in the logic.'
+      },
+      {
+        type: 'subheading',
+        text: 'Duplicate tickets next to ClickUp’s Email ClickApp'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'Once a ticket exists, ClickUp already files replies as comments and sends its own acknowledgment. Creating another ticket from the same reply duplicates work and makes ClickUp send the customer a second acknowledgment.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'Four independent checks decide whether ClickUp owns the conversation: a stored ClickUp email thread id, the ticket id at the end of the subject, the confirmation wording in the thread, and the Gmail thread id on an existing ticket. The subject check is the most dependable, because older tickets lack the stored thread id and the confirmation wording can change.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Replies on ClickUp-managed conversations are skipped and n8n stays out of the way.'
+      },
+      {
+        type: 'subheading',
+        text: 'Out-of-office mail versus a colleague covering for someone'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'An auto-reply sets the subject to “Out of Office Re: …”. A colleague who replies on the same thread keeps that subject, so matching subject words would silently drop a genuine customer email.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'The check reads mail headers that no human mail client sets (Auto-Submitted, X-Auto-Response-Suppress, Precedence, empty Return-Path). If the headers cannot be matched confidently to the right message, nothing is skipped.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Machine mail is filtered out, and real replies with the same subject still become tickets.'
+      },
+      {
+        type: 'subheading',
+        text: 'A duplicate is acceptable, a lost email is not'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'Lookups against ClickUp and Gmail can fail, and an email that stops the workflow is a customer who never gets answered.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'The ticket-search and thread-history calls retry three times and then continue with no result. Missing results default to creating a ticket, the Switch fallback sends unknown outcomes to the triage list, and the split-out steps continue on error so every email still reaches the labelling step.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Failures become an extra ticket or less context, never a dropped message.'
+      },
+      {
+        type: 'subheading',
+        text: 'Tickets opened in the middle of a conversation'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'When the first email the workflow sees is already a reply, a ticket with only the latest message has no background.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'The full Gmail thread is fetched, earlier messages are sorted by date and appended to the ticket description (with sender, recipient, date and subject), capped at 60,000 characters, and the title gets an [Ongoing thread] prefix.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'A person opening the ticket sees the whole conversation.'
+      },
+      {
+        type: 'subheading',
+        text: 'Malformed addresses breaking ticket creation'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'ClickUp rejects the whole task when an email-typed field receives something that is not an address, such as a group name or undisclosed-recipients. Messy Cc lines and display names are common.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'Header values are normalised, every address is validated, the support address is never mapped into contact fields, and Cc contacts are capped at 20 fields with the overflow count recorded.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Odd headers no longer cause ticket creation to fail.'
+      },
+      {
+        type: 'subheading',
+        text: 'Secrets inside the workflow (open item)'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'The ClickUp API token is written directly into the Authorization header of 8 HTTP Request nodes instead of an n8n credential, so it is visible to anyone who can open or export the workflow.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'Create a ClickUp credential in n8n, switch those nodes to it, and rotate the token.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Not done yet. The token is deliberately not reproduced in this document.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'Key Takeaways & Future Development'
+      },
+      {
+        type: 'subheading',
+        text: 'Key takeaways'
+      },
+      {
+        type: 'list',
+        items: [
+          'Design for the tool next door: the hardest part was coexisting with ClickUp’s own email automation, not creating tickets. Layered duplicate checks solved it.',
+          'Headers over words: deciding on machine-readable signals, such as mail headers and a ticket id anchored to the end of the subject, keeps genuine emails from being filtered out.',
+          'Fail open: choosing a duplicate over a lost email at every failure point makes the automation safe to leave running on a customer-facing inbox.',
+          'Configuration in ClickUp, not in code: adding a client means filling in three fields on a ClickUp task, with no change to the workflow.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Future development'
+      },
+      {
+        type: 'list',
+        items: [
+          'Move the ClickUp token into an n8n credential and rotate it.',
+          'Log every skipped email (loop guard, ClickUp-owned, auto-reply) to a sheet or channel so skips can be audited.',
+          'Surface the domain collisions the code already detects, for example with an alert, so two clients cannot silently share a domain.',
+          'Replace the fixed 2-minute wait with a short retry loop that looks for ClickUp’s confirmation email.',
+          'Merge the three near-identical attachment branches into one shared sub-workflow.',
+          'Run a measured pilot and record tickets per week, time saved, routing accuracy and duplicate rate to complete the results section.'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'hubspot-industry-classifier',
+    title: 'HubSpot Industry Classifier with Gemini',
+    description: 'Automatically sorting a backlog of HubSpot companies into industry groups with Google Gemini, and flagging the ones that need a human.',
+    source: 'Notion',
+    url: 'https://app.notion.com/p/Case-Study-HubSpot-Industry-Classifier-with-Gemini-3f8b33f9293f803d98c7d26f12c57c56',
+    tags: [
+      'n8n',
+      'ai-agents'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Overview'
+      },
+      {
+        type: 'p',
+        text: 'This project is an automation that fills in the Industry Group field on HubSpot company records. An n8n workflow runs every hour, takes companies from a HubSpot list, skips the ones that already have an industry group, asks Google Gemini to pick one group for each, and writes the answer back to HubSpot together with a confidence score and a one-line reason. Companies it cannot classify with confidence are marked Needs R&D for a person to review instead of being forced into a wrong category.'
+      },
+      {
+        type: 'subheading',
+        text: 'The business problem'
+      },
+      {
+        type: 'p',
+        text: 'A CRM is only useful for segmentation and reporting when every company has an industry. Filling the field by hand for a long backlog of companies is slow, and different people choose different categories for the same kind of business. Letting an AI write straight into the CRM brings its own risks: an invented category, a low-confidence guess recorded as fact, or the same company processed over and over.'
+      },
+      {
+        type: 'subheading',
+        text: 'The solution'
+      },
+      {
+        type: 'p',
+        text: 'The workflow reads the allowed Industry Group options directly from HubSpot, so the AI can only choose values that exist. Each company is handled one at a time. Gemini returns a single group, a confidence score and a reason in JSON, and a code node checks that the answer matches a real HubSpot option and clears a confidence threshold before anything is written. Anything that fails that check is labelled Needs R&D. A dry-run switch lets the team test the whole flow without changing any record.'
+      },
+      {
+        type: 'subheading',
+        text: 'Project snapshot'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Item',
+          'Detail'
+        ],
+        rows: [
+          [
+            'Platform',
+            'n8n'
+          ],
+          [
+            'Trigger',
+            'Schedule, every hour'
+          ],
+          [
+            'CRM',
+            'HubSpot (companies, a list of companies to process, the hs_industry_group property)'
+          ],
+          [
+            'AI model',
+            'Google Gemini Flash, temperature 0.2, no web search'
+          ],
+          [
+            'Batch size',
+            'Up to 100 companies per run, one at a time'
+          ],
+          [
+            'Confidence threshold',
+            '0.6'
+          ],
+          [
+            'Safety switch',
+            'dryRun setting, off by default'
+          ],
+          [
+            'Workflow size',
+            '22 nodes'
+          ],
+          [
+            'Status',
+            'Active'
+          ]
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'How the System Works'
+      },
+      {
+        type: 'p',
+        text: 'Each run follows the same six stages, from the schedule firing to a company updated in HubSpot.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Step',
+          'Process'
+        ],
+        rows: [
+          [
+            '1. Schedule and setup',
+            'The Schedule Trigger starts the run every hour. Two things happen in parallel: the workflow loads the allowed Industry Group options from HubSpot, and sets its configuration (companies per run, confidence threshold, dry-run flag and the HubSpot list id).'
+          ],
+          [
+            '2. Collect the backlog',
+            'The workflow pages through the HubSpot list, 250 members at a time, until it has the configured maximum of 100 companies, then splits them into single items.'
+          ],
+          [
+            '3. One company at a time',
+            'A loop takes each company and fetches its name, domain, website, additional domains and current industry group. Companies that already have an industry group are skipped.'
+          ],
+          [
+            '4. Prepare and check',
+            'A code node cleans the domains. If a company has neither a domain nor a name, it is skipped because there is nothing to classify.'
+          ],
+          [
+            '5. Gemini classification',
+            'Gemini receives the name and domain with the list of allowed groups and the classification rules, and returns JSON with the industry, a confidence score and a reason.'
+          ],
+          [
+            '6. Validate and write',
+            'A code node matches the answer to a real HubSpot option and applies the confidence gate. Unless dry run is on, the result is written to HubSpot, followed by a Wait node before the next company.'
+          ]
+        ]
+      },
+      {
+        type: 'label',
+        text: 'The workflow in n8n'
+      },
+      {
+        type: 'img',
+        file: 'case-content/hubspot-industry-classifier/image1.jpg',
+        caption: 'The two chains on the left prepare the run: the top one loads the valid industries, and the bottom one pages through the HubSpot list. The loop in the middle processes one company at a time through the Gemini step.'
+      },
+      {
+        type: 'label',
+        text: 'Supporting integrations'
+      },
+      {
+        type: 'list',
+        items: [
+          'HubSpot: the list of companies to process, the company records, the allowed Industry Group options and the update call.',
+          'Google Gemini: the classification model, with web search switched off so it answers from its own knowledge.',
+          'n8n workflow static data: holds the pages of list members while they are being collected.'
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Core Workflow Configuration'
+      },
+      {
+        type: 'p',
+        text: 'The workflow is built from a handful of node groups. Settings that a person may want to change are kept together in one Init Search Config node.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Node group',
+          'Configuration'
+        ],
+        rows: [
+          [
+            'Schedule Trigger',
+            'Runs every hour.'
+          ],
+          [
+            'Get Industry Group Options / Extract Valid Industries',
+            'Reads the hs_industry_group property definition from HubSpot. Builds the list of allowed labels, leaving out hidden options and Needs R&D (which is added back in the prompt), and keeps the raw options for matching later. Retries up to 3 times, 5 seconds apart.'
+          ],
+          [
+            'Init Search Config',
+            'Sets maxCompanies 100, confidenceThreshold 0.6, dryRun false and listId 638.'
+          ],
+          [
+            'Get List Memberships / Accumulate List Members / Has More List Pages?',
+            'Pages through the HubSpot list 250 members at a time, stores them in workflow static data and stops at the company limit.'
+          ],
+          [
+            'Collect List Members / Split Company IDs',
+            'Trims the collected members to the limit, clears the stored data and splits them into one item per company.'
+          ],
+          [
+            'Loop Companies (1 at a time)',
+            'Processes one company per round. Its finished output goes to Backlog Run Complete, which records the completion time.'
+          ],
+          [
+            'Get Company',
+            'Fetches name, domain, website, additional domains and current industry group from HubSpot. Retries up to 3 times.'
+          ],
+          [
+            'IF Industry Group Missing',
+            'Continues only when the industry group is empty, so companies already classified are never touched again.'
+          ],
+          [
+            'Clean Domain (code)',
+            'Strips protocol, www, paths and ports from the domain, website and additional domains, removes duplicates and builds a clean domain list.'
+          ],
+          [
+            'IF Searchable',
+            'Continues only if the company has at least one domain or a name.'
+          ],
+          [
+            'Gemini Classify Industry',
+            'Gemini Flash at temperature 0.2 with a detailed prompt: allowed groups, group definitions, classification rules and a JSON output format. Web search is off. Retries up to 5 times.'
+          ],
+          [
+            'Match Industry Value (code)',
+            'Reads the JSON from the model, caps the confidence at 0.65 when there is no domain, and matches the chosen group to a real HubSpot option by label, value or a normalized form.'
+          ],
+          [
+            'Prepare Company Update (code)',
+            'Applies the confidence gate and builds the HubSpot properties: the group (or Needs R&D), confidence, a reasoning text cleaned of stray characters and limited to 500 characters, a status and the check date.'
+          ],
+          [
+            'IF Dry Run? / Dry Run - Skip Update',
+            'In dry run mode the update is skipped and the loop continues.'
+          ],
+          [
+            'Update Company Industry Group',
+            'PATCH request to the HubSpot company record. Retries up to 3 times.'
+          ],
+          [
+            'Wait1',
+            'Pauses before the next company to stay within HubSpot rate limits.'
+          ]
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Classification Rules and Scenarios'
+      },
+      {
+        type: 'label',
+        text: 'What the model is told'
+      },
+      {
+        type: 'p',
+        text: 'Gemini must choose exactly one group from the list HubSpot provides. The prompt defines each group (for example Manufacturing, eCommerce, Retail, Wholesale Distribution, SaaS, Development shop, IT / MSP, Low Voltage, Consulting, Finance, 3PL, Transportation, Energy Rebates and Self Storage) and sets rules for the edge cases:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Businesses that sell physical products to consumers are never excluded. They go to Retail (walk-in stores) or eCommerce (online-first and direct-to-consumer brands).',
+          'Local consumer services, restaurants, medical and dental practices, schools, religious organizations and home services are marked Needs R&D with full confidence and an excluded flag.',
+          'A company that cannot be identified, or fits none of the groups (such as a law firm or nonprofit), is marked Needs R&D instead of being forced into a group.',
+          'Confidence is 0.80 to 1.0 when the company is clearly known, 0.40 to 0.65 for partial evidence or a name with no domain, and 0.0 when nothing can be verified.',
+          'The answer must be a single JSON object with industry, confidence, excluded and reasoning.'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Scenarios'
+      },
+      {
+        type: 'p',
+        text: 'These scenarios show how the workflow treats the main kinds of company. They are illustrative, derived from the prompt and code, and are not recordings of real HubSpot records.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Scenario',
+          'What arrives',
+          'What the workflow does',
+          'Result in HubSpot'
+        ],
+        rows: [
+          [
+            '1. Clearly known business',
+            'A company with a domain whose business model the model recognizes, for example a software platform.',
+            'Gemini returns the matching group with confidence 0.80 or higher. The code matches it to a HubSpot option and it passes the 0.6 gate.',
+            'Industry group set, status updated, confidence and reason saved.'
+          ],
+          [
+            '2. Consumer brand',
+            'A clothing or electronics brand selling to the public.',
+            'Rule 3 sends it to Retail or eCommerce, never to Needs R&D.',
+            'Retail or eCommerce group set.'
+          ],
+          [
+            '3. Local consumer service',
+            'A pizzeria, dental practice or salon.',
+            'Excluded under rule 4 with confidence 1.0.',
+            'Group set to Needs R&D for a human to see.'
+          ],
+          [
+            '4. Unknown company',
+            'A company the model cannot identify.',
+            'Returns Needs R&D with low confidence, so the gate fails.',
+            'Group set to Needs R&D, status low_confidence or unmatched.'
+          ],
+          [
+            '5. Name only',
+            'A company with a name but no domain.',
+            'Confidence is capped at 0.65 in code, so the model cannot be fully sure.',
+            'Written only if it still clears 0.6, otherwise Needs R&D with status no_domain.'
+          ],
+          [
+            '6. Already classified',
+            'A company that already has an industry group.',
+            'Stopped by IF Industry Group Missing, no model call.',
+            'Unchanged.'
+          ],
+          [
+            '7. Dry run',
+            'Any company, with dryRun set to true.',
+            'Everything runs except the HubSpot update.',
+            'Nothing written.'
+          ]
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Results & Metrics'
+      },
+      {
+        type: 'p',
+        text: 'The workflow is built and marked active. No run results were provided, so classification accuracy, the share of companies sent to Needs R&D and the time saved have not been measured.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Metric',
+          'Result'
+        ],
+        rows: [
+          [
+            'Production workflows',
+            '1'
+          ],
+          [
+            'n8n nodes',
+            '22'
+          ],
+          [
+            'Trigger',
+            'Schedule, every hour'
+          ],
+          [
+            'Companies per run',
+            'Up to 100, processed one at a time'
+          ],
+          [
+            'Industry groups',
+            'Read live from HubSpot, so the model cannot pick a value that does not exist'
+          ],
+          [
+            'Confidence gate',
+            '0.6, with a 0.65 cap when a company has no domain'
+          ],
+          [
+            'Fields written per company',
+            'Industry group, confidence, reasoning, status and check date'
+          ],
+          [
+            'Safety features',
+            'Dry-run switch, skip of already classified companies, Needs R&D fallback, retries on every network and model call'
+          ],
+          [
+            'Accuracy, volume, time saved',
+            'Not measured yet'
+          ]
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Technical Challenges & Solutions'
+      },
+      {
+        type: 'subheading',
+        text: 'The model could invent a category'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'A free-text answer such as “Software” or “Tech services” does not match any HubSpot option and would break the update or pollute the field.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'The allowed groups are loaded from HubSpot on every run and given to the model to copy exactly. The answer is then matched to a real option by label, value or a normalized form that ignores case, punctuation and “&” versus “and”.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Only values that exist in HubSpot can be written.'
+      },
+      {
+        type: 'subheading',
+        text: 'A weak guess recorded as fact'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'A model will always give an answer, even when it knows nothing about the company.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'The model must return a confidence score, name-only companies are capped at 0.65, and a code node only writes a group when the answer matches an option and reaches 0.6. Everything else becomes Needs R&D, and the confidence, reason, status and check date are saved on the record.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Doubtful cases are visible to a person instead of hidden among correct ones.'
+      },
+      {
+        type: 'subheading',
+        text: 'Processing the same companies again'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'An hourly schedule over the same list would classify the same companies on every run and waste model calls.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'The workflow only continues when the industry group is empty, so each company is processed once.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Each run moves on to the next unclassified companies.'
+      },
+      {
+        type: 'subheading',
+        text: 'Reading a long list from HubSpot'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'The HubSpot list API returns 250 members per page, and the run must stop at a fixed number of companies.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'A loop collects pages in workflow static data until the next page is missing or the limit is reached, then clears the data and splits the members into single items.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Runs are bounded and predictable.'
+      },
+      {
+        type: 'subheading',
+        text: 'Testing without touching real data'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'Changing the prompt or rules on live CRM records is risky.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'A dryRun setting runs the whole flow, including the model call, but skips the HubSpot update.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'The prompt can be tuned and checked before records are changed.'
+      },
+      {
+        type: 'subheading',
+        text: 'Open items found in the export'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'Three details in the workflow need checking. The Wait node after each update has an amount of 10 but no unit stored, and n8n’s default unit for that node is hours. The prompt refers to a Seamless Data field that no earlier node fills, so it is always “N/A”. The collected list members sit in static data, so a run that fails halfway through paging could leave old members behind for the next run.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'Open the Wait node and set the unit to seconds. Either feed the Seamless description into the prompt or remove the line. Clear the stored list at the start of each run.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Not done yet. These are the first improvements to make.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'Key Takeaways & Future Development'
+      },
+      {
+        type: 'subheading',
+        text: 'Key takeaways'
+      },
+      {
+        type: 'list',
+        items: [
+          'Let the CRM define the answers: loading the allowed groups from HubSpot keeps the model inside the structure the team already uses.',
+          'Check the model’s output in code: a confidence gate and a strict match to real options decide what is written, not the model alone.',
+          'Send doubt to a person: Needs R&D with a stored reason turns uncertain cases into a review list.',
+          'Make it safe to test: the dry-run switch, retries and the skip of classified companies make the workflow safe to leave running.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Future development'
+      },
+      {
+        type: 'list',
+        items: [
+          'Set the Wait node unit to seconds and check that the Gemini model id is available in your account.',
+          'Fill the Seamless Data line in the prompt or remove it.',
+          'Clear the stored list members at the start of every run.',
+          'Create a HubSpot view of companies marked Needs R&D, sorted by confidence, so reviewers can work through them.',
+          'Send a short summary after each run (companies processed, written, flagged) using the Backlog Run Complete step.',
+          'Run a measured pilot, compare a sample of results with a person’s choices, and use it to complete the results section.'
+        ]
       }
     ]
   },
