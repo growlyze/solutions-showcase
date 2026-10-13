@@ -7,4 +7,6 @@ _extract/
 # not needed for the site itself.
 *.docx
 *.pdf
+*.zip
 /Airtable/
+/Powe bi/

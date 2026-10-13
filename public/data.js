@@ -1725,4 +1725,195 @@ const CASE_STUDIES = [
       }
     ]
   },
+  {
+    id: 'ecommerce-pnl-tracker',
+    title: 'Automated P&L & Sales Tracker for Ecommerce (Google Sheets)',
+    description: 'A single Google Sheets template that turns raw sales, COGS and marketing cost data into live real-vs-estimated profit numbers for any date range.',
+    source: 'Portfolio',
+    tags: [
+      'dashboards'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Finance & Sales Reporting'
+      },
+      {
+        type: 'p',
+        text: 'An automated profit & loss tracker built in Google Sheets for an ecommerce business. Pulling sales, real COGS, marketing spend and other expenses into one model, it calculates real vs. estimated profit automatically for any date range instead of being rebuilt by hand every month.'
+      },
+      {
+        type: 'stats',
+        items: [
+          {
+            value: '$1.18M',
+            label: 'Total sales (period)'
+          },
+          {
+            value: '$54.6K',
+            label: 'Total real profit'
+          },
+          {
+            value: '4.61%',
+            label: 'Real profit margin'
+          },
+          {
+            value: '$587K',
+            label: 'Total marketing cost'
+          }
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/ecommerce-pnl-tracker/image1.png',
+        caption: 'Monthly sales and profit dashboard — total sales, real/estimated profit, margins and marketing cost calculated automatically from raw order data.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ecommerce-pnl-tracker/image2.png',
+        caption: 'The same template applied to a different brand — totals, COGS and marketing cost recalculated instantly for any date range.'
+      },
+      {
+        type: 'subheading',
+        text: 'Daily and 30-day views'
+      },
+      {
+        type: 'p',
+        text: 'A daily dashboard view surfaces total and trailing-30-day sales, profit and expense metrics side by side, so the team can catch a bad week before it becomes a bad month.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ecommerce-pnl-tracker/image3.png',
+        caption: 'Daily dashboard — total and last-30-days sales, profit and expense metrics side by side for fast day-to-day monitoring.'
+      },
+      {
+        type: 'subheading',
+        text: 'Rolling breakdowns'
+      },
+      {
+        type: 'p',
+        text: 'A rolling 12-month view breaks total profit down into COGS, marketing cost, other expenses and disputes won, so the team can see exactly where margin is being gained or lost.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ecommerce-pnl-tracker/image4.png',
+        caption: 'Last-12-months pie chart breaking total profit down into COGS, marketing cost, other expenses and disputes won.'
+      },
+      {
+        type: 'subheading',
+        text: 'Multi-channel traffic & revenue tracking'
+      },
+      {
+        type: 'p',
+        text: 'A weekly tracker pulls Google Analytics traffic and Klaviyo email/SMS performance into the same sheet, so acquisition and retention sit next to the P&L instead of in separate tools.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ecommerce-pnl-tracker/image5.png',
+        caption: 'Weekly tracker pulling Google Analytics traffic and Klaviyo email/SMS performance into the same sheet for a complete picture.'
+      },
+      {
+        type: 'p',
+        text: 'Built as a single Google Sheets template so finance and marketing read the same numbers without exporting from five different tools first.'
+      }
+    ]
+  },
+    {
+    id: 'ad-performance-dashboards',
+    title: 'Looker Studio — Multi-Channel Ad Performance Dashboards',
+    description: 'Looker Studio dashboards consolidating Meta, Google, Taboola, AppLovin and Newsbreak ad performance into live spend, revenue and ROAS views.',
+    source: 'Portfolio',
+    tags: [
+      'looker-studio',
+      'dashboards'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Paid Media Reporting'
+      },
+      {
+        type: 'p',
+        text: 'Built in Looker Studio to track ad spend, revenue and ROAS across every channel in one place, replacing manual exports pulled separately from each ad platform.'
+      },
+      {
+        type: 'subheading',
+        text: 'Meta ads tracking'
+      },
+      {
+        type: 'stats',
+        items: [
+          {
+            value: '21,767',
+            label: 'Clicks'
+          },
+          {
+            value: '627,879',
+            label: 'Impressions'
+          },
+          {
+            value: '$35.2K',
+            label: 'Spend'
+          },
+          {
+            value: '3.47%',
+            label: 'CTR (all)'
+          }
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/ad-performance-dashboards/image1.png',
+        caption: 'Meta Ads dashboard overview — clicks, link clicks, impressions, ROAS and spend for a single brand’s campaigns.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ad-performance-dashboards/image2.png',
+        caption: 'Campaign-level breakdown — ROAS, clicks, spend, impressions and CPM for every ad and campaign, filterable by name.'
+      },
+      {
+        type: 'subheading',
+        text: 'Multi-channel performance — Facebook, Google, Taboola, AppLovin, Newsbreak'
+      },
+      {
+        type: 'p',
+        text: 'A larger account-level dashboard rolls spend, revenue and profit up across every paid channel, with a dedicated page per platform for campaign-level detail.'
+      },
+      {
+        type: 'stats',
+        items: [
+          {
+            value: '$3.94M',
+            label: 'Facebook spend (9 mo.)'
+          },
+          {
+            value: '$3.99M',
+            label: 'Facebook revenue'
+          },
+          {
+            value: '1.01',
+            label: 'Facebook ROAS'
+          },
+          {
+            value: '27,184',
+            label: 'Orders'
+          }
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/ad-performance-dashboards/image3.png',
+        caption: 'Facebook performance overview across a 9-month window — spend, revenue, ROAS and profit margin alongside a daily revenue-vs-spend trend.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ad-performance-dashboards/image4.png',
+        caption: 'Google Ads dashboard for the same account — cost, revenue, orders, profit and ROAS alongside clicks and conversion rate.'
+      },
+      {
+        type: 'p',
+        text: 'Both dashboards run on Looker Studio so paid media and finance read from the same live numbers instead of separate exports from each ad platform.'
+      }
+    ]
+  },
 ];
