@@ -1,0 +1,213 @@
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function casesForTag(slug) {
+  return CASE_STUDIES.filter((c) => c.tags.includes(slug));
+}
+
+// A logo ref is { file: 'logos/x.png', fill?: true } (official asset shipped locally) or
+// { logo: 'slug' } (simpleicons.org brand slug, used where no reusable official file exists).
+// `fill: true` means the image already has its own solid background baked in, so it's drawn
+// edge-to-edge with no extra badge behind it; otherwise it sits inset on a white backing tile.
+function logoBadgeHtml(ref) {
+  const src = ref.file ? escapeHtml(ref.file) : `https://cdn.simpleicons.org/${escapeHtml(ref.logo)}`;
+  const alt = escapeHtml(ref.file || ref.logo);
+  if (ref.fill) {
+    return `<img class="brand-logo brand-logo-fill" src="${src}" alt="${alt}" loading="lazy" />`;
+  }
+  return `<span class="logo-badge"><img class="brand-logo" src="${src}" alt="${alt}" loading="lazy" /></span>`;
+}
+
+// Small inline icon used in tag pills — multiple logos share one compact box there.
+function iconHtml(cat) {
+  if (cat.logos && cat.logos.length) {
+    const badges = cat.logos.map((ref) => logoBadgeHtml(ref)).join('');
+    return `<span class="logo-row" data-fallback-emoji="${cat.icon}">${badges}</span>`;
+  }
+  if (cat.logoFile) {
+    return `<span data-fallback-emoji="${cat.icon}">${logoBadgeHtml({ file: cat.logoFile, fill: cat.fill })}</span>`;
+  }
+  if (cat.logo) {
+    return `<span data-fallback-emoji="${cat.icon}">${logoBadgeHtml({ logo: cat.logo })}</span>`;
+  }
+  return `<span class="emoji-icon">${cat.icon}</span>`;
+}
+
+// One full-size tile for a single logo ref (or the category emoji as fallback).
+// `tint` only shows through on the emoji fallback — a logo image covers the tile either way.
+function iconTileHtml(ref, fallbackEmoji, tint) {
+  const tintClass = tint ? ` tint-${tint}` : '';
+  if (!ref) return `<div class="card-icon${tintClass}"><span class="emoji-icon">${fallbackEmoji}</span></div>`;
+  return `<div class="card-icon${tintClass}" data-fallback-emoji="${fallbackEmoji}">${logoBadgeHtml(ref)}</div>`;
+}
+
+// Icon area for the big card/category-header context: a category with multiple logos
+// (e.g. Make & Zapier) gets one separate tile per logo, side by side, instead of
+// squeezing both brand marks into a single box.
+function cardIconAreaHtml(cat) {
+  if (cat.logos && cat.logos.length) {
+    return `<div class="card-icon-group">${cat.logos.map((ref) => iconTileHtml(ref, cat.icon, cat.tint)).join('')}</div>`;
+  }
+  if (cat.logoFile) {
+    return iconTileHtml({ file: cat.logoFile, fill: cat.fill }, cat.icon, cat.tint);
+  }
+  if (cat.logo) {
+    return iconTileHtml({ logo: cat.logo }, cat.icon, cat.tint);
+  }
+  return iconTileHtml(null, cat.icon, cat.tint);
+}
+
+// If a brand logo image fails to load (offline, CDN hiccup, unknown slug),
+// swap it for the category's emoji so the UI never shows a broken image.
+function attachLogoFallbacks(root) {
+  root.querySelectorAll('img.brand-logo').forEach((img) => {
+    img.addEventListener('error', () => {
+      const wrapper = img.closest('[data-fallback-emoji]') || img.parentElement;
+      const emoji = wrapper ? wrapper.getAttribute('data-fallback-emoji') : null;
+      if (img.classList.contains('brand-logo-fill')) {
+        img.remove();
+      } else {
+        img.closest('.logo-badge')?.remove();
+      }
+      if (emoji && wrapper && !wrapper.querySelector('.emoji-icon')) {
+        wrapper.insertAdjacentHTML('beforeend', `<span class="emoji-icon">${emoji}</span>`);
+      }
+    }, { once: true });
+  });
+}
+
+function categoryCardHtml(cat) {
+  return `
+    <a class="card" href="#/tag/${cat.slug}">
+      ${cardIconAreaHtml(cat)}
+      <h3>${escapeHtml(cat.name)}</h3>
+      <p>${escapeHtml(cat.description)}</p>
+      <span class="card-cta">View projects <span aria-hidden="true">&rarr;</span></span>
+    </a>
+  `;
+}
+
+function renderHome() {
+  const app = document.getElementById('app');
+  const featured = CATEGORIES.find((c) => c.slug === 'custom-saas');
+
+  const sections = GROUPS.map((group) => {
+    const cats = CATEGORIES.filter((c) => c.group === group.key);
+    if (!cats.length) return '';
+    return `
+      <section class="category-section">
+        <h2 class="section-title">${escapeHtml(group.title)}</h2>
+        <div class="grid">${cats.map(categoryCardHtml).join('')}</div>
+      </section>
+    `;
+  }).join('');
+
+  const featuredHtml = featured ? `
+    <a class="featured-card" href="#/tag/${featured.slug}">
+      ${cardIconAreaHtml(featured)}
+      <div class="featured-card-body">
+        <h2>${escapeHtml(featured.name)}</h2>
+        <p>${escapeHtml(featured.description)}</p>
+      </div>
+      <span class="card-cta">View projects <span aria-hidden="true">&rarr;</span></span>
+    </a>
+  ` : '';
+
+  app.innerHTML = `
+    <div class="hero">
+      <h1>See it before you ask for it</h1>
+      <p>Real projects, sorted by tool — pick what you're curious about and see exactly how it works, who it was built for, and what it solved.</p>
+    </div>
+    ${featuredHtml}
+    ${sections}
+  `;
+  attachLogoFallbacks(app);
+}
+
+function renderCategory(slug) {
+  const app = document.getElementById('app');
+  const category = CATEGORIES.find((c) => c.slug === slug);
+
+  if (!category) {
+    app.innerHTML = `
+      <a class="back-link" href="#/">&larr; Back to all categories</a>
+      <div class="empty-state">Category not found.</div>
+    `;
+    return;
+  }
+
+  const cases = casesForTag(slug);
+  const cardsHtml = cases.length
+    ? cases.map((cs) => {
+        const tags = cs.tags
+          .map((t) => CATEGORIES.find((c) => c.slug === t))
+          .filter(Boolean)
+          .map((c) => `<span class="tag-pill">${iconHtml(c)} ${escapeHtml(c.name)}</span>`)
+          .join('');
+        return `
+          <a class="card" href="${escapeHtml(cs.url)}" target="_blank" rel="noopener noreferrer">
+            <span class="source-chip">${escapeHtml(cs.source)}</span>
+            <h3>${escapeHtml(cs.title)}</h3>
+            <p>${escapeHtml(cs.description)}</p>
+            <div class="tag-row">${tags}</div>
+            <span class="card-cta">Open case study <span aria-hidden="true">&nearr;</span></span>
+          </a>
+        `;
+      }).join('')
+    : `<div class="empty-state">No case studies tagged here yet — more coming soon.</div>`;
+
+  app.innerHTML = `
+    <a class="back-link" href="#/">&larr; Back to all categories</a>
+    <div class="category-header">
+      ${cardIconAreaHtml(category)}
+      <div>
+        <h1>${escapeHtml(category.name)}</h1>
+        <p>${escapeHtml(category.description)}</p>
+      </div>
+    </div>
+    <div class="grid">${cardsHtml}</div>
+  `;
+  attachLogoFallbacks(app);
+}
+
+function router() {
+  const hash = window.location.hash || '#/';
+  const tagMatch = hash.match(/^#\/tag\/([a-z0-9-]+)$/i);
+
+  if (tagMatch) {
+    renderCategory(tagMatch[1]);
+  } else {
+    renderHome();
+  }
+  window.scrollTo(0, 0);
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+  try { localStorage.setItem('theme', theme); } catch (e) {}
+}
+
+function initTheme() {
+  let saved = null;
+  try { saved = localStorage.getItem('theme'); } catch (e) {}
+  applyTheme(saved === 'light' ? 'light' : 'dark');
+
+  const btn = document.getElementById('theme-toggle');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+  }
+}
+
+window.addEventListener('hashchange', router);
+window.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  router();
+});

@@ -1,0 +1,15 @@
+{
+  "name": "solutions-showcase",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static case-study showcase, categorized by tool/tag, linking out to original sources.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
