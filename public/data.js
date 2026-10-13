@@ -453,7 +453,7 @@ const CASE_STUDIES = [
       { type: 'label', text: "Objective:" },
       { type: 'p', text: "Automatically collect detailed info from YouTube videos of popular creators for content analysis." },
       { type: 'label', text: "Implementation:" },
-      { type: 'p', text: "The workflow pulls the url  from your database, scrapes their details using a scraping tool, waits for results, and then saves everything back to the database." },
+      { type: 'p', text: "The workflow pulls the url from your database, scrapes their details using a scraping tool, waits for results, and then saves everything back to the database." },
       { type: 'label', text: "Outcome:" },
       { type: 'p', text: "Triggered by a Click: You hit “Start” to run the process." },
       { type: 'p', text: "Grabs Video Links: It picks up YouTube links marked as “ready” in your Airtable." },
@@ -558,8 +558,8 @@ const CASE_STUDIES = [
         text: '1. The Problem: Manual Customer Support Doesn’t Scale'
       },
       {
-        type: 'label',
-        text: 'Before automation, customer support teams faced daily operational friction'
+        type: 'p',
+        text: 'Before automation, customer support teams faced daily operational friction:'
       },
       {
         type: 'p',
@@ -682,8 +682,8 @@ const CASE_STUDIES = [
         text: '3. The Solution: AI Customer Support Agent'
       },
       {
-        type: 'label',
-        text: 'This system acts as a virtual senior support agent'
+        type: 'p',
+        text: 'This system acts as a virtual senior support agent:'
       },
       {
         type: 'list',
@@ -1013,8 +1013,8 @@ const CASE_STUDIES = [
         text: '1. The Problem: Manual Image Creation for Fashion Campaigns'
       },
       {
-        type: 'label',
-        text: 'Before automation, the creative team manually handled photo shoots and model image generation, resulting in'
+        type: 'p',
+        text: 'Before automation, the creative team manually handled photo shoots and model image generation, resulting in:'
       },
       {
         type: 'list',
@@ -1034,8 +1034,8 @@ const CASE_STUDIES = [
         text: '2. The Goal: Fully Automated Photo Shoot Workflow in One System'
       },
       {
-        type: 'label',
-        text: 'By using n8n with AI models and image generation APIs, this workflow'
+        type: 'p',
+        text: 'By using n8n with AI models and image generation APIs, this workflow:'
       },
       {
         type: 'list',
@@ -1084,8 +1084,8 @@ const CASE_STUDIES = [
         text: '4. RealWorld Impact'
       },
       {
-        type: 'label',
-        text: 'Here is how the automation changes creative production'
+        type: 'p',
+        text: 'Here is how the automation changes creative production:'
       },
       {
         type: 'label',
@@ -1208,8 +1208,8 @@ const CASE_STUDIES = [
         text: '1. The Problem: Support Calls Don’t Scale'
       },
       {
-        type: 'label',
-        text: 'Before automation, customer support teams manually handled calls'
+        type: 'p',
+        text: 'Before automation, customer support teams manually handled calls:'
       },
       {
         type: 'list',
@@ -1309,8 +1309,8 @@ const CASE_STUDIES = [
         text: '3. The Solution: AI-Powered Voice Agent'
       },
       {
-        type: 'label',
-        text: 'This system acts as a virtual support agent, capable of handling most customer queries autonomously'
+        type: 'p',
+        text: 'This system acts as a virtual support agent, capable of handling most customer queries autonomously:'
       },
       {
         type: 'list',
@@ -1602,8 +1602,8 @@ const CASE_STUDIES = [
         text: '1. The Problem: Social Media Management Is Inconsistent'
       },
       {
-        type: 'label',
-        text: 'Before automation, creating and publishing social media content required juggling multiple tools and manual steps'
+        type: 'p',
+        text: 'Before automation, creating and publishing social media content required juggling multiple tools and manual steps:'
       },
       {
         type: 'list',
@@ -1700,8 +1700,8 @@ const CASE_STUDIES = [
         text: '3. The Solution: AI-Powered Social Media Automation'
       },
       {
-        type: 'label',
-        text: 'This automation acts as a virtual social media manager'
+        type: 'p',
+        text: 'This automation acts as a virtual social media manager:'
       },
       {
         type: 'list',
@@ -1902,8 +1902,8 @@ const CASE_STUDIES = [
         text: '1. The Problem: Manual Price Checking Wastes Time'
       },
       {
-        type: 'label',
-        text: 'Before automation, tracking product prices across online stores was slow, repetitive, and error-prone'
+        type: 'p',
+        text: 'Before automation, tracking product prices across online stores was slow, repetitive, and error-prone:'
       },
       {
         type: 'label',
@@ -2015,8 +2015,8 @@ const CASE_STUDIES = [
         text: '3. The Solution: AI-Powered Price Monitoring System'
       },
       {
-        type: 'label',
-        text: 'This automation acts as a virtual price tracker and analyst'
+        type: 'p',
+        text: 'This automation acts as a virtual price tracker and analyst:'
       },
       {
         type: 'list',
@@ -2222,8 +2222,8 @@ const CASE_STUDIES = [
         text: '1. The Problem: Manual Meta Ads Analysis Is Time-Consuming'
       },
       {
-        type: 'label',
-        text: 'Before this system, marketers spent hours manually collecting and analyzing campaign data for Facebook and Instagram'
+        type: 'p',
+        text: 'Before this system, marketers spent hours manually collecting and analyzing campaign data for Facebook and Instagram:'
       },
       {
         type: 'list',
@@ -2239,8 +2239,8 @@ const CASE_STUDIES = [
         text: '2. The Results After Automation'
       },
       {
-        type: 'label',
-        text: 'After implementing AI-Powered Meta Ads Reporting'
+        type: 'p',
+        text: 'After implementing AI-Powered Meta Ads Reporting:'
       },
       {
         type: 'list',
@@ -2403,8 +2403,8 @@ const CASE_STUDIES = [
         text: '1. The Problem: Abandoned Carts Were Leaving Revenue on the Table'
       },
       {
-        type: 'label',
-        text: 'Before automation, abandoned carts were handled manually or not followed up at all'
+        type: 'p',
+        text: 'Before automation, abandoned carts were handled manually or not followed up at all:'
       },
       {
         type: 'list',
@@ -2429,8 +2429,8 @@ const CASE_STUDIES = [
         ]
       },
       {
-        type: 'label',
-        text: 'For stores with 40–60 abandoned carts per day, this resulted in'
+        type: 'p',
+        text: 'For stores with 40–60 abandoned carts per day, this resulted in:'
       },
       {
         type: 'list',
@@ -2444,8 +2444,8 @@ const CASE_STUDIES = [
         text: '2. Results After Automation'
       },
       {
-        type: 'label',
-        text: 'After implementing the abandoned cart recovery automation'
+        type: 'p',
+        text: 'After implementing the abandoned cart recovery automation:'
       },
       {
         type: 'list',
@@ -2509,8 +2509,8 @@ const CASE_STUDIES = [
         text: '3. The Solution: AI-Powered Abandoned Cart Recovery'
       },
       {
-        type: 'label',
-        text: 'This system works like an always-on sales assistant'
+        type: 'p',
+        text: 'This system works like an always-on sales assistant:'
       },
       {
         type: 'list',
@@ -2695,8 +2695,8 @@ const CASE_STUDIES = [
         text: '1. The Problem: WhatsApp Customer Support Didn’t Scale'
       },
       {
-        type: 'label',
-        text: 'Before this automation, customer support over WhatsApp was fully manual and increasingly difficult to manage'
+        type: 'p',
+        text: 'Before this automation, customer support over WhatsApp was fully manual and increasingly difficult to manage:'
       },
       {
         type: 'p',
@@ -2720,8 +2720,8 @@ const CASE_STUDIES = [
         ]
       },
       {
-        type: 'label',
-        text: 'For a small business receiving 80–120 WhatsApp messages per day, this meant'
+        type: 'p',
+        text: 'For a small business receiving 80–120 WhatsApp messages per day, this meant:'
       },
       {
         type: 'list',
@@ -2745,8 +2745,8 @@ const CASE_STUDIES = [
         text: '2. Results After Automation'
       },
       {
-        type: 'label',
-        text: 'Once the WhatsApp AI Business Assistant was deployed'
+        type: 'p',
+        text: 'Once the WhatsApp AI Business Assistant was deployed:'
       },
       {
         type: 'list',
@@ -2805,8 +2805,8 @@ const CASE_STUDIES = [
         text: '3. The Solution: An AI Assistant Inside WhatsApp'
       },
       {
-        type: 'label',
-        text: 'The system acts as a virtual support agent that lives directly inside WhatsApp'
+        type: 'p',
+        text: 'The system acts as a virtual support agent that lives directly inside WhatsApp:'
       },
       {
         type: 'list',
@@ -3076,8 +3076,8 @@ const CASE_STUDIES = [
         text: '8. Final Outcome'
       },
       {
-        type: 'label',
-        text: 'With the WhatsApp AI Business Assistant in production'
+        type: 'p',
+        text: 'With the WhatsApp AI Business Assistant in production:'
       },
       {
         type: 'list',
