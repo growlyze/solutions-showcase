@@ -1,2 +1,8 @@
 node_modules/
 .DS_Store
+_extract/
+
+# Raw source exports (docs/notion exports) — already extracted into public/data.js
+# and public/case-content/. Kept locally for reference, not needed for the site itself.
+*.docx
+*.pdf

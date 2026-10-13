@@ -143,13 +143,18 @@ function renderCategory(slug) {
           .filter(Boolean)
           .map((c) => `<span class="tag-pill">${iconHtml(c)} ${escapeHtml(c.name)}</span>`)
           .join('');
+        const hasContent = cs.content && cs.content.length;
+        const href = hasContent ? `#/case/${cs.id}` : cs.url;
+        const linkAttrs = hasContent ? '' : ' target="_blank" rel="noopener noreferrer"';
+        const ctaLabel = hasContent ? 'Read case study' : 'Open case study';
+        const ctaIcon = hasContent ? '&rarr;' : '&nearr;';
         return `
-          <a class="card" href="${escapeHtml(cs.url)}" target="_blank" rel="noopener noreferrer">
+          <a class="card" href="${escapeHtml(href)}"${linkAttrs}>
             <span class="source-chip">${escapeHtml(cs.source)}</span>
             <h3>${escapeHtml(cs.title)}</h3>
             <p>${escapeHtml(cs.description)}</p>
             <div class="tag-row">${tags}</div>
-            <span class="card-cta">Open case study <span aria-hidden="true">&nearr;</span></span>
+            <span class="card-cta">${ctaLabel} <span aria-hidden="true">${ctaIcon}</span></span>
           </a>
         `;
       }).join('')
@@ -169,11 +174,55 @@ function renderCategory(slug) {
   attachLogoFallbacks(app);
 }
 
+function contentBlockHtml(block) {
+  if (block.type === 'heading') return `<h3>${escapeHtml(block.text)}</h3>`;
+  if (block.type === 'label') return `<p class="content-label">${escapeHtml(block.text)}</p>`;
+  if (block.type === 'img') return `<img class="content-image" src="${escapeHtml(block.file)}" alt="" loading="lazy" />`;
+  return `<p>${escapeHtml(block.text)}</p>`;
+}
+
+function renderCaseDetail(id) {
+  const app = document.getElementById('app');
+  const cs = CASE_STUDIES.find((c) => c.id === id);
+
+  if (!cs || !cs.content) {
+    app.innerHTML = `
+      <a class="back-link" href="#/">&larr; Back home</a>
+      <div class="empty-state">Case study not found.</div>
+    `;
+    return;
+  }
+
+  const tags = cs.tags
+    .map((t) => CATEGORIES.find((c) => c.slug === t))
+    .filter(Boolean)
+    .map((c) => `<span class="tag-pill">${iconHtml(c)} ${escapeHtml(c.name)}</span>`)
+    .join('');
+
+  app.innerHTML = `
+    <a class="back-link" href="#/">&larr; Back home</a>
+    <div class="case-detail-header">
+      <span class="source-chip">${escapeHtml(cs.source)}</span>
+      <h1>${escapeHtml(cs.title)}</h1>
+      <p>${escapeHtml(cs.description)}</p>
+      <div class="tag-row">${tags}</div>
+    </div>
+    <div class="case-detail-content">
+      ${cs.content.map(contentBlockHtml).join('')}
+    </div>
+    <a class="original-source-link" href="${escapeHtml(cs.url)}" target="_blank" rel="noopener noreferrer">View original source &nearr;</a>
+  `;
+  attachLogoFallbacks(app);
+}
+
 function router() {
   const hash = window.location.hash || '#/';
   const tagMatch = hash.match(/^#\/tag\/([a-z0-9-]+)$/i);
+  const caseMatch = hash.match(/^#\/case\/([a-z0-9-]+)$/i);
 
-  if (tagMatch) {
+  if (caseMatch) {
+    renderCaseDetail(caseMatch[1]);
+  } else if (tagMatch) {
     renderCategory(tagMatch[1]);
   } else {
     renderHome();
