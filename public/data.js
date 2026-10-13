@@ -48,7 +48,365 @@ const CASE_STUDIES = [
     description: 'Turning construction-site voice notes, photos, and messages into structured reports through an automated AI-powered backend for German trade companies.',
     source: 'Notion',
     url: 'https://hip-buttercup-705.notion.site/MeinB-romeister-AI-Powered-W-A-Construction-Report-SaaS-365b33f9293f809a9b4cf680e2d6eccd',
-    tags: ['custom-saas'],
+    tags: [
+      'custom-saas'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Overview'
+      },
+      {
+        type: 'p',
+        text: 'MeinBüromeister is a B2B SaaS platform for German construction and trade companies. It allows workers to submit job updates through WhatsApp instead of preparing every report manually. The backend organizes incoming information, generates structured reports, and asks workers to review them before submission.'
+      },
+      {
+        type: 'subheading',
+        text: 'The Business Problem'
+      },
+      {
+        type: 'p',
+        text: 'Construction workers often send separate voice notes, photos, and text corrections from job sites. Office staff must identify the correct customer and project, organize materials and working hours, and format the information into professional reports. This creates repetitive administrative work and makes report preparation more time-consuming. The goal was to reduce this manual effort while keeping workers involved in reviewing and approving their reports.'
+      },
+      {
+        type: 'subheading',
+        text: 'The Solution'
+      },
+      {
+        type: 'p',
+        text: 'An n8n-based backend receives WhatsApp messages and groups related inputs into a single session. OpenAI Whisper transcribes voice recordings, while Claude AI extracts relevant report information into structured data. After the worker reviews and approves the report, the backend stores it in Supabase for delivery to the office dashboard. Supporting workflows automate customer onboarding, subscription management, team access, and error handling.'
+      },
+      {
+        type: 'subheading',
+        text: 'Project Snapshot'
+      },
+      {
+        type: 'p',
+        text: 'A production backend connecting WhatsApp messaging, AI-powered report extraction, worker approval, report storage, customer onboarding, and subscription lifecycle management.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'How the System Works'
+      },
+      {
+        type: 'subheading',
+        text: 'System Architecture'
+      },
+      {
+        type: 'p',
+        text: 'The backend is organized around an n8n automation layer that sits between WhatsApp, the AI services used for transcription and extraction, and the Supabase/Stripe infrastructure that powers the office dashboard.'
+      },
+      {
+        type: 'subheading',
+        text: 'Supporting Integrations'
+      },
+      {
+        type: 'list',
+        items: [
+          'Stripe: Checkout, subscription lifecycle events, plan changes, and subscription-based access rules.',
+          'Supabase Auth: Authentication support for the application.',
+          'Supabase Storage: Storage for uploaded photos and other media.',
+          'Docker: Supports the self-hosted deployment environment.'
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Core Automation Workflows'
+      },
+      {
+        type: 'p',
+        text: 'The backend is built around interconnected n8n workflows that automate WhatsApp message handling, AI-powered report generation, customer onboarding, and subscription management. Each workflow handles a specific responsibility and integrates with the relevant APIs and backend services to support the complete reporting lifecycle. Some main automation workflows are shown below.'
+      },
+      {
+        type: 'subheading',
+        text: '1. Core Onboarding & Workflow Management'
+      },
+      {
+        type: 'p',
+        text: 'This workflow handles company onboarding, setup-code verification, worker registration, subscription checks, report approval, project management, and notifications through interconnected n8n automation nodes.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/meinburomeister/image1.png',
+        caption: 'Core onboarding and workflow management — company setup, worker registration, subscription checks, report approval, project handling, and notifications across 15 interconnected automation groups.'
+      },
+      {
+        type: 'subheading',
+        text: '2. AI-Powered Report Processing Workflow'
+      },
+      {
+        type: 'p',
+        text: 'This workflow processes WhatsApp messages using Whisper and Claude AI to extract structured report data, enrich customer and project details, validate reports, and handle database updates and notifications.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/meinburomeister/image2.png',
+        caption: 'AI-powered report processing — message intake, voice transcription, Claude-based data extraction, report generation, and save/notification handling.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'Product Experience'
+      },
+      {
+        type: 'subheading',
+        text: 'Report inbox'
+      },
+      {
+        type: 'img',
+        file: 'case-content/meinburomeister/image3.png',
+        caption: 'The office inbox organizes incoming reports by date, technician, customer/project, category, and status.'
+      },
+      {
+        type: 'subheading',
+        text: 'Customers and projects'
+      },
+      {
+        type: 'img',
+        file: 'case-content/meinburomeister/image4.png',
+        caption: 'The project view groups customers and highlights open-report counts and recent work.'
+      },
+      {
+        type: 'subheading',
+        text: 'WhatsApp work history'
+      },
+      {
+        type: 'img',
+        file: 'case-content/meinburomeister/image5.png',
+        caption: 'Workers review and approve each AI-generated report directly in WhatsApp before it goes to the office.'
+      },
+      {
+        type: 'stats',
+        items: [
+          {
+            value: '<30s',
+            label: 'Voice note to structured report'
+          }
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/meinburomeister/image6.png',
+        caption: 'Once approved, the report is saved, confirmed back to the worker on WhatsApp, and delivered to the office as a PDF.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'Core Backend Capabilities'
+      },
+      {
+        type: 'list',
+        items: [
+          'AI Report Extraction: Supports four report categories — Rapport, Aufmaß, Neues Angebot, and Notiz. The AI extracts work descriptions, materials, dimensions, and working hours while using prompt guardrails to reduce invented details.',
+          'Multi-Input Session Handling: Groups related voice notes, photos, captions, and corrections into a single processing session instead of treating every incoming message as a separate report.',
+          'Project Matching and Clarification: Uses available employee and project records to associate reports with the correct destination. When a match is ambiguous, the workflow can request clarification.',
+          'Onboarding and Access Management: Supports company setup, worker invitations, registration tracking, and access checks to ensure incoming messages are routed correctly.',
+          'Subscription Lifecycle Management: Handles relevant Stripe events and subscription states, including active, canceling, and canceled subscriptions. It also manages plan mapping and seat limits.',
+          'Failure Handling and Validation: Validates incoming data and AI-generated output, handles incomplete sessions and invalid actions, and provides controlled paths for processing failures.'
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Results & Metrics'
+      },
+      {
+        type: 'stats',
+        items: [
+          {
+            value: '5',
+            label: 'Production workflows'
+          },
+          {
+            value: '5',
+            label: 'Testing rounds'
+          },
+          {
+            value: '30+',
+            label: 'Test scenarios per round'
+          },
+          {
+            value: '25+',
+            label: 'Bugs found & fixed'
+          }
+        ]
+      },
+      {
+        type: 'p',
+        text: 'The project delivered five production workflows connecting WhatsApp, AI-powered report extraction, Supabase, and Stripe. Across five rounds of end-to-end testing, more than 25 bugs were identified and fixed, with over 30 test scenarios executed per round.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'Technical Challenges & Solutions'
+      },
+      {
+        type: 'p',
+        text: 'During development and end-to-end testing, several integration and AI reliability issues required targeted solutions.'
+      },
+      {
+        type: 'subheading',
+        text: '1. Stripe Subscription Data Handling'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'The Stripe checkout event did not always contain all the subscription information required by the workflow.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'Retrieved the complete subscription details directly through the Stripe API before continuing with subscription processing.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Improved the reliability of subscription data handling.'
+      },
+      {
+        type: 'subheading',
+        text: '2. Subscription Plan Mapping'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'Mapping subscription plans based on payment amounts could lead to incorrect plan identification.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'Used Stripe product IDs to identify plans instead of relying on monetary amounts.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Made plan identification more consistent across subscription events.'
+      },
+      {
+        type: 'subheading',
+        text: '3. AI Hallucination Control'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'Claude AI could occasionally introduce materials or details that were not present in the worker’s input.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'Refined the AI prompt with guardrails to discourage unsupported details and keep extraction grounded in the supplied information.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Improved the consistency of structured report generation.'
+      },
+      {
+        type: 'subheading',
+        text: '4. Supabase PATCH Response Handling'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'Some Supabase PATCH operations returned empty responses, creating difficulties for downstream workflow nodes.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'Explicitly referenced upstream node outputs where required instead of relying on the PATCH response to provide all subsequent data.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Made downstream data handling more reliable.'
+      },
+      {
+        type: 'subheading',
+        text: '5. End-to-End Integration Testing'
+      },
+      {
+        type: 'label',
+        text: 'Challenge'
+      },
+      {
+        type: 'p',
+        text: 'The system depended on multiple connected services, including WhatsApp, AI models, Supabase, and Stripe, making integration failures difficult to isolate.'
+      },
+      {
+        type: 'label',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'Conducted five rounds of end-to-end testing, covering more than 30 scenarios per round, and fixed over 25 identified bugs.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'p',
+        text: 'Improved integration reliability across the production workflows.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'Key Takeaways & Future Development'
+      },
+      {
+        type: 'subheading',
+        text: 'Key Takeaways'
+      },
+      {
+        type: 'list',
+        items: [
+          'Workflow automation: Built and integrated five production n8n workflows connecting WhatsApp, AI services, Supabase, and Stripe.',
+          'AI reliability: Improved structured report extraction through prompt engineering, validation, and guardrails against unsupported details.',
+          'Integration engineering: Resolved issues involving Stripe subscription events, plan mapping, and Supabase response handling.',
+          'End-to-end testing: Completed five testing rounds, identifying and fixing more than 25 bugs across the integrated system.',
+          'Cross-functional collaboration: Coordinated with the frontend engineer on database requirements and data contracts to connect backend workflows with the React dashboard.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Closing Summary'
+      },
+      {
+        type: 'p',
+        text: 'MeinBüromeister demonstrates how workflow automation, AI-powered information extraction, and integrated SaaS infrastructure can simplify construction reporting. The primary contribution was engineering the backend workflows and integrations that connect field communication with structured reports, subscription management, and the office dashboard.'
+      }
+    ]
   },
   {
     id: 'ai-agents-general',
