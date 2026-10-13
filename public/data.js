@@ -4687,8 +4687,7 @@ const CASE_STUDIES = [
     description: 'A governed Power BI model and two dashboards that replaced three days of manual owner-statement assembly with an automated daily refresh for a short-term rental portfolio.',
     source: 'Portfolio',
     tags: [
-      'power-bi',
-      'dashboards'
+      'power-bi'
     ],
     content: [
       {
@@ -4902,8 +4901,7 @@ const CASE_STUDIES = [
     description: 'A governed Power BI model unifying scheduling, EHR, billing and finance across four systems into two role-based dashboards refreshed every morning.',
     source: 'Portfolio',
     tags: [
-      'power-bi',
-      'dashboards'
+      'power-bi'
     ],
     content: [
       {
@@ -5173,8 +5171,7 @@ const CASE_STUDIES = [
     description: 'Looker Studio dashboards consolidating Meta, Google, Taboola, AppLovin and Newsbreak ad performance into live spend, revenue and ROAS views.',
     source: 'Portfolio',
     tags: [
-      'looker-studio',
-      'dashboards'
+      'looker-studio'
     ],
     content: [
       {
