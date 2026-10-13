@@ -287,31 +287,700 @@ const CASE_STUDIES = [
     description: 'Detailed ClickUp workspace structure for an ecommerce dropshipping store’s operations.',
     source: 'Notion',
     url: 'https://glass-suit-7f2.notion.site/Detailed-ClickUp-Structure-for-an-E-commerce-Store-Boots-and-Bags-Dropshipping-2260fcd1ff4649178ed0e6209ada5423?pvs=4',
-    tags: ['clickup'],
+    tags: [
+      'clickup'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Main Folder: Boots & Bags E-Commerce Operations'
+      },
+      {
+        type: 'heading',
+        text: 'Fulfillment'
+      },
+      {
+        type: 'label',
+        text: 'Lists'
+      },
+      {
+        type: 'list',
+        items: [
+          'Orders Management: Automatically imports orders from Shopify.',
+          'Custom Fields: Order ID, Customer Name, Order Date, Status, Product SKU, Quantity, Shipping Address.',
+          'Automations: Notify fulfillment team upon new order entry; tag urgent orders based on delivery date.',
+          'Out of Stock: Tracks inventory shortages.',
+          'Custom Fields: Product ID, Last Available Date, Expected Restock Date, Supplier Contact.',
+          'Automations: Alert purchasing manager when stock levels drop below a predefined threshold.',
+          'Disputed Orders: Manages customer disputes.',
+          'Custom Fields: Order ID, Dispute Reason, Resolution Status, Customer Contact, Resolution Date.',
+          'Automations: Escalate unresolved disputes over 5 days old to senior management.',
+          'Order Reshipment: Manages reshipment processes.',
+          'Custom Fields: Original Order ID, Reshipment Reason, New Tracking Number, Reshipment Status.',
+          'Automations: Generate a reshipment task when a customer service request is approved; notify logistics.'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Templates'
+      },
+      {
+        type: 'list',
+        items: [
+          'Order Processing Checklist: Includes steps for verifying, packing, and shipping orders.',
+          'Dispute Resolution Guide: Detailed steps for handling disputes, including escalation paths.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Customer Service'
+      },
+      {
+        type: 'label',
+        text: 'Lists'
+      },
+      {
+        type: 'list',
+        items: [
+          'Reshipment Requests: Handles manual entry of reshipment requests, linked to Fulfillment’s Order Reshipment list.',
+          'Custom Fields: Customer ID, Request Date, Issue Description, Resolution Status, Agent Handling.',
+          'Automations: Create a linked task in Order Reshipment upon approval; notify customer when processed.'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Templates'
+      },
+      {
+        type: 'list',
+        items: [
+          'Customer Inquiry Response Template: Predefined responses for common inquiries and issues.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Collection and Product Pages'
+      },
+      {
+        type: 'label',
+        text: 'Lists'
+      },
+      {
+        type: 'list',
+        items: [
+          'Product Research: For adding potential new products.',
+          'Custom Fields: Product ID, Research Date, Approval Status, Market Analysis, Supplier Details.',
+          'Automations: Move approved products to the Product Upload list; notify the upload team.',
+          'Product Upload: Prepares products for listing on Shopify.',
+          'Custom Fields: Product ID, Upload Date, SEO Keywords, Price, Image URLs.',
+          'Automations: Notify marketing once product is live for promotional activities.'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Templates'
+      },
+      {
+        type: 'list',
+        items: [
+          'Product Proposal Template: Includes comprehensive fields for proposing new products.',
+          'Product Upload Checklist: Steps for uploading products, ensuring all data fields are completed.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Marketing'
+      },
+      {
+        type: 'label',
+        text: 'Lists'
+      },
+      {
+        type: 'list',
+        items: [
+          'Facebook Marketing: Manages Facebook ad campaigns.',
+          'Custom Fields: Campaign ID, Start Date, End Date, Target Audience, Budget, Actual Spend, ROI.',
+          'Automations: Generate weekly performance reports; adjust budgets based on performance metrics.',
+          'Google Ads & Bing Marketing: Manages PPC campaigns across platforms.',
+          'Email, SMS, WhatsApp, and Push Notifications: Coordinates all direct marketing campaigns.',
+          'Custom Fields: Campaign Type, Content Schedule, Engagement Rate, Conversion Rate.',
+          'Automations: Schedule campaigns based on customer interaction history; A/B test messaging.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Website and Branding'
+      },
+      {
+        type: 'subheading',
+        text: 'Website Health Checks'
+      },
+      {
+        type: 'p',
+        text: 'Routine audits to ensure optimal functionality and performance of the website.'
+      },
+      {
+        type: 'label',
+        text: 'Custom Fields'
+      },
+      {
+        type: 'list',
+        items: [
+          'Check Date: Date when the check was performed.',
+          'Performance Score: Scores from tools like Google PageSpeed Insights.',
+          'SEO Score: SEO performance indicators.',
+          'Issues Identified: Specific issues found during the check.',
+          'Urgency Level: Priority rating for issue resolution (Low, Medium, High).',
+          'Resolution Status: Current status of the issue (Pending, In Progress, Resolved).'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Automations'
+      },
+      {
+        type: 'list',
+        items: [
+          'Trigger a task for tech team to review any \'High\' urgency issues immediately.',
+          'Schedule next check based on the previous performance score (lower scores result in more frequent checks).'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Branding Consistency Reviews'
+      },
+      {
+        type: 'p',
+        text: 'Regular reviews to ensure all marketing materials and online content adhere to brand guidelines.'
+      },
+      {
+        type: 'label',
+        text: 'Custom Fields'
+      },
+      {
+        type: 'list',
+        items: [
+          'Review Date: When the review was conducted.',
+          'Inconsistencies Found: Details of any deviations from brand guidelines.',
+          'Corrected: Checkbox to indicate whether the issue has been resolved.',
+          'Responsible Team Member: Who is in charge of resolving the inconsistency.'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Automations'
+      },
+      {
+        type: 'list',
+        items: [
+          'Notify marketing manager of any inconsistencies found.',
+          'Set reminders for follow-up checks one week after the initial review.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'User Experience Optimization'
+      },
+      {
+        type: 'p',
+        text: 'Ongoing optimization tasks aimed at improving the overall user experience on the website.'
+      },
+      {
+        type: 'label',
+        text: 'Custom Fields'
+      },
+      {
+        type: 'list',
+        items: [
+          'Task ID: Unique identifier for each optimization task.',
+          'Initiation Date: Date when the task was started.',
+          'Expected Impact: Estimated improvement in user engagement or satisfaction.',
+          'Completion Date: When the task was completed.',
+          'Impact Review: Follow-up evaluation of the task’s effectiveness.'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Automations'
+      },
+      {
+        type: 'list',
+        items: [
+          'Automatically generate a follow-up task upon task completion to review its impact after 30 days.',
+          'Prioritize tasks based on expected impact, focusing first on those with potential for highest user engagement improvement.'
+        ]
+      }
+    ]
   },
-  {
+    {
     id: 'clickup-taraki',
     title: 'ClickUp Structure — Taraki Staffing Company',
     description: 'Detailed ClickUp workspace structure for a staffing company’s operations.',
     source: 'Notion',
     url: 'https://glass-suit-7f2.notion.site/Detailed-ClickUp-Structure-for-Taraki-Staffing-Company-6b1a78de474d4db8ac8ab56047edde64?pvs=4',
-    tags: ['clickup'],
+    tags: [
+      'clickup'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Main Folder: Taraki Staffing Operations'
+      },
+      {
+        type: 'heading',
+        text: 'Recruitment'
+      },
+      {
+        type: 'label',
+        text: 'Lists'
+      },
+      {
+        type: 'list',
+        items: [
+          'Job Postings: Manages the lifecycle of job openings.',
+          'Custom Fields: Job ID, Role Title, Department, Status (Open, Filled, On Hold), Date Posted, Location, Salary Range, Job Description.',
+          'Automations: Notify recruitment team when a job is posted; send email alerts when status changes; auto-archive roles once filled; reminder for follow-up if position remains unfilled past a target date.',
+          'Candidate Screening: Initial assessments to filter candidates.',
+          'Custom Fields: Candidate ID, Name, Contact Information, Screening Date, Screening Outcome, Resume Link, Screening Notes.',
+          'Automations: Move successful candidates to ‘Interview Scheduling’; send rejection emails automatically to unsuccessful candidates.',
+          'Interview Scheduling: Organizes interviews between candidates and hiring managers.',
+          'Custom Fields: Interview ID, Candidate ID, Scheduled Date, Interviewer, Format (Virtual, In-person), Interview Notes, Follow-Up Required.',
+          'Automations: Reminder notifications to both interviewers and candidates 24 hours before; post-interview follow-up task creation.',
+          'Offer Management: Handles job offers and negotiations.',
+          'Custom Fields: Candidate ID, Offer Date, Acceptance Status, Start Date, Offer Details, Salary Offered, Benefits.',
+          'Automations: Update job posting status to ‘Filled’ upon offer acceptance; trigger onboarding tasks upon offer acceptance.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Client Management'
+      },
+      {
+        type: 'label',
+        text: 'Lists'
+      },
+      {
+        type: 'list',
+        items: [
+          'Client Accounts: Information and management of all active clients.',
+          'Custom Fields: Client ID, Company Name, Contact Person, Service Level Agreement, Account Manager, Last Contact Date, Next Scheduled Review.',
+          'Automations: Quarterly review reminders to account managers; update tasks for annual contract renewal.',
+          'Project Requests: Staffing requests and requirements from clients.',
+          'Custom Fields: Request ID, Client ID, Required Positions, Urgency, Fulfillment Status, Details of Requirements, Expected Fulfillment Date.',
+          'Automations: Alert recruitment team when a new request is categorized as ‘Urgent’; status update notifications to clients.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Compliance and Onboarding'
+      },
+      {
+        type: 'label',
+        text: 'Lists'
+      },
+      {
+        type: 'list',
+        items: [
+          'Compliance Tracking: Ensures all placements meet legal and regulatory requirements.',
+          'Custom Fields: Placement ID, Compliance Checklist, Verification Date, Issues, Resolution Status, Compliance Officer.',
+          'Automations: Compliance verification task triggered upon every new placement; alerts for unresolved compliance issues.',
+          'Employee Onboarding: Streamlined tasks and resources for new hires.',
+          'Custom Fields: Employee ID, Onboarding Date, Required Documents, Training Schedule, Onboarding Complete, Mentor Assigned.',
+          'Automations: Trigger onboarding process when an offer is accepted; checklists for mentors; notification when onboarding is incomplete.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Performance Management'
+      },
+      {
+        type: 'label',
+        text: 'Lists'
+      },
+      {
+        type: 'list',
+        items: [
+          'Employee Reviews: Systematic performance reviews.',
+          'Custom Fields: Employee ID, Review Period, Performance Score, Feedback, Improvement Plan, Reviewer.',
+          'Automations: Schedule next review based on the last review date; reminders for pending reviews; generation of performance improvement tasks if needed.',
+          'Client Feedback: Feedback from clients about placed employees.',
+          'Custom Fields: Client ID, Employee ID, Feedback Date, Satisfaction Level, Specific Comments, Follow-Up Actions.',
+          'Automations: Generate follow-up tasks for client satisfaction management; periodic feedback requests to clients.'
+        ]
+      }
+    ]
   },
-  {
+    {
     id: 'clickup-vsp',
     title: 'ClickUp — Automating Operations for Veterinary Specialist Partners',
     description: 'ClickUp setup used to automate operations for a veterinary specialist partnership.',
     source: 'Notion',
     url: 'https://glass-suit-7f2.notion.site/Case-Study-Automating-Operations-for-Veterinary-Specialist-Partners-105616625a2a80bc910cfb4d07ff6aea?pvs=74',
-    tags: ['clickup'],
+    tags: [
+      'clickup'
+    ],
+    content: [
+      {
+        type: 'heading',
+        text: 'Introduction'
+      },
+      {
+        type: 'p',
+        text: 'Veterinary Specialist Partners (VSP) is a specialized veterinary hospital with locations in Louisville and Evansville. The hospital is renowned for its expert management of complex medical diseases in pets, ranging from autoimmune disorders and various cancers to critical care involving advanced surgical procedures. Prior to the implementation of automation, VSP managed appointments, patient records, and inter-departmental communications manually, leading to inefficiencies and potential delays in patient care.'
+      },
+      {
+        type: 'p',
+        text: 'Recognizing the need to enhance their operational efficiencies and patient service delivery, VSP partnered with our team to transition from a fully manual system to a fully automated one, streamlining everything from appointment booking to patient follow-ups and referrals management.'
+      },
+      {
+        type: 'heading',
+        text: 'Background'
+      },
+      {
+        type: 'p',
+        text: 'The hospital faced several operational challenges:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Manual Appointment Scheduling and Management: Reliance on phone and in-person scheduling led to bottlenecks and increased administrative overhead.',
+          'Fragmented Patient Records Management: Patient histories and treatment records were dispersed across various platforms, complicating data retrieval and management.',
+          'Inconsistent Follow-Up Communications: Manual processes for scheduling follow-ups and managing patient reminders were prone to human error and inefficiency.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Objectives'
+      },
+      {
+        type: 'p',
+        text: 'The primary goal was to automate critical aspects of VSP’s operations, including:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Appointment Scheduling and Management: Automate the entire appointment lifecycle, from booking to cancellation.',
+          'Patient Data Centralization: Create a unified system for managing patient histories and treatment records.',
+          'Automated Communication: Streamline communication with patients regarding appointments and follow-ups.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Solutions Implemented'
+      },
+      {
+        type: 'subheading',
+        text: 'ClickUp Integration and Automation'
+      },
+      {
+        type: 'subheading',
+        text: 'Calendly to ClickUp Integration'
+      },
+      {
+        type: 'list',
+        items: [
+          'New Appointments: Automatically captures every new appointment booked via Calendly and adds it to ClickUp. Distinct lists for different appointment types are maintained for both Louisville and Evansville locations.',
+          'Tags and Lists: Appointments are tagged with specific descriptors (e.g., new appointment, recheck appointment) and sorted into corresponding lists in ClickUp to ensure easy access and organization.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'JotForm Integration'
+      },
+      {
+        type: 'list',
+        items: [
+          'Form Submission Tracking: Monitors patient compliance with required JotForm submissions post-appointment scheduling. If a form is not submitted, automated reminders are sent via email and SMS two days before the appointment to ensure completion.',
+          'Medical Information Integration: Captures and integrates patient medical information from JotForm into ClickUp, linking it directly with the patient’s appointment record for streamlined access.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Lab Results Automation'
+      },
+      {
+        type: 'p',
+        text: 'Email Integration: Automatically imports email communications and attachments from associated labs directly into ClickUp. This ensures that all pertinent lab results are accessible within the patient’s specific task, eliminating the need for manual email checks and data entry.'
+      },
+      {
+        type: 'subheading',
+        text: 'Appointment Cancellation Handling'
+      },
+      {
+        type: 'p',
+        text: 'Automated Cancellation Management: If an appointment is canceled in Calendly, the system automatically removes the appointment from the active list and moves it to a ‘Cancelled Appointments’ list. This helps in maintaining accurate and up-to-date appointment statuses without manual intervention.'
+      },
+      {
+        type: 'subheading',
+        text: 'Centralized Appointment Management'
+      },
+      {
+        type: 'list',
+        items: [
+          'Unified Appointment List: A master list called ‘Appointments’ captures and consolidates every appointment from both Louisville and Evansville, regardless of type. This list serves a referral department that requires visibility across all bookings.',
+          'Cross-List Synchronization: Changes made in any appointment’s custom fields are dynamically updated across both location-specific and centralized appointment lists. This ensures consistency and accuracy in appointment details across the board.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Past Appointment Pruning'
+      },
+      {
+        type: 'p',
+        text: 'Automated Cleanup: The system automatically removes appointments whose dates have passed from all lists in ClickUp, helping to keep the database current and focused only on upcoming and actionable appointments.'
+      },
+      {
+        type: 'subheading',
+        text: 'Enhanced Scheduling and Reminders'
+      },
+      {
+        type: 'list',
+        items: [
+          'RingCentral Integration: Utilizes RingCentral to send automated SMS reminders about upcoming appointments, reducing no-show rates and ensuring patients are adequately prepared for their visits.',
+          'Dropdown Functionality for Cancellations: Enables staff to cancel appointments directly in ClickUp via a dropdown field change, which then reflects in both ClickUp and Calendly, streamlining the process.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Outcomes and Results'
+      },
+      {
+        type: 'subheading',
+        text: 'Improved Operational Efficiency'
+      },
+      {
+        type: 'list',
+        items: [
+          'Streamlined Appointment Management: Reduced administrative burden and errors related to manual appointment handling.',
+          'Centralized Data Management: Achieved a unified view of patient and lab data across all locations, enhancing data-driven decision-making.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Enhanced Communication'
+      },
+      {
+        type: 'list',
+        items: [
+          'Automated Patient Reminders: Improved patient preparation and reduced no-shows through timely automated reminders.',
+          'Referral Hospital Coordination: Strengthened relationships and improved data sharing with referral hospitals.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Technical Highlights'
+      },
+      {
+        type: 'list',
+        items: [
+          'ClickUp Customizations: Leveraged custom fields, lists, and automation to create a tailored workflow management system.',
+          'Integration Suite: Seamlessly integrated with Calendly, JotForm, Gmail, RingCentral, and Slack to centralize operations and communications.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Future Steps and Sustainability'
+      },
+      {
+        type: 'list',
+        items: [
+          'Continue refining the integration based on user feedback and system performance.',
+          'Explore additional automation opportunities to further enhance efficiency and patient care.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Screenshots'
+      },
+      {
+        type: 'img',
+        file: 'case-content/clickup-vsp/image1.png'
+      },
+      {
+        type: 'img',
+        file: 'case-content/clickup-vsp/image2.png'
+      },
+      {
+        type: 'img',
+        file: 'case-content/clickup-vsp/image3.png'
+      },
+      {
+        type: 'img',
+        file: 'case-content/clickup-vsp/image4.png'
+      },
+      {
+        type: 'heading',
+        text: 'Conclusion'
+      },
+      {
+        type: 'p',
+        text: 'The implementation of ClickUp and the integration of essential tools have revolutionized Veterinary Specialist Partners’ operations, positioning them to continue delivering exceptional care with enhanced efficiency and accuracy. This case study illustrates the power of tailored automation solutions in solving complex operational challenges in healthcare environments.'
+      }
+    ]
   },
-  {
+    {
     id: 'monday-vsp',
     title: 'Monday.com Setup — Veterinary Specialist Partners',
     description: 'Monday.com board setup built for Veterinary Specialist Partners’ operations.',
     source: 'Notion',
     url: 'https://glass-suit-7f2.notion.site/Setup-of-VSP-with-Monday-com-114616625a2a8028a61ce5cc2cb1f31d?pvs=4',
-    tags: ['monday'],
+    tags: [
+      'monday'
+    ],
+    content: [
+      {
+        type: 'heading',
+        text: 'Introduction'
+      },
+      {
+        type: 'p',
+        text: 'Veterinary Specialist Partners (VSP) is a specialized veterinary hospital network with facilities in Louisville and Evansville, known for its expert handling of complex medical conditions in pets. Before automating their operations, VSP managed appointments, patient records, and inter-departmental communications manually, which often led to inefficiencies and potential delays in patient care.'
+      },
+      {
+        type: 'p',
+        text: 'To enhance operational efficiency and patient service delivery, VSP partnered with our team to transition from a fully manual system to an automated solution using monday.com, aiming to streamline processes from appointment booking to patient follow-ups and referrals management.'
+      },
+      {
+        type: 'heading',
+        text: 'Background'
+      },
+      {
+        type: 'p',
+        text: 'The hospital faced significant operational challenges:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Manual Appointment Scheduling and Management: Dependent on phone and in-person scheduling, causing bottlenecks and increased administrative overhead.',
+          'Fragmented Patient Records Management: Dispersed patient histories and treatment records across various platforms, complicating data retrieval and management.',
+          'Inconsistent Follow-Up Communications: Manual processes for scheduling follow-ups and managing patient reminders were error-prone and inefficient.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Objectives'
+      },
+      {
+        type: 'p',
+        text: 'The main objectives for implementing monday.com were to:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Automate Appointment Scheduling and Management: Streamline the entire appointment lifecycle, from booking through cancellation.',
+          'Centralize Patient Data: Create a unified system for managing patient histories and treatment records.',
+          'Automate Communication: Enhance communication with patients regarding appointments and follow-ups.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Solutions Implemented'
+      },
+      {
+        type: 'subheading',
+        text: 'Monday.com Integration and Automation'
+      },
+      {
+        type: 'subheading',
+        text: 'Automated Appointment System'
+      },
+      {
+        type: 'list',
+        items: [
+          'Automated Appointments: Every new appointment booked is automatically captured and added to a specific monday.com board designated for appointments. Separate groups are maintained for each type of appointment and location.',
+          'Patient Registration and Check-In: Automated processes for patient registration and check-in ensure that all necessary patient information is captured and stored in monday.com, linked directly to their respective appointment entries.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Integration with External Scheduling Tools'
+      },
+      {
+        type: 'list',
+        items: [
+          'Calendly Integration: Direct integration with Calendly allows seamless synchronization of appointment bookings and cancellations, updating monday.com boards in real-time.',
+          'Email and SMS Reminders: Automated email and SMS reminders are set up to notify patients about upcoming appointments, using integration with email platforms and SMS gateways.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Patient Records Management'
+      },
+      {
+        type: 'list',
+        items: [
+          'Centralized Records: All patient records are consolidated within monday.com. Custom forms are used to collect and upload medical histories, treatment records, and other relevant documents directly into the system.',
+          'Access Control: Different access levels are set for various team members, ensuring sensitive patient information is handled securely and in compliance with medical privacy regulations.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Task Automation for Follow-Ups and Referrals'
+      },
+      {
+        type: 'list',
+        items: [
+          'Follow-Up Automation: Automated tasks are created for follow-ups, ensuring patients receive timely care post-appointment. These tasks are linked to specific appointments for easy tracking.',
+          'Referral Management: A dedicated board manages referrals to and from other specialists. Each referral triggers specific workflows to ensure no patient is overlooked and all records are shared with relevant parties.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Outcomes and Results'
+      },
+      {
+        type: 'subheading',
+        text: 'Improved Operational Efficiency'
+      },
+      {
+        type: 'list',
+        items: [
+          'Streamlined Appointment Handling: Reduction in administrative workload and minimized errors related to manual appointment management.',
+          'Centralized Data Management: Unified patient records enhanced data-driven decision-making, enabling better patient care and easier compliance with healthcare regulations.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Enhanced Communication'
+      },
+      {
+        type: 'list',
+        items: [
+          'Reliable Patient Reminders: Decreased no-show rates through timely, automated reminders.',
+          'Improved Referral Coordination: Strengthened relationships with other healthcare providers and ensured comprehensive patient care through efficient referral management.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Technical Highlights'
+      },
+      {
+        type: 'list',
+        items: [
+          'monday.com Customizations: Extensive use of custom fields, automation rules, and integrations tailored the workflow specifically to VSP’s needs.',
+          'Integration Suite: Seamless integration with external tools like Calendly, email platforms, SMS gateways, and medical record software to centralize operations and communication.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Future Steps and Sustainability'
+      },
+      {
+        type: 'list',
+        items: [
+          'Ongoing Optimization: Continual refinement of the system based on user feedback and evolving needs.',
+          'Expansion of Automation: Exploring further automation opportunities to enhance other areas of hospital operations.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Conclusion'
+      },
+      {
+        type: 'p',
+        text: 'The implementation of monday.com revolutionized VSP’s operations, enabling them to deliver exceptional care with greater efficiency and precision. This case study demonstrates the transformative impact of customized automation solutions in complex healthcare settings, proving monday.com’s capability to handle intricate workflows and extensive data management.'
+      }
+    ]
   },
   {
     id: 'airtable-legal',
