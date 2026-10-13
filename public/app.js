@@ -176,8 +176,27 @@ function renderCategory(slug) {
 
 function contentBlockHtml(block) {
   if (block.type === 'heading') return `<h3>${escapeHtml(block.text)}</h3>`;
+  if (block.type === 'subheading') return `<h4>${escapeHtml(block.text)}</h4>`;
+  if (block.type === 'eyebrow') return `<p class="content-eyebrow">${escapeHtml(block.text)}</p>`;
   if (block.type === 'label') return `<p class="content-label">${escapeHtml(block.text)}</p>`;
-  if (block.type === 'img') return `<img class="content-image" src="${escapeHtml(block.file)}" alt="" loading="lazy" />`;
+  if (block.type === 'img') {
+    const caption = block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : '';
+    return `<figure class="content-figure"><img class="content-image" src="${escapeHtml(block.file)}" alt="${escapeHtml(block.caption || '')}" loading="lazy" />${caption}</figure>`;
+  }
+  if (block.type === 'list') {
+    return `<ul class="content-list">${block.items.map((i) => `<li>${escapeHtml(i)}</li>`).join('')}</ul>`;
+  }
+  if (block.type === 'stats') {
+    return `<div class="content-stats">${block.items.map((s) => `<div class="stat-tile"><div class="stat-value">${escapeHtml(s.value)}</div><div class="stat-label">${escapeHtml(s.label)}</div></div>`).join('')}</div>`;
+  }
+  if (block.type === 'table') {
+    const head = `<tr>${block.headers.map((h) => `<th>${escapeHtml(h)}</th>`).join('')}</tr>`;
+    const body = block.rows.map((row) => `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join('')}</tr>`).join('');
+    return `<div class="content-table-wrap"><table class="content-table"><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
+  }
+  if (block.type === 'quote') {
+    return `<blockquote class="content-quote"><p>${escapeHtml(block.text)}</p><cite>${escapeHtml(block.attribution)}</cite></blockquote>`;
+  }
   return `<p>${escapeHtml(block.text)}</p>`;
 }
 
