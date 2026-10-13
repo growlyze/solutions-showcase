@@ -160,41 +160,6 @@ a { color: inherit; text-decoration: none; }
 
 #app { padding: 48px 24px 80px; }
 
-.hero {
-  position: relative;
-  isolation: isolate;
-  margin-bottom: 40px;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -100px;
-  left: -80px;
-  width: 340px;
-  height: 340px;
-  background: radial-gradient(circle, var(--accent-glow), transparent 70%);
-  filter: blur(20px);
-  z-index: -1;
-  pointer-events: none;
-}
-
-.hero h1 {
-  font-family: 'Sora', 'Inter', system-ui, sans-serif;
-  font-size: 36px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin: 0 0 10px;
-}
-
-.hero p {
-  font-size: 16px;
-  color: var(--text-muted);
-  max-width: 640px;
-  margin: 0;
-  line-height: 1.6;
-}
-
 .category-section {
   margin-bottom: 44px;
 }

@@ -117,10 +117,6 @@ function renderHome() {
   ` : '';
 
   app.innerHTML = `
-    <div class="hero">
-      <h1>See it before you ask for it</h1>
-      <p>Real projects, sorted by tool — pick what you're curious about and see exactly how it works, who it was built for, and what it solved.</p>
-    </div>
     ${featuredHtml}
     ${sections}
   `;
