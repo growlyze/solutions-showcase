@@ -22,7 +22,6 @@ const CATEGORIES = [
   { slug: 'google-apps-script', icon: '📜', logo: 'googleappsscript', group: 'automation', name: 'Google Apps Script', description: 'Custom scripts that connect Gmail, Sheets, Drive, and Docs directly — automation built right into Google Workspace.' },
   { slug: 'python', icon: '🐍', logo: 'python', group: 'automation', name: 'Python Automation', description: 'Custom Python pipelines and services for teams whose integrations need more than a no-code platform can offer.' },
   { slug: 'ai-agents', icon: '🤖', tint: 'violet', group: 'ai', name: 'AI Agents', description: 'General-purpose AI agents you can point at almost any repetitive task to take it off your plate.' },
-  { slug: 'ai-marketing', icon: '📣', tint: 'pink', group: 'ai', name: 'AI Agents for Marketing', description: 'AI that writes, posts, and tracks content so your marketing keeps running without daily upkeep.' },
   { slug: 'ai-sales', icon: '💰', tint: 'amber', group: 'ai', name: 'AI Agents for Sales', description: 'AI that finds leads, reaches out, and follows up automatically — so your pipeline never goes cold.' },
   { slug: 'ai-support', icon: '🎧', tint: 'teal', group: 'ai', name: 'AI Agents for Customer Support', description: 'AI that answers customer questions and qualifies leads around the clock, even outside business hours.' },
   { slug: 'ai-whatsapp', icon: '💬', logoFile: 'logos/whatsapp.svg', group: 'ai', name: 'AI Agents for WhatsApp', description: 'AI that chats with customers directly on WhatsApp — answering questions and taking orders automatically.' },
