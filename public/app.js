@@ -229,7 +229,7 @@ function renderCaseDetail(id) {
     <div class="case-detail-content">
       ${cs.content.map(contentBlockHtml).join('')}
     </div>
-    <a class="original-source-link" href="${escapeHtml(cs.url)}" target="_blank" rel="noopener noreferrer">View original source &nearr;</a>
+    ${cs.url ? `<a class="original-source-link" href="${escapeHtml(cs.url)}" target="_blank" rel="noopener noreferrer">View original source &nearr;</a>` : ''}
   `;
   attachLogoFallbacks(app);
 }

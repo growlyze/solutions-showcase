@@ -1333,11 +1333,396 @@ const CASE_STUDIES = [
 ]
   },
   {
-    id: 'dashboards-folder',
-    title: 'Dashboards',
-    description: 'A collection of automated reporting dashboards.',
-    source: 'Google Drive',
-    url: 'https://drive.google.com/drive/folders/1h9qaw0VEmbVhVoCcCQF6WL0ZmhxebWN-?usp=sharing',
-    tags: ['dashboards'],
+    id: 'powerbi-bnb-heaven',
+    title: 'Power BI — Turning Five Booking Systems Into One Revenue Engine',
+    description: 'A governed Power BI model and two dashboards that replaced three days of manual owner-statement assembly with an automated daily refresh for a short-term rental portfolio.',
+    source: 'Portfolio',
+    tags: [
+      'power-bi',
+      'dashboards'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Power BI Case Study'
+      },
+      {
+        type: 'p',
+        text: 'BnB Heaven — short-term rental & boutique B&B management · 6-week engagement'
+      },
+      {
+        type: 'stats',
+        items: [
+          {
+            value: '5 → 1',
+            label: 'Systems unified'
+          },
+          {
+            value: '~90%',
+            label: 'Less reporting effort'
+          },
+          {
+            value: 'Daily',
+            label: 'Automated 06:00 refresh'
+          },
+          {
+            value: '6 wks',
+            label: 'Concept to live rollout'
+          }
+        ]
+      },
+      {
+        type: 'p',
+        text: 'BnB Heaven manages a portfolio of short-term rentals and boutique B&Bs across the UK. Bookings arrived from Airbnb, Booking.com, Vrbo and their own direct site; cleaning and turnovers lived in the ops tool; finance sat in the accounting system. Owner statements and the monthly board pack took three days to assemble by hand. This case study shows how we consolidated everything into one governed Power BI model with two dashboards — cutting reporting effort by roughly 90% and giving the team occupancy, rate and channel-profitability numbers they finally trust.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'The Challenge'
+      },
+      {
+        type: 'p',
+        text: 'Before the project, \'how are we doing?\' was a surprisingly hard question to answer. Three problems came up in every conversation with the team.'
+      },
+      {
+        type: 'list',
+        items: [
+          'Bookings scattered across platforms: Revenue lived in Airbnb, Booking.com, Vrbo and the direct site, with turnovers in the PMS and money in accounting. Nobody could see occupancy, nightly rate and net revenue in one place without exporting several files first.',
+          'Owner statements ate three days a month: A manager rebuilt every owner statement and the board pack by hand — copy, paste, reconcile, repeat. By the time they were ready the numbers were weeks old, and one slip meant redoing the lot.',
+          'No shared version of the truth: Channel profitability after platform fees was invisible. It wasn’t clear which channels actually paid off once commissions were taken out, so pricing and listing decisions were made on gut feel.'
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'The Approach'
+      },
+      {
+        type: 'p',
+        text: 'Rather than bolt a chart onto each platform, we built one properly modelled layer underneath a small number of focused dashboards. Four phases over six weeks:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Discovery & metric definitions (week 1): Workshops to agree exactly what occupancy, ADR, RevPAR and net-of-fees revenue mean — one signed-off definition each, so the model has a single source of truth.',
+          'Connect & clean with Power Query (weeks 2–3): ETL into all five sources, standardised property and channel keys, and consistent handling of platform fees, refunds and cancellations so figures reconcile to the accounts.',
+          'Star-schema model & DAX (weeks 3–4): A clean fact-and-dimension model with a shared date table, reusable DAX measures (occupancy, ADR, RevPAR, YoY, target) and row-level security so each owner sees only their own properties.',
+          'Dashboards, refresh & handover (weeks 5–6): Two role-based dashboards, an on-premises gateway for the automated 06:00 refresh, plus training and a short written guide so the team can extend the model themselves.'
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'The Solution'
+      },
+      {
+        type: 'subheading',
+        text: 'Executive overview'
+      },
+      {
+        type: 'p',
+        text: 'The board-level view answers leadership’s core questions on one screen: where revenue comes from, how occupancy and rate are trending, which properties and channels pull their weight, and whether the year is on target.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/powerbi-bnb-heaven/image1.png',
+        caption: 'Revenue & Occupancy — the executive overview page, live in Power BI Desktop: KPIs, revenue trend, channel mix, property and location breakdowns and target attainment.'
+      },
+      {
+        type: 'subheading',
+        text: 'Operations & guests'
+      },
+      {
+        type: 'p',
+        text: 'The operations view is a daily working screen for the wider team: booking volume against occupancy, manager contribution, the direct-site booking funnel and guest satisfaction by location.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/powerbi-bnb-heaven/image2.png',
+        caption: 'Operations & Guest Experience — bookings vs occupancy, manager revenue, booking funnel and 5-star reviews by location.'
+      },
+      {
+        type: 'list',
+        items: [
+          'Cumulative revenue vs operating cost shows the margin gap at a glance.',
+          'Channel donut exposes reliance on commission-heavy platforms vs direct.',
+          'Top-property table ranks by revenue with live YoY growth flags.',
+          'Gauge tracks progress against the £4.55M annual target (106%).'
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Under the Hood'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Layer',
+          'What We Built',
+          'Tools'
+        ],
+        rows: [
+          [
+            'Sources',
+            'Airbnb, Booking.com, Vrbo, direct site, PMS / channel manager, accounting',
+            'REST / API / file connectors'
+          ],
+          [
+            'Ingest & clean',
+            'Dedupe, key standardisation, fee / refund / cancellation handling',
+            'Power Query (M)'
+          ],
+          [
+            'Model',
+            'Star schema, shared date table, reusable measures',
+            'Power BI model + DAX'
+          ],
+          [
+            'Governance',
+            'Row-level security by owner / manager, documented definitions',
+            'RLS roles'
+          ],
+          [
+            'Delivery',
+            'Two role-based dashboards, automated daily refresh',
+            'Power BI Service + gateway'
+          ]
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'The Results'
+      },
+      {
+        type: 'stats',
+        items: [
+          {
+            value: '+5.6pts',
+            label: 'Occupancy rate'
+          },
+          {
+            value: '+0.14',
+            label: 'Guest rating'
+          },
+          {
+            value: '3 days → 0',
+            label: 'Manual reporting'
+          },
+          {
+            value: '106%',
+            label: 'Of annual target'
+          }
+        ]
+      },
+      {
+        type: 'table',
+        headers: [
+          'Measure',
+          'Before',
+          'After'
+        ],
+        rows: [
+          [
+            'Owner statements & board pack',
+            '~3 days, manual',
+            'Automatic, ready by 06:00'
+          ],
+          [
+            'Data freshness',
+            '~3 weeks old',
+            'Refreshed daily'
+          ],
+          [
+            'Channel profit (net of fees)',
+            'Invisible',
+            'Live, per channel'
+          ],
+          [
+            'Sources reconciled',
+            'Manually, error-prone',
+            'Reconciled to accounts automatically'
+          ]
+        ]
+      },
+      {
+        type: 'p',
+        text: 'With channel profitability visible net of platform fees, BnB Heaven leaned into direct bookings and trimmed commission-heavy inventory — finishing the year 6% ahead of target.'
+      }
+    ]
+  },
+    {
+    id: 'powerbi-healthcare',
+    title: 'Power BI — One Live View of a Multi-Site Clinic Network',
+    description: 'A governed Power BI model unifying scheduling, EHR, billing and finance across four systems into two role-based dashboards refreshed every morning.',
+    source: 'Portfolio',
+    tags: [
+      'power-bi',
+      'dashboards'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Power BI Case Study · Healthcare'
+      },
+      {
+        type: 'p',
+        text: 'Multi-site clinic network — scheduling, EHR, billing & finance unified · 6-week engagement'
+      },
+      {
+        type: 'stats',
+        items: [
+          {
+            value: '128,400',
+            label: 'Appointments / yr'
+          },
+          {
+            value: '86.4%',
+            label: 'Provider utilisation'
+          },
+          {
+            value: '7.8%',
+            label: 'No-show rate'
+          },
+          {
+            value: '32 days',
+            label: 'Days in AR'
+          }
+        ]
+      },
+      {
+        type: 'quote',
+        text: 'Reports that used to take days across sites now land by 6am — and we act on them the same morning.',
+        attribution: 'Operations Director'
+      },
+      {
+        type: 'p',
+        text: 'The network ran on four disconnected systems — scheduling, the EHR, billing/claims and finance. Leadership could never see patient flow, provider utilisation and revenue-cycle health in the same place, and each site’s monthly report was rebuilt by hand. I consolidated all four into one governed Power BI model behind two role-based dashboards, refreshed automatically every morning — turning days of manual reporting into a screen the team reads with their coffee.'
+      },
+      {
+        type: 'eyebrow',
+        text: 'What Was Leaking'
+      },
+      {
+        type: 'list',
+        items: [
+          'Siloed systems: Scheduling, EHR, billing and finance never lined up, so no-shows, utilisation and collections couldn’t be seen together.',
+          'Manual per-site reporting: Every site’s pack was rebuilt by hand — weeks behind by the time it landed, and easy to get wrong.',
+          'Invisible revenue leakage: Denials, AR aging and slow collections weren’t tracked in one place, so cash slipped through unnoticed.'
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Dashboard One — Patient Flow & Utilisation'
+      },
+      {
+        type: 'p',
+        text: 'Appointments vs utilisation, department mix, top sites, a day-by-hour utilisation heat map and capacity gauge.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/powerbi-healthcare/image1.png',
+        caption: 'Patient Flow & Utilisation — Executive Overview'
+      },
+      {
+        type: 'list',
+        items: [
+          'Utilisation heatmap: Spots under-used clinic slots by day and hour at a glance.',
+          'Sites & departments: Ranks volume and no-shows together, site by site.',
+          'Volume vs utilisation: Pairs appointment growth with the utilisation trend.',
+          'Capacity gauge: Tracks attainment against the plan — currently 96%.'
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'Dashboard Two — Revenue Cycle & Claims'
+      },
+      {
+        type: 'p',
+        text: 'Billed vs collection rate, a claims funnel, AR aging buckets and net revenue by payer.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/powerbi-healthcare/image2.png',
+        caption: 'Revenue Cycle & Claims'
+      },
+      {
+        type: 'list',
+        items: [
+          'Claims funnel: Shows where submissions fall out before they’re paid.',
+          'AR aging: Flags the £84K stuck in 90+ days for chase-up.',
+          'Billed vs collected: Tracks the collection rate month over month.',
+          'Payer mix: Splits net revenue across NHS, insurers and self-pay.'
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'How It’s Built'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Stage',
+          'What We Built',
+          'Tools'
+        ],
+        rows: [
+          [
+            'Sources',
+            '4 systems: Scheduling · EHR · Billing · GL',
+            'REST / API / file connectors'
+          ],
+          [
+            'Clean',
+            'Key standardisation',
+            'Power Query'
+          ],
+          [
+            'Model',
+            'Star schema, shared date table, DAX',
+            'Power BI model + DAX'
+          ],
+          [
+            'Secure',
+            'RLS by site, per-site access',
+            'RLS roles'
+          ],
+          [
+            'Deliver',
+            '06:00 refresh via gateway & service',
+            'Power BI Service + gateway'
+          ]
+        ]
+      },
+      {
+        type: 'eyebrow',
+        text: 'The Impact'
+      },
+      {
+        type: 'label',
+        text: 'After six weeks'
+      },
+      {
+        type: 'stats',
+        items: [
+          {
+            value: '+5.0pts',
+            label: 'Provider utilisation'
+          },
+          {
+            value: '−2.1pts',
+            label: 'No-show rate'
+          },
+          {
+            value: '−6 days',
+            label: 'Days in AR'
+          },
+          {
+            value: '3 days → 0',
+            label: 'Manual reporting'
+          }
+        ]
+      },
+      {
+        type: 'p',
+        text: 'With utilisation and no-shows visible by site and hour, the network reallocated clinic slots and tightened reminders — lifting utilisation five points while trimming no-shows, and replacing days of manual work with an automatic 6am refresh reconciled to the ledger.'
+      }
+    ]
   },
 ];
