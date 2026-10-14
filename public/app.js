@@ -251,6 +251,9 @@ const TOOL_PATTERNS = [
   ['WhatsApp', /\bWhatsApp\b/],
   ['Calendly', /\bCalendly\b/],
   ['Skool', /\bSkool\b/],
+  ['Trello', /\bTrello\b/],
+  ['Facebook', /\bFacebook\b(?! [Aa]ds?\b)/],
+  ['LinkedIn', /\bLinkedIn\b/],
   ['LeadConnector', /\bLead ?Connector\b/],
   ['Close', /\bin Close\b|\bClose CRM\b/],
   ['Stripe', /\bStripe\b/],
@@ -310,6 +313,8 @@ function toolsFor(cs) {
   const filedUnder = cs.tags.map((t) => TAG_TOOLS[t]).filter(Boolean);
   const names = new Set(filedUnder);
   found.sort((a, b) => a.at - b.at).forEach((f) => names.add(f.name));
+  // "Meta Ads" already covers Facebook advertising, so don't list both.
+  if (names.has('Meta Ads')) names.delete('Facebook');
   return [...names];
 }
 

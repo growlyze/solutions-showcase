@@ -3990,6 +3990,46 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'zapier-trello-to-facebook-linkedin-instagram-posting',
+    title: 'Trello to Facebook, LinkedIn and Instagram Social Posting Zap',
+    description: 'This Zap runs every day, picks up the Trello cards for that day, and publishes their images and captions to Facebook, LinkedIn and Instagram.',
+    source: 'Portfolio',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This Zap runs every day, picks up the Trello cards for that day, and publishes their images and captions to Facebook, LinkedIn and Instagram. Each card holds the post images and a caption for each platform, so content is prepared in Trello and published without manual uploading.'
+      },
+      {
+        type: 'label',
+        text: 'How it works'
+      },
+      {
+        type: 'list',
+        items: [
+          'Runs every day: a Schedule by Zapier trigger starts the Zap once a day.',
+          'Finds the cards: gets the cards from a single Trello pillar, splits them into individual items and loops over each one.',
+          'Checks each card: Formatter steps convert the start and due dates and read the card status, and a filter then decides which cards continue.',
+          'Gets the content: extracts the social captions, then finds the card’s image attachments in Trello.',
+          'Updates Trello: updates the card and moves it to another list.',
+          'Publishes everywhere: Code by Zapier and Paths split the card into branches by platform and content type, then publish posts and videos to Facebook Pages, company updates to LinkedIn, and photos and videos to Instagram for Business.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image14.png',
+        caption: 'Steps 1–11: the daily schedule, the Trello card lookup, a loop over each card, and date and status formatting.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image15.png',
+        caption: 'Steps 12–48: caption extraction, Trello updates, and the Paths that publish to Facebook Pages, LinkedIn and Instagram for Business.'
+      }
+    ]
+  },
+  {
     id: 'make-automation-of-shopify-orders-to-google',
     title: 'Automation of Shopify Orders to Google Sheets for Dropshipping E-commerce Store',
     description: 'The primary goal of this automation is to streamline the process of managing Shopify orders by automatically distributing them to the appropriate fulfillment sheets.',
