@@ -221,6 +221,105 @@ function descriptionRepeatedInBody(cs) {
   });
 }
 
+// "Works with" chips at the top of a case study. Only products that are named
+// in the case study's own text (or that the case is filed under) are listed,
+// so the box never claims anything the page does not already say.
+const TOOL_PATTERNS = [
+  ['Zapier', /\bZapier\b|\bZaps?\b/],
+  ['Make', /\bMake\.com\b|\bMake scenario|\bMake automation|\bIntegromat\b/],
+  ['n8n', /\bn8n\b/],
+  ['ClickUp', /\bClickUp\b/],
+  ['monday.com', /\b[Mm]onday\.com\b/],
+  ['Airtable', /\bAirtable\b/],
+  ['Notion', /\bNotion\b/],
+  ['Google Sheets', /\bGoogle Sheets?\b/],
+  ['Google Apps Script', /\bGoogle Apps Script\b|\bApps? Script\b/],
+  ['Gmail', /\bGmail\b/],
+  ['Google Calendar', /\bGoogle Calendar\b/],
+  ['Google Drive', /\bGoogle Drive\b/],
+  ['Google Analytics', /\bGoogle Analytics\b/],
+  ['Google Ads', /\bGoogle Ads\b/],
+  ['BigQuery', /\bBigQuery\b/],
+  ['Looker Studio', /\bLooker Studio\b/],
+  ['Power BI', /\bPower BI\b/],
+  ['Shopify', /\bShopify\b/],
+  ['Meta Ads', /\bMeta Ads\b|\bFacebook Ads\b/],
+  ['Klaviyo', /\bKlaviyo\b/],
+  ['HubSpot', /\bHubSpot\b/],
+  ['GoHighLevel', /\bGo ?High ?Level\b/],
+  ['Slack', /\bSlack\b/],
+  ['WhatsApp', /\bWhatsApp\b/],
+  ['Calendly', /\bCalendly\b/],
+  ['Stripe', /\bStripe\b/],
+  ['Supabase', /\bSupabase\b/],
+  ['OpenAI', /\bOpenAI\b|\bGPT-?4\w*\b|\bChatGPT\b/],
+  ['Claude', /\bClaude\b/],
+  ['Gemini', /\bGemini\b/],
+  ['Whisper', /\bWhisper\b/],
+  ['Pinterest', /\bPinterest\b/],
+  ['Instagram', /\bInstagram\b/],
+  ['YouTube', /\bYouTube\b/],
+  ['TikTok', /\bTikTok\b/],
+  ['Amazon', /\bAmazon\b/],
+  ['Beehiiv', /\bBeehiiv\b|\bBeehiv\b/],
+  ['Lemlist', /\bLemlist\b/],
+  ['Typeform', /\b[Tt]ypeform\b/],
+  ['Aircall', /\bAircall\b/],
+  ['Pinecone', /\bPinecone\b/],
+  ['Python', /\bPython\b/],
+  ['React', /\bReact\b/],
+  ['PostgreSQL', /\bPostgre(SQL|s)\b/],
+  ['SQL', /\bSQL\b/],
+];
+
+// The platform a case study is filed under is always one of the tools it works with.
+const TAG_TOOLS = {
+  zapier: 'Zapier',
+  make: 'Make',
+  n8n: 'n8n',
+  clickup: 'ClickUp',
+  monday: 'monday.com',
+  airtable: 'Airtable',
+  'power-bi': 'Power BI',
+  'looker-studio': 'Looker Studio',
+  'google-apps-script': 'Google Apps Script',
+};
+
+function caseText(cs) {
+  const parts = [cs.title, cs.description];
+  (cs.content || []).forEach((b) => {
+    if (b.text) parts.push(b.text);
+    if (b.caption) parts.push(b.caption);
+    if (b.items) parts.push(b.items.map((i) => (typeof i === 'string' ? i : Object.values(i).join(' '))).join(' '));
+    if (b.headers) parts.push(b.headers.join(' '));
+    if (b.rows) parts.push(b.rows.map((r) => r.join(' ')).join(' '));
+  });
+  return parts.join('\n');
+}
+
+function toolsFor(cs) {
+  const text = caseText(cs);
+  const found = [];
+  TOOL_PATTERNS.forEach(([name, re]) => {
+    const m = re.exec(text);
+    if (m) found.push({ name, at: m.index });
+  });
+  const filedUnder = cs.tags.map((t) => TAG_TOOLS[t]).filter(Boolean);
+  const names = new Set(filedUnder);
+  found.sort((a, b) => a.at - b.at).forEach((f) => names.add(f.name));
+  return [...names];
+}
+
+function quickFactsHtml(cs) {
+  const tools = toolsFor(cs);
+  if (!tools.length) return '';
+  return `
+        <div class="quick-facts">
+          <span class="quick-facts-label">Works with</span>
+          <ul class="quick-facts-list">${tools.map((t) => `<li>${escapeHtml(t)}</li>`).join('')}</ul>
+        </div>`;
+}
+
 function renderCaseDetail(id) {
   const app = document.getElementById('app');
   const cs = CASE_STUDIES.find((c) => c.id === id);
@@ -245,7 +344,7 @@ function renderCaseDetail(id) {
       <div class="case-detail-header">
         <h1>${escapeHtml(cs.title)}</h1>
         ${descriptionRepeatedInBody(cs) ? '' : `<p>${escapeHtml(cs.description)}</p>`}
-        <div class="tag-row">${tags}</div>
+        <div class="tag-row">${tags}</div>${quickFactsHtml(cs)}
       </div>
       <div class="case-detail-content">
         ${cs.content.map(contentBlockHtml).join('')}
