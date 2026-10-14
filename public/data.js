@@ -4505,103 +4505,6 @@ const CASE_STUDIES = [
       }
     ]
   },
-    {
-    id: 'ad-performance-dashboards',
-    title: 'Looker Studio — Multi-Channel Ad Performance Dashboards',
-    description: 'Looker Studio dashboards consolidating Meta, Google, Taboola, AppLovin and Newsbreak ad performance into live spend, revenue and ROAS views.',
-    source: 'Portfolio',
-    tags: [
-      'looker-studio'
-    ],
-    content: [
-      {
-        type: 'eyebrow',
-        text: 'Paid Media Reporting'
-      },
-      {
-        type: 'p',
-        text: 'Built in Looker Studio to track ad spend, revenue and ROAS across every channel in one place, replacing manual exports pulled separately from each ad platform.'
-      },
-      {
-        type: 'subheading',
-        text: 'Meta ads tracking'
-      },
-      {
-        type: 'stats',
-        items: [
-          {
-            value: '21,767',
-            label: 'Clicks'
-          },
-          {
-            value: '627,879',
-            label: 'Impressions'
-          },
-          {
-            value: '$35.2K',
-            label: 'Spend'
-          },
-          {
-            value: '3.47%',
-            label: 'CTR (all)'
-          }
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/ad-performance-dashboards/image1.png',
-        caption: 'Meta Ads dashboard overview — clicks, link clicks, impressions, ROAS and spend for a single brand’s campaigns.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/ad-performance-dashboards/image2.png',
-        caption: 'Campaign-level breakdown — ROAS, clicks, spend, impressions and CPM for every ad and campaign, filterable by name.'
-      },
-      {
-        type: 'subheading',
-        text: 'Multi-channel performance — Facebook, Google, Taboola, AppLovin, Newsbreak'
-      },
-      {
-        type: 'p',
-        text: 'A larger account-level dashboard rolls spend, revenue and profit up across every paid channel, with a dedicated page per platform for campaign-level detail.'
-      },
-      {
-        type: 'stats',
-        items: [
-          {
-            value: '$3.94M',
-            label: 'Facebook spend (9 mo.)'
-          },
-          {
-            value: '$3.99M',
-            label: 'Facebook revenue'
-          },
-          {
-            value: '1.01',
-            label: 'Facebook ROAS'
-          },
-          {
-            value: '27,184',
-            label: 'Orders'
-          }
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/ad-performance-dashboards/image3.png',
-        caption: 'Facebook performance overview across a 9-month window — spend, revenue, ROAS and profit margin alongside a daily revenue-vs-spend trend.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/ad-performance-dashboards/image4.png',
-        caption: 'Google Ads dashboard for the same account — cost, revenue, orders, profit and ROAS alongside clicks and conversion rate.'
-      },
-      {
-        type: 'p',
-        text: 'Both dashboards run on Looker Studio so paid media and finance read from the same live numbers instead of separate exports from each ad platform.'
-      }
-    ]
-  },
   {
     id: 'whatsapp-voice-business-agent',
     title: 'WhatsApp Voice & Business Agent with n8n',
@@ -7727,6 +7630,133 @@ const CASE_STUDIES = [
         type: 'img',
         file: 'case-content/google-apps-script-portfolio/image14.png',
         caption: 'The task-distribution function that splits unattended calls evenly across the agent roster.'
+      }
+    ]
+  },
+  {
+    id: 'looker-studio-meta-ads',
+    title: 'Looker Studio — Meta Ads Dashboard',
+    description: 'A Looker Studio dashboard tracking Meta ad spend, clicks, impressions and campaign-level ROAS in one live view.',
+    source: 'Portfolio',
+    tags: [
+      'looker-studio'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Paid Media Reporting'
+      },
+      {
+        type: 'p',
+        text: 'Built in Looker Studio to track Meta ad spend, clicks and campaign performance in one place, replacing manual exports from Meta Ads Manager.'
+      },
+      {
+        type: 'stats',
+        items: [
+          {
+            value: '21,767',
+            label: 'Clicks'
+          },
+          {
+            value: '627,879',
+            label: 'Impressions'
+          },
+          {
+            value: '$35.2K',
+            label: 'Spend'
+          },
+          {
+            value: '3.47%',
+            label: 'CTR (all)'
+          }
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/ad-performance-dashboards/image1.png',
+        caption: 'Meta Ads dashboard overview — clicks, link clicks, impressions, ROAS and spend for a single brand’s campaigns.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ad-performance-dashboards/image2.png',
+        caption: 'Campaign-level breakdown — ROAS, clicks, spend, impressions and CPM for every ad and campaign, filterable by name.'
+      }
+    ]
+  },
+  {
+    id: 'looker-studio-facebook-ads',
+    title: 'Looker Studio — Facebook Ads Dashboard',
+    description: 'A Looker Studio dashboard rolling up Facebook ad spend, revenue, ROAS and profit margin across a 9-month window.',
+    source: 'Portfolio',
+    tags: [
+      'looker-studio'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Paid Media Reporting'
+      },
+      {
+        type: 'p',
+        text: 'Part of a larger multi-channel Looker Studio report, this page rolls up spend, revenue and profit for Facebook campaigns specifically, alongside a daily revenue-vs-spend trend.'
+      },
+      {
+        type: 'stats',
+        items: [
+          {
+            value: '$3.94M',
+            label: 'Facebook spend (9 mo.)'
+          },
+          {
+            value: '$3.99M',
+            label: 'Facebook revenue'
+          },
+          {
+            value: '1.01',
+            label: 'Facebook ROAS'
+          },
+          {
+            value: '27,184',
+            label: 'Orders'
+          }
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/ad-performance-dashboards/image3.png',
+        caption: 'Facebook performance overview across a 9-month window — spend, revenue, ROAS and profit margin alongside a daily revenue-vs-spend trend.'
+      },
+      {
+        type: 'p',
+        text: 'The dashboard runs on Looker Studio so paid media and finance read from the same live numbers instead of a separate export from Meta.'
+      }
+    ]
+  },
+  {
+    id: 'looker-studio-google-ads',
+    title: 'Looker Studio — Google Ads Dashboard',
+    description: 'A Looker Studio dashboard tracking Google Ads cost, revenue, orders, profit and ROAS for the same multi-channel account.',
+    source: 'Portfolio',
+    tags: [
+      'looker-studio'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Paid Media Reporting'
+      },
+      {
+        type: 'p',
+        text: 'The same multi-channel Looker Studio report includes a dedicated Google Ads page, tracking cost, revenue, orders, profit and ROAS alongside clicks and conversion rate.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ad-performance-dashboards/image4.png',
+        caption: 'Google Ads dashboard for the same account — cost, revenue, orders, profit and ROAS alongside clicks and conversion rate.'
+      },
+      {
+        type: 'p',
+        text: 'The dashboard runs on Looker Studio so paid media and finance read from the same live numbers instead of a separate export from Google Ads.'
       }
     ]
   },
