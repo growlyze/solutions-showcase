@@ -4209,7 +4209,7 @@ const CASE_STUDIES = [
   {
     id: 'zapier-trello-cards-to-ai-social-captions-and-hashtags',
     title: 'Trello Cards to AI Social Captions and Hashtags Zap',
-    description: 'This Zap runs every day, goes through the cards on a Trello board, and uses ChatGPT to write a social media caption and hashtags for the Trello card.',
+    description: 'This Zap runs every day, goes through the cards on a Trello board, and uses ChatGPT to write a social media caption and hashtags that are saved on each Trello card.',
     source: 'Portfolio',
     tags: [
       'zapier'
@@ -4217,7 +4217,7 @@ const CASE_STUDIES = [
     content: [
       {
         type: 'p',
-        text: 'This Zap runs every day, goes through the cards on a Trello board, and uses ChatGPT to write a social media caption and hashtags for the Trello card. It looks up the cards from a single Trello pillar, loops over each one, checks the card, reads its attachments and then updates the card with what ChatGPT returns.'
+        text: 'This Zap runs every day, goes through the cards on a Trello board, and uses ChatGPT to write a social media caption and hashtags that are saved on each Trello card. It looks up the cards from a single Trello pillar and loops over them, so every step after the loop runs once for each card. For each card it checks the card, reads its attachments, asks ChatGPT for the caption and hashtags, and updates the Trello card with them.'
       },
       {
         type: 'label',
@@ -4227,11 +4227,11 @@ const CASE_STUDIES = [
         type: 'list',
         items: [
           'Runs every day: a Schedule by Zapier trigger starts the Zap once a day.',
-          'Gets the cards: gets the cards from a single Trello pillar, splits them into individual items with the Itemizer and loops over each one.',
+          'Gets the cards: gets the cards from a single Trello pillar, splits them into individual items with the Itemizer and loops over them. Every step below runs once for each card.',
           'Checks each card: a webhook GET request and a Formatter utility step run, and a filter then decides which cards continue.',
           'Reads the attachments: finds the card’s attachments in Trello.',
-          'Writes with AI: sends the content to ChatGPT (OpenAI) in a conversation step.',
-          'Updates Trello: updates the card.'
+          'Writes with AI: sends the content to ChatGPT (OpenAI) in a conversation step to write the caption and hashtags.',
+          'Saves the result: updates the Trello card with the caption and hashtags.'
         ]
       },
       {
