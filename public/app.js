@@ -251,6 +251,7 @@ const TOOL_PATTERNS = [
   ['WhatsApp', /\bWhatsApp\b/],
   ['Calendly', /\bCalendly\b/],
   ['Skool', /\bSkool\b/],
+  ['TidyCal', /\bTidyCal\b/],
   ['Trello', /\bTrello\b/],
   ['Facebook', /\bFacebook\b(?! [Aa]ds?\b)/],
   ['LinkedIn', /\bLinkedIn\b/],

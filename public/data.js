@@ -4030,6 +4030,40 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'zapier-tidycal-booking-to-leadconnector-google-sheets',
+    title: 'TidyCal Booking to LeadConnector and Google Sheets Zap',
+    description: 'This Zap runs when a new booking is made in TidyCal, adds or updates the contact in LeadConnector, and records the booking in Google Sheets.',
+    source: 'Portfolio',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This Zap runs when a new booking is made in TidyCal, adds or updates the contact in LeadConnector, and records the booking in Google Sheets. After a filter and a text formatting step, it looks up the matching row in the spreadsheet and then splits into two paths, so each booking ends up in the sheet.'
+      },
+      {
+        type: 'label',
+        text: 'How it works'
+      },
+      {
+        type: 'list',
+        items: [
+          'Starts on a new booking: the TidyCal “New Booking” trigger starts the Zap.',
+          'Filters and formats: a Filter by Zapier step checks conditions and a Formatter step works on text.',
+          'Updates the CRM: adds or updates the contact in LeadConnector.',
+          'Looks up the sheet: finds the matching row in Google Sheets.',
+          'Splits into two paths: one updates the spreadsheet row and the other creates a new row.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image16.png',
+        caption: 'The ten-step Zap: a TidyCal booking trigger, filter and text formatting, LeadConnector, a Google Sheets lookup, and two paths that update or create a row.'
+      }
+    ]
+  },
+  {
     id: 'make-automation-of-shopify-orders-to-google',
     title: 'Automation of Shopify Orders to Google Sheets for Dropshipping E-commerce Store',
     description: 'The primary goal of this automation is to streamline the process of managing Shopify orders by automatically distributing them to the appropriate fulfillment sheets.',
