@@ -92,7 +92,6 @@ function categoryCardHtml(cat) {
 
 function renderHome() {
   const app = document.getElementById('app');
-  const featured = CATEGORIES.find((c) => c.slug === 'custom-saas');
 
   const sections = GROUPS.map((group) => {
     const cats = CATEGORIES.filter((c) => c.group === group.key);
@@ -105,21 +104,7 @@ function renderHome() {
     `;
   }).join('');
 
-  const featuredHtml = featured ? `
-    <a class="featured-card" href="#/tag/${featured.slug}">
-      ${cardIconAreaHtml(featured)}
-      <div class="featured-card-body">
-        <h2>${escapeHtml(featured.name)}</h2>
-        <p>${escapeHtml(featured.description)}</p>
-      </div>
-      <span class="card-cta">View projects <span aria-hidden="true">&rarr;</span></span>
-    </a>
-  ` : '';
-
-  app.innerHTML = `
-    ${featuredHtml}
-    ${sections}
-  `;
+  app.innerHTML = sections;
   attachLogoFallbacks(app);
 }
 

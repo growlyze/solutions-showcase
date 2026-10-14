@@ -12,10 +12,10 @@
 //   logo file (plain emoji), since a logo image fully covers the tile either way. Used to give
 //   related categories (AI agents, PM tools, reporting) their own recognizable color at a glance.
 // `group`: which labeled section this category sits under on the home page (see GROUPS
-//   below). `custom-saas` has no group — it's shown as a standalone featured banner instead.
+//   below).
 // If a logo fails to load, app.js falls back to `icon` (emoji) so the UI never breaks.
 const CATEGORIES = [
-  { slug: 'custom-saas', icon: '☁️', tint: 'indigo', name: 'Custom SaaS Platforms', description: 'Full, ready-to-run software products built from scratch around one business’s exact workflow — not just an automation, a whole system.' },
+  { slug: 'custom-saas', icon: '☁️', tint: 'indigo', group: 'saas', name: 'Custom SaaS Platforms', description: 'Full, ready-to-run software products built from scratch around one business’s exact workflow — not just an automation, a whole system.' },
   { slug: 'n8n', icon: '🔗', logoFile: 'logos/n8n.png', fill: true, group: 'automation', name: 'n8n Automations', description: 'Behind-the-scenes workflows that connect your apps and AI models so work moves on its own, no manual steps.' },
   { slug: 'zapier', icon: '⚡', logoFile: 'logos/zapier.png', fill: true, group: 'automation', name: 'Zapier Automations', description: 'Quick, no-code automations that connect your everyday apps so one action triggers the next automatically.' },
   { slug: 'make', icon: '⚡', logoFile: 'logos/make.jpg', fill: true, group: 'automation', name: 'Make Automations', description: 'Visual, no-code workflows in Make.com that move data between your apps without writing any code.' },
@@ -34,6 +34,7 @@ const CATEGORIES = [
 
 // Section order and labels for the home page grid.
 const GROUPS = [
+  { key: 'saas', title: 'Custom SaaS Platforms' },
   { key: 'automation', title: 'Automation Platforms' },
   { key: 'ai', title: 'AI Agents' },
   { key: 'pm', title: 'Project & Ops Management' },
