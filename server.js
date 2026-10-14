@@ -56,6 +56,15 @@ app.get('/tag/:slug', (req, res) => {
   send(res, 'text/html; charset=utf-8', html);
 });
 
+// Short, clean links to the full-text pages for any visitor or tool (no query string, no # in it).
+// An AI tool that saved the plain home link before this existed cannot have a saved copy of these.
+app.get('/full', (req, res) => send(res, 'text/html; charset=utf-8', site.homeFullPage(baseUrl(req))));
+app.get('/full/:slug', (req, res) => {
+  const cat = site.categoryBySlug.get(req.params.slug);
+  if (!cat) return send(res, 'text/html; charset=utf-8', site.notFoundPage(baseUrl(req)), 404);
+  send(res, 'text/html; charset=utf-8', site.tagFullPage(cat, baseUrl(req)));
+});
+
 app.get('/', (req, res) => {
   res.vary('User-Agent');
   const html = wantsFullText(req) ? site.homeFullPage(baseUrl(req)) : site.homePage(baseUrl(req));

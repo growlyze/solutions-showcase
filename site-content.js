@@ -118,13 +118,13 @@ function create() {
   function fullHomeBody() {
     const articles = cases.map((c) => ({ c, html: articleHtml(c) })).sort((a, b) => a.html.length - b.html.length);
     return `<h1>${SITE_NAME}</h1><p>${esc(SITE_TAGLINE)}</p>`
-      + `<p>This is the complete text version of the site: a contents list naming every section and case study, then all ${cases.length} case studies in full, ordered from shortest to longest so that most can be read even if a long page is cut off. Each section also has its own page at /tag/&lt;section&gt;?full=1.</p>`
+      + `<p>This is the complete text version of the site: a contents list naming every section and case study, then all ${cases.length} case studies in full, ordered from shortest to longest so that most can be read even if a long page is cut off. Each section also has its own page at /full/&lt;section&gt;.</p>`
       + `<h2>Contents</h2>${contentsHtml(categories)}<h2>Case studies in full</h2>${articles.map((a) => a.html).join('')}`;
   }
 
   function fullTagBody(cat) {
     const list = casesFor(cat.slug);
-    return `<p><a href="/?full=1">&larr; All case studies</a></p><h1>${esc(cat.name)}</h1><p>${esc(cat.description)}</p>`
+    return `<p><a href="/full">&larr; All case studies</a></p><h1>${esc(cat.name)}</h1><p>${esc(cat.description)}</p>`
       + `<p>All ${list.length} case ${list.length === 1 ? 'study' : 'studies'} in this section follow in full.</p>`
       + `<h2>Contents</h2>${contentsHtml([cat])}<h2>Case studies in full</h2>${list.map(articleHtml).join('')}`;
   }
@@ -178,7 +178,7 @@ function create() {
       if (!list.length) return '';
       return `## ${cat.name}\n\n${cat.description}\n\n` + list.map((c) => `- [${c.title}](${base}/case/${c.id}.md): ${c.description}`).join('\n');
     }).filter(Boolean).join('\n\n');
-    return `# ${SITE_NAME}\n\n> ${SITE_TAGLINE} Each case study link below is its plain-text version. To read many at once, use the per-section files (each holds the complete text of every case study in that section) or the whole site in one very long file: ${base}/llms-full.txt (the same content as one web page: ${base}/?full=1)\n\n## Full text by section\n\n${sectionFileLines(base)}\n\n${sections}\n`;
+    return `# ${SITE_NAME}\n\n> ${SITE_TAGLINE} Each case study link below is its plain-text version. To read many at once, use the per-section files (each holds the complete text of every case study in that section) or the whole site in one very long file: ${base}/llms-full.txt (the same content as one web page: ${base}/full)\n\n## Full text by section\n\n${sectionFileLines(base)}\n\n${sections}\n`;
   }
 
   function llmsFullTxt(base) {
@@ -211,7 +211,7 @@ function create() {
     const head = `<link rel="canonical" href="${esc(base + urlPath)}" />\n`
       + (alternate ? `<link rel="alternate" type="text/markdown" href="${esc(base + alternate)}" />\n` : '')
       + `<link rel="alternate" type="text/plain" href="${esc(base)}/llms.txt" title="Plain-text index of every case study" />\n</head>`;
-    const aiLine = `${FOOTER_LINE}\n      <p>Reading this with an AI tool? Everything on one page: <a href="/?full=1">${esc(base)}/?full=1</a> · plain text: <a href="/llms.txt">${esc(base)}/llms.txt</a></p>`;
+    const aiLine = `${FOOTER_LINE}\n      <p>Reading this with an AI tool? Everything on one page: <a href="/full">${esc(base)}/full</a> · plain text: <a href="/llms.txt">${esc(base)}/llms.txt</a></p>`;
     return template
       .replace(`<title>${SITE_NAME}</title>`, `<title>${esc(fullTitle)}</title>`)
       .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${esc(desc)}" />`)
