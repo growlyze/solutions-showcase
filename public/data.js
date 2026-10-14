@@ -2816,7 +2816,7 @@ const CASE_STUDIES = [
     description: 'A web app that scans an uploaded supplier contract for key terms with Claude, has a person review anything missing, and files it into the right Google Drive folder.',
     source: 'Portfolio',
     tags: [
-      'python'
+      'custom-saas'
     ],
     content: [
       {
@@ -2892,7 +2892,7 @@ const CASE_STUDIES = [
     description: 'A web app that compares a group’s paid list and rooming list and flags anyone who is missing, unpaid or listed under a similar-looking name.',
     source: 'Portfolio',
     tags: [
-      'python'
+      'custom-saas'
     ],
     content: [
       {
