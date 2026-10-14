@@ -4457,6 +4457,74 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'make-slack-bot-trip-questions-from-ops-master-sheet',
+    title: 'A Slack Bot That Answers Trip Questions from an Ops Master Sheet',
+    description: 'A Make scenario that lets a team member ask a plain-English trip question in Slack and get an answer drawn only from the ops master sheet.',
+    source: 'Portfolio',
+    tags: [
+      'make'
+    ],
+    content: [
+      {
+        type: 'heading',
+        text: 'Overview'
+      },
+      {
+        type: 'p',
+        text: 'An internal operations tool for a group travel team.'
+      },
+      {
+        type: 'p',
+        text: 'The operations team keeps all trip data in one Google Sheet (a “MASTER” tab in the workbook “Master Ops Fall 26/Spring27”). Each row is one group trip, with columns for dates, destination, ops coordinator, sales rep, contracts, hotel and rooming, transport, events, task due dates, and payment status.'
+      },
+      {
+        type: 'p',
+        text: 'This scenario lets a team member ask a plain-English question in Slack and get a structured answer drawn only from that sheet, without opening it and searching for the right row and column.'
+      },
+      {
+        type: 'p',
+        text: 'Built with Make, Anthropic Claude (claude-sonnet-4-6), Google Sheets and Slack.'
+      },
+      {
+        type: 'heading',
+        text: 'The Problem'
+      },
+      {
+        type: 'p',
+        text: 'The sheet is wide. The blueprint’s column list runs from column A to column BH, with more than 55 labelled fields per trip. Finding a single fact, such as a group’s hotel or room counts, means locating the right row, then scrolling to the right column.'
+      },
+      {
+        type: 'heading',
+        text: 'The Solution'
+      },
+      {
+        type: 'p',
+        text: 'A six-module Make scenario, triggered by a webhook, that:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Receives the Slack question and channel.',
+          'Uses Claude to turn the question into structured search terms.',
+          'Searches the master sheet for matching trips.',
+          'Flattens the matching rows into text.',
+          'Uses Claude again to answer from that text only.',
+          'Posts the answer back to the same Slack channel.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/make-portfolio/image13.png',
+        caption: 'The Make scenario: a custom webhook, Claude turning the question into search terms, a Google Sheets search, a text aggregator, Claude answering from the results, and a Slack message.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/make-portfolio/image14.png',
+        caption: 'An example answer in Slack: the question, the search terms Claude worked out, and the matching groups with their dates and destination (group names blurred for privacy).'
+      }
+    ]
+  },
+  {
     id: 'make-automation-of-shopify-orders-to-google',
     title: 'Automation of Shopify Orders to Google Sheets for Dropshipping E-commerce Store',
     description: 'The primary goal of this automation is to streamline the process of managing Shopify orders by automatically distributing them to the appropriate fulfillment sheets.',
