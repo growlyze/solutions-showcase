@@ -108,18 +108,70 @@ function create() {
       + `<p><a href="/case/${esc(cs.id)}">Page</a> · <a href="/case/${esc(cs.id)}.md">Plain text</a></p></article>`;
   }
 
-  const contentsHtml = (cats) => cats.map((cat) => {
+  // Contents: section names and case study titles. For the whole-site page each title links to the
+  // part it is in (partOf maps a case study id to its part number).
+  const contentsHtml = (cats, partOf) => cats.map((cat) => {
     const list = casesFor(cat.slug);
-    return list.length
-      ? `<h3>${esc(cat.name)}</h3><ul>${list.map((c) => `<li><a href="#case-${esc(c.id)}">${esc(c.title)}</a></li>`).join('')}</ul>`
-      : '';
+    if (!list.length) return '';
+    const item = (c) => {
+      const n = partOf ? partOf.get(c.id) : 1;
+      const href = n > 1 ? `/full/part-${n}#case-${esc(c.id)}` : `#case-${esc(c.id)}`;
+      return `<li><a href="${href}">${esc(c.title)}</a>${n > 1 ? ` (part ${n})` : ''}</li>`;
+    };
+    return `<h3>${esc(cat.name)}</h3><ul>${list.map(item).join('')}</ul>`;
   }).join('');
 
+  // The whole site is about 230,000 characters and many fetch tools read only about the first 100,000
+  // at a time. So the same content is also cut into parts that each fit in one read, shortest case
+  // studies first. /full is the whole thing on one page; /full/part-<n> are the parts.
+  const PART_BUDGET = 88000; // visible characters per part, comfortably under 100,000
+  const textLen = (html) => html.replace(/<[^>]+>/g, '').length;
+  let partsCache = null;
+  function fullParts() {
+    if (partsCache) return partsCache;
+    const articles = cases.map((c) => ({ c, html: articleHtml(c) })).sort((x, y) => textLen(x.html) - textLen(y.html));
+    const contents = contentsHtml(categories);
+    const parts = [];
+    let current = [], used = textLen(contents) + 1500; // part 1 also carries the intro and contents
+    for (const art of articles) {
+      const n = textLen(art.html);
+      if (current.length && used + n > PART_BUDGET) { parts.push(current); current = []; used = 600; }
+      current.push(art); used += n;
+    }
+    if (current.length) parts.push(current);
+    const partOf = new Map();
+    parts.forEach((list, i) => list.forEach((art) => partOf.set(art.c.id, i + 1)));
+    partsCache = { parts, partOf };
+    return partsCache;
+  }
+
+  const partLinksHtml = (current) => {
+    const { parts } = fullParts();
+    return parts.map((list, i) => {
+      const n = i + 1;
+      const label = `Part ${n} of ${parts.length} (${list.length} case ${list.length === 1 ? 'study' : 'studies'})`;
+      return n === current ? `<li>${label} — this page</li>` : `<li><a href="/full/part-${n}">${label}</a></li>`;
+    }).join('');
+  };
+
   function fullHomeBody() {
-    const articles = cases.map((c) => ({ c, html: articleHtml(c) })).sort((a, b) => a.html.length - b.html.length);
+    const { parts, partOf } = fullParts();
+    const all = parts.flat();
+    const kchars = Math.round(all.reduce((n, art) => n + textLen(art.html), 0) / 1000);
     return `<h1>${SITE_NAME}</h1><p>${esc(SITE_TAGLINE)}</p>`
-      + `<p>This is the complete text version of the site: a contents list naming every section and case study, then all ${cases.length} case studies in full, ordered from shortest to longest so that most can be read even if a long page is cut off. Each section also has its own page at /full/&lt;section&gt;.</p>`
-      + `<h2>Contents</h2>${contentsHtml(categories)}<h2>Case studies in full</h2>${articles.map((a) => a.html).join('')}`;
+      + `<p>This is the complete text of the site: a contents list naming every section and case study, then all ${cases.length} case studies in full, ordered from shortest to longest. Each section also has its own page at /full/&lt;section&gt;.</p>`
+      + `<p><strong>If your tool shows only the first part of this page:</strong> the page is about ${kchars},000 characters and some tools read only the first 100,000 at a time. The same content is also split into ${parts.length} parts that each fit in one read. What you have read so far matches Part 1; continue with the next part:</p>`
+      + `<ul>${partLinksHtml(0)}</ul>`
+      + `<h2>Contents</h2>${contentsHtml(categories, partOf)}<h2>Case studies in full</h2>${all.map((art) => art.html).join('')}`;
+  }
+
+  function fullPartBody(n) {
+    const { parts, partOf } = fullParts();
+    const next = n < parts.length ? `<p>End of part ${n} of ${parts.length}. Continue with <a href="/full/part-${n + 1}">part ${n + 1}</a>.</p>` : `<p>End of part ${n} of ${parts.length}: that is the complete text of the site.</p>`;
+    const head = n === 1
+      ? `<h1>${SITE_NAME} — part 1 of ${parts.length}</h1><p>${esc(SITE_TAGLINE)}</p><p>The complete text of the site in ${parts.length} parts, shortest case studies first. Parts:</p><ul>${partLinksHtml(1)}</ul><h2>Contents (every section and case study)</h2>${contentsHtml(categories, partOf)}`
+      : `<h1>${SITE_NAME} — part ${n} of ${parts.length}</h1><p>The complete text of the site in ${parts.length} parts. Parts:</p><ul>${partLinksHtml(n)}</ul><p><a href="/full/part-1">Part 1</a> has the contents list of every section and case study.</p>`;
+    return `${head}<h2>Case studies in full</h2>${parts[n - 1].map((art) => art.html).join('')}${next}`;
   }
 
   function fullTagBody(cat) {
@@ -178,7 +230,7 @@ function create() {
       if (!list.length) return '';
       return `## ${cat.name}\n\n${cat.description}\n\n` + list.map((c) => `- [${c.title}](${base}/case/${c.id}.md): ${c.description}`).join('\n');
     }).filter(Boolean).join('\n\n');
-    return `# ${SITE_NAME}\n\n> ${SITE_TAGLINE} Each case study link below is its plain-text version. To read many at once, use the per-section files (each holds the complete text of every case study in that section) or the whole site in one very long file: ${base}/llms-full.txt (the same content as one web page: ${base}/full)\n\n## Full text by section\n\n${sectionFileLines(base)}\n\n${sections}\n`;
+    return `# ${SITE_NAME}\n\n> ${SITE_TAGLINE} Each case study link below is its plain-text version. To read many at once, use the per-section files (each holds the complete text of every case study in that section) or the whole site in one very long file: ${base}/llms-full.txt (the same content as one web page: ${base}/full, also in parts that each fit in one read: ${base}/full/part-1, ${base}/full/part-2 and so on)\n\n## Full text by section\n\n${sectionFileLines(base)}\n\n${sections}\n`;
   }
 
   function llmsFullTxt(base) {
@@ -230,6 +282,8 @@ function create() {
     casePage: (cs, base) => page({ title: cs.title, description: cs.description, path: `/case/${cs.id}`, body: renderer.caseStudy(cs.id), base, alternate: `/case/${cs.id}.md` }),
     notFoundPage: (base) => page({ title: 'Not found', description: SITE_TAGLINE, path: '/', body: '<div class="empty-state">Page not found. <a href="/">Back to all case studies</a></div>', base }),
     homeFullPage: (base) => page({ title: SITE_NAME, description: SITE_TAGLINE, path: '/', body: fullHomeBody(), base, app: false }),
+    fullPartCount: () => fullParts().parts.length,
+    fullPartPage: (n, base) => page({ title: `${SITE_NAME} — part ${n} of ${fullParts().parts.length}`, description: SITE_TAGLINE, path: `/full/part-${n}`, body: fullPartBody(n), base, app: false }),
     tagFullPage: (cat, base) => page({ title: cat.name, description: cat.description, path: `/tag/${cat.slug}`, body: fullTagBody(cat), base, alternate: `/tag/${cat.slug}.md`, app: false }),
     caseMarkdown, tagMarkdown, llmsTxt, llmsFullTxt, sitemapXml, robotsTxt,
   };

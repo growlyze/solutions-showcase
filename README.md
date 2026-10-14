@@ -83,6 +83,7 @@ The app draws its pages in the browser with JavaScript, and the part of an addre
 | `/case/<id>.md` | The same case study as plain markdown |
 | `/tag/<slug>.md` | The complete text of every case study in one section (largest is about 74,000 characters) |
 | `/full` and `/full/<slug>` (also `/?full=1` and `/tag/<slug>?full=1`) | The complete text as one visible web page (about 270 KB for the whole site): a contents list with every title, then every case study in full. The same page is what AI tools and crawlers receive automatically at `/` and `/tag/<slug>` (see below). Works for any tool, whatever it calls itself |
+| `/full/part-1`, `/full/part-2`, … | The same complete text cut into parts that each fit in one read of about 100,000 characters (shortest case studies first; part 1 also has the contents list). `/full` links to them near the top |
 | `/llms.txt` | Index of everything, with links to the section and case study text files |
 | `/llms-full.txt` | The whole site in one very long file (about 220,000 characters; many fetch tools stop after about 100,000, so use the section files for those) |
 | `/sitemap.xml`, `/robots.txt` | For search engines and crawlers |
