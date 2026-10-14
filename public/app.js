@@ -166,6 +166,14 @@ function renderCategory(slug) {
   attachLogoFallbacks(app);
 }
 
+// List items written as "Term: explanation" are bolded up to the colon so a
+// long list can be scanned by its terms instead of read line by line.
+function listItemHtml(text) {
+  const m = String(text).match(/^([^:]{2,60}):\s+(\S[\s\S]*)$/);
+  if (!m || m[1].trim().split(/\s+/).length > 8) return escapeHtml(text);
+  return `<strong>${escapeHtml(m[1])}:</strong> ${escapeHtml(m[2])}`;
+}
+
 function contentBlockHtml(block) {
   if (block.type === 'heading') return `<h3>${escapeHtml(block.text)}</h3>`;
   if (block.type === 'subheading') return `<h4>${escapeHtml(block.text)}</h4>`;
@@ -177,10 +185,11 @@ function contentBlockHtml(block) {
     // the same description twice.
     const caption = block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : '';
     const alt = block.caption ? '' : escapeHtml(block.file.split('/').pop());
-    return `<figure class="content-figure"><img class="content-image" src="${escapeHtml(block.file)}" alt="${alt}" loading="lazy" />${caption}</figure>`;
+    const label = escapeHtml(block.caption ? `Enlarge image: ${block.caption}` : 'Enlarge image');
+    return `<figure class="content-figure"><img class="content-image" src="${escapeHtml(block.file)}" alt="${alt}" loading="lazy" tabindex="0" role="button" aria-label="${label}" />${caption}</figure>`;
   }
   if (block.type === 'list') {
-    return `<ul class="content-list">${block.items.map((i) => `<li>${escapeHtml(i)}</li>`).join('')}</ul>`;
+    return `<ul class="content-list">${block.items.map((i) => `<li>${listItemHtml(i)}</li>`).join('')}</ul>`;
   }
   if (block.type === 'stats') {
     return `<div class="content-stats">${block.items.map((s) => `<div class="stat-tile"><div class="stat-value">${escapeHtml(s.value)}</div><div class="stat-label">${escapeHtml(s.label)}</div></div>`).join('')}</div>`;
@@ -212,6 +221,31 @@ function descriptionRepeatedInBody(cs) {
   });
 }
 
+// A "keep reading" block under each case study: the next few case studies from
+// the same category, starting after the current one so every page offers
+// different suggestions.
+function relatedHtml(cs) {
+  const category = cs.tags.map((t) => CATEGORIES.find((c) => c.slug === t)).find(Boolean);
+  if (!category) return '';
+  const all = casesForTag(category.slug);
+  const at = all.findIndex((c) => c.id === cs.id);
+  const others = all.slice(at + 1).concat(all.slice(0, Math.max(at, 0))).filter((c) => c.id !== cs.id);
+  const picks = others.filter((c) => c.content && c.content.length).slice(0, 3);
+  if (!picks.length) return '';
+  const links = picks.map((c) => `
+      <a class="related-link" href="#/case/${escapeHtml(c.id)}">
+        <span class="related-title">${escapeHtml(c.title)}</span>
+        <span class="related-desc">${escapeHtml(c.description)}</span>
+        <span class="related-arrow" aria-hidden="true">&rarr;</span>
+      </a>`).join('');
+  return `
+    <nav class="case-end" aria-label="More case studies">
+      <h2 class="case-end-title">More in ${escapeHtml(category.name)}</h2>
+      ${links}
+      <a class="case-end-all" href="#/tag/${escapeHtml(category.slug)}">See all ${escapeHtml(category.name)} case studies &rarr;</a>
+    </nav>`;
+}
+
 function renderCaseDetail(id) {
   const app = document.getElementById('app');
   const cs = CASE_STUDIES.find((c) => c.id === id);
@@ -241,6 +275,7 @@ function renderCaseDetail(id) {
       <div class="case-detail-content">
         ${cs.content.map(contentBlockHtml).join('')}
       </div>
+      ${relatedHtml(cs)}
     </div>
   `;
   attachLogoFallbacks(app);
@@ -293,6 +328,55 @@ document.addEventListener('click', (e) => {
   }
 });
 
+// Click (or Enter/Space) on a screenshot opens it full size; many are dense
+// dashboards or workflow diagrams that are unreadable at column width.
+let lightboxReturnFocus = null;
+
+function closeLightbox() {
+  const box = document.querySelector('.lightbox');
+  if (!box) return;
+  box.remove();
+  document.body.classList.remove('lightbox-open');
+  if (lightboxReturnFocus && document.contains(lightboxReturnFocus)) lightboxReturnFocus.focus();
+  lightboxReturnFocus = null;
+}
+
+function openLightbox(img) {
+  closeLightbox();
+  lightboxReturnFocus = img;
+  const caption = img.closest('figure')?.querySelector('figcaption')?.textContent || '';
+  const box = document.createElement('div');
+  box.className = 'lightbox';
+  box.setAttribute('role', 'dialog');
+  box.setAttribute('aria-modal', 'true');
+  box.setAttribute('aria-label', caption || 'Enlarged image');
+  box.innerHTML = `
+    <button class="lightbox-close" type="button" aria-label="Close enlarged image">&times;</button>
+    <img class="lightbox-img" src="${escapeHtml(img.currentSrc || img.src)}" alt="${escapeHtml(caption)}" />
+    ${caption ? `<p class="lightbox-caption">${escapeHtml(caption)}</p>` : ''}`;
+  document.body.appendChild(box);
+  document.body.classList.add('lightbox-open');
+  box.querySelector('.lightbox-close').focus();
+}
+
+document.addEventListener('click', (e) => {
+  if (e.target.closest('.lightbox-close') || (e.target.closest('.lightbox') && !e.target.closest('.lightbox-img'))) {
+    closeLightbox();
+    return;
+  }
+  const img = e.target.closest('.content-image');
+  if (img) openLightbox(img);
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLightbox();
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('content-image')) {
+    e.preventDefault();
+    openLightbox(e.target);
+  }
+});
+
+window.addEventListener('hashchange', closeLightbox);
 window.addEventListener('hashchange', router);
 window.addEventListener('DOMContentLoaded', () => {
   initTheme();
