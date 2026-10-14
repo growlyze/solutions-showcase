@@ -150,7 +150,6 @@ function renderCategory(slug) {
         const ctaIcon = hasContent ? '&rarr;' : '&nearr;';
         return `
           <a class="card" href="${escapeHtml(href)}"${linkAttrs}>
-            <span class="source-chip">${escapeHtml(cs.source)}</span>
             <h3>${escapeHtml(cs.title)}</h3>
             <p>${escapeHtml(cs.description)}</p>
             <div class="tag-row">${tags}</div>
@@ -221,7 +220,6 @@ function renderCaseDetail(id) {
   app.innerHTML = `
     <a class="back-link" href="#/">&larr; Back home</a>
     <div class="case-detail-header">
-      <span class="source-chip">${escapeHtml(cs.source)}</span>
       <h1>${escapeHtml(cs.title)}</h1>
       <p>${escapeHtml(cs.description)}</p>
       <div class="tag-row">${tags}</div>

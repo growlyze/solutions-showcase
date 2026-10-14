@@ -428,19 +428,6 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.55;
 }
 
-.source-chip {
-  display: inline-block;
-  font-size: 11.5px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--chip-text);
-  background: var(--chip-bg);
-  padding: 3px 9px;
-  border-radius: 999px;
-  margin-bottom: 10px;
-}
-
 .tag-row {
   display: flex;
   flex-wrap: wrap;
@@ -479,7 +466,7 @@ a { color: inherit; text-decoration: none; }
   font-family: 'Sora', 'Inter', system-ui, sans-serif;
   font-size: 28px;
   font-weight: 700;
-  margin: 10px 0 10px;
+  margin: 0 0 10px;
   letter-spacing: -0.02em;
 }
 
