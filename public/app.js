@@ -218,14 +218,16 @@ function renderCaseDetail(id) {
     .join('');
 
   app.innerHTML = `
-    <a class="back-link" href="#/">&larr; Back home</a>
-    <div class="case-detail-header">
-      <h1>${escapeHtml(cs.title)}</h1>
-      <p>${escapeHtml(cs.description)}</p>
-      <div class="tag-row">${tags}</div>
-    </div>
-    <div class="case-detail-content">
-      ${cs.content.map(contentBlockHtml).join('')}
+    <div class="case-detail-wrap">
+      <a class="back-link" href="#/">&larr; Back home</a>
+      <div class="case-detail-header">
+        <h1>${escapeHtml(cs.title)}</h1>
+        <p>${escapeHtml(cs.description)}</p>
+        <div class="tag-row">${tags}</div>
+      </div>
+      <div class="case-detail-content">
+        ${cs.content.map(contentBlockHtml).join('')}
+      </div>
     </div>
   `;
   attachLogoFallbacks(app);
