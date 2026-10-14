@@ -691,3 +691,40 @@ button:focus-visible {
   .content-table { font-size: 13px; }
   .category-header h1 { font-size: 23px; }
 }
+
+/* ---- Lone and paired cards fill the row instead of leaving empty space ---- */
+
+.grid.grid--solo > * { flex-basis: 100%; }
+.grid.grid--duo > * { flex-basis: calc((100% - 18px) / 2); }
+
+@media (min-width: 701px) {
+  .grid--solo > .card--row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "icon title cta" "icon desc cta";
+    column-gap: 24px;
+    row-gap: 0;
+    align-items: center;
+    padding: 26px 32px;
+    height: auto;
+  }
+
+  .card--row > .card-icon,
+  .card--row > .card-icon-group { grid-area: icon; margin: 0; }
+  .card--row > h3 { grid-area: title; margin: 0 0 4px; align-self: end; font-size: 19px; }
+  .card--row > p { grid-area: desc; margin: 0; align-self: start; max-width: 72ch; }
+  .card--row > .card-cta { grid-area: cta; margin: 0; padding: 0; white-space: nowrap; }
+
+  .grid--solo > .card--row.card--row-case {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "title cta" "desc cta" "tags cta";
+  }
+  .card--row-case > .tag-row { grid-area: tags; margin-top: 12px; }
+}
+
+@media (max-width: 600px) {
+  .grid.grid--duo > * { flex-basis: 100%; }
+}
+
+/* Cards in the same row stretch to the same height. */
+.grid > .card { height: auto; align-self: stretch; }

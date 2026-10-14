@@ -79,9 +79,17 @@ function attachLogoFallbacks(root) {
   });
 }
 
-function categoryCardHtml(cat) {
+// A lone card becomes a full-width row and two cards split the row, so a
+// section never shows empty space around a single small card.
+function gridClass(count) {
+  if (count === 1) return 'grid grid--solo';
+  if (count === 2) return 'grid grid--duo';
+  return 'grid';
+}
+
+function categoryCardHtml(cat, solo) {
   return `
-    <a class="card" href="#/tag/${cat.slug}">
+    <a class="card${solo ? ' card--row' : ''}" href="#/tag/${cat.slug}">
       ${cardIconAreaHtml(cat)}
       <h3>${escapeHtml(cat.name)}</h3>
       <p>${escapeHtml(cat.description)}</p>
@@ -99,7 +107,7 @@ function renderHome() {
     return `
       <section class="category-section">
         <h2 class="section-title">${escapeHtml(group.title)}</h2>
-        <div class="grid">${cats.map(categoryCardHtml).join('')}</div>
+        <div class="${gridClass(cats.length)}">${cats.map((c) => categoryCardHtml(c, cats.length === 1)).join('')}</div>
       </section>
     `;
   }).join('');
@@ -134,7 +142,7 @@ function renderCategory(slug) {
         const ctaLabel = hasContent ? 'Read case study' : 'Open case study';
         const ctaIcon = hasContent ? '&rarr;' : '&nearr;';
         return `
-          <a class="card" href="${escapeHtml(href)}"${linkAttrs}>
+          <a class="card${cases.length === 1 ? ' card--row card--row-case' : ''}" href="${escapeHtml(href)}"${linkAttrs}>
             <h3>${escapeHtml(cs.title)}</h3>
             <p>${escapeHtml(cs.description)}</p>
             <div class="tag-row">${tags}</div>
@@ -153,7 +161,7 @@ function renderCategory(slug) {
         <p>${escapeHtml(category.description)}</p>
       </div>
     </div>
-    <div class="grid">${cardsHtml}</div>
+    <div class="${gridClass(cases.length)}">${cardsHtml}</div>
   `;
   attachLogoFallbacks(app);
 }
