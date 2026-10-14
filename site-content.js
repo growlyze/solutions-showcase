@@ -62,11 +62,12 @@ function create() {
       return `<section><h2><a href="/tag/${esc(cat.slug)}">${esc(cat.name)}</a></h2><p>${esc(cat.description)}</p>${list.length ? caseListHtml(list) : ''}</section>`;
     }).join('');
     return `<section class="sr-only" aria-label="All case studies"><h1>${SITE_NAME}</h1><p>${esc(SITE_TAGLINE)}</p>`
-      + `<p>This page lists every section and case study with a short summary. The complete written text of every case study is in one plain-text file: <a href="/llms-full.txt">${esc(base)}/llms-full.txt</a>. Each case study also has its own page and a markdown version, linked below.</p>${sections}</section>`;
+      + `<p>This page lists every section and case study with a short summary. The complete written text is available as plain text, one file per section (below), or everything in one very long file: <a href="/llms-full.txt">${esc(base)}/llms-full.txt</a>. Each case study also has its own page and a markdown version, linked in the sections after the list.</p>`
+      + `<h2>Complete text by section</h2><ul>${sectionsWithCases().map((cat) => { const n = casesFor(cat.slug).length; return `<li><a href="/tag/${esc(cat.slug)}.md">${esc(cat.name)} — all ${n} case ${n === 1 ? 'study' : 'studies'} in full</a></li>`; }).join('')}</ul>${sections}</section>`;
   }
 
   function tagBody(cat) {
-    return `<div class="ssr"><p><a href="/">&larr; All categories</a></p><h1>${esc(cat.name)}</h1><p>${esc(cat.description)}</p>${caseListHtml(casesFor(cat.slug))}<p>The complete text of every case study is in <a href="/llms-full.txt">/llms-full.txt</a>.</p></div>`;
+    return `<div class="ssr"><p><a href="/">&larr; All categories</a></p><h1>${esc(cat.name)}</h1><p>${esc(cat.description)}</p>${caseListHtml(casesFor(cat.slug))}<p>The complete text of every case study in this section is in <a href="/tag/${esc(cat.slug)}.md">/tag/${esc(cat.slug)}.md</a>.</p></div>`;
   }
 
   function caseBody(cs) {
@@ -107,17 +108,31 @@ function create() {
     ].filter(Boolean).join('\n\n') + '\n';
   }
 
+  // One file per section with the full text of all its case studies. The biggest is about 74,000
+  // characters, which fits inside the size AI fetch tools read in one go (the whole site does not).
+  function tagMarkdown(cat, base) {
+    const list = casesFor(cat.slug);
+    return [`# ${cat.name}`, `> ${cat.description}`, `Page: ${base}/tag/${cat.slug}`, `${list.length} case ${list.length === 1 ? 'study' : 'studies'} in full below.`]
+      .join('\n\n') + '\n\n' + list.map((c) => caseMarkdown(c, base)).join('\n---\n\n');
+  }
+
+  const sectionsWithCases = () => categories.filter((cat) => casesFor(cat.slug).length);
+  const sectionFileLines = (base) => sectionsWithCases().map((cat) => {
+    const n = casesFor(cat.slug).length;
+    return `- [${cat.name} — ${n} case ${n === 1 ? 'study' : 'studies'} in full](${base}/tag/${cat.slug}.md)`;
+  }).join('\n');
+
   function llmsTxt(base) {
     const sections = categories.map((cat) => {
       const list = casesFor(cat.slug);
       if (!list.length) return '';
       return `## ${cat.name}\n\n${cat.description}\n\n` + list.map((c) => `- [${c.title}](${base}/case/${c.id}.md): ${c.description}`).join('\n');
     }).filter(Boolean).join('\n\n');
-    return `# ${SITE_NAME}\n\n> ${SITE_TAGLINE} Each link below is the plain-text version of one case study. The whole site in one file: ${base}/llms-full.txt\n\n${sections}\n`;
+    return `# ${SITE_NAME}\n\n> ${SITE_TAGLINE} Each case study link below is its plain-text version. To read many at once, use the per-section files (each holds the complete text of every case study in that section) or the whole site in one very long file: ${base}/llms-full.txt\n\n## Full text by section\n\n${sectionFileLines(base)}\n\n${sections}\n`;
   }
 
   function llmsFullTxt(base) {
-    return `# ${SITE_NAME}\n\n> ${SITE_TAGLINE}\n\n` + cases.map((c) => caseMarkdown(c, base)).join('\n---\n\n');
+    return `# ${SITE_NAME}\n\n> ${SITE_TAGLINE}\n\nThis file holds every case study in full and is very long (about ${Math.round(cases.reduce((n, c) => n + caseMarkdown(c, base).length, 0) / 1000)},000 characters). If your tool cuts long files short, read one section at a time instead — each of these files has the complete text of every case study in that section:\n\n${sectionFileLines(base)}\n\n---\n\n` + cases.map((c) => caseMarkdown(c, base)).join('\n---\n\n');
   }
 
   function sitemapXml(base) {
@@ -169,10 +184,10 @@ function create() {
   return {
     categories, cases, caseById, categoryBySlug,
     homePage: (base) => page({ title: SITE_NAME, description: SITE_TAGLINE, path: '/', body: '', afterMain: homeIndex(base), base }),
-    tagPage: (cat, base) => page({ title: cat.name, description: cat.description, path: `/tag/${cat.slug}`, body: tagBody(cat), base }),
+    tagPage: (cat, base) => page({ title: cat.name, description: cat.description, path: `/tag/${cat.slug}`, body: tagBody(cat), base, alternate: `/tag/${cat.slug}.md` }),
     casePage: (cs, base) => page({ title: cs.title, description: cs.description, path: `/case/${cs.id}`, body: caseBody(cs), base, alternate: `/case/${cs.id}.md` }),
     notFoundPage: (base) => page({ title: 'Not found', description: SITE_TAGLINE, path: '/', body: `<div class="ssr"><h1>Page not found</h1><p><a href="/">Back to all case studies</a></p></div>`, base }),
-    caseMarkdown, llmsTxt, llmsFullTxt, sitemapXml, robotsTxt,
+    caseMarkdown, tagMarkdown, llmsTxt, llmsFullTxt, sitemapXml, robotsTxt,
   };
 }
 

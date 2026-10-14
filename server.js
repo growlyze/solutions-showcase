@@ -35,6 +35,12 @@ app.get('/case/:id', (req, res) => {
   send(res, 'text/html; charset=utf-8', site.casePage(cs, baseUrl(req)));
 });
 
+app.get('/tag/:slug.md', (req, res) => {
+  const cat = site.categoryBySlug.get(req.params.slug);
+  if (!cat) return send(res, 'text/plain; charset=utf-8', 'Not found\n', 404);
+  send(res, 'text/markdown; charset=utf-8', site.tagMarkdown(cat, baseUrl(req)));
+});
+
 app.get('/tag/:slug', (req, res) => {
   const cat = site.categoryBySlug.get(req.params.slug);
   if (!cat) return send(res, 'text/html; charset=utf-8', site.notFoundPage(baseUrl(req)), 404);
