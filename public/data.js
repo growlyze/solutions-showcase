@@ -3902,93 +3902,6 @@ const CASE_STUDIES = [
     ]
   },
   {
-    id: 'zapier-automating-lemlist-and-lead-connector',
-    title: 'Automating Lemlist and Lead connector',
-    description: 'A Zapier automation: Automating Lemlist and Lead connector.',
-    source: 'Portfolio',
-    url: 'https://bit.ly/4w5l2AE',
-    tags: [
-      'zapier'
-    ],
-    content: [
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image3.png'
-      }
-    ]
-  },
-  {
-    id: 'zapier-integration-of-rb2b-with-go-high',
-    title: 'Integration of RB2B with Go High Level and Beehiv',
-    description: 'RB2B is a platform that collects website visitor profiles.',
-    source: 'Portfolio',
-    url: 'https://bit.ly/4w5l2AE',
-    tags: [
-      'zapier'
-    ],
-    content: [
-      {
-        type: 'list',
-        items: [
-          'RB2B is a platform that collects website visitor profiles.',
-          'When a profile is created in RB2B, that profile is added to lemlist'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image4.png'
-      }
-    ]
-  },
-  {
-    id: 'zapier-automating-calendly-bookings-to-beehiiv',
-    title: 'Automating Calendly bookings to Beehiiv',
-    description: 'A Zapier automation: Automating Calendly bookings to Beehiiv.',
-    source: 'Portfolio',
-    url: 'https://bit.ly/4w5l2AE',
-    tags: [
-      'zapier'
-    ],
-    content: [
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image5.png'
-      }
-    ]
-  },
-  {
-    id: 'zapier-automating-typeform-to-monday-com',
-    title: 'Automating typeform to Monday.com',
-    description: 'A Zapier automation: Automating typeform to Monday.com.',
-    source: 'Portfolio',
-    url: 'https://bit.ly/4w5l2AE',
-    tags: [
-      'zapier'
-    ],
-    content: [
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image6.png'
-      }
-    ]
-  },
-  {
-    id: 'zapier-automating-trainerize-to-active-campaign',
-    title: 'Automating Trainerize to Active campaign',
-    description: 'A Zapier automation: Automating Trainerize to Active campaign.',
-    source: 'Portfolio',
-    url: 'https://bit.ly/4w5l2AE',
-    tags: [
-      'zapier'
-    ],
-    content: [
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image7.png'
-      }
-    ]
-  },
-  {
     id: 'zapier-gmail-to-clickup-zap',
     title: 'Gmail to ClickUp Zap',
     description: 'This Zap automates the process of task creation in ClickUp based on incoming emails from a specified sender in Gmail.',
@@ -5582,7 +5495,7 @@ const CASE_STUDIES = [
     source: 'Notion',
     url: 'https://bit.ly/42E2n1a',
     tags: [
-      'ecommerce-agents',
+      'n8n',
       'ai-agents'
     ],
     content: [
@@ -5786,7 +5699,7 @@ const CASE_STUDIES = [
     source: 'Notion',
     url: 'https://bit.ly/42E2n1a',
     tags: [
-      'ecommerce-agents',
+      'n8n',
       'ai-agents'
     ],
     content: [
@@ -6189,7 +6102,7 @@ const CASE_STUDIES = [
     source: 'Notion',
     url: 'https://bit.ly/42E2n1a',
     tags: [
-      'ecommerce-agents',
+      'n8n',
       'ai-agents'
     ],
     content: [
@@ -6498,7 +6411,7 @@ const CASE_STUDIES = [
     source: 'Notion',
     url: 'https://bit.ly/42E2n1a',
     tags: [
-      'ecommerce-agents',
+      'n8n',
       'ai-agents'
     ],
     content: [
@@ -7017,7 +6930,8 @@ const CASE_STUDIES = [
     source: 'Notion',
     url: 'https://bit.ly/42E2n1a',
     tags: [
-      'ecommerce-agents',
+      'n8n',
+      'make',
       'ai-agents'
     ],
     content: [
@@ -7318,7 +7232,7 @@ const CASE_STUDIES = [
     source: 'Notion',
     url: 'https://bit.ly/42E2n1a',
     tags: [
-      'ecommerce-agents',
+      'n8n',
       'ai-agents',
       'ai-whatsapp'
     ],
