@@ -247,7 +247,7 @@ function applyTheme(theme) {
 function initTheme() {
   let saved = null;
   try { saved = localStorage.getItem('theme'); } catch (e) {}
-  applyTheme(saved === 'light' ? 'light' : 'dark');
+  applyTheme(saved === 'dark' ? 'dark' : 'light');
 
   const btn = document.getElementById('theme-toggle');
   if (btn) {
