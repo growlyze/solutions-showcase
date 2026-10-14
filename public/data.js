@@ -3852,6 +3852,168 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'zapier-trello-to-facebook-linkedin-instagram-posting',
+    title: 'Trello to Facebook, LinkedIn and Instagram Social Posting Zap',
+    description: 'This Zap runs every day, picks up the Trello cards for that day, and publishes their images and captions to Facebook, LinkedIn and Instagram.',
+    source: 'Portfolio',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This Zap runs every day, picks up the Trello cards for that day, and publishes their images and captions to Facebook, LinkedIn and Instagram. Each card holds the post images and a caption for each platform, so content is prepared in Trello and published without manual uploading.'
+      },
+      {
+        type: 'label',
+        text: 'How it works'
+      },
+      {
+        type: 'list',
+        items: [
+          'Runs every day: a Schedule by Zapier trigger starts the Zap once a day.',
+          'Finds the cards: gets the cards from a single Trello pillar, splits them into individual items and loops over each one.',
+          'Checks each card: Formatter steps convert the start and due dates and read the card status, and a filter then decides which cards continue.',
+          'Gets the content: extracts the social captions, then finds the card’s image attachments in Trello.',
+          'Updates Trello: updates the card and moves it to another list.',
+          'Publishes everywhere: Code by Zapier and Paths split the card into branches by platform and content type, then publish posts and videos to Facebook Pages, company updates to LinkedIn, and photos and videos to Instagram for Business.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image14.png',
+        caption: 'Steps 1–11: the daily schedule, the Trello card lookup, a loop over each card, and date and status formatting.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image15.png',
+        caption: 'Steps 12–48: caption extraction, Trello updates, and the Paths that publish to Facebook Pages, LinkedIn and Instagram for Business.'
+      }
+    ]
+  },
+  {
+    id: 'zapier-gmail-to-clickup-zap',
+    title: 'Gmail to ClickUp Zap',
+    description: 'This Zap automates the process of task creation in ClickUp based on incoming emails from a specified sender in Gmail.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This Zap automates the process of task creation in ClickUp based on incoming emails from a specified sender in Gmail. Whenever an email is received from the designated sender, the Zap automatically creates a new task in ClickUp. Additionally, any attachments included in the email are uploaded and attached to the newly created ClickUp task, ensuring all pertinent information and documents are consolidated and accessible directly within the task.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image8.png'
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image9.png'
+      }
+    ]
+  },
+  {
+    id: 'zapier-tidycal-booking-to-leadconnector-google-sheets',
+    title: 'TidyCal Booking to LeadConnector and Google Sheets Zap',
+    description: 'This Zap runs when a new booking is made in TidyCal, adds or updates the contact in LeadConnector, and records the booking in Google Sheets.',
+    source: 'Portfolio',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This Zap runs when a new booking is made in TidyCal, adds or updates the contact in LeadConnector, and records the booking in Google Sheets. After a filter and a text formatting step, it looks up the matching row in the spreadsheet and then splits into two paths, so each booking ends up in the sheet.'
+      },
+      {
+        type: 'label',
+        text: 'How it works'
+      },
+      {
+        type: 'list',
+        items: [
+          'Starts on a new booking: the TidyCal “New Booking” trigger starts the Zap.',
+          'Filters and formats: a Filter by Zapier step checks conditions and a Formatter step works on text.',
+          'Updates the CRM: adds or updates the contact in LeadConnector.',
+          'Looks up the sheet: finds the matching row in Google Sheets.',
+          'Splits into two paths: one updates the spreadsheet row and the other creates a new row.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image16.png',
+        caption: 'The ten-step Zap: a TidyCal booking trigger, filter and text formatting, LeadConnector, a Google Sheets lookup, and two paths that update or create a row.'
+      }
+    ]
+  },
+  {
+    id: 'zapier-skool-membership-answers-to-slack-leadconnector-close',
+    title: 'Skool to Slack, LeadConnector and Close Zap',
+    description: 'This Zap connects Skool, Slack, LeadConnector and Close, starting when a member answers the Skool membership questions.',
+    source: 'Portfolio',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This Zap connects Skool, Slack, LeadConnector and Close, starting when a member answers the Skool membership questions. It then sends a message to a Slack channel, adds or updates the contact in LeadConnector, and looks up the matching contact and lead in Close.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image13.png',
+        caption: 'The five-step Zap: a Skool trigger, a Slack channel message, a LeadConnector contact update and two Close lookups.'
+      }
+    ]
+  },
+  {
+    id: 'zapier-cancel-calendly-bookings-zap',
+    title: 'Cancel Calendly Bookings Zap',
+    description: 'This Zap streamlines the process of appointment cancellations by integrating ClickUp with Calendly.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This Zap streamlines the process of appointment cancellations by integrating ClickUp with Calendly. When a cancellation is initiated from within ClickUp—by pressing the cancel button on a specific task—the relevant appointment is automatically cancelled in Calendly. This automation ensures that appointment slots are efficiently managed and updated in real time, reducing manual oversight and the potential for scheduling conflicts.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image11.png'
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image12.png'
+      }
+    ]
+  },
+  {
+    id: 'zapier-google-calendar-to-clickup-zap',
+    title: 'Google Calendar to ClickUp Zap',
+    description: 'This Zap facilitates seamless integration between Google Calendar and ClickUp, enhancing task management and operational efficiency.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This Zap facilitates seamless integration between Google Calendar and ClickUp, enhancing task management and operational efficiency. Whenever a new event is created in Google Calendar, the Zap automatically generates a corresponding task in ClickUp. It transfers relevant details from the calendar event, such as the date, time, and event description, to the ClickUp task. Furthermore, the Zap is configured to assign these tasks to specific individuals, optimizing task allocation and ensuring the right team members are engaged with relevant events and responsibilities.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image10.png'
+      }
+    ]
+  },
+  {
     id: 'zapier-integrating-gohighlevel-with-beehiv-using-zapier',
     title: 'Integrating GoHighLevel with Beehiv Using Zapier',
     description: 'A Zap is being built to connect GoHighLevel with Beehiv.',
@@ -3898,168 +4060,6 @@ const CASE_STUDIES = [
       {
         type: 'img',
         file: 'case-content/zapier-portfolio/image2.png'
-      }
-    ]
-  },
-  {
-    id: 'zapier-gmail-to-clickup-zap',
-    title: 'Gmail to ClickUp Zap',
-    description: 'This Zap automates the process of task creation in ClickUp based on incoming emails from a specified sender in Gmail.',
-    source: 'Portfolio',
-    url: 'https://bit.ly/4w5l2AE',
-    tags: [
-      'zapier'
-    ],
-    content: [
-      {
-        type: 'p',
-        text: 'This Zap automates the process of task creation in ClickUp based on incoming emails from a specified sender in Gmail. Whenever an email is received from the designated sender, the Zap automatically creates a new task in ClickUp. Additionally, any attachments included in the email are uploaded and attached to the newly created ClickUp task, ensuring all pertinent information and documents are consolidated and accessible directly within the task.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image8.png'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image9.png'
-      }
-    ]
-  },
-  {
-    id: 'zapier-google-calendar-to-clickup-zap',
-    title: 'Google Calendar to ClickUp Zap',
-    description: 'This Zap facilitates seamless integration between Google Calendar and ClickUp, enhancing task management and operational efficiency.',
-    source: 'Portfolio',
-    url: 'https://bit.ly/4w5l2AE',
-    tags: [
-      'zapier'
-    ],
-    content: [
-      {
-        type: 'p',
-        text: 'This Zap facilitates seamless integration between Google Calendar and ClickUp, enhancing task management and operational efficiency. Whenever a new event is created in Google Calendar, the Zap automatically generates a corresponding task in ClickUp. It transfers relevant details from the calendar event, such as the date, time, and event description, to the ClickUp task. Furthermore, the Zap is configured to assign these tasks to specific individuals, optimizing task allocation and ensuring the right team members are engaged with relevant events and responsibilities.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image10.png'
-      }
-    ]
-  },
-  {
-    id: 'zapier-cancel-calendly-bookings-zap',
-    title: 'Cancel Calendly Bookings Zap',
-    description: 'This Zap streamlines the process of appointment cancellations by integrating ClickUp with Calendly.',
-    source: 'Portfolio',
-    url: 'https://bit.ly/4w5l2AE',
-    tags: [
-      'zapier'
-    ],
-    content: [
-      {
-        type: 'p',
-        text: 'This Zap streamlines the process of appointment cancellations by integrating ClickUp with Calendly. When a cancellation is initiated from within ClickUp—by pressing the cancel button on a specific task—the relevant appointment is automatically cancelled in Calendly. This automation ensures that appointment slots are efficiently managed and updated in real time, reducing manual oversight and the potential for scheduling conflicts.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image11.png'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image12.png'
-      }
-    ]
-  },
-  {
-    id: 'zapier-skool-membership-answers-to-slack-leadconnector-close',
-    title: 'Skool to Slack, LeadConnector and Close Zap',
-    description: 'This Zap connects Skool, Slack, LeadConnector and Close, starting when a member answers the Skool membership questions.',
-    source: 'Portfolio',
-    tags: [
-      'zapier'
-    ],
-    content: [
-      {
-        type: 'p',
-        text: 'This Zap connects Skool, Slack, LeadConnector and Close, starting when a member answers the Skool membership questions. It then sends a message to a Slack channel, adds or updates the contact in LeadConnector, and looks up the matching contact and lead in Close.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image13.png',
-        caption: 'The five-step Zap: a Skool trigger, a Slack channel message, a LeadConnector contact update and two Close lookups.'
-      }
-    ]
-  },
-  {
-    id: 'zapier-trello-to-facebook-linkedin-instagram-posting',
-    title: 'Trello to Facebook, LinkedIn and Instagram Social Posting Zap',
-    description: 'This Zap runs every day, picks up the Trello cards for that day, and publishes their images and captions to Facebook, LinkedIn and Instagram.',
-    source: 'Portfolio',
-    tags: [
-      'zapier'
-    ],
-    content: [
-      {
-        type: 'p',
-        text: 'This Zap runs every day, picks up the Trello cards for that day, and publishes their images and captions to Facebook, LinkedIn and Instagram. Each card holds the post images and a caption for each platform, so content is prepared in Trello and published without manual uploading.'
-      },
-      {
-        type: 'label',
-        text: 'How it works'
-      },
-      {
-        type: 'list',
-        items: [
-          'Runs every day: a Schedule by Zapier trigger starts the Zap once a day.',
-          'Finds the cards: gets the cards from a single Trello pillar, splits them into individual items and loops over each one.',
-          'Checks each card: Formatter steps convert the start and due dates and read the card status, and a filter then decides which cards continue.',
-          'Gets the content: extracts the social captions, then finds the card’s image attachments in Trello.',
-          'Updates Trello: updates the card and moves it to another list.',
-          'Publishes everywhere: Code by Zapier and Paths split the card into branches by platform and content type, then publish posts and videos to Facebook Pages, company updates to LinkedIn, and photos and videos to Instagram for Business.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image14.png',
-        caption: 'Steps 1–11: the daily schedule, the Trello card lookup, a loop over each card, and date and status formatting.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image15.png',
-        caption: 'Steps 12–48: caption extraction, Trello updates, and the Paths that publish to Facebook Pages, LinkedIn and Instagram for Business.'
-      }
-    ]
-  },
-  {
-    id: 'zapier-tidycal-booking-to-leadconnector-google-sheets',
-    title: 'TidyCal Booking to LeadConnector and Google Sheets Zap',
-    description: 'This Zap runs when a new booking is made in TidyCal, adds or updates the contact in LeadConnector, and records the booking in Google Sheets.',
-    source: 'Portfolio',
-    tags: [
-      'zapier'
-    ],
-    content: [
-      {
-        type: 'p',
-        text: 'This Zap runs when a new booking is made in TidyCal, adds or updates the contact in LeadConnector, and records the booking in Google Sheets. After a filter and a text formatting step, it looks up the matching row in the spreadsheet and then splits into two paths, so each booking ends up in the sheet.'
-      },
-      {
-        type: 'label',
-        text: 'How it works'
-      },
-      {
-        type: 'list',
-        items: [
-          'Starts on a new booking: the TidyCal “New Booking” trigger starts the Zap.',
-          'Filters and formats: a Filter by Zapier step checks conditions and a Formatter step works on text.',
-          'Updates the CRM: adds or updates the contact in LeadConnector.',
-          'Looks up the sheet: finds the matching row in Google Sheets.',
-          'Splits into two paths: one updates the spreadsheet row and the other creates a new row.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image16.png',
-        caption: 'The ten-step Zap: a TidyCal booking trigger, filter and text formatting, LeadConnector, a Google Sheets lookup, and two paths that update or create a row.'
       }
     ]
   },
