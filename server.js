@@ -41,14 +41,26 @@ app.get('/tag/:slug.md', (req, res) => {
   send(res, 'text/markdown; charset=utf-8', site.tagMarkdown(cat, baseUrl(req)));
 });
 
+// AI tools and crawlers get the complete content on the page itself: AI fetch tools read one page and
+// do not click through, and tools that read only visible text cannot see the app's own rendering.
+// Everyone else (people, ordinary browsers) gets the normal site. Adding ?full=1 to a link forces the
+// full-text version for any tool whose name is not recognised here.
+const AI_OR_CRAWLER = /bot|crawl|spider|slurp|chatgpt|oai-|openai|claude|anthropic|perplexity|gemini|google-extended|googleother|bingpreview|duckassist|cohere|diffbot|facebookexternalhit|meta-external|mistral|deepseek|python-requests|python-urllib|aiohttp|httpx|axios|node-fetch|undici|go-http-client|okhttp|libwww|wget|curl|scrapy|java\//i;
+const wantsFullText = (req) => req.query.full === '1' || AI_OR_CRAWLER.test(req.get('user-agent') || '');
+
 app.get('/tag/:slug', (req, res) => {
+  res.vary('User-Agent');
   const cat = site.categoryBySlug.get(req.params.slug);
   if (!cat) return send(res, 'text/html; charset=utf-8', site.notFoundPage(baseUrl(req)), 404);
-  send(res, 'text/html; charset=utf-8', site.tagPage(cat, baseUrl(req)));
+  const html = wantsFullText(req) ? site.tagFullPage(cat, baseUrl(req)) : site.tagPage(cat, baseUrl(req));
+  send(res, 'text/html; charset=utf-8', html);
 });
 
-// The home page carries the full list of sections and case studies in its HTML.
-app.get('/', (req, res) => send(res, 'text/html; charset=utf-8', site.homePage(baseUrl(req))));
+app.get('/', (req, res) => {
+  res.vary('User-Agent');
+  const html = wantsFullText(req) ? site.homeFullPage(baseUrl(req)) : site.homePage(baseUrl(req));
+  send(res, 'text/html; charset=utf-8', html);
+});
 
 app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 

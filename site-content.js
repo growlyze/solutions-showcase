@@ -83,6 +83,51 @@ function create() {
   const casesFor = (slug) => cases.filter((c) => c.tags.includes(slug));
   const categoriesOf = (cs) => cs.tags.map((t) => categoryBySlug.get(t)).filter(Boolean);
 
+  // ---------- "Full text" pages: the whole content in one visible HTML page ----------
+  // Served to AI tools and crawlers (and to anyone who adds ?full=1). Plain, compact markup with the
+  // app's scripts left out, so a tool that runs JavaScript sees the same text as one that does not.
+  function blockHtml(b) {
+    switch (b.type) {
+      case 'heading': case 'eyebrow': return `<h3>${esc(b.text)}</h3>`;
+      case 'subheading': return `<h4>${esc(b.text)}</h4>`;
+      case 'label': return `<p><strong>${esc(b.text)}</strong></p>`;
+      case 'list': return `<ul>${b.items.map((i) => `<li>${esc(itemText(i))}</li>`).join('')}</ul>`;
+      case 'img': return b.caption ? `<p><em>Image: ${esc(b.caption)}</em></p>` : '';
+      case 'stats': return `<ul>${b.items.map((x) => `<li>${esc(x.value)} — ${esc(x.label)}</li>`).join('')}</ul>`;
+      case 'table': return `<table><thead><tr>${b.headers.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${b.rows.map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+      case 'quote': return `<blockquote><p>${esc(b.text)}</p><footer>${esc(b.attribution)}</footer></blockquote>`;
+      default: return `<p>${esc(b.text)}</p>`;
+    }
+  }
+
+  function articleHtml(cs) {
+    const sections = categoriesOf(cs).map((c) => esc(c.name)).join(', ');
+    return `<article id="case-${esc(cs.id)}"><h2>${esc(cs.title)}</h2><p>${esc(cs.description)}</p>`
+      + (sections ? `<p>Section: ${sections}</p>` : '')
+      + cs.content.map(blockHtml).join('')
+      + `<p><a href="/case/${esc(cs.id)}">Page</a> · <a href="/case/${esc(cs.id)}.md">Plain text</a></p></article>`;
+  }
+
+  const contentsHtml = (cats) => cats.map((cat) => {
+    const list = casesFor(cat.slug);
+    return list.length
+      ? `<h3>${esc(cat.name)}</h3><p>${esc(cat.description)}</p><ul>${list.map((c) => `<li><a href="#case-${esc(c.id)}">${esc(c.title)}</a> — ${esc(c.description)}</li>`).join('')}</ul>`
+      : '';
+  }).join('');
+
+  function fullHomeBody() {
+    return `<h1>${SITE_NAME}</h1><p>${esc(SITE_TAGLINE)}</p>`
+      + `<p>This is the complete text version of the site: a contents list, then every case study in full (${cases.length} case studies).</p>`
+      + `<h2>Contents</h2>${contentsHtml(categories)}<h2>Case studies in full</h2>${cases.map(articleHtml).join('')}`;
+  }
+
+  function fullTagBody(cat) {
+    const list = casesFor(cat.slug);
+    return `<p><a href="/?full=1">&larr; All case studies</a></p><h1>${esc(cat.name)}</h1><p>${esc(cat.description)}</p>`
+      + `<p>All ${list.length} case ${list.length === 1 ? 'study' : 'studies'} in this section follow in full.</p>`
+      + `<h2>Contents</h2>${contentsHtml([cat])}<h2>Case studies in full</h2>${list.map(articleHtml).join('')}`;
+  }
+
   // ---------- Markdown / plain text ----------
   function blockMd(b, base) {
     switch (b.type) {
@@ -132,7 +177,7 @@ function create() {
       if (!list.length) return '';
       return `## ${cat.name}\n\n${cat.description}\n\n` + list.map((c) => `- [${c.title}](${base}/case/${c.id}.md): ${c.description}`).join('\n');
     }).filter(Boolean).join('\n\n');
-    return `# ${SITE_NAME}\n\n> ${SITE_TAGLINE} Each case study link below is its plain-text version. To read many at once, use the per-section files (each holds the complete text of every case study in that section) or the whole site in one very long file: ${base}/llms-full.txt\n\n## Full text by section\n\n${sectionFileLines(base)}\n\n${sections}\n`;
+    return `# ${SITE_NAME}\n\n> ${SITE_TAGLINE} Each case study link below is its plain-text version. To read many at once, use the per-section files (each holds the complete text of every case study in that section) or the whole site in one very long file: ${base}/llms-full.txt (the same content as one web page: ${base}/?full=1)\n\n## Full text by section\n\n${sectionFileLines(base)}\n\n${sections}\n`;
   }
 
   function llmsFullTxt(base) {
@@ -159,13 +204,13 @@ function create() {
   for (const a of anchors) if (!template.includes(a)) throw new Error('index.html is missing: ' + a);
   if (!/<meta name="description" content="[^"]*" \/>/.test(template)) throw new Error('index.html is missing the description meta tag');
 
-  function page({ title, description, path: urlPath, body, base, alternate }) {
+  function page({ title, description, path: urlPath, body, base, alternate, app = true }) {
     const fullTitle = title === SITE_NAME ? SITE_NAME : `${title} | ${SITE_NAME}`;
     const desc = String(description || SITE_TAGLINE).slice(0, 300);
     const head = `<link rel="canonical" href="${esc(base + urlPath)}" />\n`
       + (alternate ? `<link rel="alternate" type="text/markdown" href="${esc(base + alternate)}" />\n` : '')
       + `<link rel="alternate" type="text/plain" href="${esc(base)}/llms.txt" title="Plain-text index of every case study" />\n</head>`;
-    const aiLine = `${FOOTER_LINE}\n      <p>Reading this with an AI tool? Use the plain-text version: <a href="/llms.txt">${esc(base)}/llms.txt</a></p>`;
+    const aiLine = `${FOOTER_LINE}\n      <p>Reading this with an AI tool? Everything on one page: <a href="/?full=1">${esc(base)}/?full=1</a> · plain text: <a href="/llms.txt">${esc(base)}/llms.txt</a></p>`;
     return template
       .replace(`<title>${SITE_NAME}</title>`, `<title>${esc(fullTitle)}</title>`)
       .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${esc(desc)}" />`)
@@ -173,8 +218,8 @@ function create() {
       .replace('<main id="app" class="container"></main>', `<main id="app" class="container">${body}</main>`)
       .replace(FOOTER_LINE, aiLine)
       .replace('href="style.css"', 'href="/style.css"')
-      .replace('src="data.js"', 'src="/data.js"')
-      .replace('src="app.js"', 'src="/app.js"');
+      .replace('<script src="data.js"></script>', app ? '<script src="/data.js"></script>' : '')
+      .replace('<script src="app.js"></script>', app ? '<script src="/app.js"></script>' : '');
   }
 
   return {
@@ -183,6 +228,8 @@ function create() {
     tagPage: (cat, base) => page({ title: cat.name, description: cat.description, path: `/tag/${cat.slug}`, body: renderer.tag(cat.slug), base, alternate: `/tag/${cat.slug}.md` }),
     casePage: (cs, base) => page({ title: cs.title, description: cs.description, path: `/case/${cs.id}`, body: renderer.caseStudy(cs.id), base, alternate: `/case/${cs.id}.md` }),
     notFoundPage: (base) => page({ title: 'Not found', description: SITE_TAGLINE, path: '/', body: '<div class="empty-state">Page not found. <a href="/">Back to all case studies</a></div>', base }),
+    homeFullPage: (base) => page({ title: SITE_NAME, description: SITE_TAGLINE, path: '/', body: fullHomeBody(), base, app: false }),
+    tagFullPage: (cat, base) => page({ title: cat.name, description: cat.description, path: `/tag/${cat.slug}`, body: fullTagBody(cat), base, alternate: `/tag/${cat.slug}.md`, app: false }),
     caseMarkdown, tagMarkdown, llmsTxt, llmsFullTxt, sitemapXml, robotsTxt,
   };
 }
