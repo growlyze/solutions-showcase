@@ -477,7 +477,16 @@ document.addEventListener('keydown', (e) => {
 
 window.addEventListener('hashchange', closeLightbox);
 window.addEventListener('hashchange', router);
+// The server also answers /case/<id> and /tag/<slug> with a page whose HTML already holds the
+// text (that is what crawlers and AI tools read). People who open one of those addresses get
+// the same page through the app: the address is rewritten to its #/ form before anything draws.
+function adoptPathRoute() {
+  const m = window.location.pathname.match(/^\/(case|tag)\/([a-z0-9-]+)\/?$/i);
+  if (m && !window.location.hash) window.history.replaceState(null, '', `/#/${m[1]}/${m[2]}`);
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   initTheme();
+  adoptPathRoute();
   router();
 });

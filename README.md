@@ -2,7 +2,7 @@
 
 Frontend-only case study platform. Home page shows category cards (one per tool/use case); clicking a category shows the case studies tagged under it; clicking a case study opens its original source (Notion, Google Docs, Google Drive) in a new tab. A single case study can be tagged under multiple categories.
 
-No database, no backend logic — `server.js` just serves the static files in `public/`.
+No database, no backend logic — `server.js` serves the static files in `public/` and also sends the content as plain HTML and text so AI tools and search engines can read it (see "Readable by AI tools" below).
 
 ## Project structure
 
@@ -13,7 +13,8 @@ public/
   data.js      <-- EDIT THIS to add/remove/retag case studies and categories
   app.js       routing + rendering (hash-based: #/ and #/tag/<slug>)
   logos/       official brand logo files (see below)
-server.js      static file server used for deployment
+server.js      server used for deployment: static files plus the crawler-readable pages
+site-content.js builds those pages and text files from public/data.js
 package.json
 railway.json
 ```
@@ -67,3 +68,19 @@ Tell me which categor(ies) to tag them under and I'll add them.
 Also currently empty (categories exist, no case study tagged yet): AI Agents for Sales, AI Agents for Customer Support, AI Agents for WhatsApp, Power BI, Looker Studio. Send links for these whenever you have them and I'll slot them in.
 
 Growlyze links were intentionally excluded per your instruction.
+
+## Readable by AI tools and search engines
+
+The app draws its pages in the browser with JavaScript, and the part of an address after `#` never reaches a server. A fetcher that does not run JavaScript would therefore see an empty page. To fix that, `server.js` answers these addresses with the real content, generated from `public/data.js` (nothing extra to maintain — edit `data.js` and redeploy):
+
+| Address | What it returns |
+|---|---|
+| `/` | The app, with every section and case study (title, description, link) already in the HTML |
+| `/tag/<slug>` | A section's page with its case studies listed |
+| `/case/<id>` | A case study with its full text in the HTML (people who open it get the normal app view) |
+| `/case/<id>.md` | The same case study as plain markdown |
+| `/llms.txt` | Index of all case studies with links to the markdown versions |
+| `/llms-full.txt` | The whole site in one text file |
+| `/sitemap.xml`, `/robots.txt` | For search engines and crawlers |
+
+The normal browser experience is unchanged: the browser app replaces the pre-filled HTML as soon as it loads, and `/case/<id>` or `/tag/<slug>` addresses are rewritten to the usual `#/case/<id>` form.
