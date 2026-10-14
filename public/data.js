@@ -3970,6 +3970,26 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'zapier-skool-membership-answers-to-slack-leadconnector-close',
+    title: 'Skool to Slack, LeadConnector and Close Zap',
+    description: 'This Zap connects Skool, Slack, LeadConnector and Close, starting when a member answers the Skool membership questions.',
+    source: 'Portfolio',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This Zap connects Skool, Slack, LeadConnector and Close, starting when a member answers the Skool membership questions. It then sends a message to a Slack channel, adds or updates the contact in LeadConnector, and looks up the matching contact and lead in Close.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image13.png',
+        caption: 'The five-step Zap: a Skool trigger, a Slack channel message, a LeadConnector contact update and two Close lookups.'
+      }
+    ]
+  },
+  {
     id: 'make-automation-of-shopify-orders-to-google',
     title: 'Automation of Shopify Orders to Google Sheets for Dropshipping E-commerce Store',
     description: 'The primary goal of this automation is to streamline the process of managing Shopify orders by automatically distributing them to the appropriate fulfillment sheets.',
