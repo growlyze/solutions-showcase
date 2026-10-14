@@ -205,7 +205,7 @@ function renderCaseDetail(id) {
 
   if (!cs || !cs.content) {
     app.innerHTML = `
-      <a class="back-link" href="#/">&larr; Back home</a>
+      <a class="back-link" href="#/" data-back="smart">&larr; Back</a>
       <div class="empty-state">Case study not found.</div>
     `;
     return;
@@ -219,7 +219,7 @@ function renderCaseDetail(id) {
 
   app.innerHTML = `
     <div class="case-detail-wrap">
-      <a class="back-link" href="#/">&larr; Back home</a>
+      <a class="back-link" href="#/" data-back="smart">&larr; Back</a>
       <div class="case-detail-header">
         <h1>${escapeHtml(cs.title)}</h1>
         <p>${escapeHtml(cs.description)}</p>
@@ -268,6 +268,17 @@ function initTheme() {
     });
   }
 }
+
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('[data-back="smart"]');
+  if (!link) return;
+  e.preventDefault();
+  if (window.history.length > 1) {
+    window.history.back();
+  } else {
+    window.location.hash = '#/';
+  }
+});
 
 window.addEventListener('hashchange', router);
 window.addEventListener('DOMContentLoaded', () => {
