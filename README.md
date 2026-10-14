@@ -77,7 +77,7 @@ The app draws its pages in the browser with JavaScript, and the part of an addre
 
 | Address | What it returns |
 |---|---|
-| `/` | The home page with every section card; each card links to `/tag/<slug>` |
+| `/` | The home page with every section card; each card links to `/tag/<slug>`. AI tools and crawlers get a section-by-section directory instead: every section with its description, its case studies and the address of its own full text (`/full/<slug>`), plus an index of case studies by tool (for example everything that uses WhatsApp) |
 | `/tag/<slug>` | A section's page listing its case studies; each links to `/case/<id>` |
 | `/case/<id>` | A case study with its full text in the HTML (people get the normal app view) |
 | `/case/<id>.md` | The same case study as plain markdown |
@@ -88,10 +88,16 @@ The app draws its pages in the browser with JavaScript, and the part of an addre
 | `/llms-full.txt` | The whole site in one very long file (about 220,000 characters; many fetch tools stop after about 100,000, so use the section files for those) |
 | `/sitemap.xml`, `/robots.txt` | For search engines and crawlers |
 
-### AI tools get the full text at the original link
+### AI tools: a section directory at the original link, full text one section at a time
 
-AI fetch tools read one page and do not click through, so at `/` and `/tag/<slug>` the server recognises AI tools and crawlers by their name (ChatGPT, Claude, Perplexity, Gemini, Googlebot/Bingbot and other bots, plus common scripting libraries such as python-requests, axios, curl) and sends the full-text page instead of the app. People and ordinary browsers get the normal site. A tool whose name is not recognised can use `/full` (or `/full/<slug>` for one section), which is also a clean address that no tool can have saved from before it existed. The list is `AI_OR_CRAWLER` in `server.js`; responses carry `Vary: User-Agent` so caches keep the two versions apart.
+AI fetch tools read one page and do not click through, and tools that read only visible text cannot see the app's own rendering. So the server recognises AI tools and crawlers by their name (ChatGPT, Claude, Perplexity, Gemini, Googlebot/Bingbot and other bots, plus common scripting libraries such as python-requests, axios, curl) and sends them plain pages instead of the app. People and ordinary browsers get the normal site.
+
+- At `/` an AI tool gets the **directory** (about 32,000 characters): every section and case study, the address of each section's full text, and a "find by tool" index. It is built for questions like "give me the WhatsApp automation case studies": the tool picks the section and fetches only `/full/<slug>` (for example `/full/ai-whatsapp`).
+- `/full/<slug>` and `/tag/<slug>` give the complete text of one section. `/full` (also `/?full=1`) gives the whole site on one page, cut into parts that each fit one read.
+- A tool whose name is not recognised can open any of these addresses directly; `/full/...` addresses return the full-text pages for everyone, and are also addresses no tool can have saved from before they existed.
+
+The list of recognised names is `AI_OR_CRAWLER` in `server.js`; responses carry `Vary: User-Agent` so caches keep the versions apart.
 
 Fetch tools read only about the first 100,000 characters of a page in one go, and the whole site is about 220,000. The contents list at the top has every title, so nothing is invisible, but reading everything takes a second request for the next part (most tools support this) or the per-section files above (`/tag/<slug>.md`, at most about 74,000 characters each).
 
-The footer of every page says "Reading this with an AI tool? Everything on one page: …/full · plain text: …/llms.txt". The browser app takes over as soon as it loads; `/case/<id>` and `/tag/<slug>` addresses are rewritten to the usual `#/case/<id>` form. Because the server page and the app use the same code, they stay identical (checked page by page when this was built).
+The footer of every page says "Reading this with an AI tool? One section: …/full/<section> (for example /full/ai-whatsapp) · everything on one page: …/full · plain text: …/llms.txt". The browser app takes over as soon as it loads; `/case/<id>` and `/tag/<slug>` addresses are rewritten to the usual `#/case/<id>` form. Because the server page and the app use the same code, they stay identical (checked page by page when this was built).

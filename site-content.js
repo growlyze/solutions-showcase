@@ -49,7 +49,7 @@ function createRenderer() {
     document: documentStub, window: windowStub, localStorage: { getItem: () => null, setItem: noop }, console,
   });
   vm.runInContext(
-    `${dataSrc}\n${appSrc}\n;globalThis.__api = { CATEGORIES, CASE_STUDIES, renderHome, renderCategory, renderCaseDetail };`,
+    `${dataSrc}\n${appSrc}\n;globalThis.__api = { CATEGORIES, CASE_STUDIES, renderHome, renderCategory, renderCaseDetail, toolsFor };`,
     context, { filename: 'app-and-data' },
   );
   const api = context.__api;
@@ -181,6 +181,32 @@ function create() {
       + `<h2>Contents</h2>${contentsHtml([cat])}<h2>Case studies in full</h2>${list.map(articleHtml).join('')}`;
   }
 
+  // ---------- Directory page: what AI tools get at the main link ----------
+  // Section by section, so a tool can pick the section a question is about and fetch only that
+  // (/full/<section>), instead of receiving the whole site at once (/full still has everything).
+  function directoryBody(base) {
+    const sections = sectionsWithCases().map((cat) => {
+      const list = casesFor(cat.slug);
+      const url = `${base}/full/${cat.slug}`;
+      return `<section><h3><a href="/full/${esc(cat.slug)}">${esc(cat.name)}</a></h3><p>${esc(cat.description)}</p>`
+        + `<p>${list.length} case ${list.length === 1 ? 'study' : 'studies'}. Full text of this section: <a href="/full/${esc(cat.slug)}">${esc(url)}</a> (plain text: <a href="/tag/${esc(cat.slug)}.md">${esc(base)}/tag/${esc(cat.slug)}.md</a>)</p>`
+        + `<ul>${list.map((c) => `<li><a href="/case/${esc(c.id)}">${esc(c.title)}</a> — ${esc(c.description)}</li>`).join('')}</ul></section>`;
+    }).join('');
+
+    // tool -> case studies, from the same detection that fills each case study's "Works with" box
+    const byTool = new Map();
+    cases.forEach((c) => renderer.api.toolsFor(c).forEach((t) => { if (!byTool.has(t)) byTool.set(t, []); byTool.get(t).push(c); }));
+    const tools = [...byTool.entries()].sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]));
+    const toolIndex = tools.map(([name, list]) =>
+      `<li><strong>${esc(name)}</strong> (${list.length}): ${list.map((c) => `<a href="/case/${esc(c.id)}">${esc(c.title)}</a>`).join('; ')}</li>`).join('');
+
+    return `<h1>${SITE_NAME}</h1><p>${esc(SITE_TAGLINE)}</p>`
+      + `<p><strong>How to use this page:</strong> it lists every section and every case study (${cases.length} in total). Each section has its own page with the complete text of all its case studies, so you can read one topic at a time: use the address under the section name. Every case study also has its own page. To read the whole site in one page instead, use <a href="/full">${esc(base)}/full</a>.</p>`
+      + `<h2>Sections</h2>${sections}`
+      + `<h2>Find case studies by tool</h2><p>Tools named in the case studies, with the case studies that use each one (for example WhatsApp, Slack, Stripe, Google Sheets):</p><ul>${toolIndex}</ul>`
+      + `<p>Everything on one page: <a href="/full">${esc(base)}/full</a> · plain-text index: <a href="/llms.txt">${esc(base)}/llms.txt</a></p>`;
+  }
+
   // ---------- Markdown / plain text ----------
   function blockMd(b, base) {
     switch (b.type) {
@@ -263,7 +289,7 @@ function create() {
     const head = `<link rel="canonical" href="${esc(base + urlPath)}" />\n`
       + (alternate ? `<link rel="alternate" type="text/markdown" href="${esc(base + alternate)}" />\n` : '')
       + `<link rel="alternate" type="text/plain" href="${esc(base)}/llms.txt" title="Plain-text index of every case study" />\n</head>`;
-    const aiLine = `${FOOTER_LINE}\n      <p>Reading this with an AI tool? Everything on one page: <a href="/full">${esc(base)}/full</a> · plain text: <a href="/llms.txt">${esc(base)}/llms.txt</a></p>`;
+    const aiLine = `${FOOTER_LINE}\n      <p>Reading this with an AI tool? One section: <a href="/full/ai-whatsapp">${esc(base)}/full/&lt;section&gt;</a> (for example /full/ai-whatsapp) · everything on one page: <a href="/full">${esc(base)}/full</a> · plain text: <a href="/llms.txt">${esc(base)}/llms.txt</a></p>`;
     return template
       .replace(`<title>${SITE_NAME}</title>`, `<title>${esc(fullTitle)}</title>`)
       .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${esc(desc)}" />`)
@@ -282,6 +308,7 @@ function create() {
     casePage: (cs, base) => page({ title: cs.title, description: cs.description, path: `/case/${cs.id}`, body: renderer.caseStudy(cs.id), base, alternate: `/case/${cs.id}.md` }),
     notFoundPage: (base) => page({ title: 'Not found', description: SITE_TAGLINE, path: '/', body: '<div class="empty-state">Page not found. <a href="/">Back to all case studies</a></div>', base }),
     homeFullPage: (base) => page({ title: SITE_NAME, description: SITE_TAGLINE, path: '/', body: fullHomeBody(), base, app: false }),
+    directoryPage: (base) => page({ title: SITE_NAME, description: SITE_TAGLINE, path: '/', body: directoryBody(base), base, app: false }),
     fullPartCount: () => fullParts().parts.length,
     fullPartPage: (n, base) => page({ title: `${SITE_NAME} — part ${n} of ${fullParts().parts.length}`, description: SITE_TAGLINE, path: `/full/part-${n}`, body: fullPartBody(n), base, app: false }),
     tagFullPage: (cat, base) => page({ title: cat.name, description: cat.description, path: `/tag/${cat.slug}`, body: fullTagBody(cat), base, alternate: `/tag/${cat.slug}.md`, app: false }),

@@ -70,9 +70,15 @@ app.get('/full/:slug', (req, res) => {
   send(res, 'text/html; charset=utf-8', site.tagFullPage(cat, baseUrl(req)));
 });
 
+// At the main link, AI tools get a section-by-section directory (each section links to its own full text),
+// so they can fetch just the section a question is about. ?full=1 and /full give the whole site on one page.
 app.get('/', (req, res) => {
   res.vary('User-Agent');
-  const html = wantsFullText(req) ? site.homeFullPage(baseUrl(req)) : site.homePage(baseUrl(req));
+  const base = baseUrl(req);
+  let html;
+  if (req.query.full === '1') html = site.homeFullPage(base);
+  else if (AI_OR_CRAWLER.test(req.get('user-agent') || '')) html = site.directoryPage(base);
+  else html = site.homePage(base);
   send(res, 'text/html; charset=utf-8', html);
 });
 
