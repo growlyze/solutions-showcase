@@ -2887,6 +2887,87 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'paid-list-vs-rooming-list',
+    title: 'Paid List vs. Rooming List',
+    description: 'A web app that compares a group’s paid list and rooming list and flags anyone who is missing, unpaid or listed under a similar-looking name.',
+    source: 'Portfolio',
+    tags: [
+      'python'
+    ],
+    content: [
+      {
+        type: 'heading',
+        text: 'Purpose'
+      },
+      {
+        type: 'p',
+        text: 'An internal tool for a group travel company. Each student travel group keeps two separate tabs in Google Sheets — a Paid List (who paid, how much, and their payment status) and a Rooming List (who’s actually assigned to a room). Those two lists can drift apart: someone pays but never gets added to a room, someone’s on the rooming list but never paid, or a name is slightly misspelled between the two. Catching that manually in a 100+ row spreadsheet is slow and error-prone.'
+      },
+      {
+        type: 'heading',
+        text: 'Solution'
+      },
+      {
+        type: 'p',
+        text: 'A small web app where a staff member uploads both CSVs (exported straight from the Google Sheet tabs) and gets back three buckets instantly:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Matched — paid in full and on the rooming list. No action needed.',
+          'Paid List issues (🔴/🟨) — on the Paid List but missing from the Rooming List, or not marked “Paid in Full.”',
+          'Rooming List issues (🔴/🟨) — on the Rooming List but missing from the Paid List.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/paid-vs-rooming-list/image1.png',
+        caption: 'The upload screen: a staff member adds the Rooming List and Paid List CSVs exported from the group’s Google Sheet and clicks Compare.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/paid-vs-rooming-list/image2.png',
+        caption: 'The results summary and the Paid List issues. Red rows are real discrepancies and yellow rows are similar-name warnings. Names, amounts, room and confirmation numbers are blurred for privacy.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/paid-vs-rooming-list/image3.png',
+        caption: 'The Rooming List issues: people on the rooming list who are not on the paid list. Names and booking numbers are blurred for privacy.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/paid-vs-rooming-list/image4.png',
+        caption: 'The matched list: people who paid in full and are on the rooming list, with no action needed. Names, amounts and booking numbers are blurred for privacy.'
+      },
+      {
+        type: 'heading',
+        text: 'How It Works'
+      },
+      {
+        type: 'list',
+        items: [
+          'Parse both CSVs — the Rooming List always has a header row; the Paid List usually doesn’t, so the parser detects whichever shape it’s in (including an optional leading row-number column, and an “Amount” or “Payment” column).',
+          'Flatten each rooming-list row into individual occupants (up to 2 per room).',
+          'Match people by exact, case-insensitive name between the two lists.',
+          'For anyone with no exact match, check the other list for a close-but-not-exact name (same last name, or a small edit-distance typo/nickname) — if found, flag it yellow (“Similar Name Found”) on both sides as a precaution; if truly nowhere on the other list, flag it red as a real discrepancy. A matched person who isn’t “Paid in Full” is also red.',
+          'Results render as sortable tables in the browser, each downloadable as its own CSV.'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'Everything runs stateless — nothing is saved to disk; each upload is compare-and-respond.'
+      },
+      {
+        type: 'heading',
+        text: 'Tech Stack'
+      },
+      {
+        type: 'p',
+        text: 'This is not Python — it’s built in TypeScript running on Node.js (a plain Node HTTP server, no framework), with a plain HTML/CSS/vanilla JS frontend. Deployed on Railway.'
+      }
+    ]
+  },
+  {
     id: 'support-email-clickup-automation',
     title: 'Support Email to ClickUp Ticket Automation',
     description: 'Turning every email sent to a shared support inbox into a correctly routed, duplicate-free ClickUp ticket through one n8n workflow.',
