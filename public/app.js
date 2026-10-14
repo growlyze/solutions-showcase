@@ -261,6 +261,10 @@ const TOOL_PATTERNS = [
   ['WhatsApp', /\bWhatsApp\b/],
   ['Calendly', /\bCalendly\b/],
   ['Skool', /\bSkool\b/],
+  ['Clearbit', /\bClearbit\b/],
+  ['Firebase', /\bFirebase\b|\bFirestore\b/],
+  ['MongoDB', /\bMongoDB\b/],
+  ['Cloudinary', /\bCloudinary\b/],
   ['Placid', /\bPlacid\b/],
   ['DocuSign', /\bDocuSign\b/],
   ['Google Slides', /\bGoogle Slides\b/],
@@ -322,6 +326,9 @@ function caseText(cs) {
 }
 
 function toolsFor(cs) {
+  // A case study can list its own tools (taken from its own "stack" table); that list is used as is
+  // instead of matching names in the text, which also picks up products mentioned only as alternatives.
+  if (Array.isArray(cs.tools)) return [...new Set([...cs.tags.map((t) => TAG_TOOLS[t]).filter(Boolean), ...cs.tools])];
   const text = caseText(cs);
   const found = [];
   TOOL_PATTERNS.forEach(([name, re]) => {

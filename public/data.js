@@ -2968,6 +2968,1794 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'ai-lead-qualification-sales-routing-agent',
+    title: 'AI Lead Qualification & Sales Routing Agent',
+    description: 'An end-to-end system for automated inbound lead scoring, enrichment, and real-time sales routing — powered by GPT-4.1 and n8n.',
+    source: 'Notion',
+    url: 'https://hip-buttercup-705.notion.site/AI-Lead-Qualification-Case-Study-38bb33f9293f80f382aede8fa1236954?source=copy_link',
+    tags: [
+      'custom-saas'
+    ],
+    tools: ['OpenAI', 'n8n', 'Node.js', 'Express', 'Slack', 'Airtable', 'Clearbit'],
+    content: [
+      {
+        type: 'img',
+        file: 'case-content/ai-lead-qualification/image1.png',
+        caption: 'The lead form with a sample lead and the AI results card: score, HOT category, intent, budget, urgency, ICP match, summary and recommended action.'
+      },
+      {
+        type: 'list',
+        items: [
+          'Type: Systems Case Study',
+          'Platforms: Node.js · Express · OpenAI GPT-4.1 · n8n · Slack · Airtable',
+          'Data Sources: Website Lead Forms · n8n Webhooks · Direct API Submissions',
+          'Integrations: Clearbit (enrichment) · Airtable (CRM) · Slack (alerts) · Email (SMTP)'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Why we built this'
+      },
+      {
+        type: 'p',
+        text: 'Most sales teams receive inbound leads from multiple sources — website contact forms, paid ad landing pages, partner referrals, and API integrations — and have no consistent, fast way to decide which ones deserve immediate attention.'
+      },
+      {
+        type: 'p',
+        text: 'The core problems the team was facing:'
+      },
+      {
+        type: 'list',
+        items: [
+          'No consistent scoring methodology — qualification decisions depended on whoever happened to read the form first, leading to missed opportunities and wasted rep time',
+          'Hot leads were going cold — without instant routing, a prospect who said “ASAP, budget approved” could wait hours before a rep saw the submission',
+          'Company intelligence had to be looked up manually — reps spent time researching the company behind an email address before they could even decide whether to respond',
+          'No tiered escalation — there was no system to distinguish between a lead that needed a call in the next hour versus one that could go into a drip sequence',
+          'No unified lead record — repeat contacts from the same email were logged as separate entries, losing the interaction history'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'The goal was to build a fully automated intake-to-routing pipeline: AI scoring that runs in under two seconds, automatic company enrichment from the email domain, tiered alerts that reach the right person at the right time, and a central record of every lead with full analysis history.'
+      },
+      {
+        type: 'subheading',
+        text: 'What this system does'
+      },
+      {
+        type: 'p',
+        text: 'The system is composed of three interconnected layers: a lead intake API, a backend processing pipeline, and a real-time alerting engine — all orchestrated through n8n and a Node.js Express server.'
+      },
+      {
+        type: 'subheading',
+        text: 'Lead intake'
+      },
+      {
+        type: 'list',
+        items: [
+          'Accepts inbound leads via a hosted landing page form, a direct REST API call, an embedded form webhook, or an n8n-triggered workflow',
+          'Validates required fields (name, email) and normalises all input before processing begins',
+          'Detects repeat submissions from the same email address — existing records are updated with the new interaction rather than duplicated',
+          'Supports a source field to track which channel each lead arrived from (website, paid ad, referral, n8n, etc.)'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'AI scoring engine'
+      },
+      {
+        type: 'list',
+        items: [
+          'Each lead is analysed by GPT-4.1 across five dimensions: budget signals, urgency language, purchase intent, ICP (Ideal Customer Profile) match, and email quality',
+          'Returns a structured score from 0–100 and classifies the lead as HOT, WARM, or COLD',
+          'Produces a 12-field analysis object: score, category, intent, budget, urgency, ICP match, AI summary, recommended action, key signals, risk factors, estimated deal size, and sales rep assignment',
+          'Falls back to a rule-based keyword scoring engine if the OpenAI API is unavailable — guaranteeing zero-downtime operation'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Enrichment layer'
+      },
+      {
+        type: 'list',
+        items: [
+          'Extracts the company domain from the lead’s email address and enriches it with external company intelligence',
+          'With Clearbit: pulls company name, industry, employee count, estimated revenue, tech stack, LinkedIn URL, and headquarters location',
+          'Without Clearbit: performs basic domain analysis — infers company name, identifies TLD-based region, and confirms it is a business (not free) email',
+          'Free email providers (Gmail, Yahoo, Hotmail, etc.) are skipped for enrichment and flagged accordingly'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Alerting and routing'
+      },
+      {
+        type: 'list',
+        items: [
+          'Fires Slack alerts for every HOT lead — rich Block Kit messages, including all 12 analysis fields, AI summary, estimated deal size, and assigned sales team',
+          'Routes WARM leads to a nurture queue for email sequence follow-up',
+          'Archives COLD leads automatically with no sales action triggered',
+          'All notification steps run asynchronously, so they never delay the API response back to the form or caller'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'CRM integration'
+      },
+      {
+        type: 'list',
+        items: [
+          'Pushes every processed lead to Airtable with 18 mapped fields, including all analysis outputs',
+          'Designed to be swapped for HubSpot or any other CRM with a single service file change',
+          'Skips gracefully if CRM credentials are not configured — the pipeline continues without interruption'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Benefits'
+      },
+      {
+        type: 'list',
+        items: [
+          'Hot leads reach a rep in seconds, not hours — the moment a high-intent submission arrives, a Slack alert lands in the right channel with everything the rep needs to act',
+          'Consistent, bias-free scoring — every lead is evaluated against the same GPT-4.1 criteria, removing the inconsistency of human triage',
+          'Company intelligence without manual research — reps open a Slack alert and already know the company’s industry, size, and tech stack',
+          'Zero-downtime resilience — if the AI API goes down, rule-based fallback scoring keeps the pipeline running',
+          'Unified lead history — repeat contacts are detected, and interactions are appended to the original record, preserving full context',
+          'Clean data from day one — lead sources are tracked, free email submissions are flagged, and all records share a consistent schema',
+          'Scalable without config changes — new lead sources plug in via the webhook endpoint; the pipeline handles volume automatically'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'How it works (simplified)'
+      },
+      {
+        type: 'list',
+        items: [
+          'A lead arrives via the landing page form, a direct API call, an embedded form, or an n8n webhook — all routes converge on the same processing pipeline',
+          'The system checks for a repeat submission by looking up the email address in the lead store; if found, the new interaction is logged against the existing record',
+          'The lead is enriched — the email domain is used to pull company data from Clearbit, or a basic domain analysis runs as a fallback',
+          'GPT-4.1 analyses the lead — the full enriched record is submitted to the AI with a structured scoring prompt; a 12-field JSON response is returned in under two seconds',
+          'The lead is stored in the in-memory data layer (replaceable with PostgreSQL or Supabase) and a full analysis record is written',
+          'HOT lead → Slack alert is sent to the relevant sales channel, tagging the assigned rep team with the full AI summary and deal estimate',
+          'WARM lead → nurture queue — logged for drip email sequence follow-up',
+          'COLD lead → archived — stored for reference with no immediate sales action',
+          'The CRM is updated asynchronously — Airtable receives the full 18-field record without blocking the API response',
+          'The caller receives an instant response — the full analysis JSON is returned to the form or API caller within the same two-second window'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'System architecture (simplified)'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-lead-qualification/image2.png',
+        caption: 'Architecture: four lead sources feed an Express backend with a five-step pipeline (validate, repeat detection, Clearbit enrichment, GPT-4.1 scoring, store), which routes to Slack alerts, an Airtable CRM and a nurture queue.'
+      },
+      {
+        type: 'p',
+        text: 'Ops-controlled settings — thresholds, routing rules, and CRM field mappings are managed through environment configuration:'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Setting',
+          'Where Configured',
+          'What It Controls'
+        ],
+        rows: [
+          [
+            'OPENAI_API_KEY',
+            '.env file',
+            'Enables AI scoring via GPT-4.1'
+          ],
+          [
+            'SLACK_WEBHOOK_URL',
+            '.env file',
+            'Destination channel for HOT lead alerts'
+          ],
+          [
+            'AIRTABLE_API_KEY + BASE_ID',
+            '.env file',
+            'CRM destination for all processed leads'
+          ],
+          [
+            'CLEARBIT_API_KEY',
+            '.env file',
+            'Enables full company enrichment (optional)'
+          ],
+          [
+            'Alert Toggle (per lead)',
+            'Google Sheets control layer',
+            'Enable or disable alerts per lead source'
+          ],
+          [
+            'Score thresholds',
+            'Prompt config in aiService.js',
+            'Adjustable scoring bands per business context'
+          ]
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Dashboard overview'
+      },
+      {
+        type: 'heading',
+        text: 'Lead analysis results panel'
+      },
+      {
+        type: 'p',
+        text: 'The lead form renders a live results card immediately after submission, displaying the AI score, category, intent rating, budget signal, urgency level, ICP match, and a plain-English summary of why the lead scored the way it did — along with a specific recommended next action.'
+      },
+      {
+        type: 'p',
+        text: 'Renders in the browser within ~2 seconds of form submission'
+      },
+      {
+        type: 'subheading',
+        text: 'Slack alert panel'
+      },
+      {
+        type: 'p',
+        text: 'When a lead is classified as HOT, a Block Kit alert fires to the configured Slack channel. The message includes: lead name and company, email, phone, all five scoring dimensions, the AI-generated summary, recommended action, estimated deal size, and assigned sales team — formatted as a structured card with section dividers.'
+      },
+      {
+        type: 'p',
+        text: 'Delivered to the #sales-alerts channel within seconds of submission'
+      },
+      {
+        type: 'subheading',
+        text: 'Analytics dashboard'
+      },
+      {
+        type: 'p',
+        text: 'The /dashboard page provides a live operations view of all processed leads: total volume, HOT / WARM / COLD breakdown, average score, conversion rate, leads today, leads this week, top sources by volume, and a filterable lead feed. Data is drawn directly from the in-memory store and refreshes on page load.'
+      },
+      {
+        type: 'p',
+        text: 'Accessible at /dashboard — no login required in base configuration'
+      },
+      {
+        type: 'subheading',
+        text: 'Project evolution & key milestones'
+      },
+      {
+        type: 'p',
+        text: 'The system scope grew significantly from the initial lead scoring proof-of-concept. Key additions and refinements delivered across the project lifecycle:'
+      },
+      {
+        type: 'subheading',
+        text: 'Core scoring engine'
+      },
+      {
+        type: 'list',
+        items: [
+          'Initial GPT-4 integration replaced with GPT-4.1 for faster, more consistent structured output',
+          'AI temperature set to 0.3 after testing — balances consistency with contextual sensitivity',
+          'Strict JSON output schema enforced via system prompt to eliminate parsing failures',
+          'Rule-based fallback engine added to ensure zero downtime when the OpenAI API is unavailable',
+          'Score validation and sanitisation layer added (score clamped 0–100; category constrained to enum)'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Enrichment layer'
+      },
+      {
+        type: 'list',
+        items: [
+          'Clearbit integration added as the primary enrichment source for business email domains',
+          'Domain-only fallback implemented — company name inference, TLD region mapping, business email detection',
+          'Free email provider list maintained to skip enrichment for Gmail, Yahoo, Hotmail, iCloud, ProtonMail, and similar'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Alerting system'
+      },
+      {
+        type: 'list',
+        items: [
+          'Slack alerts upgraded from plain text to full Block Kit format with eight labelled fields and section dividers',
+          'Tiered routing logic added: HOT → Slack, WARM → nurture queue, COLD → archive',
+          'All notification steps moved to asynchronous execution to keep main API response time under two seconds',
+          'CRM push also made non-blocking — Airtable delays no longer affect the caller experience'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Data and integration'
+      },
+      {
+        type: 'list',
+        items: [
+          'n8n webhook route added (/api/webhook/n8n) to support visual workflow orchestration',
+          'Embedded form endpoint added (/api/webhook/form) for third-party form providers',
+          'Importable n8n workflow JSON file shipped with the project for instant setup',
+          'Airtable CRM integration added with 18 mapped fields; designed as a swappable service module'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Memory layer and analytics'
+      },
+      {
+        type: 'list',
+        items: [
+          'Repeat lead detection added — duplicate email submissions update the existing record rather than creating a new one',
+          'Interaction history log added to each lead record for full contact context',
+          'Analytics aggregation engine built into the storage service — computes category counts, average score, conversion rate, score distribution, top sources, and temporal metrics on demand',
+          'Dashboard feed endpoint added with configurable pagination and category/source filters'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Security and production hardening'
+      },
+      {
+        type: 'list',
+        items: [
+          'Helmet HTTP security headers added across all routes',
+          'Rate limiter set to 100 requests per 15 minutes per IP on all /api/* routes',
+          'Request body size capped at 1 MB to prevent oversized payload attacks',
+          'Explicit timeouts set on all external API calls (OpenAI: 30s · Clearbit: 5s · Airtable: 10s · Slack: 5s)',
+          'Global error handler middleware added to prevent stack traces leaking to API callers'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Data flow architecture'
+      },
+      {
+        type: 'p',
+        text: 'How data moves through each stage and at what cadence — a key reference for ops teams integrating this system into existing stacks:'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Stage',
+          'Source',
+          'Destination',
+          'Trigger'
+        ],
+        rows: [
+          [
+            'Intake',
+            'Form / API / n8n webhook',
+            'Express backend',
+            'On submission (real-time)'
+          ],
+          [
+            'Enrichment',
+            'Clearbit API / domain analysis',
+            'Lead record (in memory)',
+            'Per lead, synchronous'
+          ],
+          [
+            'AI Scoring',
+            'OpenAI GPT-4.1',
+            'Lead record (in memory)',
+            'Per lead, synchronous'
+          ],
+          [
+            'CRM Push',
+            'In-memory lead record',
+            'Airtable (18 fields)',
+            'Per lead, async (non-blocking)'
+          ],
+          [
+            'Slack Alert',
+            'In-memory lead record',
+            'Slack channel (HOT only)',
+            'Per lead, async (non-blocking)'
+          ],
+          [
+            'Dashboard',
+            'In-memory lead store',
+            'Browser via /dashboard',
+            'On page load / manual refresh'
+          ]
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Note'
+      },
+      {
+        type: 'p',
+        text: 'The current storage layer uses an in-memory Map for speed and simplicity. For production deployments requiring persistence across restarts or horizontal scaling, this is designed to be swapped for PostgreSQL, Supabase, or MongoDB — the storage service exposes a clean interface with no direct database calls in the route layer.'
+      },
+      {
+        type: 'subheading',
+        text: 'Lead scoring & classification'
+      },
+      {
+        type: 'p',
+        text: 'The AI scoring engine evaluates every lead across five weighted dimensions and assigns a 0–100 score. Classification thresholds are:'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Category',
+          'Score Range',
+          'Routing Action',
+          'Criteria'
+        ],
+        rows: [
+          [
+            'HOT',
+            '80 – 100',
+            'Immediate Slack alert + rep assignment',
+            'Clear budget, urgency signal, decision-maker identified, strong ICP match'
+          ],
+          [
+            'WARM',
+            '50 – 79',
+            'Added to nurture email sequence',
+            'Some buying signals, partial ICP match, needs further qualification'
+          ],
+          [
+            'COLD',
+            '0 – 49',
+            'Archived, no immediate action',
+            'No clear intent, no budget signals, poor ICP fit or generic enquiry'
+          ]
+        ]
+      },
+      {
+        type: 'p',
+        text: 'The five scoring dimensions GPT-4.1 evaluates are:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Budget — explicit dollar amounts, investment language, company size inference',
+          'Urgency — timeline pressure, ASAP / deadline keywords, quarter-based mentions',
+          'Intent — active buying vs. passive browsing language (“want to buy” vs. “just exploring”)',
+          'ICP Match — B2B vs. B2C, company size (50–500 employees = Excellent), industry alignment',
+          'Email Quality — business domain vs. free provider (Gmail, Yahoo, Hotmail, etc.)'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'leadflow-ai-dubai-real-estate-lead-automation',
+    title: 'LeadFlow AI (Dubai Real Estate Lead Automation)',
+    description: 'AI-powered SaaS platform for Dubai real estate brokerages. Capture inbound leads, classify with GPT-4o, auto-reply via WhatsApp, assign to agents, and track follow-ups — all behind Stripe subscription billing.',
+    source: 'Notion',
+    url: 'https://hip-buttercup-705.notion.site/Leadflow-AI-case-study-38eb33f9293f8074a1bfd0fac1678aae?source=copy_link',
+    tags: [
+      'custom-saas'
+    ],
+    tools: ['React', 'Tailwind CSS', 'Node.js', 'Express', 'Firebase', 'OpenAI', 'WhatsApp', 'Stripe'],
+    content: [
+      {
+        type: 'img',
+        file: 'case-content/leadflow-ai/image1.png',
+        caption: 'The LeadFlow AI landing page: “Never miss a hot lead again”.'
+      },
+      {
+        type: 'list',
+        items: [
+          'Type: Product Case Study — SaaS Platform',
+          'Product: LeadFlow AI — Dubai Real Estate Lead Automation',
+          'Industry: Proptech / Real Estate (Dubai, UAE)',
+          'Frontend: React (Vite) + Tailwind CSS — hosted on Vercel',
+          'Backend: Node.js + Express — hosted on Render',
+          'Database: Firebase Firestore + Firebase Auth',
+          'AI Engine: OpenAI GPT-4o',
+          'Messaging: WhatsApp Cloud API (Meta Graph API v21.0)',
+          'Payments: Stripe (AED subscriptions with 7-day trial)'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Why we built this'
+      },
+      {
+        type: 'p',
+        text: 'Dubai’s real estate market moves fast. Leads come in around the clock from buyers, renters, and investors often in multiple languages, often with a specific unit, area, or budget in mind. Brokerages that respond within minutes close deals; those that respond the next day don’t.'
+      },
+      {
+        type: 'p',
+        text: 'The core problems Dubai brokerages were facing:'
+      },
+      {
+        type: 'list',
+        items: [
+          'No consistent lead qualification — every agent applied their own judgment to decide which leads to call first, leading to hot buyers being left to wait while cold inquiries were chased',
+          'Response time was too slow — manually reading, sorting, and replying to leads during business hours meant international prospects in different time zones received no reply at all',
+          'WhatsApp was unmanaged — the primary communication channel in the UAE was handled informally, with no message history, no threading, and no record-keeping in the CRM',
+          'Language was a barrier — Dubai’s buyer pool is global; leads arrived in Arabic, Russian, Chinese, French, and English, and most brokerages had no way to reply professionally in anything other than English',
+          'Agent workload was unbalanced — lead distribution depended on who was online or who a manager happened to message, with no fair rotation system',
+          'Follow-up fell through the cracks — with no automated reminders, leads that needed a call in three days were simply forgotten'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'The goal was to build a turnkey SaaS platform that any Dubai brokerage could subscribe to, embed a lead capture form on their website, and immediately have every inbound enquiry processed, classified, replied to, and assigned — automatically, in any language, within seconds.'
+      },
+      {
+        type: 'heading',
+        text: 'What this system does'
+      },
+      {
+        type: 'p',
+        text: 'LeadFlow AI is a multi-tenant SaaS platform that gives Dubai real estate brokerages two things: an automated lead pipeline and a dashboard for managing it. Every brokerage gets its own isolated data environment, its own agent team, and its own Stripe subscription.'
+      },
+      {
+        type: 'subheading',
+        text: 'Automated lead pipeline'
+      },
+      {
+        type: 'list',
+        items: [
+          'Accepts inbound leads via a REST API endpoint that can be embedded into any website contact form, landing page, or chatbot',
+          'Validates and checks the brokerage subscription before processing — if the Basic plan’s 100-lead monthly limit is reached, the endpoint returns a clear upgrade prompt',
+          'Sends the lead through GPT-4o for classification: language detection, intent classification (buy / rent / invest / general inquiry), temperature scoring (hot/warm / cold), and AI-generated reply',
+          'Assigns the lead to an agent via atomic round-robin rotation — a Firestore transaction ensures fair distribution even under concurrent submissions',
+          'Sends the AI-generated reply directly to the lead’s WhatsApp number via the Meta Cloud API — in the same language the lead wrote in',
+          'Stores the complete lead record, AI analysis, and message thread in Firestore for full history'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'AI engine (GPT-4o)'
+      },
+      {
+        type: 'list',
+        items: [
+          'System prompt defines a “premium Dubai luxury real estate” tone — professional, no emojis, no slang, concise but warm',
+          'Detects lead language automatically (ISO 639-1 codes: en, ar, ru, zh, fr, and others) and replies in that language',
+          'Classifies intent as buy, rent, invest, or inquiry based on message content',
+          'Tags lead temperature: hot (specific budget/area / timeline), warm (genuine interest, lacks specifics), or cold (general browsing)',
+          'Runs at temperature 0.4 with JSON response format enforced — consistent, structured output on every call',
+          'Falls back to a safe default reply if the AI call fails, ensuring no lead is ever left without an acknowledgement'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'WhatsApp integration (Meta Cloud API)'
+      },
+      {
+        type: 'list',
+        items: [
+          'Outbound: sends AI replies and agent messages to leads via the WhatsApp Cloud API (Meta Graph API v21.0)',
+          'Inbound: receives replies from leads via a verified Meta webhook, matches the sender’s phone number to the correct lead record, and stores the message in the thread',
+          'Webhook verification uses Meta’s challenge-response flow with a custom verify token',
+          'All incoming payloads are validated via HMAC-SHA256 signature using the Meta App Secret before processing',
+          'Phone numbers are cleaned (stripped of spaces, dashes, and plus signs) before every API call'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Owner dashboard'
+      },
+      {
+        type: 'list',
+        items: [
+          'Displays total leads, hot leads count, follow-ups due today, and new leads this week',
+          'Shows agent performance table: total leads assigned vs. leads closed per agent',
+          'Lists the 10 most recent leads with full status, temperature, and intent data',
+          'The owner can reassign leads between agents directly from the dashboard',
+          'Visible only to users with the owner role — enforced server-side via requireRole middleware'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Agent dashboard'
+      },
+      {
+        type: 'list',
+        items: [
+          'Shows assigned leads, active (non-closed) leads, and follow-ups currently due',
+          'Lists the agent’s 10 most recent assigned leads',
+          'Agents can only view and interact with leads assigned to them — enforced in every route handler',
+          'Agents can send messages to leads, update lead status, and set follow-up dates'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Subscription billing (Stripe)'
+      },
+      {
+        type: 'list',
+        items: [
+          'Two plans available: Basic (AED 149/month, 100 leads) and Pro (AED 399/month, unlimited leads + analytics)',
+          'Both plans include a 7-day free trial before billing begins',
+          'Stripe Checkout handles the payment flow; Stripe Billing Portal handles plan changes and cancellations',
+          'Stripe webhooks update Firestore user records in real time on subscription activation, update, and cancellation',
+          'Agents automatically inherit their owner’s subscription status — if the owner’s plan lapses, agents lose access too'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Follow-up automation'
+      },
+      {
+        type: 'list',
+        items: [
+          'Agents set a follow-up date on any lead directly from the lead detail page',
+          'A scheduled cron job runs every day at 8:00 AM UAE time (UTC+4) via node-cron',
+          'Any lead with a follow-up date on or before today and a non-closed status is flagged followUpDue: true in Firestore',
+          'The agent dashboard surfaces these flags as a follow-up due count, creating a daily task list without manual tracking'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Benefits'
+      },
+      {
+        type: 'list',
+        items: [
+          'Instant first response at any hour — every lead gets a professional WhatsApp reply within seconds, regardless of time zone or day of the week',
+          'Replies in the lead’s language — Arabic, Russian, Chinese, French, and English buyers all receive a response in their own language without any manual effort',
+          'Fair, automatic agent assignment — round-robin distribution via Firestore transactions means no agent is overlooked and no manager needs to manually route leads',
+          'Hot leads surface immediately — buyers who mention a specific budget, area, or timeline are flagged HOT so agents know exactly who to call first',
+          'Complete conversation history — every WhatsApp message in and out is stored against the lead record, giving agents full context before they pick up the phone',
+          'No missed follow-ups — the daily cron job ensures agents see overdue leads on their dashboard each morning without any manual diary management',
+          'Subscription-gated access — brokerages pay per month; if a plan lapses, access is revoked automatically via Stripe webhook sync',
+          'Multi-tenant by design — each brokerage’s data is isolated by ownerUid; no lead or agent data is ever visible across brokerage accounts'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'How it works (simplified)'
+      },
+      {
+        type: 'list',
+        items: [
+          'A lead submits a form on the brokerage’s website — the form POSTs to the public /api/leads endpoint with name, email, phone, message, and ownerUid',
+          'Subscription and plan limits are checked — the server verifies the brokerage has an active or trialing Stripe subscription, and that the Basic plan lead cap has not been reached',
+          'GPT-4o processes the lead — language is detected, intent classified, temperature scored, and a professional reply generated in the lead’s own language',
+          'The lead is assigned to an agent — a Firestore transaction reads the round-robin counter, selects the next agent in the rotation, and atomically increments the counter',
+          'The lead record is written to Firestore — all fields stored: name, contact details, message, AI analysis (language, intent, temperature), assigned agent, status, and timestamps',
+          'The AI reply is sent via WhatsApp — if a phone number was provided, the generated reply is dispatched through the Meta Cloud API, and the WhatsApp message ID is stored',
+          'The API returns a success response — the caller receives the lead ID, AI reply text, intent, temperature, and assigned agent ID',
+          'The agent is notified via their dashboard — the new lead appears in their assigned leads list with full AI analysis visible',
+          'If the lead replies on WhatsApp — the message arrives at the Meta webhook, is validated, matched to the lead by phone number, and stored in the messages collection',
+          'Follow-up dates are tracked automatically — the daily cron job at 8 AM UAE time flags any lead whose follow-up date has arrived, surfacing it on the agent’s dashboard'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'System architecture (simplified)'
+      },
+      {
+        type: 'img',
+        file: 'case-content/leadflow-ai/image2.png',
+        caption: 'Architecture: inbound leads reach a public API and pass a five-step pipeline (plan limits, GPT-4o classification and reply, round-robin agent assignment, Firestore write, WhatsApp reply), with a Stripe billing layer and a daily follow-up job.'
+      },
+      {
+        type: 'subheading',
+        text: 'Subscription plans'
+      },
+      {
+        type: 'p',
+        text: 'LeadFlow AI is sold as a monthly SaaS subscription in UAE Dirhams. Both plans include a 7-day free trial before the first charge. Stripe Checkout handles the payment flow; Stripe Billing Portal handles self-service plan changes and cancellations.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Plan',
+          'Price',
+          'Lead Limit',
+          'Included Features'
+        ],
+        rows: [
+          [
+            'Basic',
+            'AED 149 / month',
+            '100 leads / month',
+            'AI classification, WhatsApp auto-reply, agent assignment, follow-up tracking'
+          ],
+          [
+            'Pro',
+            'AED 399 / month',
+            'Unlimited leads',
+            'Everything in Basic + analytics dashboard, agent performance tracking, priority support'
+          ]
+        ]
+      },
+      {
+        type: 'p',
+        text: 'The Basic plan lead limit is enforced server-side on every lead submission. When the 100-lead monthly cap is reached, the API returns an HTTP 429 response with a clear upgrade message. Pro plan subscribers have no cap.'
+      },
+      {
+        type: 'subheading',
+        text: 'Dashboard overview'
+      },
+      {
+        type: 'subheading',
+        text: 'Owner dashboard'
+      },
+      {
+        type: 'p',
+        text: 'The owner\'s view is the brokerage’s operational command centre. It shows four headline KPIs (total leads, hot leads, follow-ups today, new leads this week), an agent performance breakdown, and a live feed of the most recent leads. Owners can reassign any lead to a different agent directly from this view.'
+      },
+      {
+        type: 'p',
+        text: 'Role-restricted: visible only to owner accounts'
+      },
+      {
+        type: 'subheading',
+        text: 'Agent dashboard'
+      },
+      {
+        type: 'p',
+        text: 'The agent\'s view is designed for daily use. It shows the agent’s assigned lead count, active (non-closed) lead count, and follow-ups currently due — the three numbers that define their working day. Below the KPIs is a list of their most recently assigned leads.'
+      },
+      {
+        type: 'p',
+        text: 'Agents only see leads assigned to them — enforced at the API level'
+      },
+      {
+        type: 'subheading',
+        text: 'Lead detail page'
+      },
+      {
+        type: 'p',
+        text: 'Each lead has a dedicated detail page showing all contact information, AI classification results (language, intent, temperature), the full WhatsApp message thread, and status controls. Agents can update the lead’s status, set or clear a follow-up date, and send new messages directly from this page.'
+      },
+      {
+        type: 'p',
+        text: 'Message thread includes AI replies, agent messages, and incoming WhatsApp replies in chronological order'
+      },
+      {
+        type: 'subheading',
+        text: 'Pricing page'
+      },
+      {
+        type: 'p',
+        text: 'Public-facing pricing page displays both plans with feature lists and a “Start Free Trial” call-to-action. Clicking a plan triggers Stripe Checkout in AED, with the 7-day trial clearly communicated before any payment details are entered.'
+      },
+      {
+        type: 'p',
+        text: 'Currency displayed in AED; trial communicated pre-checkout'
+      },
+      {
+        type: 'subheading',
+        text: 'Lead classification & AI scoring'
+      },
+      {
+        type: 'p',
+        text: 'Every inbound lead is processed by GPT-4o using a structured system prompt that enforces a consistent professional tone and returns strict JSON. The model evaluates four dimensions simultaneously and returns them in a single API call.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Temperature',
+          'Score',
+          'Routing Action',
+          'Classification Criteria'
+        ],
+        rows: [
+          [
+            'HOT',
+            'High',
+            'Immediate agent assignment + WhatsApp reply',
+            'Mentions specific budget, area, or timeline. Clearly ready to act.'
+          ],
+          [
+            'WARM',
+            'Medium',
+            'Assigned + follow-up date set',
+            'Shows genuine interest but lacks specifics about budget, area, or timing.'
+          ],
+          [
+            'COLD',
+            'Low',
+            'Stored, lower priority nurture',
+            'General inquiry, browsing behaviour, or unclear intent.'
+          ]
+        ]
+      },
+      {
+        type: 'p',
+        text: 'The AI prompt explicitly defines the classification rules for each temperature band, prohibits emojis and slang, and instructs the model to respond in the detected language of the lead’s message. The system prompt is fixed (not user-editable) to ensure brand consistency across all brokerages.'
+      },
+      {
+        type: 'subheading',
+        text: 'Project evolution & key milestones'
+      },
+      {
+        type: 'p',
+        text: 'The platform scope expanded significantly from an initial lead capture proof-of-concept. Key additions and refinements delivered across the build:'
+      },
+      {
+        type: 'label',
+        text: 'AI & classification'
+      },
+      {
+        type: 'list',
+        items: [
+          'GPT-4 integration upgraded to GPT-4o for higher accuracy and lower latency',
+          'response_format: { type: \'json_object\' } enforced to eliminate markdown-wrapped JSON parsing failures',
+          'Temperature set to 0.4 after testing — lower values produced overly rigid replies; higher values produced inconsistent classification',
+          'Fallback reply added, so no lead is ever unanswered if the OpenAI API is unavailable',
+          'Intent classification expanded from buy/rent to include invest and inquiry as distinct categories'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'WhatsApp integration'
+      },
+      {
+        type: 'list',
+        items: [
+          'Initial outbound-only integration expanded to support two-way messaging via the Meta webhook',
+          'Incoming message matching logic added: sender phone matched to the most recent lead record in Firestore',
+          'HMAC-SHA256 signature validation added using the Meta App Secret for all incoming webhook payloads',
+          'Phone number cleaning function added to handle +, spaces, and dashes from various form inputs'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Agent assignment'
+      },
+      {
+        type: 'list',
+        items: [
+          'Initial random assignment replaced with deterministic round-robin using a Firestore atomic counter transaction',
+          'Counter document stored per brokerage (assignment_{ownerUid}) to ensure correct rotation per team',
+          'Graceful fallback: if no agents exist, the lead is stored unassigned rather than failing'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Subscription billing'
+      },
+      {
+        type: 'list',
+        items: [
+          'Stripe integration added with two recurring AED products (Basic and Pro)',
+          '7-day free trial added to subscription_data at checkout session creation',
+          'Stripe webhook handler added for checkout.session.completed, customer.subscription.updated, and customer.subscription.deleted events',
+          'Subscription status synced to Firestore user record in real time on every Stripe event',
+          'Basic plan 100-lead monthly cap enforced server-side via Firestore count() query',
+          'Stripe Billing Portal endpoint added for self-service plan management'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Security & access control'
+      },
+      {
+        type: 'list',
+        items: [
+          'Firebase Auth middleware added to all protected routes; public lead capture endpoint intentionally left unprotected',
+          'requireSubscription middleware added to check subscription status for both owners and agents (agents inherit from the owner)',
+          'requireRole middleware added for owner-only routes (owner dashboard, agent management)',
+          'Raw body preservation implemented for Stripe and WhatsApp webhook routes (bypassing Express JSON parsing)'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Follow-up system'
+      },
+      {
+        type: 'list',
+        items: [
+          'followUpDate field added to lead schema; agents can set it from the lead detail page',
+          'Daily cron job added via node-cron: runs at 8:00 AM UAE time (UTC+4 = 04:00 UTC)',
+          'Batch Firestore update sets followUpDue: true on all leads whose date has arrived, for efficient dashboard display'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Data flow architecture'
+      },
+      {
+        type: 'p',
+        text: 'A reference overview of how data moves through each stage of the system and at what cadence:'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Stage',
+          'Source',
+          'Destination',
+          'Trigger / Cadence'
+        ],
+        rows: [
+          [
+            'Lead intake',
+            'Website form / API call',
+            'Express backend',
+            'On submission (real-time)'
+          ],
+          [
+            'AI processing',
+            'OpenAI GPT-4o',
+            'Firestore lead record',
+            'Per lead, synchronous'
+          ],
+          [
+            'Agent assignment',
+            'Firestore counters (round-robin)',
+            'Lead record (assignedAgentId)',
+            'Per lead, synchronous'
+          ],
+          [
+            'WhatsApp reply',
+            'AI-generated reply text',
+            'Lead\'s phone (Meta API)',
+            'Per lead, async'
+          ],
+          [
+            'Follow-up check',
+            'Firestore leads collection',
+            'followUpDue flag on each lead',
+            'Daily at 8:00 AM UAE time'
+          ],
+          [
+            'Dashboard refresh',
+            'Firestore (Realtime queries)',
+            'Owner / Agent dashboard',
+            'On page load / request'
+          ],
+          [
+            'Subscription sync',
+            'Stripe webhook events',
+            'Firestore user record',
+            'On Stripe event (real-time)'
+          ]
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Note'
+      },
+      {
+        type: 'p',
+        text: 'Firestore is the single source of truth for all lead records, message threads, user profiles, subscription status, and round-robin counters. The Firebase Admin SDK (backend) and Firebase Web SDK (frontend) both read from the same Firestore project, with security rules and server-side middleware providing access control.'
+      },
+      {
+        type: 'subheading',
+        text: 'API reference'
+      },
+      {
+        type: 'p',
+        text: 'All endpoints are prefixed with /api/. Protected routes require a Firebase ID token in the Authorization: Bearer <token> header. The lead capture endpoint (/api/leads POST) is intentionally public to allow embedding on any brokerage website without authentication.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Method',
+          'Endpoint',
+          'Description'
+        ],
+        rows: [
+          [
+            'POST',
+            '/api/leads',
+            'Public lead capture — no auth required. Runs AI, assigns agent, sends WhatsApp.'
+          ],
+          [
+            'GET',
+            '/api/leads',
+            'List leads (owners see all, agents see assigned only). Filterable by status, temperature, intent.'
+          ],
+          [
+            'GET',
+            '/api/leads/:id',
+            'Single lead detail with access control (role-based).'
+          ],
+          [
+            'PATCH',
+            '/api/leads/:id',
+            'Update lead status, follow-up date, or agent assignment.'
+          ],
+          [
+            'GET',
+            '/api/leads/:id/messages',
+            'Retrieve full message thread for a lead.'
+          ],
+          [
+            'POST',
+            '/api/leads/:id/messages',
+            'Agent sends a message, delivered via WhatsApp if phone is available.'
+          ],
+          [
+            'GET',
+            '/api/dashboard/owner',
+            'Owner dashboard: total leads, hot leads, follow-ups today, agent performance.'
+          ],
+          [
+            'GET',
+            '/api/dashboard/agent',
+            'Agent dashboard: assigned leads, active leads, follow-ups due.'
+          ],
+          [
+            'POST',
+            '/api/stripe/create-checkout',
+            'Create Stripe Checkout session (Basic or Pro plan, AED, 7-day trial).'
+          ],
+          [
+            'POST',
+            '/api/stripe/portal',
+            'Create Stripe Billing Portal session for plan management.'
+          ],
+          [
+            'POST',
+            '/api/stripe/webhook',
+            'Receive Stripe events: checkout.session.completed, subscription.updated/deleted.'
+          ],
+          [
+            'GET',
+            '/api/whatsapp/webhook',
+            'Meta webhook verification challenge (subscribe mode).'
+          ],
+          [
+            'POST',
+            '/api/whatsapp/webhook',
+            'Receive incoming WhatsApp messages, match to lead by phone, store in messages collection.'
+          ],
+          [
+            'GET',
+            '/api/health',
+            'Health check: returns server status and timestamp.'
+          ]
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Security'
+      },
+      {
+        type: 'p',
+        text: 'LeadFlow AI is built with multi-tenant security as a first-class requirement. Each security layer is implemented independently so that no single point of failure exposes brokerage data.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Security Layer',
+          'Implementation'
+        ],
+        rows: [
+          [
+            'Firebase ID Token Auth',
+            'All protected routes verify Bearer token via Firebase Admin SDK. Invalid or expired tokens return 401.'
+          ],
+          [
+            'Subscription Gate',
+            'Middleware checks owner subscription status (active / trialing) before allowing access. Agents inherit their owner’s subscription.'
+          ],
+          [
+            'Role-Based Access Control',
+            'requireRole(‘owner’ | ‘agent’) middleware enforces role boundaries. Agents can only access their assigned leads.'
+          ],
+          [
+            'WhatsApp Signature Validation',
+            'Incoming Meta webhooks validated via HMAC-SHA256 using App Secret. Invalid signatures return 401.'
+          ],
+          [
+            'Stripe Webhook Verification',
+            'Stripe events verified using stripe.webhooks.constructEvent with the webhook signing secret.'
+          ],
+          [
+            'Helmet HTTP Headers',
+            'Sets security headers (XSS, clickjacking, content-type sniffing) via the Helmet middleware.'
+          ],
+          [
+            'CORS Restriction',
+            'Requests accepted only from the configured FRONTEND_URL. Credentials are required for authenticated calls.'
+          ],
+          [
+            'Plan Limit Enforcement',
+            'Basic plan lead cap (100/month) enforced server-side via Firestore count query on every lead submission.'
+          ]
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/leadflow-ai/image3.png',
+        caption: 'The pricing page: a Basic plan at AED 149 per month and a Pro plan at AED 399 per month, both with a 7-day free trial.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/leadflow-ai/image4.png',
+        caption: 'The live demo: a sample enquiry is classified by GPT-4o as a HOT lead, with intent, urgency, language and an AI-generated WhatsApp reply.'
+      }
+    ]
+  },
+  {
+    id: 'estato-real-estate-management-dashboard',
+    title: 'Estato (Real Estate Management Dashboard)',
+    description: 'A full-stack MERN real estate operations platform with CRUD, Google Auth, live charts, and Cloudinary image management — built on the Refine framework with Material UI.',
+    source: 'Notion',
+    url: 'https://hip-buttercup-705.notion.site/Estato-Mern-Case-study-38eb33f9293f8031ba3dd9572b00e99e?source=copy_link',
+    tags: [
+      'custom-saas'
+    ],
+    tools: ['React', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'Cloudinary', 'Google OAuth'],
+    content: [
+      {
+        type: 'img',
+        file: 'case-content/estato/image1.png',
+        caption: 'The Estato dashboard: revenue, property, agent and customer tiles, a monthly revenue chart and a property referrals breakdown.'
+      },
+      {
+        type: 'list',
+        items: [
+          'Type: Full-Stack MERN Application Case Study',
+          'Product: Estato — Real Estate Management Dashboard',
+          'Frontend: React 18 + TypeScript · Refine Framework · Material UI · ApexCharts',
+          'Backend: Node.js + Express · ESM modules · port 8080',
+          'Database: MongoDB Atlas via Mongoose ODM',
+          'Auth: Google OAuth (Google Identity Services) · JWT · localStorage',
+          'Media Storage: Cloudinary (property photo upload and delivery)',
+          'Frontend Host: Vercel (demo: mern-dashboard-app.vercel.app)',
+          'License: MIT'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Why we built this'
+      },
+      {
+        type: 'p',
+        text: 'Real estate teams at any scale face the same structural problem: their properties, agents, and performance data live in disconnected places. Listing portals hold property records. Spreadsheets track agent performance. Photos are stored in email threads or local drives. There is no single screen that shows the full picture.'
+      },
+      {
+        type: 'p',
+        text: 'The core problems Estato was designed to solve:'
+      },
+      {
+        type: 'list',
+        items: [
+          'No centralised property database — listings were scattered across portals and spreadsheets with no consistent schema for type, location, price, or description',
+          'Agent visibility was absent — managers had no way to see, at a glance, which agents held the most listings or how the portfolio was distributed across the team',
+          'Creating and editing listings was slow — no standard form, no structured property types, and no direct photo upload meant listings were inconsistent and time-consuming to publish',
+          'No dashboard-level KPIs — total properties for sale, total for rent, total customers, and total agents were metrics that required manual counting across multiple systems',
+          'No referral source insight — the team could not measure which channels (social media, marketplaces, websites, digital ads) were driving enquiries',
+          'Authentication was unmanaged — agents accessed tools via shared passwords with no individual accountability and no way to tie listings back to a specific user'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'The goal was a unified MERN-stack dashboard where every agent logs in with Google, can create and manage their own listings with photo upload, and managers can see live KPIs, revenue trends, and the full agent roster in one place.'
+      },
+      {
+        type: 'subheading',
+        text: 'What this system does'
+      },
+      {
+        type: 'p',
+        text: 'Estato is a full-stack MERN application that gives real estate teams a complete operations interface: live analytics, a full property CRUD system, an agent directory, individual profiles, and Google-authenticated access. The Refine framework handles data fetching, routing, and auth integration; Material UI provides the component layer; ApexCharts and custom donut charts deliver the analytics.'
+      },
+      {
+        type: 'subheading',
+        text: 'Operations dashboard'
+      },
+      {
+        type: 'list',
+        items: [
+          'Four donut-style KPI tiles at the top of the home page give instant visibility: Properties for Sale (live count from the API), Properties for Rent, Total Customers, and Total Agents — each with a percentage ring showing the proportion against a target',
+          'Total Revenue area chart (ApexCharts) renders monthly revenue data across the full year with a smooth curve and gradient fill',
+          'Property Referrals horizontal bar chart shows the contribution of each lead source: Social Media (64%), Digital Ads (80%), Websites (50%), Marketplace (40%), and Others (15%).',
+          'Latest Properties section beneath the charts shows the 4 most recently added properties as live cards pulled from the API in real time'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Property management (full CRUD)'
+      },
+      {
+        type: 'list',
+        items: [
+          'All Properties page renders the full listing catalogue as a responsive card grid, with live search by title, filter by 8 property types (Apartment, Villa, Farmhouse, Condos, Townhouse, Chalet, Studio, Duplex), price sort toggle, and server-side pagination with a configurable page-size selector (5, 10, 20, 30, 40, 50, All)',
+          'Property Detail page shows the full-size property photo, property type with a 5-star rating, title, location, price, and description on the left. The right sidebar shows the creator agent’s avatar, name, property count, and location. Context-aware action buttons adapt based on the logged-in user: Message and Call for other agents’ listings; Edit and Delete for the current user’s own listings',
+          'Create Property form collects title, property type, description, location, price, and photo. The photo is read into base64 via the FileReader API and submitted to the backend, which uploads it to Cloudinary and stores the CDN URL',
+          'Edit Property form pre-populates all existing field values and allows any field to be changed, including the photo. If the photo is unchanged, the existing Cloudinary URL is preserved',
+          'Delete uses a Mongoose session transaction to remove the property document and simultaneously pull it from the creator’s allProperties array, keeping both collections in sync atomically'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Agent management'
+      },
+      {
+        type: 'list',
+        items: [
+          'Agents List page displays every registered user as an agent card with their Google avatar, name, email address, and total property count',
+          'Agent Profile page shows the full agent detail view via the shared Profile component, including the agent’s complete property portfolio',
+          'My Profile page uses the same shared Profile component for the currently authenticated user, with data fetched by their own MongoDB user ID'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Authentication'
+      },
+      {
+        type: 'list',
+        items: [
+          'The login page renders a Google Sign-In button using the Google Identity Services API. The credential response is a signed JWT',
+          'parseJwt utility decodes the Google JWT on the client to extract name, email, avatar (picture), and sub (user ID) from the payload',
+          'On every login, the user profile is POST-ed to /api/v1/users, which is idempotent: it returns the existing MongoDB document if the email already exists, or creates a new user record if not',
+          'The raw Google credential token is stored in localStorage as token. Axios’s request interceptor attaches it as Authorization: Bearer <token> to every subsequent API call',
+          'On logout, token and user are removed from localStorage and google.accounts.id.revoke() is called to invalidate the Google session'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Light and dark mode'
+      },
+      {
+        type: 'list',
+        items: [
+          'ColorModeContextProvider wraps the entire application and exposes a setColorMode function through React context',
+          'The current mode is stored in localStorage to persist the user’s preference across sessions. On first load, the system’s prefers-color-scheme media query is checked to set the default',
+          'Two custom Material UI themes are defined: overridedLightTheme and overridedDarkTheme, each extending Refine’s built-in theme objects with custom palette overrides. The active theme is passed to ThemeProvider at runtime'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Benefits'
+      },
+      {
+        type: 'list',
+        items: [
+          'Single source of truth for the portfolio — every property, agent, and relationship lives in one MongoDB database with a consistent schema, accessible from any device',
+          'Live KPIs on every login — four dashboard tiles give the team instant situational awareness without opening a single spreadsheet',
+          'Consistent listing creation — the structured form with defined property types ensures every listing is created to the same standard, with a real photo uploaded directly to Cloudinary',
+          'Role-aware property actions — agents can only edit or delete their own listings; other agents’ listings show contact options instead',
+          'Atomic data integrity — create and delete operations use Mongoose session transactions to keep the Property collection and the User.allProperties array perfectly synchronised',
+          'Zero password management — Google OAuth means no passwords to store, reset, or manage; every agent has their own authenticated identity',
+          'Scalable Refine architecture — adding a new resource (reviews, messages, enquiries) requires registering it in App.tsx; the data provider, routing, and UI scaffolding are automatically available',
+          'Dark/light mode out of the box — system preference is respected on first load; the preference is then stored in localStorage and toggleable at any time'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'How it works (simplified)'
+      },
+      {
+        type: 'list',
+        items: [
+          'Agent visits the login page and clicks ‘Sign in with Google’. Google Identity Services returns a signed JWT credential',
+          'parseJwt decodes the JWT client-side to extract the user’s name, email, and avatar. The profile is POST-ed to /api/v1/users, which creates or finds the user in MongoDB',
+          'Token stored in localStorage; Axios interceptor attaches it as a Bearer token to every subsequent request. Refine’s checkAuth hook reads localStorage on each route change to decide whether to redirect to login',
+          'Dashboard loads and fires a useList call to /api/v1/properties (pageSize: 4) for the Latest Properties grid. The 4 KPI donut tiles and both ApexCharts components render with static or aggregate data',
+          'All Properties page uses Refine’s useTable hook, which manages current page, page size, sorter, and filters as state and translates them into query params on the API call (_start, _end, _sort, _order, title_like, propertyType)',
+          'Creating a property: the agent fills the form. On photo selection, FileReader reads the file as a base64 data URL. On submit, onFinish POSTs the full payload (including the base64 photo and the agent’s email) to /api/v1/properties',
+          'Server receives the POST, finds the user by email, uploads the base64 photo to Cloudinary, receives back a CDN URL, then opens a Mongoose session and atomically creates the Property document and pushes its _id to user.allProperties',
+          'Property Detail page calls useShow to fetch /api/v1/properties/:id with the creator user document populated. Action buttons (Edit/Delete vs Message/Call) are conditionally rendered by comparing user.email with propertyDetails.creator.email',
+          'Deleting a property opens a browser confirmation dialog. On confirm, useDelete fires a DELETE request. The server opens a Mongoose session, removes the Property document, and pulls its _id from creator.allProperties, then commits the transaction',
+          'Agent and profile pages call useList / useShow against /api/v1/users, which returns user documents with all properties populated. The shared Profile component renders the same layout for both Agent Profile and My Profile'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'System architecture'
+      },
+      {
+        type: 'img',
+        file: 'case-content/estato/image2.png',
+        caption: 'Architecture: a React 18 and TypeScript browser app built on Refine with Material UI talks over HTTPS to an Express server that uses MongoDB Atlas and Cloudinary.'
+      },
+      {
+        type: 'subheading',
+        text: 'Page inventory'
+      },
+      {
+        type: 'p',
+        text: 'Estato consists of 9 pages, each a React TypeScript component managed by Refine’s routing and data layer.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Page',
+          'File',
+          'Key Content'
+        ],
+        rows: [
+          [
+            'Dashboard (Home)',
+            'home.tsx',
+            '4 PieChart KPI tiles, TotalRevenue ApexChart, PropertyReferrals bar chart, Latest Properties card grid (4 items live from API).'
+          ],
+          [
+            'All Properties',
+            'all-properties.tsx',
+            'Full property grid with search by title, filter by 8 property types, sort by price (asc/desc), page size selector, Previous/Next pagination.'
+          ],
+          [
+            'Property Details',
+            'property-details.tsx',
+            'Full-width photo, property type + 5-star rating, title, location, price, description. Agent sidebar: avatar, name, property count, location, Google Map, Book Now, Message/Edit + Call/Delete buttons.'
+          ],
+          [
+            'Create Property',
+            'create-property.tsx',
+            'Delegates to shared Form component. Handles image file selection (FileReader to base64), attaches logged-in user email before submitting to API.'
+          ],
+          [
+            'Edit Property',
+            'edit-property.tsx',
+            'Same shared Form component as Create. Pre-populates existing property data. Allows photo re-upload; photo URL preserved if unchanged.'
+          ],
+          [
+            'Agents List',
+            'agent.tsx',
+            'Grid of all users (agents) from /api/v1/users. Each AgentCard shows avatar, name, email, and property count. Clicking navigates to agent profile.'
+          ],
+          [
+            'Agent Profile',
+            'agent-profile.tsx',
+            'Full agent detail using shared Profile component. Shows avatar, name, email, properties count and full property list.'
+          ],
+          [
+            'My Profile',
+            'my-profile.tsx',
+            'Logged-in user’s own profile using the same shared Profile component. Data fetched from /api/v1/users/:userId.'
+          ],
+          [
+            'Login',
+            'login.tsx',
+            'Google Sign-In button using Google Identity Services. On success, JWT decoded, user POSTed to /api/v1/users, token stored in localStorage.'
+          ]
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Data models'
+      },
+      {
+        type: 'p',
+        text: 'Two Mongoose schemas define the complete data layer. The bidirectional relationship between Property and User is maintained by the server using session transactions on create and delete operations.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Collection',
+          'Field',
+          'Type',
+          'Notes'
+        ],
+        rows: [
+          [
+            'Property',
+            'title',
+            'String (required)',
+            'Listing headline'
+          ],
+          [
+            'Property',
+            'description',
+            'String (required)',
+            'Full description text'
+          ],
+          [
+            'Property',
+            'propertyType',
+            'String (required)',
+            'Apartment, Villa, Farmhouse, Condos, Townhouse, Chalet, Studio, or Duplex'
+          ],
+          [
+            'Property',
+            'location',
+            'String (required)',
+            'Free-text location / address'
+          ],
+          [
+            'Property',
+            'price',
+            'Number (required)',
+            'Numeric value (rendered as $price per day in the UI)'
+          ],
+          [
+            'Property',
+            'photo',
+            'String (required)',
+            'Cloudinary CDN URL after base64 upload'
+          ],
+          [
+            'Property',
+            'creator',
+            'ObjectId → User',
+            'Populated on read to include full user document'
+          ],
+          [
+            'User',
+            'name',
+            'String (required)',
+            'Full name from Google profile'
+          ],
+          [
+            'User',
+            'email',
+            'String (required)',
+            'Google account email; used as unique identifier'
+          ],
+          [
+            'User',
+            'avatar',
+            'String (required)',
+            'Google profile picture URL'
+          ],
+          [
+            'User',
+            'allProperties',
+            '[ObjectId] → Property',
+            'Bidirectional reference array; maintained via Mongoose transactions'
+          ]
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Note'
+      },
+      {
+        type: 'p',
+        text: 'The User schema does not require a password field because authentication is handled entirely by Google OAuth. The email address serves as the unique identifier and is used both for login matching and for associating new properties with the correct creator.'
+      },
+      {
+        type: 'subheading',
+        text: 'API reference'
+      },
+      {
+        type: 'p',
+        text: 'All endpoints are prefixed with /api/v1/ and served by the Express server on port 8080. No authentication middleware is currently applied server-side; auth is enforced client-side by Refine’s checkAuth hook and the Axios Bearer token interceptor.'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Method',
+          'Endpoint',
+          'Description'
+        ],
+        rows: [
+          [
+            'GET',
+            '/api/v1/properties',
+            'List all properties. Supports _start, _end, _sort, _order, title_like, propertyType query params. Returns x-total-count header for Refine pagination.'
+          ],
+          [
+            'GET',
+            '/api/v1/properties/:id',
+            'Fetch a single property with creator user populated (name, email, avatar, allProperties).'
+          ],
+          [
+            'POST',
+            '/api/v1/properties',
+            'Create a new property. Uploads photo to Cloudinary via base64. Uses Mongoose session transaction to atomically create property and push to user.allProperties.'
+          ],
+          [
+            'PATCH',
+            '/api/v1/properties/:id',
+            'Update an existing property. Re-uploads photo to Cloudinary. Falls back to original photo URL if upload fails.'
+          ],
+          [
+            'DELETE',
+            '/api/v1/properties/:id',
+            'Delete a property. Uses Mongoose session transaction to remove from DB and pull from creator’s allProperties array atomically.'
+          ],
+          [
+            'GET',
+            '/api/v1/users',
+            'List all users (agents). Supports _end for limit. Returns full user documents including allProperties references.'
+          ],
+          [
+            'POST',
+            '/api/v1/users',
+            'Create or find a user by email (idempotent). Called on every Google OAuth login to ensure the user record exists in MongoDB.'
+          ],
+          [
+            'GET',
+            '/api/v1/users/:id',
+            'Fetch a single user by MongoDB _id with allProperties populated. Used by agent profile and my profile pages.'
+          ]
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Dashboard overview'
+      },
+      {
+        type: 'label',
+        text: 'Home — KPI dashboard'
+      },
+      {
+        type: 'p',
+        text: 'The home page opens with four donut-style KPI tiles: Properties for Sale (live count from the API), Properties for Rent, Total Customers (5,684), and Total Agents (684). Each tile uses a two-segment ApexCharts donut series to visualise the proportion as a ring. Below the tiles, a TotalRevenue area chart spans the full width alongside a PropertyReferrals horizontal bar chart.'
+      },
+      {
+        type: 'p',
+        text: 'Route: / (DashboardPage)'
+      },
+      {
+        type: 'subheading',
+        text: 'All Properties'
+      },
+      {
+        type: 'p',
+        text: 'The properties page renders the full listing catalogue as a card grid. The toolbar above the grid provides a Sort price button (toggles asc/desc), a title search text field, and a property type dropdown filter. Pagination controls at the bottom include Previous/Next buttons, a current page indicator, and a page-size selector. All filter, sort, and page state is managed by Refine’s useTable hook and translated into API query parameters automatically.'
+      },
+      {
+        type: 'p',
+        text: 'Route: /properties'
+      },
+      {
+        type: 'subheading',
+        text: 'Property Details'
+      },
+      {
+        type: 'p',
+        text: 'The detail page is a two-column layout. The left column shows the full-width property photo (546px height), property type, a 5-star rating row, title, location pin with text, price in blue, and a description block. The right sidebar contains the agent card (Google avatar, name, agent role, location, property count) followed by action buttons that are context-aware: Message + Call for listings the current user does not own; Edit + Delete for their own listings. A Google Maps screenshot and a Book Now button fill the remaining sidebar space.'
+      },
+      {
+        type: 'p',
+        text: 'Route: /properties/show/:id'
+      },
+      {
+        type: 'subheading',
+        text: 'Create / Edit Property'
+      },
+      {
+        type: 'p',
+        text: 'The shared Form component renders the same layout for both Create and Edit. Fields: Title, Property Type (dropdown: Apartment, Villa, Farmhouse, Condos, Townhouse, Chalet, Studio, Duplex), Description, Location, Price, and Photo (file input). On Edit, all fields are pre-populated from the existing record. The photo preview renders below the file input once a file is selected. Form submission is handled by Refine’s useForm hook via @pankod/refine-react-hook-form.'
+      },
+      {
+        type: 'p',
+        text: 'Route: /properties/create | /properties/edit/:id'
+      },
+      {
+        type: 'subheading',
+        text: 'Agents List'
+      },
+      {
+        type: 'p',
+        text: 'The agents page uses useList against /api/v1/users to fetch all registered users. Each AgentCard displays the agent’s Google avatar, full name, email address, and total number of properties they have listed. Clicking a card navigates to that agent’s full profile.'
+      },
+      {
+        type: 'p',
+        text: 'Route: /agents'
+      },
+      {
+        type: 'subheading',
+        text: 'Agent Profile / My Profile'
+      },
+      {
+        type: 'p',
+        text: 'Both the agent profile and my profile use the same shared Profile component. It fetches the user by ID from /api/v1/users/:id with allProperties populated, and renders the agent’s full detail view, including their complete property portfolio. My Profile loads the currently authenticated user’s own data using their userId from localStorage.'
+      },
+      {
+        type: 'p',
+        text: 'Route: /agents/show/:id | /my-profile'
+      },
+      {
+        type: 'subheading',
+        text: 'Technology stack'
+      },
+      {
+        type: 'p',
+        text: 'The complete dependency surface for both client and server packages:'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Layer',
+          'Package / Version',
+          'Role'
+        ],
+        rows: [
+          [
+            'UI Framework',
+            '@pankod/refine-core ^3.103',
+            'Data fetching (useList, useShow, useDelete, useGetIdentity), auth provider, routing'
+          ],
+          [
+            'Component Library',
+            '@pankod/refine-mui ^3.63',
+            'Material UI integration for Refine: layout, notifications, theme provider'
+          ],
+          [
+            'Forms',
+            '@pankod/refine-react-hook-form',
+            'react-hook-form integration for create/edit property forms with Refine’s onFinish lifecycle'
+          ],
+          [
+            'Routing',
+            '@pankod/refine-react-router-v6',
+            'React Router v6 adapter; all navigation uses useNavigate, useParams'
+          ],
+          [
+            'Data Provider',
+            '@pankod/refine-simple-rest',
+            'Maps Refine resource operations to REST calls against the Express API'
+          ],
+          [
+            'Charts',
+            'apexcharts + react-apexcharts ^1.4',
+            'TotalRevenue (area chart) and PropertyReferrals (horizontal bar chart)'
+          ],
+          [
+            'Charts (KPI)',
+            'Custom PieChart component',
+            '4 donut-style KPI tiles on the dashboard (Properties for Sale/Rent, Customers, Agents)'
+          ],
+          [
+            'HTTP',
+            'axios ^0.28',
+            'All API calls; Axios interceptor attaches Bearer JWT token to every outbound request'
+          ],
+          [
+            'Loading State',
+            'react-loader-spinner ^5.4',
+            'Consistent loading indicator shown across all async pages via the shared Loader component'
+          ],
+          [
+            'Icons',
+            '@mui/icons-material ^5.15',
+            'Star, Place, Phone, ChatBubble, Edit, Delete, Add, VillaOutlined, PeopleAltOutlined'
+          ],
+          [
+            'Server',
+            'express ^4.18',
+            'REST API, CORS, JSON body parsing (50 MB limit for base64 photo uploads)'
+          ],
+          [
+            'ODM',
+            'mongoose ^6.9',
+            'Schemas, validation, populate, and session-based transactions'
+          ],
+          [
+            'Media',
+            'cloudinary ^1.33',
+            'Receives base64-encoded image from client, stores and returns CDN URL'
+          ],
+          [
+            'Dev Server',
+            'nodemon ^2.0',
+            'Auto-restarts Express server on file changes during development'
+          ]
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Project evolution & key engineering decisions'
+      },
+      {
+        type: 'subheading',
+        text: 'Refine the data and the auth layer'
+      },
+      {
+        type: 'list',
+        items: [
+          'Refine’s authProvider interface cleanly separates login, logout, checkAuth, checkError, getPermissions, and getUserIdentity into distinct lifecycle methods. This meant the Google OAuth integration did not need custom redirect handling or session management — Refine’s router integration handles all protected route redirects',
+          'The dataProvider from @pankod/refine-simple-rest maps Refine’s resource operations (list, show, create, edit, delete) directly to REST endpoints. Adding a new resource requires only one entry in the resources array in App.tsx — no custom data fetching code needed',
+          'useTable was chosen over a manual useState + useEffect approach because it automatically manages pagination state (current page, page size), sorter, and filters as a unified state object, and syncs them to API query params on every change'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Mongoose session transactions for data integrity'
+      },
+      {
+        type: 'list',
+        items: [
+          'Create property uses startSession + startTransaction to ensure the Property document and the User.allProperties push happens atomically. If either operation fails, the transaction is rolled back, and neither change persists',
+          'Delete property follows the same pattern: the property is removed, and the creator’s allProperties array is updated in the same transaction, preventing orphaned references in either direction'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Cloudinary for photo management'
+      },
+      {
+        type: 'list',
+        items: [
+          'The client reads the selected file using the FileReader API into a base64 data URL and includes it directly in the POST/PATCH request body. This avoids multipart form handling on the server',
+          'The Express controller calls cloudinary.uploader.upload(photo) with the base64 string. Cloudinary returns a response object; the photo URL is extracted as photoUrl.url and stored in the Property document',
+          'On edit, if the user does not change the photo, the existing URL from the database is kept as-is. The upload only runs if a new base64 string is submitted'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Idempotent user creation'
+      },
+      {
+        type: 'list',
+        items: [
+          'The POST /api/v1/users endpoint first checks whether a user with the submitted email already exists. If found, it returns the existing document; if not, it creates a new one. This allows the same login flow to be used on both first login and repeat visits without duplicating user records',
+          'The userId returned from this endpoint is stored in localStorage alongside the Google profile and is used throughout the app to fetch the agent’s own data'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Shared Form and Profile components'
+      },
+      {
+        type: 'list',
+        items: [
+          'The Form component is shared between CreateProperty and EditProperty. A type prop (‘Create’ | ‘Edit’) controls the form title and submit button label. This eliminates duplication while keeping both pages independently routable',
+          'The Profile component is shared between AgentProfile and MyProfile. It receives a userId and fetches the user’s data internally. This reduces the surface area for bugs and ensures both profile views render identically'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Property type standardisation'
+      },
+      {
+        type: 'list',
+        items: [
+          'Eight property types are hardcoded in the all-properties filter dropdown: Apartment, Villa, Farmhouse, Condos, Townhouse, Chalet, Studio, and Duplex. The same values appear in the create/edit form. This ensures that filter queries always match a valid propertyType in the database, avoiding empty results from typos or free-text input'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Project structure'
+      },
+      {
+        type: 'img',
+        file: 'case-content/estato/image3.png',
+        caption: 'The project folder structure of the client and the server.'
+      },
+      {
+        type: 'subheading',
+        text: 'Setup & environment'
+      },
+      {
+        type: 'p',
+        text: 'Required environment variables to run Estato locally:'
+      },
+      {
+        type: 'table',
+        headers: [
+          'Variable',
+          'Location',
+          'Description'
+        ],
+        rows: [
+          [
+            'REACT_APP_GOOGLE_CLIENT_ID',
+            'client/.env',
+            'Google Cloud Console OAuth 2.0 Client ID'
+          ],
+          [
+            'REACT_APP_GOOGLE_CLIENT_SECRET',
+            'client/.env',
+            'Google Cloud Console OAuth 2.0 Client Secret'
+          ],
+          [
+            'REACT_APP_SERVER_URL',
+            'client/.env',
+            'Backend base URL e.g. http://localhost:8080/api/v1'
+          ],
+          [
+            'MONGODB_URL',
+            'server/.env',
+            'MongoDB Atlas connection string'
+          ],
+          [
+            'CLOUDINARY_CLOUD_NAME',
+            'server/.env',
+            'Cloudinary account cloud name'
+          ],
+          [
+            'CLOUDINARY_API_KEY',
+            'server/.env',
+            'Cloudinary API key'
+          ],
+          [
+            'CLOUDINARY_API_SECRET',
+            'server/.env',
+            'Cloudinary API secret'
+          ]
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/estato/image4.png',
+        caption: 'The Agents page, with agent cards showing listings, revenue and experience.'
+      }
+    ]
+  },
+  {
     id: 'support-email-clickup-automation',
     title: 'Support Email to ClickUp Ticket Automation',
     description: 'Turning every email sent to a shared support inbox into a correctly routed, duplicate-free ClickUp ticket through one n8n workflow.',
