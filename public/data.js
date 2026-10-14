@@ -408,389 +408,6 @@ const CASE_STUDIES = [
     ]
   },
   {
-    id: 'ai-agents-general',
-    title: 'AI Agents',
-    description: 'A portfolio of AI agent builds.',
-    source: 'Portfolio',
-    url: 'https://bit.ly/4ePg6cL',
-    tags: ['ai-agents'],
-    content: [
-      {
-        type: 'heading',
-        text: '📲 AI-Driven Instagram Video Breakdown – Decode What Makes Viral Content Tick'
-      },
-      {
-        type: 'label',
-        text: 'Objective:'
-      },
-      {
-        type: 'p',
-        text: 'Automatically fetch and analyze top-performing Instagram videos from popular creators to uncover what makes them stand out.'
-      },
-      {
-        type: 'label',
-        text: 'Implementation:'
-      },
-      {
-        type: 'p',
-        text: 'The workflow starts by pulling Instagram usernames from your list, finds the creator’s most viewed video, and uses AI to break it down—frame by frame, word by word—to reveal the hidden ingredients of viral success.'
-      },
-      {
-        type: 'label',
-        text: 'Outcome'
-      },
-      {
-        type: 'list',
-        items: [
-          'Schedule it to run: .Schedule it to run daily, weekly or monthly.',
-          'Fetches Creators: It pulls Instagram usernames from your Airtable.',
-          'Finds the Top Video: From each creator, it picks the reel with the highest views—because we only care about what’s working 📈',
-          'Stores the Essentials: Saves the video link, caption, creator name, and view count.',
-          'Downloads the Video: Preps the reel so we can take a closer look under the hood.',
-          'Uses AI to Analyze the Magic: Here’s where it gets spicy 🔍',
-          'What’s the hook? How does it grab attention in the first 3 seconds?',
-          'What’s the vibe? What’s happening in the video—background, setting, energy?',
-          'Visual style: What kind of text, clothes, or framing makes it pop?',
-          'Game-changer moments: What moment makes viewers stop scrolling and watch till the end?',
-          'Saves the Analysis: The insights are written down and saved back in your Airtable. Boom—structured, searchable, gold-standard content breakdown.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/ai-agents-general/image1.png'
-      },
-      {
-        type: 'heading',
-        text: '🛒 Smart Amazon Product Tracker for Price Drop Alerts'
-      },
-      {
-        type: 'label',
-        text: 'Objective:'
-      },
-      {
-        type: 'p',
-        text: 'To fetch product details from Amazon and alert you if the price drops—because who doesn’t love a good deal? 💸'
-      },
-      {
-        type: 'label',
-        text: 'Implementation:'
-      },
-      {
-        type: 'p',
-        text: 'The workflow grabs product links from a database,, scrapes product info, compares old vs new prices, updates the records, and—if there\'s a discount—sends you an email so you can grab it before it’s gone.'
-      },
-      {
-        type: 'label',
-        text: 'Outcome:'
-      },
-      {
-        type: 'list',
-        items: [
-          'Kick-off Daily: Schedule to run daily.',
-          'Grabs Products from Airtable: It checks your list to see which items are being tracked.',
-          'Launches the Scraper: The link is sent to Apify, which fetches the product’s name, price, and more.',
-          'Pulls the Results: Once scraping is done, it collects all the fresh details.',
-          'Updates the Product Info: It neatly saves everything back into your Airtable list (because organized data is happy data).',
-          'Checks for Price Drops: If today’s price is lower than the last one, the flow gets excited 🤑',
-          'Sends You an Email Alert: You get an email telling you “Hey, the price just dropped!” with a link to check it out.',
-          'Keeps Things Updated: Whether the price dropped or not, it always saves the latest price for next time.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/ai-agents-general/image2.png'
-      },
-      {
-        type: 'heading',
-        text: '🎥 YouTube Video Details Scraper using Automation'
-      },
-      {
-        type: 'label',
-        text: 'Objective:'
-      },
-      {
-        type: 'p',
-        text: 'Automatically collect detailed info from YouTube videos of popular creators for content analysis.'
-      },
-      {
-        type: 'label',
-        text: 'Implementation:'
-      },
-      {
-        type: 'p',
-        text: 'The workflow pulls the url from your database, scrapes their details using a scraping tool, waits for results, and then saves everything back to the database.'
-      },
-      {
-        type: 'label',
-        text: 'Outcome:'
-      },
-      {
-        type: 'list',
-        items: [
-          'Triggered by a Click: You hit “Start” to run the process.',
-          'Grabs Video Links: It picks up YouTube links marked as “ready” in your Airtable.',
-          'Runs the Scraper: Sends each link to an automation tool that fetches all available video details—title, channel name, views, likes, subtitles, description, and thumbnail.',
-          'Waits for Results: Gives the scraper time to finish collecting the info.',
-          'Saves Everything Back: Once done, all the data is pushed back into Airtable, organized and ready for your analysis.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/ai-agents-general/image3.png'
-      },
-      {
-        type: 'heading',
-        text: 'Smart AI Podcast Audio Script Generator from BBC News'
-      },
-      {
-        type: 'label',
-        text: 'Objective:'
-      },
-      {
-        type: 'p',
-        text: 'To turn positive and interesting news stories into podcast-style audio scripts using AI.'
-      },
-      {
-        type: 'label',
-        text: 'Implementation:'
-      },
-      {
-        type: 'p',
-        text: 'The system collects news stories from the BBC website, checks if they are podcast-friendly, rewrites them into an engaging script, and finally prepares them for audio conversion.'
-      },
-      {
-        type: 'label',
-        text: 'Outcome:'
-      },
-      {
-        type: 'list',
-        items: [
-          'Starts Manually: The process begins with a button click to start the flow.',
-          'Fetches the News: It visits the BBC homepage and grabs all the latest news headlines and descriptions.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/ai-agents-general/image4.png'
-      },
-      {
-        type: 'list',
-        items: [
-          'Filters the Content: It goes through the list and picks out only 10 headlines.',
-          'Checks Suitability: Each headline is checked to see if it’s interesting, positive, and fit for a podcast.',
-          'Gets Full Articles: For the suitable headlines, it goes to the full news page and pulls in the main content.',
-          'Creates the Script: The stories are then rewritten into a warm, friendly, and engaging podcast script.',
-          'Checks Script Output: It makes sure the script is properly prepared.',
-          'Sends for Audio: If everything looks good, the script is sent to a tool that can convert the text into voice.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/ai-agents-general/image5.png'
-      },
-      {
-        type: 'img',
-        file: 'case-content/ai-agents-general/image6.png'
-      },
-      {
-        type: 'heading',
-        text: '📥 TikTok Video Downloader without watermark – Save Any Reel Directly to Google Drive'
-      },
-      {
-        type: 'label',
-        text: 'Objective:'
-      },
-      {
-        type: 'p',
-        text: 'To automatically download a TikTok video and store it in Google Drive with a public share link.'
-      },
-      {
-        type: 'label',
-        text: 'Implementation:'
-      },
-      {
-        type: 'p',
-        text: 'This workflow fetches a TikTok video, extracts its direct video link, downloads it without watermark, and saves the file to your Google Drive, for content reposting.'
-      },
-      {
-        type: 'label',
-        text: 'Outcome:'
-      },
-      {
-        type: 'list',
-        items: [
-          'One Click to Start: The flow begins with a simple tap to kick things off.',
-          'Fetches the Page: It opens the TikTok video page and grabs all the HTML data.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/ai-agents-general/image7.png'
-      },
-      {
-        type: 'list',
-        items: [
-          'Extracts the Video URL: A smart code block digs into that HTML and pulls out the real video link.',
-          'Downloads the Video: The video file is then downloaded using that clean URL.',
-          'Uploads to Google Drive: The downloaded video is saved directly to your Drive.',
-          'Creates Shareable Link: The file is made public so you can share it with just one link.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/ai-agents-general/image8.png'
-      },
-      {
-        type: 'heading',
-        text: '🧠 AI-Powered Social Post Generator – From Spreadsheet to Socials in Seconds!'
-      },
-      {
-        type: 'label',
-        text: 'Objective:'
-      },
-      {
-        type: 'p',
-        text: 'Automatically create short, engaging, and fact-based posts (with emojis!) based on your content ideas—and publish them to the right platform.'
-      },
-      {
-        type: 'label',
-        text: 'Implementation:'
-      },
-      {
-        type: 'p',
-        text: 'This workflow grabs an idea from your Google Sheet, uses AI to turn it into a social-ready post, and then posts it to either LinkedIn or X (Twitter), depending on your selection.'
-      },
-      {
-        type: 'label',
-        text: 'Outcome:'
-      },
-      {
-        type: 'list',
-        items: [
-          'Kickstarts with a Click: You run the workflow manually to process new ideas.',
-          'Reads the Sheet: It pulls content ideas and target platforms from your Google Sheet.',
-          'Checks Status: Only picks ideas that haven’t been published yet (marked as 0).',
-          'Uses AI to Write the Post: Google Gemini crafts a short, fact-based, emoji-filled post tailored to the selected platform.'
-        ]
-      },
-      {
-        type: 'label',
-        text: 'Posts It Where It Belongs'
-      },
-      {
-        type: 'list',
-        items: [
-          'If the platform is LinkedIn, it publishes there.',
-          'If it’s X (Twitter), it posts accordingly.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/ai-agents-general/image9.png'
-      },
-      {
-        type: 'p',
-        text: 'Done. One idea, one click, and you’ve got content live on the right platform—no copy-pasting needed.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/ai-agents-general/image10.png'
-      },
-      {
-        type: 'heading',
-        text: '🗨️ AI-Powered RAG Chatbot for The Fast Bite – Seamless Ordering and Query Handling'
-      },
-      {
-        type: 'label',
-        text: 'Objective:'
-      },
-      {
-        type: 'p',
-        text: 'Create an AI-powered chatbot that helps The Fast Bite( a fast food restaurant) customers with menu queries, placing orders, and providing restaurant details in a fast and friendly manner.'
-      },
-      {
-        type: 'label',
-        text: 'Implementation:'
-      },
-      {
-        type: 'p',
-        text: 'The RAG Chatbot for The Fast Bite automatically updates itself with the latest menu and restaurant info from Google Drive and quickly uses that to help customers with orders or questions. It provides fast and accurate responses to make the customer experience smoother.'
-      },
-      {
-        type: 'label',
-        text: 'Outcome:'
-      },
-      {
-        type: 'label',
-        text: 'Triggered by New Files'
-      },
-      {
-        type: 'p',
-        text: 'The chatbot starts working whenever a new file is added to The Fast Bite’s Google Drive folder. This could include updates to the menu or any other important information.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/ai-agents-general/image11.png'
-      },
-      {
-        type: 'label',
-        text: 'Downloading the Information'
-      },
-      {
-        type: 'p',
-        text: 'The chatbot downloads the new file automatically from Google Drive for processing.'
-      },
-      {
-        type: 'label',
-        text: 'Understanding the Data'
-      },
-      {
-        type: 'p',
-        text: 'It uses Google Gemini (AI) to turn the downloaded content into a format that the chatbot can understand.'
-      },
-      {
-        type: 'label',
-        text: 'Storing the Info'
-      },
-      {
-        type: 'p',
-        text: 'The processed data is stored in a system called Pinecone. This helps the chatbot quickly find the answers when customers ask questions.'
-      },
-      {
-        type: 'label',
-        text: 'Handling Customer Queries'
-      },
-      {
-        type: 'p',
-        text: 'When customers ask questions, the chatbot uses this stored information to provide relevant and helpful responses instantly.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/ai-agents-general/image12.png'
-      },
-      {
-        type: 'label',
-        text: 'Key Features'
-      },
-      {
-        type: 'list',
-        items: [
-          'Fast Updates: The chatbot is always up-to-date with the latest menu or restaurant information.',
-          'AI-Powered Answers: It uses advanced AI to provide accurate, friendly responses.',
-          'Seamless Experience: The chatbot helps customers with ordering, customizing their meals, and answering common questions (like store hours, promotions, etc.).'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/ai-agents-general/image13.png'
-      },
-      {
-        type: 'img',
-        file: 'case-content/ai-agents-general/image14.png'
-      }
-    ]
-  },
-  {
     id: 'ai-agents-ecommerce',
     title: 'AI Agents for Ecommerce Brands',
     description: 'AI agents built for ecommerce brands to automate customer interactions and operations.',
@@ -3351,283 +2968,6 @@ const CASE_STUDIES = [
     ]
   },
   {
-    id: 'make-portfolio',
-    title: 'Make Portfolio',
-    description: 'A portfolio of no-code automation workflows built using Make.com.',
-    source: 'Portfolio',
-    url: 'https://bit.ly/4w5l2AE',
-    tags: ['make'],
-    content: [
-      {
-        type: 'heading',
-        text: 'Automation of Shopify Orders to Google Sheets for Dropshipping E-commerce Store'
-      },
-      {
-        type: 'p',
-        text: 'The primary goal of this automation is to streamline the process of managing Shopify orders by automatically distributing them to the appropriate fulfillment sheets. This is particularly useful for a dropshipping e-commerce store that sources products from multiple suppliers, such as AliExpress.'
-      },
-      {
-        type: 'list',
-        items: [
-          'Order Creation: Whenever a new order is created in Shopify, the automation system adds it to a data store built within Make, making sure all orders are logged and tracked efficiently.',
-          'Product Identification: The automation includes a scenario that checks the product IDs in a Google Sheets database. By matching these product IDs, the system determines which specific fulfillment sheet each order should be directed to, based on the supplier.',
-          'Master Sheet Integration: A master sheet is maintained where all order data is consolidated. This master sheet serves as the central point for tracking and managing all orders. Whenever any changes are made to the master sheet, the automation ensures that these updates are reflected in the respective Google Sheets, maintaining consistency and accuracy across all fulfillment sheets.',
-          'Supplier Coordination: By automating the distribution of orders to the correct fulfillment sheets, the system ensures that each supplier receives the correct order information, facilitating efficient and accurate order fulfillment.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/make-portfolio/image1.png'
-      },
-      {
-        type: 'img',
-        file: 'case-content/make-portfolio/image2.png'
-      },
-      {
-        type: 'img',
-        file: 'case-content/make-portfolio/image3.png'
-      },
-      {
-        type: 'heading',
-        text: 'Daily Slack Updates Make Scenario'
-      },
-      {
-        type: 'p',
-        text: 'The automation is designed to send daily updates to Slack. The data in Google Sheets is updated daily, and the KPI data is sent to Slack every day using a Make scenario.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/make-portfolio/image4.png'
-      },
-      {
-        type: 'heading',
-        text: 'Automation of ClickUp and Google Sheets'
-      },
-      {
-        type: 'list',
-        items: [
-          'This Make scenario is implemented whenever a task gets completed in ClickUp.',
-          'The task details are then sent to Google Sheets.',
-          'Based on custom fields, the data is being sent to respective google sheet file'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/make-portfolio/image5.png'
-      },
-      {
-        type: 'heading',
-        text: 'Integration of Shopify and ClickUp for Managing Refunded Orders'
-      },
-      {
-        type: 'list',
-        items: [
-          'This scenario is built so that whenever there is a refunded order in Shopify, the order details are added to ClickUp as tasks.',
-          'This integration is implemented to streamline the management of refunded orders.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/make-portfolio/image6.png'
-      },
-      {
-        type: 'heading',
-        text: 'Fulfilled Order Integration with ClickUp'
-      },
-      {
-        type: 'p',
-        text: 'This Make scenario is implemented so that whenever an order is fulfilled in Shopify, the order details are added to ClickUp.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/make-portfolio/image7.png'
-      },
-      {
-        type: 'heading',
-        text: 'Automating IG RSS Feed to Pinterest Pin Creation'
-      },
-      {
-        type: 'list',
-        items: [
-          'This automation is implemented to create a Pinterest pin whenever RSS data is received.',
-          'In this Make scenario, multiple text parsers are used to ensure the data is in the relevant form when creating the pin.',
-          'The automation ensures that all necessary information from the RSS feed is accurately extracted.',
-          'Data parsing helps in formatting the content appropriately for Pinterest.',
-          'This setup streamlines the process of keeping Pinterest updated with content from the RSS feed.',
-          'The automation reduces manual effort and ensures timely pin creation based on new RSS data.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/make-portfolio/image8.png'
-      },
-      {
-        type: 'heading',
-        text: 'Integration of RB2B with Go High Level and Beehiv'
-      },
-      {
-        type: 'list',
-        items: [
-          'RB2B is a platform that collects website visitor profiles.',
-          'When a profile is created in RB2B, that profile is added to Go High Level as a contact.',
-          'A deal is also created in Go High Level for the new contact.',
-          'Additionally, the email is added to Beehiv as a subscriber.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/make-portfolio/image9.png'
-      },
-      {
-        type: 'heading',
-        text: 'Integration of Go High Level with Beehiv'
-      },
-      {
-        type: 'p',
-        text: 'This scenario is implemented so that whenever the status of an opportunity is changed in Go High Level, the associated email is added to Beehiv as a subscriber.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/make-portfolio/image10.png'
-      }
-    ]
-  },
-  {
-    id: 'zapier-portfolio',
-    title: 'Zapier Portfolio',
-    description: 'A portfolio of no-code automation workflows built using Zapier.',
-    source: 'Portfolio',
-    url: 'https://bit.ly/4w5l2AE',
-    tags: ['zapier'],
-    content: [
-      {
-        type: 'heading',
-        text: 'Integrating GoHighLevel with Beehiv Using Zapier'
-      },
-      {
-        type: 'list',
-        items: [
-          'A Zap is being built to connect GoHighLevel with Beehiv.',
-          'Whenever a user submits a form on GoHighLevel, the details are sent to Beehiv.',
-          'A workflow is created in GoHighLevel to send the information to a Zapier webhook.',
-          'Zapier receives the information and then adds it to Beehiv.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image1.png'
-      },
-      {
-        type: 'heading',
-        text: 'Automating IG RSS Feed to Pinterest Pin Creation'
-      },
-      {
-        type: 'list',
-        items: [
-          'This automation is implemented to create a Pinterest pin whenever RSS data is received.',
-          'The automation ensures that all necessary information from the RSS feed is accurately extracted.',
-          'This setup streamlines the process of keeping Pinterest updated with content from the RSS feed.',
-          'The automation reduces manual effort and ensures timely pin creation based on new RSS data.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image2.png'
-      },
-      {
-        type: 'heading',
-        text: 'Automating Lemlist and Lead connector'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image3.png'
-      },
-      {
-        type: 'heading',
-        text: 'Integration of RB2B with Go High Level and Beehiv'
-      },
-      {
-        type: 'list',
-        items: [
-          'RB2B is a platform that collects website visitor profiles.',
-          'When a profile is created in RB2B, that profile is added to lemlist'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image4.png'
-      },
-      {
-        type: 'heading',
-        text: 'Automating Calendly bookings to Beehiiv'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image5.png'
-      },
-      {
-        type: 'heading',
-        text: 'Automating typeform to Monday.com'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image6.png'
-      },
-      {
-        type: 'heading',
-        text: 'Automating Trainerize to Active campaign'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image7.png'
-      },
-      {
-        type: 'heading',
-        text: 'Gmail to ClickUp Zap'
-      },
-      {
-        type: 'p',
-        text: 'This Zap automates the process of task creation in ClickUp based on incoming emails from a specified sender in Gmail. Whenever an email is received from the designated sender, the Zap automatically creates a new task in ClickUp. Additionally, any attachments included in the email are uploaded and attached to the newly created ClickUp task, ensuring all pertinent information and documents are consolidated and accessible directly within the task.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image8.png'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image9.png'
-      },
-      {
-        type: 'heading',
-        text: 'Google Calendar to ClickUp Zap'
-      },
-      {
-        type: 'p',
-        text: 'This Zap facilitates seamless integration between Google Calendar and ClickUp, enhancing task management and operational efficiency. Whenever a new event is created in Google Calendar, the Zap automatically generates a corresponding task in ClickUp. It transfers relevant details from the calendar event, such as the date, time, and event description, to the ClickUp task. Furthermore, the Zap is configured to assign these tasks to specific individuals, optimizing task allocation and ensuring the right team members are engaged with relevant events and responsibilities.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image10.png'
-      },
-      {
-        type: 'heading',
-        text: 'Cancel Calendly Bookings Zap'
-      },
-      {
-        type: 'p',
-        text: 'This Zap streamlines the process of appointment cancellations by integrating ClickUp with Calendly. When a cancellation is initiated from within ClickUp—by pressing the cancel button on a specific task—the relevant appointment is automatically cancelled in Calendly. This automation ensures that appointment slots are efficiently managed and updated in real time, reducing manual oversight and the potential for scheduling conflicts.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image11.png'
-      },
-      {
-        type: 'img',
-        file: 'case-content/zapier-portfolio/image12.png'
-      }
-    ]
-  },
-  {
     id: 'clickup-boots-bags',
     title: 'ClickUp Structure — Boots & Bags (Ecommerce Dropshipping)',
     description: 'Detailed ClickUp workspace structure for an ecommerce dropshipping store’s operations.',
@@ -5256,277 +4596,6 @@ const CASE_STUDIES = [
       {
         type: 'p',
         text: 'Both dashboards run on Looker Studio so paid media and finance read from the same live numbers instead of separate exports from each ad platform.'
-      }
-    ]
-  },
-  {
-    id: 'google-apps-script-portfolio',
-    title: 'Google Apps Script Portfolio',
-    description: 'A portfolio of Google Workspace automations built with Apps Script — connecting Gmail, Sheets, Drive, and Docs directly.',
-    source: 'Portfolio',
-    tags: [
-      'google-apps-script'
-    ],
-    content: [
-      {
-        type: 'heading',
-        text: 'Automated PDF Data Extraction from Gmail and Google Sheets Integration'
-      },
-      {
-        type: 'p',
-        text: 'Developed an automated solution for a client who received daily PDFs via email. Created a Google Apps Script that scans Gmail for specific emails containing PDF attachments, downloads and parses these PDFs to extract vital information, and transfers this extracted data into a designated Google Sheet. The script is scheduled to run automatically at a pre-defined time each day, ensuring timely data processing and minimal manual intervention.'
-      },
-      {
-        type: 'label',
-        text: 'Features'
-      },
-      {
-        type: 'list',
-        items: [
-          'User Authentication: Secure login mechanism to authenticate users.',
-          'PDF Upload: Interface to upload PDF files manually.',
-          'Data Extraction: Extract specific fields like order code, shipping address, product details, etc., from the uploaded PDF.',
-          'Google Sheets Integration: Populate the extracted data into a Google Sheet.',
-          'Scheduled Email Fetching: Automated function to fetch PDF attachments from a user’s email at scheduled intervals.',
-          'Data Validation: Validation checks to ensure data consistency and accuracy.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image1.png',
-        caption: 'Feature list and the two-workflow design: a scheduled main flow (PDF parsing → validation → sheet integration) alongside a manual upload flow (login → upload).'
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image2.png',
-        caption: 'The FastAPI backend that handles the upload, invoice parsing, and Sheets integration.'
-      },
-      {
-        type: 'heading',
-        text: 'Growth Model Development with Defined KPIs'
-      },
-      {
-        type: 'p',
-        text: 'Designed a dynamic growth model in Google Sheets, complete with Key Performance Indicators (KPIs) to enhance visibility and guide decision-making.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image3.png',
-        caption: 'The growth funnel model — awareness, engagement, and retention KPIs tracked month over month.'
-      },
-      {
-        type: 'heading',
-        text: 'BigQuery to Google Sheets Data Pipeline'
-      },
-      {
-        type: 'p',
-        text: 'Implemented a robust data pipeline using SyncWith and SQL to extract and sync data from BigQuery to Google Sheets for real-time analytics and reporting.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image4.png',
-        caption: 'A scheduled BigQuery SQL query joining employer and sign-up data by month for the KPI sheet.'
-      },
-      {
-        type: 'heading',
-        text: 'Google Sheets Data Visualization Dashboard'
-      },
-      {
-        type: 'p',
-        text: 'Created an interactive dashboard within Google Sheets for effective data visualization and tracking, serving as a quick reference tool for stakeholders.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image5.png',
-        caption: 'A CRM dashboard inside Google Sheets tracking hiring totals, job closures, and feedback scores.'
-      },
-      {
-        type: 'heading',
-        text: 'Batch Creation of Folders and Files'
-      },
-      {
-        type: 'list',
-        items: [
-          'The script initiates by creating a structured main folder in Google Drive.',
-          'Within this main folder, it systematically generates a set of predefined subfolders.',
-          'For each subfolder, the script creates specific spreadsheet files from templates designed for various purposes.',
-          'Google Docs templates are duplicated and placed into their respective folders, ready for use.',
-          'A master spreadsheet is updated with the names, IDs, and direct links to all created folders and files, facilitating easy navigation and organization.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image6.png',
-        caption: 'The batch-creation script that generates each client’s folder structure, contract, and accounting files from templates.'
-      },
-      {
-        type: 'heading',
-        text: 'Batch Management of Access'
-      },
-      {
-        type: 'list',
-        items: [
-          'The script reads from a spreadsheet cell that lists email addresses authorized for file access.',
-          'It programmatically adjusts the sharing settings of designated Google Drive files and folders, granting access to the emails provided.',
-          'Concurrently, it ensures that access is removed from email addresses not currently listed in the spreadsheet.',
-          'This process is tailored to manage differing access levels needed for team members versus clients.',
-          'The script offers an efficient mechanism to control document access, reducing the risk of unauthorized viewing or editing.'
-        ]
-      },
-      {
-        type: 'heading',
-        text: 'Email Reminder System'
-      },
-      {
-        type: 'list',
-        items: [
-          'The script is scheduled to run daily to ensure real-time relevancy of its functions.',
-          'It begins by accessing specific files through provided links within a master file.',
-          'Once the file is opened, the script navigates to a particular sub-tab where date-specific data is stored.',
-          'It compares the stored dates against the current date to identify matches.',
-          'When a match is found, indicating a task or event due that day, it triggers the sending of customized email reminders to designated recipients.',
-          'This automation ensures that reminders are sent out without fail, improving the consistency of communications and task management.'
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image7.png',
-        caption: 'Extracting a hyperlink from a spreadsheet cell to locate the right file before checking its dates.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image8.png',
-        caption: 'A due-diligence checkup variant: comparing today’s date against the sheet before sending a scheduled compliance email.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image9.png',
-        caption: 'The companion screening script that walks each row and extracts the linked spreadsheet before processing it.'
-      },
-      {
-        type: 'heading',
-        text: 'Google Apps Script for Chart Automation'
-      },
-      {
-        type: 'p',
-        text: 'Utilized Google Apps Script to automate the generation and saving of chart images to Google Drive, streamlining the reporting process.'
-      },
-      {
-        type: 'heading',
-        text: 'Automated PDF Invoicing via Email'
-      },
-      {
-        type: 'p',
-        text: 'Created Google Apps Script to automatically format data into PDF invoices and send them via email, saving manual effort and enhancing operational efficiency.'
-      },
-      {
-        type: 'heading',
-        text: 'Automated Column Management in Inventory Sheet'
-      },
-      {
-        type: 'p',
-        text: 'Developed an app script to automatically update columns in an inventory sheet based on values in another sheet, enabling seamless data synchronization within Google Sheets.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image10.png',
-        caption: 'Syncing active/inactive status between a main sheet and a linked inventory spreadsheet.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image11.png',
-        caption: 'A custom menu for updating inventory values and normalizing leading zeros on demand.'
-      },
-      {
-        type: 'heading',
-        text: 'CSV-Based Inventory Data Entry Automation'
-      },
-      {
-        type: 'p',
-        text: 'Created a script to automate data entry in an inventory sheet from CSV files. The script also includes a data cleaning function to ensure accuracy and integrity of the imported data.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image12.png',
-        caption: 'Multi-warehouse inventory data with flagged data-quality issues the cleaning step catches — mismatched locations and unidentified SKUs.'
-      },
-      {
-        type: 'heading',
-        text: 'Project Tracker Management'
-      },
-      {
-        type: 'p',
-        text: 'Worked on developing a Project Tracker in Google Sheets to allocate tasks, track project milestones, and monitor team performance, complete with real-time updates and visual dashboards for easy interpretation.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image13.png',
-        caption: 'A Gantt-style project schedule generated directly in Google Sheets.'
-      },
-      {
-        type: 'heading',
-        text: 'Shopify to Google Sheets Data Transfer with Task Allocation'
-      },
-      {
-        type: 'p',
-        text: 'Leveraged expertise in API integration and Google Sheets to create an automated system that transfers data from Shopify to Google Sheets using the ‘Sync With’ extension. Utilized Google Apps Script and various functions to allocate customer-specific tasks to agents, and integrated this data into Aircall for seamless customer outreach. The system is set to update daily.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image14.png',
-        caption: 'The task-distribution function that splits unattended calls evenly across the agent roster.'
-      },
-      {
-        type: 'heading',
-        text: 'Habit Tracker'
-      },
-      {
-        type: 'p',
-        text: 'Developed a Habit Tracker that empowers users to monitor habits, visualize progress, and compute monthly streaks, all within an easy-to-use Google Sheets interface.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image15.png',
-        caption: 'The dark-mode Habit Tracker — daily checkboxes rolled up into weekly and monthly totals.'
-      },
-      {
-        type: 'heading',
-        text: 'Fitness Tracker'
-      },
-      {
-        type: 'p',
-        text: 'Crafted a Fitness Tracker in Google Sheets allowing users to log activities, monitor habits, and assess the achievement of their fitness goals over time.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image16.png',
-        caption: 'Weekly activity logging with a goal-achievement percentage calculated per exercise.'
-      },
-      {
-        type: 'heading',
-        text: 'Sleep Tracker'
-      },
-      {
-        type: 'p',
-        text: 'Developed a Sleep Tracker in Google Sheets to enable users to input and visualize their daily sleep duration, helping them understand and improve their sleep patterns.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image17.png',
-        caption: 'Daily sleep duration charted alongside longest/shortest sleep insights.'
-      },
-      {
-        type: 'heading',
-        text: 'Finance Tracker'
-      },
-      {
-        type: 'p',
-        text: 'Crafted a comprehensive Finance Tracker in Google Sheets that allows users to set financial goals, input transactions, and gain insights through visual dashboards for monthly and yearly financial planning.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/google-apps-script-portfolio/image18.png',
-        caption: 'Budget setup across income, expenses, savings & investments, and debt categories.'
       }
     ]
   },
@@ -7526,6 +6595,1215 @@ const CASE_STUDIES = [
           'Send a short summary after each run (companies processed, written, flagged) using the Backlog Run Complete step.',
           'Run a measured pilot, compare a sample of results with a person’s choices, and use it to complete the results section.'
         ]
+      }
+    ]
+  },
+  {
+    id: 'zapier-integrating-gohighlevel-with-beehiv-using-zapier',
+    title: 'Integrating GoHighLevel with Beehiv Using Zapier',
+    description: 'A Zap is being built to connect GoHighLevel with Beehiv.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'list',
+        items: [
+          'A Zap is being built to connect GoHighLevel with Beehiv.',
+          'Whenever a user submits a form on GoHighLevel, the details are sent to Beehiv.',
+          'A workflow is created in GoHighLevel to send the information to a Zapier webhook.',
+          'Zapier receives the information and then adds it to Beehiv.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image1.png'
+      }
+    ]
+  },
+  {
+    id: 'zapier-automating-ig-rss-feed-to-pinterest',
+    title: 'Automating IG RSS Feed to Pinterest Pin Creation',
+    description: 'This automation is implemented to create a Pinterest pin whenever RSS data is received.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'list',
+        items: [
+          'This automation is implemented to create a Pinterest pin whenever RSS data is received.',
+          'The automation ensures that all necessary information from the RSS feed is accurately extracted.',
+          'This setup streamlines the process of keeping Pinterest updated with content from the RSS feed.',
+          'The automation reduces manual effort and ensures timely pin creation based on new RSS data.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image2.png'
+      }
+    ]
+  },
+  {
+    id: 'zapier-automating-lemlist-and-lead-connector',
+    title: 'Automating Lemlist and Lead connector',
+    description: 'A Zapier automation: Automating Lemlist and Lead connector.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image3.png'
+      }
+    ]
+  },
+  {
+    id: 'zapier-integration-of-rb2b-with-go-high',
+    title: 'Integration of RB2B with Go High Level and Beehiv',
+    description: 'RB2B is a platform that collects website visitor profiles.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'list',
+        items: [
+          'RB2B is a platform that collects website visitor profiles.',
+          'When a profile is created in RB2B, that profile is added to lemlist'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image4.png'
+      }
+    ]
+  },
+  {
+    id: 'zapier-automating-calendly-bookings-to-beehiiv',
+    title: 'Automating Calendly bookings to Beehiiv',
+    description: 'A Zapier automation: Automating Calendly bookings to Beehiiv.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image5.png'
+      }
+    ]
+  },
+  {
+    id: 'zapier-automating-typeform-to-monday-com',
+    title: 'Automating typeform to Monday.com',
+    description: 'A Zapier automation: Automating typeform to Monday.com.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image6.png'
+      }
+    ]
+  },
+  {
+    id: 'zapier-automating-trainerize-to-active-campaign',
+    title: 'Automating Trainerize to Active campaign',
+    description: 'A Zapier automation: Automating Trainerize to Active campaign.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image7.png'
+      }
+    ]
+  },
+  {
+    id: 'zapier-gmail-to-clickup-zap',
+    title: 'Gmail to ClickUp Zap',
+    description: 'This Zap automates the process of task creation in ClickUp based on incoming emails from a specified sender in Gmail. Whenever an email is received from the designated…',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This Zap automates the process of task creation in ClickUp based on incoming emails from a specified sender in Gmail. Whenever an email is received from the designated sender, the Zap automatically creates a new task in ClickUp. Additionally, any attachments included in the email are uploaded and attached to the newly created ClickUp task, ensuring all pertinent information and documents are consolidated and accessible directly within the task.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image8.png'
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image9.png'
+      }
+    ]
+  },
+  {
+    id: 'zapier-google-calendar-to-clickup-zap',
+    title: 'Google Calendar to ClickUp Zap',
+    description: 'This Zap facilitates seamless integration between Google Calendar and ClickUp, enhancing task management and operational efficiency. Whenever a new event is created in…',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This Zap facilitates seamless integration between Google Calendar and ClickUp, enhancing task management and operational efficiency. Whenever a new event is created in Google Calendar, the Zap automatically generates a corresponding task in ClickUp. It transfers relevant details from the calendar event, such as the date, time, and event description, to the ClickUp task. Furthermore, the Zap is configured to assign these tasks to specific individuals, optimizing task allocation and ensuring the right team members are engaged with relevant events and responsibilities.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image10.png'
+      }
+    ]
+  },
+  {
+    id: 'zapier-cancel-calendly-bookings-zap',
+    title: 'Cancel Calendly Bookings Zap',
+    description: 'This Zap streamlines the process of appointment cancellations by integrating ClickUp with Calendly. When a cancellation is initiated from within ClickUp—by pressing the…',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This Zap streamlines the process of appointment cancellations by integrating ClickUp with Calendly. When a cancellation is initiated from within ClickUp—by pressing the cancel button on a specific task—the relevant appointment is automatically cancelled in Calendly. This automation ensures that appointment slots are efficiently managed and updated in real time, reducing manual oversight and the potential for scheduling conflicts.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image11.png'
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image12.png'
+      }
+    ]
+  },
+  {
+    id: 'make-automation-of-shopify-orders-to-google',
+    title: 'Automation of Shopify Orders to Google Sheets for Dropshipping E-commerce Store',
+    description: 'The primary goal of this automation is to streamline the process of managing Shopify orders by automatically distributing them to the appropriate fulfillment sheets.…',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'make'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'The primary goal of this automation is to streamline the process of managing Shopify orders by automatically distributing them to the appropriate fulfillment sheets. This is particularly useful for a dropshipping e-commerce store that sources products from multiple suppliers, such as AliExpress.'
+      },
+      {
+        type: 'list',
+        items: [
+          'Order Creation: Whenever a new order is created in Shopify, the automation system adds it to a data store built within Make, making sure all orders are logged and tracked efficiently.',
+          'Product Identification: The automation includes a scenario that checks the product IDs in a Google Sheets database. By matching these product IDs, the system determines which specific fulfillment sheet each order should be directed to, based on the supplier.',
+          'Master Sheet Integration: A master sheet is maintained where all order data is consolidated. This master sheet serves as the central point for tracking and managing all orders. Whenever any changes are made to the master sheet, the automation ensures that these updates are reflected in the respective Google Sheets, maintaining consistency and accuracy across all fulfillment sheets.',
+          'Supplier Coordination: By automating the distribution of orders to the correct fulfillment sheets, the system ensures that each supplier receives the correct order information, facilitating efficient and accurate order fulfillment.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/make-portfolio/image1.png'
+      },
+      {
+        type: 'img',
+        file: 'case-content/make-portfolio/image2.png'
+      },
+      {
+        type: 'img',
+        file: 'case-content/make-portfolio/image3.png'
+      }
+    ]
+  },
+  {
+    id: 'make-daily-slack-updates-make-scenario',
+    title: 'Daily Slack Updates Make Scenario',
+    description: 'The automation is designed to send daily updates to Slack. The data in Google Sheets is updated daily, and the KPI data is sent to Slack every day using a Make scenario.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'make'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'The automation is designed to send daily updates to Slack. The data in Google Sheets is updated daily, and the KPI data is sent to Slack every day using a Make scenario.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/make-portfolio/image4.png'
+      }
+    ]
+  },
+  {
+    id: 'make-automation-of-clickup-and-google-sheets',
+    title: 'Automation of ClickUp and Google Sheets',
+    description: 'This Make scenario is implemented whenever a task gets completed in ClickUp.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'make'
+    ],
+    content: [
+      {
+        type: 'list',
+        items: [
+          'This Make scenario is implemented whenever a task gets completed in ClickUp.',
+          'The task details are then sent to Google Sheets.',
+          'Based on custom fields, the data is being sent to respective google sheet file'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/make-portfolio/image5.png'
+      }
+    ]
+  },
+  {
+    id: 'make-integration-of-shopify-and-clickup-for',
+    title: 'Integration of Shopify and ClickUp for Managing Refunded Orders',
+    description: 'This scenario is built so that whenever there is a refunded order in Shopify, the order details are added to ClickUp as tasks.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'make'
+    ],
+    content: [
+      {
+        type: 'list',
+        items: [
+          'This scenario is built so that whenever there is a refunded order in Shopify, the order details are added to ClickUp as tasks.',
+          'This integration is implemented to streamline the management of refunded orders.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/make-portfolio/image6.png'
+      }
+    ]
+  },
+  {
+    id: 'make-fulfilled-order-integration-with-clickup',
+    title: 'Fulfilled Order Integration with ClickUp',
+    description: 'This Make scenario is implemented so that whenever an order is fulfilled in Shopify, the order details are added to ClickUp.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'make'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This Make scenario is implemented so that whenever an order is fulfilled in Shopify, the order details are added to ClickUp.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/make-portfolio/image7.png'
+      }
+    ]
+  },
+  {
+    id: 'make-automating-ig-rss-feed-to-pinterest',
+    title: 'Automating IG RSS Feed to Pinterest Pin Creation',
+    description: 'This automation is implemented to create a Pinterest pin whenever RSS data is received.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'make'
+    ],
+    content: [
+      {
+        type: 'list',
+        items: [
+          'This automation is implemented to create a Pinterest pin whenever RSS data is received.',
+          'In this Make scenario, multiple text parsers are used to ensure the data is in the relevant form when creating the pin.',
+          'The automation ensures that all necessary information from the RSS feed is accurately extracted.',
+          'Data parsing helps in formatting the content appropriately for Pinterest.',
+          'This setup streamlines the process of keeping Pinterest updated with content from the RSS feed.',
+          'The automation reduces manual effort and ensures timely pin creation based on new RSS data.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/make-portfolio/image8.png'
+      }
+    ]
+  },
+  {
+    id: 'make-integration-of-rb2b-with-go-high',
+    title: 'Integration of RB2B with Go High Level and Beehiv',
+    description: 'RB2B is a platform that collects website visitor profiles.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'make'
+    ],
+    content: [
+      {
+        type: 'list',
+        items: [
+          'RB2B is a platform that collects website visitor profiles.',
+          'When a profile is created in RB2B, that profile is added to Go High Level as a contact.',
+          'A deal is also created in Go High Level for the new contact.',
+          'Additionally, the email is added to Beehiv as a subscriber.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/make-portfolio/image9.png'
+      }
+    ]
+  },
+  {
+    id: 'make-integration-of-go-high-level-with',
+    title: 'Integration of Go High Level with Beehiv',
+    description: 'This scenario is implemented so that whenever the status of an opportunity is changed in Go High Level, the associated email is added to Beehiv as a subscriber.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4w5l2AE',
+    tags: [
+      'make'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This scenario is implemented so that whenever the status of an opportunity is changed in Go High Level, the associated email is added to Beehiv as a subscriber.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/make-portfolio/image10.png'
+      }
+    ]
+  },
+  {
+    id: 'ai-agent-ai-driven-instagram-video-breakdown-decode',
+    title: 'AI-Driven Instagram Video Breakdown: Decode What Makes Viral Content Tick',
+    description: 'Automatically fetch and analyze top-performing Instagram videos from popular creators to uncover what makes them stand out.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4ePg6cL',
+    tags: [
+      'ai-agents'
+    ],
+    content: [
+      {
+        type: 'label',
+        text: 'Objective:'
+      },
+      {
+        type: 'p',
+        text: 'Automatically fetch and analyze top-performing Instagram videos from popular creators to uncover what makes them stand out.'
+      },
+      {
+        type: 'label',
+        text: 'Implementation:'
+      },
+      {
+        type: 'p',
+        text: 'The workflow starts by pulling Instagram usernames from your list, finds the creator’s most viewed video, and uses AI to break it down—frame by frame, word by word—to reveal the hidden ingredients of viral success.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome'
+      },
+      {
+        type: 'list',
+        items: [
+          'Schedule it to run: .Schedule it to run daily, weekly or monthly.',
+          'Fetches Creators: It pulls Instagram usernames from your Airtable.',
+          'Finds the Top Video: From each creator, it picks the reel with the highest views—because we only care about what’s working 📈',
+          'Stores the Essentials: Saves the video link, caption, creator name, and view count.',
+          'Downloads the Video: Preps the reel so we can take a closer look under the hood.',
+          'Uses AI to Analyze the Magic: Here’s where it gets spicy 🔍',
+          'What’s the hook? How does it grab attention in the first 3 seconds?',
+          'What’s the vibe? What’s happening in the video—background, setting, energy?',
+          'Visual style: What kind of text, clothes, or framing makes it pop?',
+          'Game-changer moments: What moment makes viewers stop scrolling and watch till the end?',
+          'Saves the Analysis: The insights are written down and saved back in your Airtable. Boom—structured, searchable, gold-standard content breakdown.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-general/image1.png'
+      }
+    ]
+  },
+  {
+    id: 'ai-agent-smart-amazon-product-tracker-for-price',
+    title: 'Smart Amazon Product Tracker for Price Drop Alerts',
+    description: 'To fetch product details from Amazon and alert you if the price drops—because who doesn’t love a good deal? 💸',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4ePg6cL',
+    tags: [
+      'ai-agents'
+    ],
+    content: [
+      {
+        type: 'label',
+        text: 'Objective:'
+      },
+      {
+        type: 'p',
+        text: 'To fetch product details from Amazon and alert you if the price drops—because who doesn’t love a good deal? 💸'
+      },
+      {
+        type: 'label',
+        text: 'Implementation:'
+      },
+      {
+        type: 'p',
+        text: 'The workflow grabs product links from a database,, scrapes product info, compares old vs new prices, updates the records, and—if there\'s a discount—sends you an email so you can grab it before it’s gone.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Kick-off Daily: Schedule to run daily.',
+          'Grabs Products from Airtable: It checks your list to see which items are being tracked.',
+          'Launches the Scraper: The link is sent to Apify, which fetches the product’s name, price, and more.',
+          'Pulls the Results: Once scraping is done, it collects all the fresh details.',
+          'Updates the Product Info: It neatly saves everything back into your Airtable list (because organized data is happy data).',
+          'Checks for Price Drops: If today’s price is lower than the last one, the flow gets excited 🤑',
+          'Sends You an Email Alert: You get an email telling you “Hey, the price just dropped!” with a link to check it out.',
+          'Keeps Things Updated: Whether the price dropped or not, it always saves the latest price for next time.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-general/image2.png'
+      }
+    ]
+  },
+  {
+    id: 'ai-agent-youtube-video-details-scraper-using-automation',
+    title: 'YouTube Video Details Scraper using Automation',
+    description: 'Automatically collect detailed info from YouTube videos of popular creators for content analysis.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4ePg6cL',
+    tags: [
+      'ai-agents'
+    ],
+    content: [
+      {
+        type: 'label',
+        text: 'Objective:'
+      },
+      {
+        type: 'p',
+        text: 'Automatically collect detailed info from YouTube videos of popular creators for content analysis.'
+      },
+      {
+        type: 'label',
+        text: 'Implementation:'
+      },
+      {
+        type: 'p',
+        text: 'The workflow pulls the url from your database, scrapes their details using a scraping tool, waits for results, and then saves everything back to the database.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Triggered by a Click: You hit “Start” to run the process.',
+          'Grabs Video Links: It picks up YouTube links marked as “ready” in your Airtable.',
+          'Runs the Scraper: Sends each link to an automation tool that fetches all available video details—title, channel name, views, likes, subtitles, description, and thumbnail.',
+          'Waits for Results: Gives the scraper time to finish collecting the info.',
+          'Saves Everything Back: Once done, all the data is pushed back into Airtable, organized and ready for your analysis.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-general/image3.png'
+      }
+    ]
+  },
+  {
+    id: 'ai-agent-smart-ai-podcast-audio-script-generator',
+    title: 'Smart AI Podcast Audio Script Generator from BBC News',
+    description: 'To turn positive and interesting news stories into podcast-style audio scripts using AI.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4ePg6cL',
+    tags: [
+      'ai-agents'
+    ],
+    content: [
+      {
+        type: 'label',
+        text: 'Objective:'
+      },
+      {
+        type: 'p',
+        text: 'To turn positive and interesting news stories into podcast-style audio scripts using AI.'
+      },
+      {
+        type: 'label',
+        text: 'Implementation:'
+      },
+      {
+        type: 'p',
+        text: 'The system collects news stories from the BBC website, checks if they are podcast-friendly, rewrites them into an engaging script, and finally prepares them for audio conversion.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Starts Manually: The process begins with a button click to start the flow.',
+          'Fetches the News: It visits the BBC homepage and grabs all the latest news headlines and descriptions.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-general/image4.png'
+      },
+      {
+        type: 'list',
+        items: [
+          'Filters the Content: It goes through the list and picks out only 10 headlines.',
+          'Checks Suitability: Each headline is checked to see if it’s interesting, positive, and fit for a podcast.',
+          'Gets Full Articles: For the suitable headlines, it goes to the full news page and pulls in the main content.',
+          'Creates the Script: The stories are then rewritten into a warm, friendly, and engaging podcast script.',
+          'Checks Script Output: It makes sure the script is properly prepared.',
+          'Sends for Audio: If everything looks good, the script is sent to a tool that can convert the text into voice.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-general/image5.png'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-general/image6.png'
+      }
+    ]
+  },
+  {
+    id: 'ai-agent-tiktok-video-downloader-without-watermark-save',
+    title: 'TikTok Video Downloader without watermark: Save Any Reel Directly to Google Drive',
+    description: 'To automatically download a TikTok video and store it in Google Drive with a public share link.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4ePg6cL',
+    tags: [
+      'ai-agents'
+    ],
+    content: [
+      {
+        type: 'label',
+        text: 'Objective:'
+      },
+      {
+        type: 'p',
+        text: 'To automatically download a TikTok video and store it in Google Drive with a public share link.'
+      },
+      {
+        type: 'label',
+        text: 'Implementation:'
+      },
+      {
+        type: 'p',
+        text: 'This workflow fetches a TikTok video, extracts its direct video link, downloads it without watermark, and saves the file to your Google Drive, for content reposting.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome:'
+      },
+      {
+        type: 'list',
+        items: [
+          'One Click to Start: The flow begins with a simple tap to kick things off.',
+          'Fetches the Page: It opens the TikTok video page and grabs all the HTML data.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-general/image7.png'
+      },
+      {
+        type: 'list',
+        items: [
+          'Extracts the Video URL: A smart code block digs into that HTML and pulls out the real video link.',
+          'Downloads the Video: The video file is then downloaded using that clean URL.',
+          'Uploads to Google Drive: The downloaded video is saved directly to your Drive.',
+          'Creates Shareable Link: The file is made public so you can share it with just one link.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-general/image8.png'
+      }
+    ]
+  },
+  {
+    id: 'ai-agent-ai-powered-social-post-generator-from',
+    title: 'AI-Powered Social Post Generator: From Spreadsheet to Socials in Seconds!',
+    description: 'Automatically create short, engaging, and fact-based posts (with emojis!) based on your content ideas—and publish them to the right platform.',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4ePg6cL',
+    tags: [
+      'ai-agents'
+    ],
+    content: [
+      {
+        type: 'label',
+        text: 'Objective:'
+      },
+      {
+        type: 'p',
+        text: 'Automatically create short, engaging, and fact-based posts (with emojis!) based on your content ideas—and publish them to the right platform.'
+      },
+      {
+        type: 'label',
+        text: 'Implementation:'
+      },
+      {
+        type: 'p',
+        text: 'This workflow grabs an idea from your Google Sheet, uses AI to turn it into a social-ready post, and then posts it to either LinkedIn or X (Twitter), depending on your selection.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Kickstarts with a Click: You run the workflow manually to process new ideas.',
+          'Reads the Sheet: It pulls content ideas and target platforms from your Google Sheet.',
+          'Checks Status: Only picks ideas that haven’t been published yet (marked as 0).',
+          'Uses AI to Write the Post: Google Gemini crafts a short, fact-based, emoji-filled post tailored to the selected platform.'
+        ]
+      },
+      {
+        type: 'label',
+        text: 'Posts It Where It Belongs'
+      },
+      {
+        type: 'list',
+        items: [
+          'If the platform is LinkedIn, it publishes there.',
+          'If it’s X (Twitter), it posts accordingly.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-general/image9.png'
+      },
+      {
+        type: 'p',
+        text: 'Done. One idea, one click, and you’ve got content live on the right platform—no copy-pasting needed.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-general/image10.png'
+      }
+    ]
+  },
+  {
+    id: 'ai-agent-ai-powered-rag-chatbot-for-the',
+    title: 'AI-Powered RAG Chatbot for The Fast Bite: Seamless Ordering and Query Handling',
+    description: 'Create an AI-powered chatbot that helps The Fast Bite( a fast food restaurant) customers with menu queries, placing orders, and providing restaurant details in a fast…',
+    source: 'Portfolio',
+    url: 'https://bit.ly/4ePg6cL',
+    tags: [
+      'ai-agents'
+    ],
+    content: [
+      {
+        type: 'label',
+        text: 'Objective:'
+      },
+      {
+        type: 'p',
+        text: 'Create an AI-powered chatbot that helps The Fast Bite( a fast food restaurant) customers with menu queries, placing orders, and providing restaurant details in a fast and friendly manner.'
+      },
+      {
+        type: 'label',
+        text: 'Implementation:'
+      },
+      {
+        type: 'p',
+        text: 'The RAG Chatbot for The Fast Bite automatically updates itself with the latest menu and restaurant info from Google Drive and quickly uses that to help customers with orders or questions. It provides fast and accurate responses to make the customer experience smoother.'
+      },
+      {
+        type: 'label',
+        text: 'Outcome:'
+      },
+      {
+        type: 'label',
+        text: 'Triggered by New Files'
+      },
+      {
+        type: 'p',
+        text: 'The chatbot starts working whenever a new file is added to The Fast Bite’s Google Drive folder. This could include updates to the menu or any other important information.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-general/image11.png'
+      },
+      {
+        type: 'label',
+        text: 'Downloading the Information'
+      },
+      {
+        type: 'p',
+        text: 'The chatbot downloads the new file automatically from Google Drive for processing.'
+      },
+      {
+        type: 'label',
+        text: 'Understanding the Data'
+      },
+      {
+        type: 'p',
+        text: 'It uses Google Gemini (AI) to turn the downloaded content into a format that the chatbot can understand.'
+      },
+      {
+        type: 'label',
+        text: 'Storing the Info'
+      },
+      {
+        type: 'p',
+        text: 'The processed data is stored in a system called Pinecone. This helps the chatbot quickly find the answers when customers ask questions.'
+      },
+      {
+        type: 'label',
+        text: 'Handling Customer Queries'
+      },
+      {
+        type: 'p',
+        text: 'When customers ask questions, the chatbot uses this stored information to provide relevant and helpful responses instantly.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-general/image12.png'
+      },
+      {
+        type: 'label',
+        text: 'Key Features'
+      },
+      {
+        type: 'list',
+        items: [
+          'Fast Updates: The chatbot is always up-to-date with the latest menu or restaurant information.',
+          'AI-Powered Answers: It uses advanced AI to provide accurate, friendly responses.',
+          'Seamless Experience: The chatbot helps customers with ordering, customizing their meals, and answering common questions (like store hours, promotions, etc.).'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-general/image13.png'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ai-agents-general/image14.png'
+      }
+    ]
+  },
+  {
+    id: 'gas-automated-pdf-data-extraction-from-gmail',
+    title: 'Automated PDF Data Extraction from Gmail and Google Sheets Integration',
+    description: 'Developed an automated solution for a client who received daily PDFs via email. Created a Google Apps Script that scans Gmail for specific emails containing PDF…',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'Developed an automated solution for a client who received daily PDFs via email. Created a Google Apps Script that scans Gmail for specific emails containing PDF attachments, downloads and parses these PDFs to extract vital information, and transfers this extracted data into a designated Google Sheet. The script is scheduled to run automatically at a pre-defined time each day, ensuring timely data processing and minimal manual intervention.'
+      },
+      {
+        type: 'label',
+        text: 'Features'
+      },
+      {
+        type: 'list',
+        items: [
+          'User Authentication: Secure login mechanism to authenticate users.',
+          'PDF Upload: Interface to upload PDF files manually.',
+          'Data Extraction: Extract specific fields like order code, shipping address, product details, etc., from the uploaded PDF.',
+          'Google Sheets Integration: Populate the extracted data into a Google Sheet.',
+          'Scheduled Email Fetching: Automated function to fetch PDF attachments from a user’s email at scheduled intervals.',
+          'Data Validation: Validation checks to ensure data consistency and accuracy.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image1.png',
+        caption: 'Feature list and the two-workflow design: a scheduled main flow (PDF parsing → validation → sheet integration) alongside a manual upload flow (login → upload).'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image2.png',
+        caption: 'The FastAPI backend that handles the upload, invoice parsing, and Sheets integration.'
+      }
+    ]
+  },
+  {
+    id: 'gas-growth-model-development-with-defined-kpis',
+    title: 'Growth Model Development with Defined KPIs',
+    description: 'Designed a dynamic growth model in Google Sheets, complete with Key Performance Indicators (KPIs) to enhance visibility and guide decision-making.',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'Designed a dynamic growth model in Google Sheets, complete with Key Performance Indicators (KPIs) to enhance visibility and guide decision-making.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image3.png',
+        caption: 'The growth funnel model — awareness, engagement, and retention KPIs tracked month over month.'
+      }
+    ]
+  },
+  {
+    id: 'gas-bigquery-to-google-sheets-data-pipeline',
+    title: 'BigQuery to Google Sheets Data Pipeline',
+    description: 'Implemented a robust data pipeline using SyncWith and SQL to extract and sync data from BigQuery to Google Sheets for real-time analytics and reporting.',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'Implemented a robust data pipeline using SyncWith and SQL to extract and sync data from BigQuery to Google Sheets for real-time analytics and reporting.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image4.png',
+        caption: 'A scheduled BigQuery SQL query joining employer and sign-up data by month for the KPI sheet.'
+      }
+    ]
+  },
+  {
+    id: 'gas-google-sheets-data-visualization-dashboard',
+    title: 'Google Sheets Data Visualization Dashboard',
+    description: 'Created an interactive dashboard within Google Sheets for effective data visualization and tracking, serving as a quick reference tool for stakeholders.',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'Created an interactive dashboard within Google Sheets for effective data visualization and tracking, serving as a quick reference tool for stakeholders.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image5.png',
+        caption: 'A CRM dashboard inside Google Sheets tracking hiring totals, job closures, and feedback scores.'
+      }
+    ]
+  },
+  {
+    id: 'gas-batch-creation-of-folders-and-files',
+    title: 'Batch Creation of Folders and Files',
+    description: 'The script initiates by creating a structured main folder in Google Drive.',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'list',
+        items: [
+          'The script initiates by creating a structured main folder in Google Drive.',
+          'Within this main folder, it systematically generates a set of predefined subfolders.',
+          'For each subfolder, the script creates specific spreadsheet files from templates designed for various purposes.',
+          'Google Docs templates are duplicated and placed into their respective folders, ready for use.',
+          'A master spreadsheet is updated with the names, IDs, and direct links to all created folders and files, facilitating easy navigation and organization.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image6.png',
+        caption: 'The batch-creation script that generates each client’s folder structure, contract, and accounting files from templates.'
+      }
+    ]
+  },
+  {
+    id: 'gas-batch-management-of-access',
+    title: 'Batch Management of Access',
+    description: 'The script reads from a spreadsheet cell that lists email addresses authorized for file access.',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'list',
+        items: [
+          'The script reads from a spreadsheet cell that lists email addresses authorized for file access.',
+          'It programmatically adjusts the sharing settings of designated Google Drive files and folders, granting access to the emails provided.',
+          'Concurrently, it ensures that access is removed from email addresses not currently listed in the spreadsheet.',
+          'This process is tailored to manage differing access levels needed for team members versus clients.',
+          'The script offers an efficient mechanism to control document access, reducing the risk of unauthorized viewing or editing.'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'gas-email-reminder-system',
+    title: 'Email Reminder System',
+    description: 'The script is scheduled to run daily to ensure real-time relevancy of its functions.',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'list',
+        items: [
+          'The script is scheduled to run daily to ensure real-time relevancy of its functions.',
+          'It begins by accessing specific files through provided links within a master file.',
+          'Once the file is opened, the script navigates to a particular sub-tab where date-specific data is stored.',
+          'It compares the stored dates against the current date to identify matches.',
+          'When a match is found, indicating a task or event due that day, it triggers the sending of customized email reminders to designated recipients.',
+          'This automation ensures that reminders are sent out without fail, improving the consistency of communications and task management.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image7.png',
+        caption: 'Extracting a hyperlink from a spreadsheet cell to locate the right file before checking its dates.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image8.png',
+        caption: 'A due-diligence checkup variant: comparing today’s date against the sheet before sending a scheduled compliance email.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image9.png',
+        caption: 'The companion screening script that walks each row and extracts the linked spreadsheet before processing it.'
+      }
+    ]
+  },
+  {
+    id: 'gas-google-apps-script-for-chart-automation',
+    title: 'Google Apps Script for Chart Automation',
+    description: 'Utilized Google Apps Script to automate the generation and saving of chart images to Google Drive, streamlining the reporting process.',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'Utilized Google Apps Script to automate the generation and saving of chart images to Google Drive, streamlining the reporting process.'
+      }
+    ]
+  },
+  {
+    id: 'gas-automated-pdf-invoicing-via-email',
+    title: 'Automated PDF Invoicing via Email',
+    description: 'Created Google Apps Script to automatically format data into PDF invoices and send them via email, saving manual effort and enhancing operational efficiency.',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'Created Google Apps Script to automatically format data into PDF invoices and send them via email, saving manual effort and enhancing operational efficiency.'
+      }
+    ]
+  },
+  {
+    id: 'gas-automated-column-management-in-inventory-sheet',
+    title: 'Automated Column Management in Inventory Sheet',
+    description: 'Developed an app script to automatically update columns in an inventory sheet based on values in another sheet, enabling seamless data synchronization within Google…',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'Developed an app script to automatically update columns in an inventory sheet based on values in another sheet, enabling seamless data synchronization within Google Sheets.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image10.png',
+        caption: 'Syncing active/inactive status between a main sheet and a linked inventory spreadsheet.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image11.png',
+        caption: 'A custom menu for updating inventory values and normalizing leading zeros on demand.'
+      }
+    ]
+  },
+  {
+    id: 'gas-csv-based-inventory-data-entry-automation',
+    title: 'CSV-Based Inventory Data Entry Automation',
+    description: 'Created a script to automate data entry in an inventory sheet from CSV files. The script also includes a data cleaning function to ensure accuracy and integrity of the…',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'Created a script to automate data entry in an inventory sheet from CSV files. The script also includes a data cleaning function to ensure accuracy and integrity of the imported data.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image12.png',
+        caption: 'Multi-warehouse inventory data with flagged data-quality issues the cleaning step catches — mismatched locations and unidentified SKUs.'
+      }
+    ]
+  },
+  {
+    id: 'gas-project-tracker-management',
+    title: 'Project Tracker Management',
+    description: 'Worked on developing a Project Tracker in Google Sheets to allocate tasks, track project milestones, and monitor team performance, complete with real-time updates and…',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'Worked on developing a Project Tracker in Google Sheets to allocate tasks, track project milestones, and monitor team performance, complete with real-time updates and visual dashboards for easy interpretation.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image13.png',
+        caption: 'A Gantt-style project schedule generated directly in Google Sheets.'
+      }
+    ]
+  },
+  {
+    id: 'gas-shopify-to-google-sheets-data-transfer',
+    title: 'Shopify to Google Sheets Data Transfer with Task Allocation',
+    description: 'Leveraged expertise in API integration and Google Sheets to create an automated system that transfers data from Shopify to Google Sheets using the ‘Sync With’ extension.…',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'Leveraged expertise in API integration and Google Sheets to create an automated system that transfers data from Shopify to Google Sheets using the ‘Sync With’ extension. Utilized Google Apps Script and various functions to allocate customer-specific tasks to agents, and integrated this data into Aircall for seamless customer outreach. The system is set to update daily.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image14.png',
+        caption: 'The task-distribution function that splits unattended calls evenly across the agent roster.'
+      }
+    ]
+  },
+  {
+    id: 'gas-habit-tracker',
+    title: 'Habit Tracker',
+    description: 'Developed a Habit Tracker that empowers users to monitor habits, visualize progress, and compute monthly streaks, all within an easy-to-use Google Sheets interface.',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'Developed a Habit Tracker that empowers users to monitor habits, visualize progress, and compute monthly streaks, all within an easy-to-use Google Sheets interface.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image15.png',
+        caption: 'The dark-mode Habit Tracker — daily checkboxes rolled up into weekly and monthly totals.'
+      }
+    ]
+  },
+  {
+    id: 'gas-fitness-tracker',
+    title: 'Fitness Tracker',
+    description: 'Crafted a Fitness Tracker in Google Sheets allowing users to log activities, monitor habits, and assess the achievement of their fitness goals over time.',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'Crafted a Fitness Tracker in Google Sheets allowing users to log activities, monitor habits, and assess the achievement of their fitness goals over time.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image16.png',
+        caption: 'Weekly activity logging with a goal-achievement percentage calculated per exercise.'
+      }
+    ]
+  },
+  {
+    id: 'gas-sleep-tracker',
+    title: 'Sleep Tracker',
+    description: 'Developed a Sleep Tracker in Google Sheets to enable users to input and visualize their daily sleep duration, helping them understand and improve their sleep patterns.',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'Developed a Sleep Tracker in Google Sheets to enable users to input and visualize their daily sleep duration, helping them understand and improve their sleep patterns.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image17.png',
+        caption: 'Daily sleep duration charted alongside longest/shortest sleep insights.'
+      }
+    ]
+  },
+  {
+    id: 'gas-finance-tracker',
+    title: 'Finance Tracker',
+    description: 'Crafted a comprehensive Finance Tracker in Google Sheets that allows users to set financial goals, input transactions, and gain insights through visual dashboards for…',
+    source: 'Portfolio',
+    tags: [
+      'google-apps-script'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'Crafted a comprehensive Finance Tracker in Google Sheets that allows users to set financial goals, input transactions, and gain insights through visual dashboards for monthly and yearly financial planning.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/google-apps-script-portfolio/image18.png',
+        caption: 'Budget setup across income, expenses, savings & investments, and debt categories.'
       }
     ]
   },
