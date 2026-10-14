@@ -111,14 +111,15 @@ function create() {
   const contentsHtml = (cats) => cats.map((cat) => {
     const list = casesFor(cat.slug);
     return list.length
-      ? `<h3>${esc(cat.name)}</h3><p>${esc(cat.description)}</p><ul>${list.map((c) => `<li><a href="#case-${esc(c.id)}">${esc(c.title)}</a> — ${esc(c.description)}</li>`).join('')}</ul>`
+      ? `<h3>${esc(cat.name)}</h3><ul>${list.map((c) => `<li><a href="#case-${esc(c.id)}">${esc(c.title)}</a></li>`).join('')}</ul>`
       : '';
   }).join('');
 
   function fullHomeBody() {
+    const articles = cases.map((c) => ({ c, html: articleHtml(c) })).sort((a, b) => a.html.length - b.html.length);
     return `<h1>${SITE_NAME}</h1><p>${esc(SITE_TAGLINE)}</p>`
-      + `<p>This is the complete text version of the site: a contents list, then every case study in full (${cases.length} case studies).</p>`
-      + `<h2>Contents</h2>${contentsHtml(categories)}<h2>Case studies in full</h2>${cases.map(articleHtml).join('')}`;
+      + `<p>This is the complete text version of the site: a contents list naming every section and case study, then all ${cases.length} case studies in full, ordered from shortest to longest so that most can be read even if a long page is cut off. Each section also has its own page at /tag/&lt;section&gt;?full=1.</p>`
+      + `<h2>Contents</h2>${contentsHtml(categories)}<h2>Case studies in full</h2>${articles.map((a) => a.html).join('')}`;
   }
 
   function fullTagBody(cat) {
