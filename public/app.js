@@ -168,10 +168,20 @@ function renderCategory(slug) {
 
 // List items written as "Term: explanation" are bolded up to the colon so a
 // long list can be scanned by its terms instead of read line by line.
-function listItemHtml(text) {
+function splitLeadIn(text) {
   const m = String(text).match(/^([^:]{2,60}):\s+(\S[\s\S]*)$/);
-  if (!m || m[1].trim().split(/\s+/).length > 8) return escapeHtml(text);
-  return `<strong>${escapeHtml(m[1])}:</strong> ${escapeHtml(m[2])}`;
+  return m && m[1].trim().split(/\s+/).length <= 8 ? m : null;
+}
+
+// A single bold item in an otherwise plain list looks like a mistake, so terms
+// are only bolded when at least half of the list's items are written that way.
+function listHtml(items) {
+  const bold = items.filter(splitLeadIn).length * 2 >= items.length;
+  const li = (text) => {
+    const m = bold && splitLeadIn(text);
+    return `<li>${m ? `<strong>${escapeHtml(m[1])}:</strong> ${escapeHtml(m[2])}` : escapeHtml(text)}</li>`;
+  };
+  return `<ul class="content-list">${items.map(li).join('')}</ul>`;
 }
 
 function contentBlockHtml(block) {
@@ -189,7 +199,7 @@ function contentBlockHtml(block) {
     return `<figure class="content-figure"><img class="content-image" src="${escapeHtml(block.file)}" alt="${alt}" loading="lazy" tabindex="0" role="button" aria-label="${label}" />${caption}</figure>`;
   }
   if (block.type === 'list') {
-    return `<ul class="content-list">${block.items.map((i) => `<li>${listItemHtml(i)}</li>`).join('')}</ul>`;
+    return listHtml(block.items);
   }
   if (block.type === 'stats') {
     return `<div class="content-stats">${block.items.map((s) => `<div class="stat-tile"><div class="stat-value">${escapeHtml(s.value)}</div><div class="stat-label">${escapeHtml(s.label)}</div></div>`).join('')}</div>`;
@@ -251,6 +261,8 @@ const TOOL_PATTERNS = [
   ['WhatsApp', /\bWhatsApp\b/],
   ['Calendly', /\bCalendly\b/],
   ['Skool', /\bSkool\b/],
+  ['DocuSign', /\bDocuSign\b/],
+  ['Google Slides', /\bGoogle Slides\b/],
   ['TidyCal', /\bTidyCal\b/],
   ['Trello', /\bTrello\b/],
   ['Facebook', /\bFacebook\b(?! [Aa]ds?\b)/],

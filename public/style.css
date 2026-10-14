@@ -865,3 +865,18 @@ body.lightbox-open { overflow: hidden; }
   font-weight: 600;
   line-height: 1.4;
 }
+
+/* Screenshots narrower than the column (a phone-sized slide, for example) sit
+   centred, with the caption wrapping to the image's width instead of widening it. */
+
+.content-figure {
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.content-figure figcaption {
+  width: 0;
+  min-width: 100%;
+}

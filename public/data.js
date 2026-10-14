@@ -4064,6 +4064,73 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'make-docusign-contract-to-master-sheet-and-itinerary-slide',
+    title: 'From a Signed DocuSign Contract to a Master Sheet Row and an Itinerary Slide',
+    description: 'Turning a signed DocuSign travel contract into a master sheet row, a filed contract and an itinerary slide, automatically.',
+    source: 'Portfolio',
+    tags: [
+      'make'
+    ],
+    content: [
+      {
+        type: 'heading',
+        text: 'Overview'
+      },
+      {
+        type: 'p',
+        text: 'An internal operations automation for a group travel company that manages college formal events.'
+      },
+      {
+        type: 'p',
+        text: 'When a group signs a travel contract in DocuSign, the operations team has several follow-up jobs: record the trip in the master ops spreadsheet, file the signed contract in the group’s Drive folder, and produce a Friday/Saturday/Sunday itinerary slide for the group.'
+      },
+      {
+        type: 'p',
+        text: 'This scenario does those three jobs automatically as soon as a DocuSign envelope is completed.'
+      },
+      {
+        type: 'p',
+        text: 'Built with Make, DocuSign, Google Apps Script, Anthropic Claude (claude-sonnet-4-6), Google Sheets, Google Slides and Google Drive.'
+      },
+      {
+        type: 'heading',
+        text: 'The Problem'
+      },
+      {
+        type: 'p',
+        text: 'Each signed contract holds the details the team needs in several places: hotel names and room counts, check-in ages, buses, venues, event times, food and bar packages, and payment and task due dates. Moving these by hand into the master sheet, then building a customer-facing itinerary from them, is repetitive and easy to get wrong.'
+      },
+      {
+        type: 'heading',
+        text: 'The Solution'
+      },
+      {
+        type: 'p',
+        text: 'A Make scenario that:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Triggers when a DocuSign envelope is completed.',
+          'Downloads the signed document.',
+          'Sends it to a Google Apps Script web app, which returns the contract’s fields as structured data.',
+          'Asks Claude to write the three-day itinerary text from those fields.',
+          'Routes the result down three paths: a new-contract path, an addendum path, and an archive path.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/make-portfolio/image11.png',
+        caption: 'Part of the Make scenario: the DocuSign trigger and download, the HTTP call to the Apps Script web app, Claude, and a router that splits into Google Sheets, Slides and Drive paths.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/make-portfolio/image12.png',
+        caption: 'An example three-day itinerary slide (group, dates, hotel and company details blurred for privacy).'
+      }
+    ]
+  },
+  {
     id: 'make-automation-of-shopify-orders-to-google',
     title: 'Automation of Shopify Orders to Google Sheets for Dropshipping E-commerce Store',
     description: 'The primary goal of this automation is to streamline the process of managing Shopify orders by automatically distributing them to the appropriate fulfillment sheets.',
