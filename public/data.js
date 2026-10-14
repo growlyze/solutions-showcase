@@ -4050,6 +4050,41 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'zapier-trello-cards-to-ai-social-captions-and-hashtags',
+    title: 'Trello Cards to AI Social Captions and Hashtags Zap',
+    description: 'This Zap runs every day, goes through the cards on a Trello board, and uses ChatGPT to write a social media caption and hashtags for the Trello card.',
+    source: 'Portfolio',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This Zap runs every day, goes through the cards on a Trello board, and uses ChatGPT to write a social media caption and hashtags for the Trello card. It looks up the cards from a single Trello pillar, loops over each one, checks the card, reads its attachments and then updates the card with what ChatGPT returns.'
+      },
+      {
+        type: 'label',
+        text: 'How it works'
+      },
+      {
+        type: 'list',
+        items: [
+          'Runs every day: a Schedule by Zapier trigger starts the Zap once a day.',
+          'Gets the cards: gets the cards from a single Trello pillar, splits them into individual items with the Itemizer and loops over each one.',
+          'Checks each card: a webhook GET request and a Formatter utility step run, and a filter then decides which cards continue.',
+          'Reads the attachments: finds the card’s attachments in Trello.',
+          'Writes with AI: sends the content to ChatGPT (OpenAI) in a conversation step.',
+          'Updates Trello: updates the card.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image19.png',
+        caption: 'The first ten steps of the Zap: a daily schedule, the Trello card lookup, a loop over each card, a filter, the card attachments, ChatGPT and a Trello card update.'
+      }
+    ]
+  },
+  {
     id: 'zapier-tidycal-booking-to-leadconnector-google-sheets',
     title: 'TidyCal Booking to LeadConnector and Google Sheets Zap',
     description: 'This Zap runs when a new booking is made in TidyCal, adds or updates the contact in LeadConnector, and records the booking in Google Sheets.',
