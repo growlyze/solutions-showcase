@@ -1853,99 +1853,6 @@ const CASE_STUDIES = [
     ]
   },
   {
-    id: 'ecommerce-pnl-tracker',
-    title: 'Automated P&L & Sales Tracker for Ecommerce (Google Sheets)',
-    description: 'A single Google Sheets template that turns raw sales, COGS and marketing cost data into live real-vs-estimated profit numbers for any date range.',
-    source: 'Portfolio',
-    tags: [
-      'dashboards'
-    ],
-    content: [
-      {
-        type: 'eyebrow',
-        text: 'Finance & Sales Reporting'
-      },
-      {
-        type: 'p',
-        text: 'An automated profit & loss tracker built in Google Sheets for an ecommerce business. Pulling sales, real COGS, marketing spend and other expenses into one model, it calculates real vs. estimated profit automatically for any date range instead of being rebuilt by hand every month.'
-      },
-      {
-        type: 'stats',
-        items: [
-          {
-            value: '$1.18M',
-            label: 'Total sales (period)'
-          },
-          {
-            value: '$54.6K',
-            label: 'Total real profit'
-          },
-          {
-            value: '4.61%',
-            label: 'Real profit margin'
-          },
-          {
-            value: '$587K',
-            label: 'Total marketing cost'
-          }
-        ]
-      },
-      {
-        type: 'img',
-        file: 'case-content/ecommerce-pnl-tracker/image1.png',
-        caption: 'Monthly sales and profit dashboard — total sales, real/estimated profit, margins and marketing cost calculated automatically from raw order data.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/ecommerce-pnl-tracker/image2.png',
-        caption: 'The same template applied to a different brand — totals, COGS and marketing cost recalculated instantly for any date range.'
-      },
-      {
-        type: 'subheading',
-        text: 'Daily and 30-day views'
-      },
-      {
-        type: 'p',
-        text: 'A daily dashboard view surfaces total and trailing-30-day sales, profit and expense metrics side by side, so the team can catch a bad week before it becomes a bad month.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/ecommerce-pnl-tracker/image3.png',
-        caption: 'Daily dashboard — total and last-30-days sales, profit and expense metrics side by side for fast day-to-day monitoring.'
-      },
-      {
-        type: 'subheading',
-        text: 'Rolling breakdowns'
-      },
-      {
-        type: 'p',
-        text: 'A rolling 12-month view breaks total profit down into COGS, marketing cost, other expenses and disputes won, so the team can see exactly where margin is being gained or lost.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/ecommerce-pnl-tracker/image4.png',
-        caption: 'Last-12-months pie chart breaking total profit down into COGS, marketing cost, other expenses and disputes won.'
-      },
-      {
-        type: 'subheading',
-        text: 'Multi-channel traffic & revenue tracking'
-      },
-      {
-        type: 'p',
-        text: 'A weekly tracker pulls Google Analytics traffic and Klaviyo email/SMS performance into the same sheet, so acquisition and retention sit next to the P&L instead of in separate tools.'
-      },
-      {
-        type: 'img',
-        file: 'case-content/ecommerce-pnl-tracker/image5.png',
-        caption: 'Weekly tracker pulling Google Analytics traffic and Klaviyo email/SMS performance into the same sheet for a complete picture.'
-      },
-      {
-        type: 'p',
-        text: 'Built as a single Google Sheets template so finance and marketing read the same numbers without exporting from five different tools first.'
-      }
-    ]
-  },
-  {
     id: 'whatsapp-voice-business-agent',
     title: 'WhatsApp Voice & Business Agent with n8n',
     description: 'Turning customer voice notes, photos and text messages on WhatsApp into instant, database-backed answers through an n8n workflow.',
@@ -7817,6 +7724,114 @@ const CASE_STUDIES = [
       {
         type: 'p',
         text: 'The system transformed WhatsApp from a manual support burden into an always-on AI-powered customer assistant.'
+      }
+    ]
+  },
+  {
+    id: 'ecommerce-pnl-tracker',
+    title: 'Automated P&L & Sales Tracker for Ecommerce (Google Sheets)',
+    description: 'A single Google Sheets template that turns raw sales, COGS and marketing cost data into live real-vs-estimated profit numbers for any date range.',
+    source: 'Portfolio',
+    tags: [
+      'dashboards'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Finance & Sales Reporting'
+      },
+      {
+        type: 'p',
+        text: 'An automated profit & loss tracker built in Google Sheets for an ecommerce business. Pulling sales, real COGS, marketing spend and other expenses into one model, it calculates real vs. estimated profit automatically for any date range instead of being rebuilt by hand every month.'
+      },
+      {
+        type: 'stats',
+        items: [
+          {
+            value: '$1.18M',
+            label: 'Total sales (period)'
+          },
+          {
+            value: '$54.6K',
+            label: 'Total real profit'
+          },
+          {
+            value: '4.61%',
+            label: 'Real profit margin'
+          },
+          {
+            value: '$587K',
+            label: 'Total marketing cost'
+          }
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/ecommerce-pnl-tracker/image1.png',
+        caption: 'Monthly sales and profit dashboard — total sales, real/estimated profit, margins and marketing cost calculated automatically from raw order data.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ecommerce-pnl-tracker/image2.png',
+        caption: 'The same template applied to a different brand — totals, COGS and marketing cost recalculated instantly for any date range.'
+      },
+      {
+        type: 'subheading',
+        text: 'Daily and 30-day views'
+      },
+      {
+        type: 'p',
+        text: 'A daily dashboard view surfaces total and trailing-30-day sales, profit and expense metrics side by side, so the team can catch a bad week before it becomes a bad month.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ecommerce-pnl-tracker/image3.png',
+        caption: 'Daily dashboard — total and last-30-days sales, profit and expense metrics side by side for fast day-to-day monitoring.'
+      },
+      {
+        type: 'subheading',
+        text: 'Rolling breakdowns'
+      },
+      {
+        type: 'p',
+        text: 'A rolling 12-month view breaks total profit down into COGS, marketing cost, other expenses and disputes won, so the team can see exactly where margin is being gained or lost.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ecommerce-pnl-tracker/image4.png',
+        caption: 'Last-12-months pie chart breaking total profit down into COGS, marketing cost, other expenses and disputes won.'
+      },
+      {
+        type: 'p',
+        text: 'Built as a single Google Sheets template so finance reads live profit numbers for any date range without exporting from five different tools first.'
+      }
+    ]
+  },
+  {
+    id: 'weekly-marketing-performance-tracker',
+    title: 'Weekly Marketing Performance Tracker (Google Sheets)',
+    description: 'A Google Sheets weekly tracker that brings Google Analytics traffic and Klaviyo email and SMS performance into one view.',
+    source: 'Portfolio',
+    tags: [
+      'dashboards'
+    ],
+    content: [
+      {
+        type: 'eyebrow',
+        text: 'Marketing Reporting'
+      },
+      {
+        type: 'p',
+        text: 'A weekly tracker pulls Google Analytics traffic and Klaviyo email and SMS performance into one Google Sheet, so acquisition and retention numbers sit side by side instead of living in separate tools.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ecommerce-pnl-tracker/image5.png',
+        caption: 'Weekly dashboard tracking Google Analytics traffic by source alongside Klaviyo email and SMS sales and subscriber counts.'
+      },
+      {
+        type: 'p',
+        text: 'Built in Google Sheets so marketing can compare traffic sources, email and SMS sales and subscriber growth week over week without logging into each platform.'
       }
     ]
   },
