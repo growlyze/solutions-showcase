@@ -71,16 +71,19 @@ Growlyze links were intentionally excluded per your instruction.
 
 ## Readable by AI tools and search engines
 
-The app draws its pages in the browser with JavaScript, and the part of an address after `#` never reaches a server. A fetcher that does not run JavaScript would therefore see an empty page. To fix that, `server.js` answers these addresses with the real content, generated from `public/data.js` (nothing extra to maintain — edit `data.js` and redeploy):
+The app draws its pages in the browser with JavaScript, and the part of an address after `#` never reaches a server, so a fetcher that does not run JavaScript used to see an empty page. Tools that read only the text a visitor could see also skip anything hidden from view, so nothing here is hidden.
+
+`server.js` therefore sends real pages. `site-content.js` draws each page with the app's own code (`public/app.js`) on the server, so the HTML a crawler receives is exactly what visitors see, and the links between pages are ordinary addresses that work without JavaScript. Nothing extra to maintain: edit `public/data.js` and redeploy.
 
 | Address | What it returns |
 |---|---|
-| `/` | The app, plus an index of every section and case study (title, description, link) that stays in the page as off-screen text, so it is readable with or without JavaScript or CSS |
-| `/tag/<slug>` | A section's page with its case studies listed |
-| `/case/<id>` | A case study with its full text in the HTML (people who open it get the normal app view) |
+| `/` | The home page with every section card; each card links to `/tag/<slug>` |
+| `/tag/<slug>` | A section's page listing its case studies; each links to `/case/<id>` |
+| `/case/<id>` | A case study with its full text in the HTML (people get the normal app view) |
 | `/case/<id>.md` | The same case study as plain markdown |
-| `/llms.txt` | Index of all case studies with links to the markdown versions |
-| `/llms-full.txt` | The whole site in one text file |
+| `/tag/<slug>.md` | The complete text of every case study in one section (largest is about 74,000 characters) |
+| `/llms.txt` | Index of everything, with links to the section and case study text files |
+| `/llms-full.txt` | The whole site in one very long file (about 220,000 characters; many fetch tools stop after about 100,000, so use the section files for those) |
 | `/sitemap.xml`, `/robots.txt` | For search engines and crawlers |
 
-The normal browser experience is unchanged: on `/tag/<slug>` and `/case/<id>` the browser app replaces the pre-filled (transparent, never hidden with `display:none`/`visibility:hidden`, which text extractors skip) HTML as soon as it loads, and `/case/<id>` or `/tag/<slug>` addresses are rewritten to the usual `#/case/<id>` form.
+The footer of every page says "Reading this with an AI tool? Use the plain-text version: …/llms.txt". The browser app takes over as soon as it loads; `/case/<id>` and `/tag/<slug>` addresses are rewritten to the usual `#/case/<id>` form. Because the server page and the app use the same code, they stay identical (checked page by page when this was built).
