@@ -7,6 +7,7 @@
   --text: #f1f3f9;
   --text-muted: #9aa1b4;
   --accent: #818cf8;
+  --on-accent: #0f1220;
   --accent-strong: #a5b0ff;
   --accent-vivid: #6366f1;
   --accent-soft: rgba(129, 140, 248, 0.16);
@@ -28,6 +29,7 @@
   --text: #1b1f2a;
   --text-muted: #636b7c;
   --accent: #4f46e5;
+  --on-accent: #ffffff;
   --accent-strong: #4338ca;
   --accent-vivid: #4f46e5;
   --accent-soft: #eef0fe;
@@ -110,12 +112,18 @@ a { color: inherit; text-decoration: none; }
 }
 
 .header-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
   color: var(--text-muted);
   font-weight: 500;
   font-size: 14px;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
-.header-nav a:hover { color: var(--text); }
+.header-nav a:hover { color: var(--accent); background: var(--accent-soft); }
 
 .theme-switch {
   position: relative;
@@ -211,17 +219,29 @@ a { color: inherit; text-decoration: none; }
 .card-cta {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  font-size: 13px;
+  align-self: flex-start;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 999px;
   margin-top: auto;
-  padding-top: 14px;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
-.card:hover .card-cta {
-  color: var(--accent-strong);
+.card-cta span { transition: transform 0.15s ease; }
+
+.card:hover .card-cta,
+.card:focus-visible .card-cta {
+  background: var(--accent);
+  color: var(--on-accent);
 }
+
+.card:hover .card-cta span,
+.card:focus-visible .card-cta span { transform: translateX(3px); }
 
 .card:hover {
   box-shadow: var(--shadow-hover);
@@ -348,20 +368,31 @@ a { color: inherit; text-decoration: none; }
   font-size: 14.5px;
   color: var(--text-muted);
   line-height: 1.6;
-  margin: 0 0 12px;
+  margin: 0 0 16px;
 }
 
 .back-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  min-height: 40px;
+  padding: 0 16px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--accent);
-  margin-bottom: 24px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  margin-bottom: 28px;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
 
-.back-link:hover { color: var(--accent-strong); text-decoration: underline; }
+.back-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
 
 .category-header {
   display: flex;
@@ -403,6 +434,9 @@ a { color: inherit; text-decoration: none; }
   gap: 6px;
   margin-top: 12px;
 }
+
+/* keep the button from touching the tags above it */
+.card > .tag-row { margin-bottom: 16px; }
 
 .tag-pill {
   display: inline-flex;
@@ -715,13 +749,13 @@ button:focus-visible {
   .card--row > .card-icon-group { grid-area: icon; margin: 0; }
   .card--row > h3 { grid-area: title; margin: 0 0 4px; align-self: end; font-size: 19px; }
   .card--row > p { grid-area: desc; margin: 0; align-self: start; max-width: 72ch; }
-  .card--row > .card-cta { grid-area: cta; margin: 0; padding: 0; white-space: nowrap; }
+  .card--row > .card-cta { grid-area: cta; margin: 0; align-self: center; white-space: nowrap; }
 
   .grid--solo > .card--row.card--row-case {
     grid-template-columns: 1fr auto;
     grid-template-areas: "title cta" "desc cta" "tags cta";
   }
-  .card--row-case > .tag-row { grid-area: tags; margin-top: 12px; }
+  .card--row-case > .tag-row { grid-area: tags; margin: 12px 0 0; }
 }
 
 @media (max-width: 600px) {
@@ -857,12 +891,18 @@ body.lightbox-open { overflow: hidden; }
 }
 
 .case-end-all {
-  display: inline-block;
-  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 12px;
+  padding: 0 22px;
   font-size: 15px;
   font-weight: 600;
   color: var(--accent);
+  border: 1.5px solid var(--accent);
+  border-radius: 999px;
   text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
-.case-end-all:hover { text-decoration: underline; }
+.case-end-all:hover { background: var(--accent); color: var(--on-accent); }
