@@ -196,6 +196,22 @@ function contentBlockHtml(block) {
   return `<p>${escapeHtml(block.text)}</p>`;
 }
 
+// Many case studies open with the same sentence that is used as the card
+// description. Showing it in the header and again in the body reads as a bug,
+// so the header summary is dropped whenever the body already says it.
+function normalizeText(s) {
+  return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
+function descriptionRepeatedInBody(cs) {
+  const desc = normalizeText(cs.description).slice(0, 60);
+  if (!desc) return false;
+  return cs.content.some((block) => {
+    const text = block.type === 'list' ? (block.items || []).join(' ') : block.text;
+    return normalizeText(text).includes(desc);
+  });
+}
+
 function renderCaseDetail(id) {
   const app = document.getElementById('app');
   const cs = CASE_STUDIES.find((c) => c.id === id);
@@ -219,7 +235,7 @@ function renderCaseDetail(id) {
       <a class="back-link" href="#/" data-back="smart">&larr; Back</a>
       <div class="case-detail-header">
         <h1>${escapeHtml(cs.title)}</h1>
-        <p>${escapeHtml(cs.description)}</p>
+        ${descriptionRepeatedInBody(cs) ? '' : `<p>${escapeHtml(cs.description)}</p>`}
         <div class="tag-row">${tags}</div>
       </div>
       <div class="case-detail-content">

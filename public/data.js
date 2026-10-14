@@ -3991,7 +3991,7 @@ const CASE_STUDIES = [
   {
     id: 'zapier-gmail-to-clickup-zap',
     title: 'Gmail to ClickUp Zap',
-    description: 'This Zap automates the process of task creation in ClickUp based on incoming emails from a specified sender in Gmail. Whenever an email is received from the designated…',
+    description: 'This Zap automates the process of task creation in ClickUp based on incoming emails from a specified sender in Gmail.',
     source: 'Portfolio',
     url: 'https://bit.ly/4w5l2AE',
     tags: [
@@ -4015,7 +4015,7 @@ const CASE_STUDIES = [
   {
     id: 'zapier-google-calendar-to-clickup-zap',
     title: 'Google Calendar to ClickUp Zap',
-    description: 'This Zap facilitates seamless integration between Google Calendar and ClickUp, enhancing task management and operational efficiency. Whenever a new event is created in…',
+    description: 'This Zap facilitates seamless integration between Google Calendar and ClickUp, enhancing task management and operational efficiency.',
     source: 'Portfolio',
     url: 'https://bit.ly/4w5l2AE',
     tags: [
@@ -4035,7 +4035,7 @@ const CASE_STUDIES = [
   {
     id: 'zapier-cancel-calendly-bookings-zap',
     title: 'Cancel Calendly Bookings Zap',
-    description: 'This Zap streamlines the process of appointment cancellations by integrating ClickUp with Calendly. When a cancellation is initiated from within ClickUp—by pressing the…',
+    description: 'This Zap streamlines the process of appointment cancellations by integrating ClickUp with Calendly.',
     source: 'Portfolio',
     url: 'https://bit.ly/4w5l2AE',
     tags: [
@@ -4059,7 +4059,7 @@ const CASE_STUDIES = [
   {
     id: 'make-automation-of-shopify-orders-to-google',
     title: 'Automation of Shopify Orders to Google Sheets for Dropshipping E-commerce Store',
-    description: 'The primary goal of this automation is to streamline the process of managing Shopify orders by automatically distributing them to the appropriate fulfillment sheets.…',
+    description: 'The primary goal of this automation is to streamline the process of managing Shopify orders by automatically distributing them to the appropriate fulfillment sheets.',
     source: 'Portfolio',
     url: 'https://bit.ly/4w5l2AE',
     tags: [
@@ -4584,7 +4584,7 @@ const CASE_STUDIES = [
   {
     id: 'ai-agent-ai-powered-rag-chatbot-for-the',
     title: 'AI-Powered RAG Chatbot for The Fast Bite: Seamless Ordering and Query Handling',
-    description: 'Create an AI-powered chatbot that helps The Fast Bite( a fast food restaurant) customers with menu queries, placing orders, and providing restaurant details in a fast…',
+    description: 'Create an AI-powered chatbot that helps The Fast Bite( a fast food restaurant) customers with menu queries, placing orders, and providing restaurant details in a fast and friendly manner.',
     source: 'Portfolio',
     url: 'https://bit.ly/4ePg6cL',
     tags: [
@@ -4684,7 +4684,7 @@ const CASE_STUDIES = [
   {
     id: 'gas-automated-pdf-data-extraction-from-gmail',
     title: 'Automated PDF Data Extraction from Gmail and Google Sheets Integration',
-    description: 'Developed an automated solution for a client who received daily PDFs via email. Created a Google Apps Script that scans Gmail for specific emails containing PDF…',
+    description: 'Developed an automated solution for a client who received daily PDFs via email.',
     source: 'Portfolio',
     tags: [
       'google-apps-script'
@@ -4898,7 +4898,7 @@ const CASE_STUDIES = [
   {
     id: 'gas-automated-column-management-in-inventory-sheet',
     title: 'Automated Column Management in Inventory Sheet',
-    description: 'Developed an app script to automatically update columns in an inventory sheet based on values in another sheet, enabling seamless data synchronization within Google…',
+    description: 'Developed an app script to automatically update columns in an inventory sheet based on values in another sheet, enabling seamless data synchronization within Google Sheets.',
     source: 'Portfolio',
     tags: [
       'google-apps-script'
@@ -4923,7 +4923,7 @@ const CASE_STUDIES = [
   {
     id: 'gas-csv-based-inventory-data-entry-automation',
     title: 'CSV-Based Inventory Data Entry Automation',
-    description: 'Created a script to automate data entry in an inventory sheet from CSV files. The script also includes a data cleaning function to ensure accuracy and integrity of the…',
+    description: 'Created a script to automate data entry in an inventory sheet from CSV files.',
     source: 'Portfolio',
     tags: [
       'google-apps-script'
@@ -4943,7 +4943,7 @@ const CASE_STUDIES = [
   {
     id: 'gas-project-tracker-management',
     title: 'Project Tracker Management',
-    description: 'Worked on developing a Project Tracker in Google Sheets to allocate tasks, track project milestones, and monitor team performance, complete with real-time updates and…',
+    description: 'Worked on developing a Project Tracker in Google Sheets to allocate tasks, track project milestones, and monitor team performance, complete with real-time updates and visual dashboards for easy interpretation.',
     source: 'Portfolio',
     tags: [
       'google-apps-script'
@@ -4963,7 +4963,7 @@ const CASE_STUDIES = [
   {
     id: 'gas-shopify-to-google-sheets-data-transfer',
     title: 'Shopify to Google Sheets Data Transfer with Task Allocation',
-    description: 'Leveraged expertise in API integration and Google Sheets to create an automated system that transfers data from Shopify to Google Sheets using the ‘Sync With’ extension.…',
+    description: 'Leveraged expertise in API integration and Google Sheets to create an automated system that transfers data from Shopify to Google Sheets using the ‘Sync With’ extension.',
     source: 'Portfolio',
     tags: [
       'google-apps-script'
