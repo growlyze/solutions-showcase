@@ -56,17 +56,17 @@ function create() {
   // The home page keeps this index in the page for good (screen-reader-only, so it does not change
   // what people see). It is plain, present text for anything that reads the page, whether or not it
   // runs JavaScript or applies CSS, and it gives screen-reader users a full site index.
-  function homeIndex() {
+  function homeIndex(base) {
     const sections = categories.map((cat) => {
       const list = casesFor(cat.slug);
       return `<section><h2><a href="/tag/${esc(cat.slug)}">${esc(cat.name)}</a></h2><p>${esc(cat.description)}</p>${list.length ? caseListHtml(list) : ''}</section>`;
     }).join('');
     return `<section class="sr-only" aria-label="All case studies"><h1>${SITE_NAME}</h1><p>${esc(SITE_TAGLINE)}</p>`
-      + `<p>Every case study below links to its full write-up. A plain-text version of the whole site is at <a href="/llms-full.txt">/llms-full.txt</a>.</p>${sections}</section>`;
+      + `<p>This page lists every section and case study with a short summary. The complete written text of every case study is in one plain-text file: <a href="/llms-full.txt">${esc(base)}/llms-full.txt</a>. Each case study also has its own page and a markdown version, linked below.</p>${sections}</section>`;
   }
 
   function tagBody(cat) {
-    return `<div class="ssr"><p><a href="/">&larr; All categories</a></p><h1>${esc(cat.name)}</h1><p>${esc(cat.description)}</p>${caseListHtml(casesFor(cat.slug))}</div>`;
+    return `<div class="ssr"><p><a href="/">&larr; All categories</a></p><h1>${esc(cat.name)}</h1><p>${esc(cat.description)}</p>${caseListHtml(casesFor(cat.slug))}<p>The complete text of every case study is in <a href="/llms-full.txt">/llms-full.txt</a>.</p></div>`;
   }
 
   function caseBody(cs) {
@@ -168,7 +168,7 @@ function create() {
 
   return {
     categories, cases, caseById, categoryBySlug,
-    homePage: (base) => page({ title: SITE_NAME, description: SITE_TAGLINE, path: '/', body: '', afterMain: homeIndex(), base }),
+    homePage: (base) => page({ title: SITE_NAME, description: SITE_TAGLINE, path: '/', body: '', afterMain: homeIndex(base), base }),
     tagPage: (cat, base) => page({ title: cat.name, description: cat.description, path: `/tag/${cat.slug}`, body: tagBody(cat), base }),
     casePage: (cs, base) => page({ title: cs.title, description: cs.description, path: `/case/${cs.id}`, body: caseBody(cs), base, alternate: `/case/${cs.id}.md` }),
     notFoundPage: (base) => page({ title: 'Not found', description: SITE_TAGLINE, path: '/', body: `<div class="ssr"><h1>Page not found</h1><p><a href="/">Back to all case studies</a></p></div>`, base }),
