@@ -53,13 +53,16 @@ function create() {
 
   const caseListHtml = (list) => `<ul>${list.map((c) => `<li><a href="/case/${esc(c.id)}">${esc(c.title)}</a> — ${esc(c.description)}</li>`).join('')}</ul>`;
 
-  function homeBody() {
+  // The home page keeps this index in the page for good (screen-reader-only, so it does not change
+  // what people see). It is plain, present text for anything that reads the page, whether or not it
+  // runs JavaScript or applies CSS, and it gives screen-reader users a full site index.
+  function homeIndex() {
     const sections = categories.map((cat) => {
       const list = casesFor(cat.slug);
       return `<section><h2><a href="/tag/${esc(cat.slug)}">${esc(cat.name)}</a></h2><p>${esc(cat.description)}</p>${list.length ? caseListHtml(list) : ''}</section>`;
     }).join('');
-    return `<div class="ssr"><h1>${SITE_NAME}</h1><p>${esc(SITE_TAGLINE)}</p>`
-      + `<p>Every case study below links to its full write-up. A plain-text version of the whole site is at <a href="/llms-full.txt">/llms-full.txt</a>.</p>${sections}</div>`;
+    return `<section class="sr-only" aria-label="All case studies"><h1>${SITE_NAME}</h1><p>${esc(SITE_TAGLINE)}</p>`
+      + `<p>Every case study below links to its full write-up. A plain-text version of the whole site is at <a href="/llms-full.txt">/llms-full.txt</a>.</p>${sections}</section>`;
   }
 
   function tagBody(cat) {
@@ -136,17 +139,28 @@ function create() {
   for (const a of anchors) if (!template.includes(a)) throw new Error('index.html is missing: ' + a);
   if (!/<meta name="description" content="[^"]*" \/>/.test(template)) throw new Error('index.html is missing the description meta tag');
 
-  function page({ title, description, path: urlPath, body, base, alternate }) {
+  // .ssr: the text inside #app that the browser app replaces on load. It is made transparent (never
+  // display:none or visibility:hidden, which text extractors skip) so it does not flash on screen.
+  // .sr-only: text that stays in the page but off-screen (the home page index).
+  // Without JavaScript both simply show.
+  const SHOW_STYLE = '<style>'
+    + '.ssr{opacity:0;pointer-events:none}'
+    + '.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);border:0}'
+    + '.sr-only:focus-within{position:static;width:auto;height:auto;margin:24px auto;overflow:visible;clip:auto;max-width:1100px;padding:0 24px}'
+    + '</style>\n'
+    + '<noscript><style>.ssr{opacity:1;pointer-events:auto}.sr-only{position:static;width:auto;height:auto;margin:24px auto;overflow:visible;clip:auto;max-width:1100px;padding:0 24px}</style></noscript>\n';
+
+  function page({ title, description, path: urlPath, body, afterMain = '', base, alternate }) {
     const fullTitle = title === SITE_NAME ? SITE_NAME : `${title} | ${SITE_NAME}`;
     const desc = String(description || SITE_TAGLINE).slice(0, 300);
     const head = `<link rel="canonical" href="${esc(base + urlPath)}" />\n`
       + (alternate ? `<link rel="alternate" type="text/markdown" href="${esc(base + alternate)}" />\n` : '')
-      + `<style>.ssr{visibility:hidden}</style>\n<noscript><style>.ssr{visibility:visible}</style></noscript>\n</head>`;
+      + SHOW_STYLE + '</head>';
     return template
       .replace(`<title>${SITE_NAME}</title>`, `<title>${esc(fullTitle)}</title>`)
       .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${esc(desc)}" />`)
       .replace('</head>', head)
-      .replace('<main id="app" class="container"></main>', `<main id="app" class="container">${body}</main>`)
+      .replace('<main id="app" class="container"></main>', `<main id="app" class="container">${body}</main>${afterMain}`)
       .replace('href="style.css"', 'href="/style.css"')
       .replace('src="data.js"', 'src="/data.js"')
       .replace('src="app.js"', 'src="/app.js"');
@@ -154,7 +168,7 @@ function create() {
 
   return {
     categories, cases, caseById, categoryBySlug,
-    homePage: (base) => page({ title: SITE_NAME, description: SITE_TAGLINE, path: '/', body: homeBody(), base }),
+    homePage: (base) => page({ title: SITE_NAME, description: SITE_TAGLINE, path: '/', body: '', afterMain: homeIndex(), base }),
     tagPage: (cat, base) => page({ title: cat.name, description: cat.description, path: `/tag/${cat.slug}`, body: tagBody(cat), base }),
     casePage: (cs, base) => page({ title: cs.title, description: cs.description, path: `/case/${cs.id}`, body: caseBody(cs), base, alternate: `/case/${cs.id}.md` }),
     notFoundPage: (base) => page({ title: 'Not found', description: SITE_TAGLINE, path: '/', body: `<div class="ssr"><h1>Page not found</h1><p><a href="/">Back to all case studies</a></p></div>`, base }),

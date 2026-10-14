@@ -75,7 +75,7 @@ The app draws its pages in the browser with JavaScript, and the part of an addre
 
 | Address | What it returns |
 |---|---|
-| `/` | The app, with every section and case study (title, description, link) already in the HTML |
+| `/` | The app, plus an index of every section and case study (title, description, link) that stays in the page as off-screen text, so it is readable with or without JavaScript or CSS |
 | `/tag/<slug>` | A section's page with its case studies listed |
 | `/case/<id>` | A case study with its full text in the HTML (people who open it get the normal app view) |
 | `/case/<id>.md` | The same case study as plain markdown |
@@ -83,4 +83,4 @@ The app draws its pages in the browser with JavaScript, and the part of an addre
 | `/llms-full.txt` | The whole site in one text file |
 | `/sitemap.xml`, `/robots.txt` | For search engines and crawlers |
 
-The normal browser experience is unchanged: the browser app replaces the pre-filled HTML as soon as it loads, and `/case/<id>` or `/tag/<slug>` addresses are rewritten to the usual `#/case/<id>` form.
+The normal browser experience is unchanged: on `/tag/<slug>` and `/case/<id>` the browser app replaces the pre-filled (transparent, never hidden with `display:none`/`visibility:hidden`, which text extractors skip) HTML as soon as it loads, and `/case/<id>` or `/tag/<slug>` addresses are rewritten to the usual `#/case/<id>` form.
