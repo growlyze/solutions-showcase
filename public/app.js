@@ -164,8 +164,12 @@ function contentBlockHtml(block) {
   if (block.type === 'eyebrow') return `<p class="content-eyebrow">${escapeHtml(block.text)}</p>`;
   if (block.type === 'label') return `<p class="content-label">${escapeHtml(block.text)}</p>`;
   if (block.type === 'img') {
+    // When a figcaption is present it already serves as the text alternative,
+    // so the img's own alt is left empty to avoid screen readers announcing
+    // the same description twice.
     const caption = block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : '';
-    return `<figure class="content-figure"><img class="content-image" src="${escapeHtml(block.file)}" alt="${escapeHtml(block.caption || '')}" loading="lazy" />${caption}</figure>`;
+    const alt = block.caption ? '' : escapeHtml(block.file.split('/').pop());
+    return `<figure class="content-figure"><img class="content-image" src="${escapeHtml(block.file)}" alt="${alt}" loading="lazy" />${caption}</figure>`;
   }
   if (block.type === 'list') {
     return `<ul class="content-list">${block.items.map((i) => `<li>${escapeHtml(i)}</li>`).join('')}</ul>`;
