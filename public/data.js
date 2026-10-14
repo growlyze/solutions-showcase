@@ -2882,7 +2882,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Next.js (web framework) + TypeScript, Google Drive API, Claude for the AI extraction, Postgres for the log. No Python — PDF text extraction is done with a JavaScript library.'
+        text: 'Next.js (web framework) + TypeScript, Google Drive API, Claude for the AI extraction, Postgres for the log. PDF text extraction is done with a JavaScript library.'
       }
     ]
   },
@@ -2963,7 +2963,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'This is not Python — it’s built in TypeScript running on Node.js (a plain Node HTTP server, no framework), with a plain HTML/CSS/vanilla JS frontend. Deployed on Railway.'
+        text: 'Built in TypeScript running on Node.js (a plain Node HTTP server, no framework), with a plain HTML/CSS/vanilla JS frontend. Deployed on Railway.'
       }
     ]
   },
