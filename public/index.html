@@ -1,7 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8" />
+<script>
+  // Light is the default for everyone. Only a visitor who deliberately switched to dark
+  // gets dark, applied before first paint so there is no flash of the wrong theme.
+  try { if (localStorage.getItem('theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Solutions Showcase</title>
 <meta name="description" content="Browse case studies by tool and use case — automations, AI agents, dashboards, and custom platforms." />
