@@ -3892,6 +3892,50 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'zapier-monday-timeline-stage-alerts-to-slack-and-close',
+    title: 'Monday.com Timeline Stage Alerts to Slack and Close Zap',
+    description: 'This Zap watches the timeline stages of Monday.com items and notifies the team in Slack each time an item reaches a new stage.',
+    source: 'Portfolio',
+    tags: [
+      'zapier'
+    ],
+    content: [
+      {
+        type: 'p',
+        text: 'This Zap watches the timeline stages of Monday.com items and notifies the team in Slack each time an item reaches a new stage. Items on the Monday.com boards follow a programme timeline: 45, 60 and 90 days in, and 60, 45 and 1 day left. When an item reaches one of these stages, the Zap triggers, updates the item and sends a message to the team’s Slack channel.'
+      },
+      {
+        type: 'p',
+        text: 'At the 45-days-left stage it also checks Close for the opportunity: if it is found, the stage is updated, and if not, a new opportunity is created. A Slack notification goes out either way.'
+      },
+      {
+        type: 'label',
+        text: 'How it works'
+      },
+      {
+        type: 'list',
+        items: [
+          'Starts on a webhook: a Webhooks by Zapier “Catch Hook” step starts the Zap when an item reaches a stage.',
+          'Finds the item: looks the item up in monday.com.',
+          'Works out the stage: a Code by Zapier step runs Python, then Paths split the Zap into branches for the different timeline stages.',
+          'Updates monday.com: each branch updates the item.',
+          'Notifies the team: each branch ends with a Slack channel message.',
+          'Handles Close: one branch looks up contacts in Close and creates a lead and an opportunity where needed, before notifying Slack.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image17.png',
+        caption: 'Steps 1–16 and 31–33: the webhook trigger, the monday.com lookup, the Python step, and the Paths that update items and notify Slack.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/zapier-portfolio/image18.png',
+        caption: 'Steps 17–30: the Close branches that find contacts and create leads and opportunities, each ending in a Slack message.'
+      }
+    ]
+  },
+  {
     id: 'zapier-gmail-to-clickup-zap',
     title: 'Gmail to ClickUp Zap',
     description: 'This Zap automates the process of task creation in ClickUp based on incoming emails from a specified sender in Gmail.',
