@@ -2811,6 +2811,82 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'contract-intake-tool',
+    title: 'Contract Intake Tool',
+    description: 'A web app that scans an uploaded supplier contract for key terms with Claude, has a person review anything missing, and files it into the right Google Drive folder.',
+    source: 'Portfolio',
+    tags: [
+      'python'
+    ],
+    content: [
+      {
+        type: 'heading',
+        text: 'Overview'
+      },
+      {
+        type: 'p',
+        text: 'A web app the inventory team uses to upload a supplier contract (PDF), have it automatically checked for key terms, and filed into the correct Google Drive folder.'
+      },
+      {
+        type: 'heading',
+        text: 'Purpose'
+      },
+      {
+        type: 'p',
+        text: 'Supplier contracts (hotel, venue, bus) were being reviewed and filed by hand. That was slow, and important terms (cancellation clauses, fees, tax rates) could get missed, and contracts sometimes ended up in the wrong Drive folder — making them hard to find later for billing or disputes.'
+      },
+      {
+        type: 'heading',
+        text: 'Goal'
+      },
+      {
+        type: 'list',
+        items: [
+          'Cut the manual review time per contract',
+          'Make sure required terms are never silently missed',
+          'File every contract into the exact right folder, every time, with no human guesswork',
+          'Keep a record of who filed what, and when'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'How It Works'
+      },
+      {
+        type: 'subheading',
+        text: '1. Scan'
+      },
+      {
+        type: 'p',
+        text: 'User uploads the PDF and picks a category (Hotel / Venue / Buses / Other). The text is extracted from the PDF and sent to Claude (Anthropic’s AI), which pulls out the specific terms that category requires — e.g. for Hotel: room rate, attrition clause, cancellation terms, tax rate. Each term comes back marked Found or Not Found.'
+      },
+      {
+        type: 'subheading',
+        text: '2. Review'
+      },
+      {
+        type: 'p',
+        text: 'Anything Not Found must be manually checked and ticked off by a person before the contract can be filed — the tool never files something incomplete without a human saying it’s okay.'
+      },
+      {
+        type: 'subheading',
+        text: '3. File'
+      },
+      {
+        type: 'p',
+        text: 'Using the contract’s group name (e.g. “State University - Alpha Chapter”) and date, the tool works out the correct folder path — Year → Season → University → Chapter → Category — and uploads the PDF there automatically. It only creates the last two folder levels itself; everything above that must already exist in Drive. Every filing is logged (who, what, where).'
+      },
+      {
+        type: 'heading',
+        text: 'What It’s Built With'
+      },
+      {
+        type: 'p',
+        text: 'Next.js (web framework) + TypeScript, Google Drive API, Claude for the AI extraction, Postgres for the log. No Python — PDF text extraction is done with a JavaScript library.'
+      }
+    ]
+  },
+  {
     id: 'support-email-clickup-automation',
     title: 'Support Email to ClickUp Ticket Automation',
     description: 'Turning every email sent to a shared support inbox into a correctly routed, duplicate-free ClickUp ticket through one n8n workflow.',
