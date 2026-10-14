@@ -323,16 +323,16 @@ a { color: inherit; text-decoration: none; }
 
 .card h3 {
   font-family: 'Sora', 'Inter', system-ui, sans-serif;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   margin: 0 0 8px;
   letter-spacing: -0.01em;
 }
 
 .card p {
-  font-size: 14px;
+  font-size: 14.5px;
   color: var(--text-muted);
-  line-height: 1.55;
+  line-height: 1.6;
   margin: 0 0 12px;
 }
 
@@ -410,7 +410,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .case-detail-wrap {
-  max-width: 760px;
+  max-width: 740px;
   margin: 0 auto;
 }
 
@@ -420,17 +420,18 @@ a { color: inherit; text-decoration: none; }
 
 .case-detail-header h1 {
   font-family: 'Sora', 'Inter', system-ui, sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  margin: 0 0 10px;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0 0 14px;
   letter-spacing: -0.02em;
 }
 
 .case-detail-header > p {
-  font-size: 15.5px;
+  font-size: 17px;
   color: var(--text-muted);
-  line-height: 1.6;
-  margin: 0 0 14px;
+  line-height: 1.65;
+  margin: 0 0 16px;
 }
 
 .case-detail-content {
@@ -462,18 +463,18 @@ a { color: inherit; text-decoration: none; }
 }
 
 .case-detail-content p {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 1.65;
+  line-height: 1.75;
   color: var(--text);
-  margin: 0 0 10px;
+  margin: 0 0 14px;
 }
 
 .case-detail-content .content-label {
   font-weight: 700;
   color: var(--text);
-  margin: 16px 0 4px;
-  font-size: 15px;
+  margin: 20px 0 6px;
+  font-size: 16px;
 }
 
 .case-detail-content h4 {
@@ -527,16 +528,16 @@ a { color: inherit; text-decoration: none; }
 }
 
 .content-list {
-  margin: 0 0 14px;
-  padding-left: 20px;
+  margin: 0 0 18px;
+  padding-left: 22px;
 }
 
 .content-list li {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 1.65;
+  line-height: 1.7;
   color: var(--text);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .content-stats {
@@ -578,7 +579,8 @@ a { color: inherit; text-decoration: none; }
 .content-table {
   border-collapse: collapse;
   width: 100%;
-  font-size: 13px;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 .content-table th {
@@ -608,7 +610,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .content-quote p {
-  font-size: 15px;
+  font-size: 16px;
   font-style: italic;
   margin: 0 0 8px;
 }
@@ -630,4 +632,45 @@ a { color: inherit; text-decoration: none; }
   color: var(--text-muted);
   font-size: 13px;
   margin: 0;
+}
+
+/* ---- Readability and accessibility polish ---- */
+
+.content-list li::marker { color: var(--accent); }
+
+.content-table tbody tr:nth-child(even) td { background: var(--surface-hover); }
+.content-table tbody tr:hover td { background: var(--accent-soft); }
+.content-table td:first-child { font-weight: 600; }
+
+.content-image {
+  box-shadow: var(--shadow);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+
+@media (max-width: 640px) {
+  #app { padding: 28px 16px 56px; }
+  .container { padding: 0 16px; }
+  .case-detail-header h1 { font-size: 25px; }
+  .case-detail-header > p { font-size: 16px; }
+  .content-eyebrow { font-size: 19px; margin-top: 40px; padding-top: 22px; }
+  .case-detail-content h3 { font-size: 20px; margin-top: 40px; padding-top: 22px; }
+  .case-detail-content h4 { font-size: 17.5px; }
+  .case-detail-content p,
+  .content-list li,
+  .case-detail-content .content-label { font-size: 15.5px; }
+  .content-stats { grid-template-columns: repeat(2, 1fr); }
+  .content-table { font-size: 13px; }
+  .category-header h1 { font-size: 23px; }
 }
