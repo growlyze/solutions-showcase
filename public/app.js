@@ -21,7 +21,7 @@ function logoBadgeHtml(ref) {
   return `<span class="logo-badge"><img class="brand-logo" src="${src}" alt="${alt}" loading="lazy" /></span>`;
 }
 
-// Small inline icon used in tag pills — multiple logos share one compact box there.
+// Small inline icon used in tag pills, since multiple logos share one compact box there.
 function iconHtml(cat) {
   if (cat.logos && cat.logos.length) {
     const badges = cat.logos.map((ref) => logoBadgeHtml(ref)).join('');
@@ -37,7 +37,7 @@ function iconHtml(cat) {
 }
 
 // One full-size tile for a single logo ref (or the category emoji as fallback).
-// `tint` only shows through on the emoji fallback — a logo image covers the tile either way.
+// `tint` only shows through on the emoji fallback, while a logo image covers the tile either way.
 function iconTileHtml(ref, fallbackEmoji, tint) {
   const tintClass = tint ? ` tint-${tint}` : '';
   if (!ref) return `<div class="card-icon${tintClass}"><span class="emoji-icon">${fallbackEmoji}</span></div>`;
@@ -150,7 +150,7 @@ function renderCategory(slug) {
           </a>
         `;
       }).join('')
-    : `<div class="empty-state">No case studies tagged here yet — more coming soon.</div>`;
+    : `<div class="empty-state">No case studies tagged here yet. More coming soon.</div>`;
 
   app.innerHTML = `
     <a class="back-link" href="#/">&larr; Back to all categories</a>

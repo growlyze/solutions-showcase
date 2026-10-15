@@ -12,7 +12,7 @@ const vm = require('vm');
 
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const SITE_NAME = 'Solutions Showcase';
-const SITE_TAGLINE = 'Browse case studies by tool and use case — automations, AI agents, dashboards, and custom platforms.';
+const SITE_TAGLINE = 'Browse case studies by tool and use case: automations, AI agents, dashboards, and custom platforms.';
 
 const esc = (s) => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -93,7 +93,7 @@ function create() {
       case 'label': return `<p><strong>${esc(b.text)}</strong></p>`;
       case 'list': return `<ul>${b.items.map((i) => `<li>${esc(itemText(i))}</li>`).join('')}</ul>`;
       case 'img': return b.caption ? `<p><em>Image: ${esc(b.caption)}</em></p>` : '';
-      case 'stats': return `<ul>${b.items.map((x) => `<li>${esc(x.value)} — ${esc(x.label)}</li>`).join('')}</ul>`;
+      case 'stats': return `<ul>${b.items.map((x) => `<li>${esc(x.value)}: ${esc(x.label)}</li>`).join('')}</ul>`;
       case 'table': return `<table><thead><tr>${b.headers.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${b.rows.map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
       case 'code': return `<pre><code>${esc(b.text)}</code></pre>`;
       case 'quote': return `<blockquote><p>${esc(b.text)}</p><footer>${esc(b.attribution)}</footer></blockquote>`;
@@ -151,7 +151,7 @@ function create() {
     return parts.map((list, i) => {
       const n = i + 1;
       const label = `Part ${n} of ${parts.length} (${list.length} case ${list.length === 1 ? 'study' : 'studies'})`;
-      return n === current ? `<li>${label} — this page</li>` : `<li><a href="/full/part-${n}">${label}</a></li>`;
+      return n === current ? `<li>${label} (this page)</li>` : `<li><a href="/full/part-${n}">${label}</a></li>`;
     }).join('');
   };
 
@@ -170,8 +170,8 @@ function create() {
     const { parts, partOf } = fullParts();
     const next = n < parts.length ? `<p>End of part ${n} of ${parts.length}. Continue with <a href="/full/part-${n + 1}">part ${n + 1}</a>.</p>` : `<p>End of part ${n} of ${parts.length}: that is the complete text of the site.</p>`;
     const head = n === 1
-      ? `<h1>${SITE_NAME} — part 1 of ${parts.length}</h1><p>${esc(SITE_TAGLINE)}</p><p>The complete text of the site in ${parts.length} parts, shortest case studies first. Parts:</p><ul>${partLinksHtml(1)}</ul><h2>Contents (every section and case study)</h2>${contentsHtml(categories, partOf)}`
-      : `<h1>${SITE_NAME} — part ${n} of ${parts.length}</h1><p>The complete text of the site in ${parts.length} parts. Parts:</p><ul>${partLinksHtml(n)}</ul><p><a href="/full/part-1">Part 1</a> has the contents list of every section and case study.</p>`;
+      ? `<h1>${SITE_NAME}: part 1 of ${parts.length}</h1><p>${esc(SITE_TAGLINE)}</p><p>The complete text of the site in ${parts.length} parts, shortest case studies first. Parts:</p><ul>${partLinksHtml(1)}</ul><h2>Contents (every section and case study)</h2>${contentsHtml(categories, partOf)}`
+      : `<h1>${SITE_NAME}: part ${n} of ${parts.length}</h1><p>The complete text of the site in ${parts.length} parts. Parts:</p><ul>${partLinksHtml(n)}</ul><p><a href="/full/part-1">Part 1</a> has the contents list of every section and case study.</p>`;
     return `${head}<h2>Case studies in full</h2>${parts[n - 1].map((art) => art.html).join('')}${next}`;
   }
 
@@ -191,7 +191,7 @@ function create() {
       const url = `${base}/full/${cat.slug}`;
       return `<section><h3><a href="/full/${esc(cat.slug)}">${esc(cat.name)}</a></h3><p>${esc(cat.description)}</p>`
         + `<p>${list.length} case ${list.length === 1 ? 'study' : 'studies'}. Full text of this section: <a href="/full/${esc(cat.slug)}">${esc(url)}</a> (plain text: <a href="/tag/${esc(cat.slug)}.md">${esc(base)}/tag/${esc(cat.slug)}.md</a>)</p>`
-        + `<ul>${list.map((c) => `<li><a href="/case/${esc(c.id)}">${esc(c.title)}</a> — ${esc(c.description)}</li>`).join('')}</ul></section>`;
+        + `<ul>${list.map((c) => `<li><a href="/case/${esc(c.id)}">${esc(c.title)}</a>: ${esc(c.description)}</li>`).join('')}</ul></section>`;
     }).join('');
 
     // tool -> case studies, from the same detection that fills each case study's "Works with" box
@@ -216,13 +216,13 @@ function create() {
       case 'label': return `**${b.text}**`;
       case 'list': return b.items.map((i) => `- ${itemText(i)}`).join('\n');
       case 'img': return `Image${b.caption ? `: ${b.caption}` : ''} (${base}/${b.file})`;
-      case 'stats': return b.items.map((s) => `- ${s.value} — ${s.label}`).join('\n');
+      case 'stats': return b.items.map((s) => `- ${s.value}: ${s.label}`).join('\n');
       case 'table': {
         const row = (r) => `| ${r.map((c) => String(c).replace(/\|/g, '/').replace(/\n/g, ' ')).join(' | ')} |`;
         return [row(b.headers), row(b.headers.map(() => '---')), ...b.rows.map(row)].join('\n');
       }
       case 'code': return '```' + (b.language || '') + '\n' + b.text + '\n```';
-      case 'quote': return `> ${b.text}\n> — ${b.attribution}`;
+      case 'quote': return `> ${b.text}\n> ${b.attribution}`;
       default: return b.text;
     }
   }
@@ -249,7 +249,7 @@ function create() {
   const sectionsWithCases = () => categories.filter((cat) => casesFor(cat.slug).length);
   const sectionFileLines = (base) => sectionsWithCases().map((cat) => {
     const n = casesFor(cat.slug).length;
-    return `- [${cat.name} — ${n} case ${n === 1 ? 'study' : 'studies'} in full](${base}/tag/${cat.slug}.md)`;
+    return `- [${cat.name} (${n} case ${n === 1 ? 'study' : 'studies'} in full)](${base}/tag/${cat.slug}.md)`;
   }).join('\n');
 
   function llmsTxt(base) {
@@ -263,7 +263,7 @@ function create() {
 
   function llmsFullTxt(base) {
     const kchars = Math.round(cases.reduce((n, c) => n + caseMarkdown(c, base).length, 0) / 1000);
-    return `# ${SITE_NAME}\n\n> ${SITE_TAGLINE}\n\nThis file holds every case study in full and is very long (about ${kchars},000 characters). If your tool cuts long files short, read one section at a time instead — each of these files has the complete text of every case study in that section:\n\n${sectionFileLines(base)}\n\n---\n\n`
+    return `# ${SITE_NAME}\n\n> ${SITE_TAGLINE}\n\nThis file holds every case study in full and is very long (about ${kchars},000 characters). If your tool cuts long files short, read one section at a time instead. Each of these files has the complete text of every case study in that section:\n\n${sectionFileLines(base)}\n\n---\n\n`
       + cases.map((c) => caseMarkdown(c, base)).join('\n---\n\n');
   }
 
@@ -312,7 +312,7 @@ function create() {
     homeFullPage: (base) => page({ title: SITE_NAME, description: SITE_TAGLINE, path: '/', body: fullHomeBody(), base, app: false }),
     directoryPage: (base) => page({ title: SITE_NAME, description: SITE_TAGLINE, path: '/', body: directoryBody(base), base, app: false }),
     fullPartCount: () => fullParts().parts.length,
-    fullPartPage: (n, base) => page({ title: `${SITE_NAME} — part ${n} of ${fullParts().parts.length}`, description: SITE_TAGLINE, path: `/full/part-${n}`, body: fullPartBody(n), base, app: false }),
+    fullPartPage: (n, base) => page({ title: `${SITE_NAME}: part ${n} of ${fullParts().parts.length}`, description: SITE_TAGLINE, path: `/full/part-${n}`, body: fullPartBody(n), base, app: false }),
     tagFullPage: (cat, base) => page({ title: cat.name, description: cat.description, path: `/tag/${cat.slug}`, body: fullTagBody(cat), base, alternate: `/tag/${cat.slug}.md`, app: false }),
     caseMarkdown, tagMarkdown, llmsTxt, llmsFullTxt, sitemapXml, robotsTxt,
   };

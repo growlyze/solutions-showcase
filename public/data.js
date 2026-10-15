@@ -1,29 +1,29 @@
 // Edit this file to add/remove case studies or categories. One case study can carry multiple tags.
 
-// `logoFile`: official icon-only mark shipped locally in public/logos/ — either provided
+// `logoFile`: official icon-only mark shipped locally in public/logos/, either provided
 //   directly by the user, or downloaded from the vendor's own site/CDN, or (Power BI) from
 //   Microsoft's official PowerBI-Icons repo. See README for the exact source of each file.
 // `fill: true`: the image already has its own solid background baked in (a filled square/
 //   rounded tile), so it's rendered edge-to-edge with no extra badge background behind it.
-//   Omit `fill` for transparent icon-only files (WhatsApp, Power BI) — those get a white
+//   Omit `fill` for transparent icon-only files (WhatsApp, Power BI), those get a white
 //   backing tile so the glyph itself doesn't disappear into the dark theme.
 // `logo`: slug from simpleicons.org, used only where no official icon-only file was available.
-// `tint`: accent color group for the icon background — only visible on categories with no
+// `tint`: accent color group for the icon background, only visible on categories with no
 //   logo file (plain emoji), since a logo image fully covers the tile either way. Used to give
 //   related categories (AI agents, PM tools, reporting) their own recognizable color at a glance.
 // `group`: which labeled section this category sits under on the home page (see GROUPS
 //   below).
 // If a logo fails to load, app.js falls back to `icon` (emoji) so the UI never breaks.
 const CATEGORIES = [
-  { slug: 'custom-saas', icon: '☁️', tint: 'indigo', group: 'saas', name: 'Custom SaaS Platforms', description: 'Full, ready-to-run software products built from scratch around one business’s exact workflow — not just an automation, a whole system.' },
+  { slug: 'custom-saas', icon: '☁️', tint: 'indigo', group: 'saas', name: 'Custom SaaS Platforms', description: 'Full, ready-to-run software products built from scratch around one business’s exact workflow, not just an automation, a whole system.' },
   { slug: 'n8n', icon: '🔗', logoFile: 'logos/n8n.png', fill: true, group: 'automation', name: 'n8n Automations', description: 'Behind-the-scenes workflows that connect your apps and AI models so work moves on its own, no manual steps.' },
   { slug: 'zapier', icon: '⚡', logoFile: 'logos/zapier.png', fill: true, group: 'automation', name: 'Zapier Automations', description: 'Quick, no-code automations that connect your everyday apps so one action triggers the next automatically.' },
   { slug: 'make', icon: '⚡', logoFile: 'logos/make.jpg', fill: true, group: 'automation', name: 'Make Automations', description: 'Visual, no-code workflows in Make.com that move data between your apps without writing any code.' },
-  { slug: 'google-apps-script', icon: '📜', logo: 'googleappsscript', group: 'gas', name: 'Google Apps Script', description: 'Custom scripts that connect Gmail, Sheets, Drive, and Docs directly — automation built right into Google Workspace.' },
+  { slug: 'google-apps-script', icon: '📜', logo: 'googleappsscript', group: 'gas', name: 'Google Apps Script', description: 'Custom scripts that connect Gmail, Sheets, Drive, and Docs directly, automation built right into Google Workspace.' },
   { slug: 'python', icon: '🐍', logo: 'python', group: 'python', name: 'Python Automation', description: 'Custom Python pipelines and services for teams whose integrations need more than a no-code platform can offer.' },
   { slug: 'ai-agents', icon: '🤖', tint: 'violet', group: 'ai', name: 'AI Agents', description: 'General-purpose AI agents you can point at almost any repetitive task to take it off your plate.' },
-  { slug: 'ai-whatsapp', icon: '💬', logoFile: 'logos/whatsapp.svg', group: 'ai', name: 'AI Agents for WhatsApp', description: 'AI that chats with customers directly on WhatsApp — answering questions and taking orders automatically.' },
-  { slug: 'ecommerce-agents', icon: '🛒', tint: 'orange', group: 'ai', name: 'AI Agents for Ecommerce', description: 'AI built specifically for online stores — automating customer chats, order updates, and daily operations.' },
+  { slug: 'ai-whatsapp', icon: '💬', logoFile: 'logos/whatsapp.svg', group: 'ai', name: 'AI Agents for WhatsApp', description: 'AI that chats with customers directly on WhatsApp: answering questions and taking orders automatically.' },
+  { slug: 'ecommerce-agents', icon: '🛒', tint: 'orange', group: 'ai', name: 'AI Agents for Ecommerce', description: 'AI built specifically for online stores: automating customer chats, order updates, and daily operations.' },
   { slug: 'clickup', icon: '✅', logoFile: 'logos/clickup.webp', fill: true, group: 'pm', name: 'ClickUp Setups', description: 'Ready-to-use ClickUp workspaces for running projects, teams, and day-to-day operations in one place.' },
   { slug: 'monday', icon: '📅', logoFile: 'logos/monday.png', fill: true, group: 'pm', name: 'Monday.com Setups', description: 'Ready-to-use Monday.com boards for tracking projects and keeping teams aligned on what’s next.' },
   { slug: 'airtable', icon: '🗂️', logoFile: 'logos/airtable.png', fill: true, group: 'pm', name: 'Airtable', description: 'Custom Airtable databases for organizing your data and day-to-day operations without the spreadsheet mess.' },
@@ -130,7 +130,7 @@ const CASE_STUDIES = [
       {
         type: 'img',
         file: 'case-content/meinburomeister/image1.png',
-        caption: 'Core onboarding and workflow management — company setup, worker registration, subscription checks, report approval, project handling, and notifications across 15 interconnected automation groups.'
+        caption: 'Core onboarding and workflow management: company setup, worker registration, subscription checks, report approval, project handling, and notifications across 15 interconnected automation groups.'
       },
       {
         type: 'subheading',
@@ -143,7 +143,7 @@ const CASE_STUDIES = [
       {
         type: 'img',
         file: 'case-content/meinburomeister/image2.png',
-        caption: 'AI-powered report processing — message intake, voice transcription, Claude-based data extraction, report generation, and save/notification handling.'
+        caption: 'AI-powered report processing: message intake, voice transcription, Claude-based data extraction, report generation, and save/notification handling.'
       },
       {
         type: 'eyebrow',
@@ -197,7 +197,7 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'AI Report Extraction: Supports four report categories — Rapport, Aufmaß, Neues Angebot, and Notiz. The AI extracts work descriptions, materials, dimensions, and working hours while using prompt guardrails to reduce invented details.',
+          'AI Report Extraction: Supports four report categories (Rapport, Aufmaß, Neues Angebot, and Notiz). The AI extracts work descriptions, materials, dimensions, and working hours while using prompt guardrails to reduce invented details.',
           'Multi-Input Session Handling: Groups related voice notes, photos, captions, and corrections into a single processing session instead of treating every incoming message as a separate report.',
           'Project Matching and Clarification: Uses available employee and project records to associate reports with the correct destination. When a match is ambiguous, the workflow can request clarification.',
           'Onboarding and Access Management: Supports company setup, worker invitations, registration tracking, and access checks to ensure incoming messages are routed correctly.',
@@ -412,7 +412,7 @@ const CASE_STUDIES = [
   },
   {
     id: 'clickup-boots-bags',
-    title: 'ClickUp Structure — Boots & Bags (Ecommerce Dropshipping)',
+    title: 'ClickUp Structure: Boots & Bags (Ecommerce Dropshipping)',
     description: 'Detailed ClickUp workspace structure for an ecommerce dropshipping store’s operations.',
     source: 'Notion',
     url: 'https://glass-suit-7f2.notion.site/Detailed-ClickUp-Structure-for-an-E-commerce-Store-Boots-and-Bags-Dropshipping-2260fcd1ff4649178ed0e6209ada5423?pvs=4',
@@ -643,7 +643,7 @@ const CASE_STUDIES = [
   },
     {
     id: 'clickup-taraki',
-    title: 'ClickUp Structure — Taraki Staffing Company',
+    title: 'ClickUp Structure: Taraki Staffing Company',
     description: 'Detailed ClickUp workspace structure for a staffing company’s operations.',
     source: 'Notion',
     url: 'https://glass-suit-7f2.notion.site/Detailed-ClickUp-Structure-for-Taraki-Staffing-Company-6b1a78de474d4db8ac8ab56047edde64?pvs=4',
@@ -741,7 +741,7 @@ const CASE_STUDIES = [
   },
     {
     id: 'clickup-vsp',
-    title: 'ClickUp — Automating Operations for Veterinary Specialist Partners',
+    title: 'ClickUp: Automating Operations for Veterinary Specialist Partners',
     description: 'ClickUp setup used to automate operations for a veterinary specialist partnership.',
     source: 'Notion',
     url: 'https://glass-suit-7f2.notion.site/Case-Study-Automating-Operations-for-Veterinary-Specialist-Partners-105616625a2a80bc910cfb4d07ff6aea?pvs=74',
@@ -949,7 +949,7 @@ const CASE_STUDIES = [
   },
     {
     id: 'monday-vsp',
-    title: 'Monday.com Setup — Veterinary Specialist Partners',
+    title: 'Monday.com Setup: Veterinary Specialist Partners',
     description: 'Monday.com board setup built for Veterinary Specialist Partners’ operations.',
     source: 'Notion',
     url: 'https://glass-suit-7f2.notion.site/Setup-of-VSP-with-Monday-com-114616625a2a8028a61ce5cc2cb1f31d?pvs=4',
@@ -1114,7 +1114,7 @@ const CASE_STUDIES = [
   {
     id: 'airtable-legal',
     title: 'Rebuilding Case Management on Airtable (Legal)',
-    description: 'How Harrington & Cole LLP replaced four disconnected tools with one Airtable workspace — cutting matter-intake time by 68% and automating 1,200+ status touchpoints a month.',
+    description: 'How Harrington & Cole LLP replaced four disconnected tools with one Airtable workspace, cutting matter-intake time by 68% and automating 1,200+ status touchpoints a month.',
     source: 'Case Study',
     url: '',
     tags: ['airtable'],
@@ -1131,7 +1131,7 @@ const CASE_STUDIES = [
   { type: 'eyebrow', text: 'Executive Summary' },
   { type: 'heading', text: 'A modern operating system for a mid-size law firm' },
   { type: 'p', text: 'Harrington & Cole LLP is a 60-person law firm headquartered in Halifax, Nova Scotia, with three practice groups and a docket of roughly 230 active matters at any given time. By early 2025 the firm was running case intake, conflict checks, scheduling and time capture across four disconnected systems: a legacy practice-management tool, shared Excel files on a network drive, Outlook calendars, and a paper intake form. Status updates lived in attorneys’ heads and email threads.' },
-  { type: 'p', text: 'Over an 11-week engagement we replaced this patchwork with a single Airtable workspace — purpose-built tables, role-specific Interfaces for attorneys and paralegals, and an automation layer that handles the firm’s repetitive coordination work. The implementation was delivered without disruption to billable work and went live with all 60 users on the same day.' },
+  { type: 'p', text: 'Over an 11-week engagement we replaced this patchwork with a single Airtable workspace, purpose-built tables, role-specific Interfaces for attorneys and paralegals, and an automation layer that handles the firm’s repetitive coordination work. The implementation was delivered without disruption to billable work and went live with all 60 users on the same day.' },
   { type: 'subheading', text: 'Outcomes after 90 days in production' },
   { type: 'stats', items: [
     { value: '68%', label: 'Faster matter intake' },
@@ -1146,7 +1146,7 @@ const CASE_STUDIES = [
   { type: 'eyebrow', text: 'Background' },
   { type: 'heading', text: 'The client and the problem' },
   { type: 'subheading', text: 'About the firm' },
-  { type: 'p', text: 'Harrington & Cole LLP serves regional commercial clients across Atlantic Canada. Three practice groups — litigation, corporate / transactional, and employment — share a managing partner, a central paralegal pool, and a single billing department. The firm had grown roughly 40% in headcount over five years; its tooling had not kept up.' },
+  { type: 'p', text: 'Harrington & Cole LLP serves regional commercial clients across Atlantic Canada. Three practice groups (litigation, corporate / transactional, and employment) share a managing partner, a central paralegal pool, and a single billing department. The firm had grown roughly 40% in headcount over five years; its tooling had not kept up.' },
   { type: 'subheading', text: 'The pain points that triggered the project' },
   { type: 'list', items: [
     'Matter intake took up to six hours. A new lead required duplicate data entry across four systems, with manual conflict checks against an Excel register that one paralegal owned.',
@@ -1160,7 +1160,7 @@ const CASE_STUDIES = [
 
   { type: 'eyebrow', text: 'Approach' },
   { type: 'heading', text: 'How the implementation was run' },
-  { type: 'p', text: 'We delivered the implementation in four phases over eleven weeks. A core working group — the managing partner, two senior associates (one per practice area), the office manager, and a paralegal lead — met twice a week to validate the data model, review prototypes, and sign off on go-live readiness.' },
+  { type: 'p', text: 'We delivered the implementation in four phases over eleven weeks. A core working group made up of the managing partner, two senior associates (one per practice area), the office manager, and a paralegal lead met twice a week to validate the data model, review prototypes, and sign off on go-live readiness.' },
   { type: 'table', headers: ['Phase', 'Weeks', 'What we did', 'Output'], rows: [
     ['1. Discovery', '1–2', 'Shadowed intake, conflict-check and billing workflows. Mapped 14 existing data sources. Interviewed 11 attorneys and staff.', 'Process map, data dictionary, ranked pain-point list.'],
     ['2. Data model & schema', '3–4', 'Designed 10-table relational schema. Built linked records for Cases ↔ Clients ↔ Hearings ↔ Documents ↔ Tasks ↔ Time entries.', 'Live Airtable base with sample data; ER diagram.'],
@@ -1176,52 +1176,52 @@ const CASE_STUDIES = [
   ] },
 
   { type: 'eyebrow', text: 'What Was Built' },
-  { type: 'heading', text: 'The Cases table — the heart of the workspace' },
+  { type: 'heading', text: 'The Cases table: the heart of the workspace' },
   { type: 'p', text: 'Every matter the firm works on is a record in the Cases table. From here, attorneys can see the entire docket grouped by practice area, filtered to their own matters, or sliced by stage. The grid below shows the production view used by senior associates each morning to triage their day.' },
-  { type: 'img', file: 'case-content/airtable-legal/page5-img1.png', caption: 'Figure 1 — The Cases grid view, grouped by practice area. Coloured stage chips give partners an at-a-glance read on where every matter sits. The footer rolls up open balances and average days-open across the visible records.' },
+  { type: 'img', file: 'case-content/airtable-legal/page5-img1.png', caption: 'Figure 1: The Cases grid view, grouped by practice area. Coloured stage chips give partners an at-a-glance read on where every matter sits. The footer rolls up open balances and average days-open across the visible records.' },
   { type: 'subheading', text: 'Highlights of this view' },
   { type: 'list', items: [
     'Grouping by practice area mirrors how the managing partner thinks about workload distribution.',
     'Stage is a single-select with a controlled vocabulary (Intake → Pleadings → Discovery → Negotiation → Trial Prep → Closed). It drives both the kanban view and three automations.',
     'Lead Attorney links to the Staff table, so renaming or reassigning happens in one place.',
-    'Open Balance at the bottom is a rollup from the Time entries table — no manual reconciliation needed.',
+    'Open Balance at the bottom is a rollup from the Time entries table, no manual reconciliation needed.',
   ] },
   { type: 'subheading', text: 'Two more views the firm uses every day' },
   { type: 'p', text: 'Kanban by stage is how partners review pipeline in their Monday morning meeting. Dragging a card moves the matter through the lifecycle and triggers the corresponding automation chain.' },
-  { type: 'img', file: 'case-content/airtable-legal/page6-img1.png', caption: 'Figure 2 — Kanban view of the Cases table, grouped by stage. Card colour and the avatar in the corner make ownership obvious even on a wall display.' },
+  { type: 'img', file: 'case-content/airtable-legal/page6-img1.png', caption: 'Figure 2: Kanban view of the Cases table, grouped by stage. Card colour and the avatar in the corner make ownership obvious even on a wall display.' },
   { type: 'subheading', text: 'The expanded matter record' },
-  { type: 'p', text: 'Clicking any row opens a full-detail view of the matter. This is the single screen attorneys live in when they’re working a case — it consolidates parties, deadlines, team, financials and notes. WIP and Open Balance are rollups from the linked Time entries table; the Statute of Limitations warning is a formula that turns red automatically inside 90 days.' },
-  { type: 'img', file: 'case-content/airtable-legal/page7-img1.png', caption: 'Figure 3 — The expanded record view for matter CASE-2024-0142. Rollups, formulas and linked records mean every number on this screen is computed live from the underlying tables — nothing is manually maintained.' },
+  { type: 'p', text: 'Clicking any row opens a full-detail view of the matter. This is the single screen attorneys live in when they’re working a case. It consolidates parties, deadlines, team, financials and notes. WIP and Open Balance are rollups from the linked Time entries table; the Statute of Limitations warning is a formula that turns red automatically inside 90 days.' },
+  { type: 'img', file: 'case-content/airtable-legal/page7-img1.png', caption: 'Figure 3: The expanded record view for matter CASE-2024-0142. Rollups, formulas and linked records mean every number on this screen is computed live from the underlying tables: nothing is manually maintained.' },
 
   { type: 'eyebrow', text: 'The Data Model' },
   { type: 'heading', text: 'Ten tables, one source of truth' },
-  { type: 'p', text: 'The base is built around Cases as the central entity. Everything else — clients, hearings, documents, tasks, time, communications — links to a case. This single design decision is what makes the rollups, formulas and automations possible.' },
-  { type: 'img', file: 'case-content/airtable-legal/page8-img1.png', caption: 'Figure 4 — The 10-table schema. Lines indicate linked-record relationships. Cases is the hub; Documents, Tasks, Time entries and Communications all link to a case.' },
+  { type: 'p', text: 'The base is built around Cases as the central entity. Everything else (clients, hearings, documents, tasks, time, communications) links to a case. This single design decision is what makes the rollups, formulas and automations possible.' },
+  { type: 'img', file: 'case-content/airtable-legal/page8-img1.png', caption: 'Figure 4: The 10-table schema. Lines indicate linked-record relationships. Cases is the hub; Documents, Tasks, Time entries and Communications all link to a case.' },
   { type: 'subheading', text: 'Field-level decisions worth calling out' },
   { type: 'list', items: [
     'Stage is a single-select with synced colour. Changes here trigger 3 different automations.',
     'SOL date is paired with a formula days_until_sol; the alert automation reads the formula field, so all date logic lives in one place.',
-    'Conflict_clear on Clients is a checkbox controlled by the conflict-check automation — an intake matter is blocked from advancing until this is true.',
+    'Conflict_clear on Clients is a checkbox controlled by the conflict-check automation, an intake matter is blocked from advancing until this is true.',
     'Time entries rolls up into Cases as WIP and Open Balance, so billing reports build themselves.',
-    'Communications is populated by the Gmail and Outlook integrations — every email about a matter is logged automatically.',
+    'Communications is populated by the Gmail and Outlook integrations, every email about a matter is logged automatically.',
   ] },
 
   { type: 'eyebrow', text: 'Interfaces' },
   { type: 'heading', text: 'Three role-based interfaces, one underlying base' },
-  { type: 'p', text: 'Different people in the firm need different things from the same data. We built three Interfaces on top of the base, each tailored to a role. All three read from and write to the same tables — there is no duplication.' },
+  { type: 'p', text: 'Different people in the firm need different things from the same data. We built three Interfaces on top of the base, each tailored to a role. All three read from and write to the same tables. There is no duplication.' },
   { type: 'subheading', text: 'The Attorney Dashboard' },
-  { type: 'p', text: 'This is the screen attorneys open when they sit down at their desk. It surfaces the four KPIs that matter to them, the next 30 days of hearings, and their personal task list — all filtered to their own user automatically.' },
-  { type: 'img', file: 'case-content/airtable-legal/page9-img1.png', caption: 'Figure 5 — The Attorney Dashboard interface, scoped to the logged-in user. KPI cards on top; upcoming hearings and personal tasks below. Click-through on any matter title opens the full case record in a side panel.' },
+  { type: 'p', text: 'This is the screen attorneys open when they sit down at their desk. It surfaces the four KPIs that matter to them, the next 30 days of hearings, and their personal task list, all filtered to their own user automatically.' },
+  { type: 'img', file: 'case-content/airtable-legal/page9-img1.png', caption: 'Figure 5: The Attorney Dashboard interface, scoped to the logged-in user. KPI cards on top; upcoming hearings and personal tasks below. Click-through on any matter title opens the full case record in a side panel.' },
   { type: 'subheading', text: 'Two other interfaces' },
   { type: 'list', items: [
-    'Paralegal Workbench — task-centric view. Paralegals can claim open tasks, log time directly against a matter, and upload signed documents which auto-update the matter’s stage.',
-    'Partner Reporting — read-only firm-wide view with charts: matters by stage, WIP trend, top 10 oldest open balances, attorney utilisation. Replaces what used to be a 2-day monthly reporting exercise.',
+    'Paralegal Workbench: task-centric view. Paralegals can claim open tasks, log time directly against a matter, and upload signed documents which auto-update the matter’s stage.',
+    'Partner Reporting: read-only firm-wide view with charts showing matters by stage, WIP trend, top 10 oldest open balances, and attorney utilisation. Replaces what used to be a 2-day monthly reporting exercise.',
   ] },
 
   { type: 'eyebrow', text: 'Automations' },
   { type: 'heading', text: 'Automating the repetitive coordination work' },
-  { type: 'p', text: 'Eight automations remove roughly 1,200 manual touchpoints from the firm’s month. None of them replace an attorney’s judgment — they remove the surrounding paperwork.' },
-  { type: 'img', file: 'case-content/airtable-legal/page10-img1.png', caption: 'Figure 6 — The Automations panel. Eight automations, six currently enabled, with run counts visible per automation. The detail pane on the right shows the trigger and three actions of the hearing-reminder workflow.' },
+  { type: 'p', text: 'Eight automations remove roughly 1,200 manual touchpoints from the firm’s month. None of them replace an attorney’s judgment: they remove the surrounding paperwork.' },
+  { type: 'img', file: 'case-content/airtable-legal/page10-img1.png', caption: 'Figure 6: The Automations panel. Eight automations, six currently enabled, with run counts visible per automation. The detail pane on the right shows the trigger and three actions of the hearing-reminder workflow.' },
   { type: 'subheading', text: 'The automation catalogue' },
   { type: 'p', text: 'Each automation is owned by a named person on the working group, documented in a Notion runbook, and reviewed quarterly.' },
   { type: 'table', headers: ['#', 'Automation', 'Trigger', 'Actions', 'Replaces'], rows: [
@@ -1232,20 +1232,20 @@ const CASE_STUDIES = [
     ['5', 'Time entry > 8 hr/day → notify partner', 'Time entry created with hours > 8 on a single day', 'Slack DM to managing partner with link to the entry.', 'End-of-month review (often too late)'],
     ['6', 'Client onboarding sequence', 'Clients.conflict_clear changes to true', 'Sends client engagement letter via DocuSign, creates Drive folder with templates, books an intake call.', 'Three separate manual checklists'],
     ['7', 'Weekly WIP digest', 'Schedule: every Monday 7:00 AM', 'Builds per-attorney summary of WIP, billed and aged AR; emails each lead attorney their digest.', 'Office manager spending Friday building reports'],
-    ['8', 'Stale matter (no activity 30 d)', 'Schedule: nightly scan', 'Sets a flag field; visible on the Partner Reporting interface for follow-up.', 'Nothing — these matters used to disappear'],
+    ['8', 'Stale matter (no activity 30 d)', 'Schedule: nightly scan', 'Sets a flag field; visible on the Partner Reporting interface for follow-up.', 'Nothing: these matters used to disappear'],
   ] },
-  { type: 'subheading', text: 'Worked example — automation #2 in detail' },
+  { type: 'subheading', text: 'Worked example: automation #2 in detail' },
   { type: 'list', items: [
     'Trigger: a record in Hearings where the days_until formula evaluates to exactly 14 and status is Scheduled.',
-    'Action 1 — Find records: looks up the parent Case via the linked-record field to retrieve the lead attorney and client.',
-    'Action 2 — Send Slack: DMs the lead attorney with a deep link back to the case record and a one-line summary of the hearing.',
-    'Action 3 — Create tasks: creates four pre-templated prep tasks in the Tasks table, all linked to the same matter, with sensible default due dates working back from the hearing.',
+    'Action 1 (Find records): looks up the parent Case via the linked-record field to retrieve the lead attorney and client.',
+    'Action 2 (Send Slack): DMs the lead attorney with a deep link back to the case record and a one-line summary of the hearing.',
+    'Action 3 (Create tasks): creates four pre-templated prep tasks in the Tasks table, all linked to the same matter, with sensible default due dates working back from the hearing.',
     'Replaced: three different paralegals each maintaining their own version of a hearing-prep checklist, and the senior associate manually pinging attorneys.',
   ] },
 
   { type: 'eyebrow', text: 'Integrations' },
   { type: 'heading', text: 'How the workspace connects to the rest of the stack' },
-  { type: 'p', text: 'Airtable doesn’t replace email, calendars, document storage or e-signature — and shouldn’t. It coordinates them.' },
+  { type: 'p', text: 'Airtable doesn’t replace email, calendars, document storage or e-signature, and shouldn’t. It coordinates them.' },
   { type: 'table', headers: ['System', 'Direction', 'What flows', 'Mechanism'], rows: [
     ['Outlook / Microsoft 365', 'Two-way', 'Hearings sync to attorney calendars; calendar invites for new hearings auto-create Hearing records.', 'Microsoft Graph + Airtable sync'],
     ['Gmail (firm address)', 'One-way (in)', 'Email referencing a matter ID is logged to the Communications table with a link back to the thread.', 'Native Airtable Gmail integration'],
@@ -1270,17 +1270,17 @@ const CASE_STUDIES = [
     ['Missed SOL deadlines (rolling 12 mo.)', '2 near-misses', '0', '−100%'],
     ['Monthly management report build time', '≈ 14 hours', '≈ 25 min (live dashboard)', '−97%'],
     ['Time-entry capture latency', 'Avg. 4.2 days', 'Avg. 0.6 days', '−86%'],
-    ['WIP recovered Q1 (vs. prior quarter)', '—', '$41,200', '+ revenue'],
-    ['Automated touchpoints / month', '0', '1,284 (across 6 active flows)', '—'],
-    ['Active users (firm-wide)', '—', '60 / 60', '100% adoption'],
+    ['WIP recovered Q1 (vs. prior quarter)', 'n/a', '$41,200', '+ revenue'],
+    ['Automated touchpoints / month', '0', '1,284 (across 6 active flows)', 'n/a'],
+    ['Active users (firm-wide)', 'n/a', '60 / 60', '100% adoption'],
   ] },
   { type: 'subheading', text: 'In the words of the firm' },
-  { type: 'quote', text: 'The thing that surprised me wasn’t the dashboards — it was the fact that we don’t talk about case status in hallways anymore. Everyone is looking at the same picture, and the system tells us when something needs attention before it becomes a fire. We have not had a near-miss on a deadline since the day we went live.', attribution: 'Managing Partner — Harrington & Cole LLP' },
+  { type: 'quote', text: 'The thing that surprised me wasn’t the dashboards: it was the fact that we don’t talk about case status in hallways anymore. Everyone is looking at the same picture, and the system tells us when something needs attention before it becomes a fire. We have not had a near-miss on a deadline since the day we went live.', attribution: 'Managing Partner, Harrington & Cole LLP' },
   { type: 'subheading', text: 'What we’d do again, and what we’d change' },
   { type: 'list', items: [
     'Worked well: embedding the working group from week one. Every design decision had a real attorney’s name attached to it, which made go-live painless.',
     'Worked well: shipping the Attorney Dashboard before the Partner Reporting interface. Adoption is driven by the people doing the work, not the people watching the work.',
-    'Would change: we waited until phase 3 to wire up the Outlook two-way sync. In hindsight, that should have been in phase 2 — calendars are how attorneys actually work.',
+    'Would change: we waited until phase 3 to wire up the Outlook two-way sync. In hindsight, that should have been in phase 2, calendars are how attorneys actually work.',
     'Would change: add a fifth interface for the firm’s receptionist. Inbound caller intake is still slightly clunky.',
   ] },
 ]
@@ -1288,14 +1288,14 @@ const CASE_STUDIES = [
   {
     id: 'airtable-saas',
     title: 'Cutting Churn Before the Ticket Arrives (SaaS)',
-    description: 'How Loomstack Inc. consolidated its customer-success stack into a single Airtable workspace — surfacing at-risk accounts 47 days earlier and lifting net revenue retention from 102% to 114%.',
+    description: 'How Loomstack Inc. consolidated its customer-success stack into a single Airtable workspace, surfacing at-risk accounts 47 days earlier and lifting net revenue retention from 102% to 114%.',
     source: 'Case Study',
     url: '',
     tags: ['airtable'],
     content: [
   { type: 'list', items: [
     'Client: Loomstack Inc.',
-    'Industry: B2B SaaS — workflow automation',
+    'Industry: B2B SaaS, workflow automation',
     'Segment: Series B, Enterprise + Mid-Market',
     'Company size: 180 employees, 14 CSMs',
     'Project duration: 9 weeks (discovery → go-live)',
@@ -1305,7 +1305,7 @@ const CASE_STUDIES = [
   { type: 'eyebrow', text: 'Executive Summary' },
   { type: 'heading', text: 'A purpose-built customer-success workspace' },
   { type: 'p', text: 'Loomstack Inc. is a Series B B2B SaaS company providing workflow automation tooling to mid-market and enterprise customers, with roughly $24M ARR across 280 paying accounts. By Q4 2025 the customer success team was operating across five disconnected tools: HubSpot for CRM data, Zendesk for support tickets, Stripe for subscriptions, a homegrown product-usage dashboard, and a sprawl of Google Sheets for everything that didn’t fit elsewhere. Health scoring was a quarterly spreadsheet exercise, and renewal forecasts were assembled by hand the week before each board meeting.' },
-  { type: 'p', text: 'Over a 9-week engagement we replaced this stack’s coordination layer with a single Airtable workspace — a unified accounts table, computed health scores updated nightly, role-specific Interfaces for CSMs and the VP, and an automation suite that triggers playbooks before churn risk turns into a churn ticket. HubSpot, Zendesk and Stripe still own their primary data; Airtable is the operating surface on top.' },
+  { type: 'p', text: 'Over a 9-week engagement we replaced this stack’s coordination layer with a single Airtable workspace, a unified accounts table, computed health scores updated nightly, role-specific Interfaces for CSMs and the VP, and an automation suite that triggers playbooks before churn risk turns into a churn ticket. HubSpot, Zendesk and Stripe still own their primary data; Airtable is the operating surface on top.' },
   { type: 'subheading', text: 'Outcomes after 90 days in production' },
   { type: 'stats', items: [
     { value: '114%', label: 'Net revenue retention' },
@@ -1324,17 +1324,17 @@ const CASE_STUDIES = [
   { type: 'subheading', text: 'The pain points that triggered the project' },
   { type: 'list', items: [
     'Churn was being detected too late. The first signal an account was in trouble was usually a renewal coming up in 30 days and a CSM scrambling. Two enterprise logos worth $640K combined churned in Q3 2025 with effectively no warning.',
-    'Health scoring was theatre. A quarterly spreadsheet exercise produced colour-coded statuses that nobody trusted — by the time it shipped, the underlying data was already 4–6 weeks stale.',
-    'CSMs lived in eight tabs. A typical customer review meant opening HubSpot, Zendesk, Stripe, Mixpanel, the usage dashboard, the renewal sheet, the QBR notes doc, and the Slack channel — for every account.',
+    'Health scoring was theatre. A quarterly spreadsheet exercise produced colour-coded statuses that nobody trusted, by the time it shipped, the underlying data was already 4–6 weeks stale.',
+    'CSMs lived in eight tabs. A typical customer review meant opening HubSpot, Zendesk, Stripe, Mixpanel, the usage dashboard, the renewal sheet, the QBR notes doc, and the Slack channel, for every account.',
     'Forecasts were unreliable. The VP’s renewal forecast was built in a spreadsheet from CSM-submitted estimates; variance against actuals was running ±22% per quarter.',
     'Playbooks didn’t run. The CS playbook library lived in Notion but was almost never triggered, because nothing automatically noticed when a playbook should fire.',
   ] },
   { type: 'subheading', text: 'Why Airtable' },
-  { type: 'p', text: 'Loomstack evaluated three category-leading customer success platforms and Airtable. The decision came down to four factors: (1) Loomstack already had clean data sitting in HubSpot, Zendesk and Stripe — what they needed wasn’t another database, but a coordination layer on top, (2) the CS ops team wanted to own the system and iterate on it weekly without a vendor implementation queue, (3) the health-score formula needed to be theirs, not a vendor’s black box, and (4) integration with Slack was non-negotiable. Airtable’s linked-record model, sync sources, and native Slack actions made it the right fit.' },
+  { type: 'p', text: 'Loomstack evaluated three category-leading customer success platforms and Airtable. The decision came down to four factors: (1) Loomstack already had clean data sitting in HubSpot, Zendesk and Stripe, what they needed wasn’t another database, but a coordination layer on top, (2) the CS ops team wanted to own the system and iterate on it weekly without a vendor implementation queue, (3) the health-score formula needed to be theirs, not a vendor’s black box, and (4) integration with Slack was non-negotiable. Airtable’s linked-record model, sync sources, and native Slack actions made it the right fit.' },
 
   { type: 'eyebrow', text: 'Approach' },
   { type: 'heading', text: 'How the implementation was run' },
-  { type: 'p', text: 'We delivered the implementation in four phases over nine weeks. A core working group — the VP of Customer Success, two senior CSMs (one per segment), the head of CS Ops, and a RevOps analyst — met twice a week to validate the data model, review prototypes, and approve each automation before it went live.' },
+  { type: 'p', text: 'We delivered the implementation in four phases over nine weeks. A core working group made up of the VP of Customer Success, two senior CSMs (one per segment), the head of CS Ops, and a RevOps analyst met twice a week to validate the data model, review prototypes, and approve each automation before it went live.' },
   { type: 'table', headers: ['Phase', 'Weeks', 'What we did', 'Output'], rows: [
     ['1. Discovery', '1–2', 'Shadowed CSMs through 5 customer reviews. Audited HubSpot, Zendesk, Stripe and the usage dashboard. Workshopped the health-score formula with leadership.', 'Process map, data dictionary, agreed health-score definition.'],
     ['2. Data model & sync', '3–4', 'Designed 11-table relational schema. Configured one-way syncs from HubSpot (accounts/contacts), Stripe (subscriptions) and Zendesk (tickets).', 'Live Airtable base with synced data; ER diagram.'],
@@ -1343,84 +1343,84 @@ const CASE_STUDIES = [
   ] },
   { type: 'subheading', text: 'Guiding principles' },
   { type: 'list', items: [
-    'Don’t replace systems of record. HubSpot, Zendesk and Stripe stay as systems of record. Airtable is the system of action on top — pulling from each, surfacing what matters, and writing back where appropriate.',
+    'Don’t replace systems of record. HubSpot, Zendesk and Stripe stay as systems of record. Airtable is the system of action on top: pulling from each, surfacing what matters, and writing back where appropriate.',
     'One health score, one definition. Health is a single formula owned by CS leadership, not three competing scores. Every place it appears in the workspace is the same calculation.',
-    'Surface signals, don’t bury them. An at-risk account should be impossible to miss. Risk surfaces on the CSM dashboard, the VP forecast, and as a Slack alert — within 24 hours of the signal.',
+    'Surface signals, don’t bury them. An at-risk account should be impossible to miss. Risk surfaces on the CSM dashboard, the VP forecast, and as a Slack alert, within 24 hours of the signal.',
     'CS Ops owns the base. The head of CS Ops and a RevOps analyst were trained as base administrators and now ship changes weekly without engineering or vendor involvement.',
   ] },
 
   { type: 'eyebrow', text: 'What Was Built' },
-  { type: 'heading', text: 'The Accounts table — the heart of the workspace' },
+  { type: 'heading', text: 'The Accounts table: the heart of the workspace' },
   { type: 'p', text: 'Every paying customer is a record in the Accounts table. From here, CSMs can see their book of business at a glance, sliced by segment, plan, health band, or renewal window. The grid below shows the production view used by the VP each Monday to triage the team’s at-risk accounts.' },
-  { type: 'img', file: 'case-content/airtable-saas/page5-img1.png', caption: 'Figure 1 — The Accounts grid view, grouped by segment and coloured by health band. The footer rolls up total ARR and counts at-risk / critical accounts across the visible records.' },
+  { type: 'img', file: 'case-content/airtable-saas/page5-img1.png', caption: 'Figure 1: The Accounts grid view, grouped by segment and coloured by health band. The footer rolls up total ARR and counts at-risk / critical accounts across the visible records.' },
   { type: 'subheading', text: 'Highlights of this view' },
   { type: 'list', items: [
     'Health is a coloured chip driven by a formula on the record. It’s the same calculation everywhere it’s shown.',
-    'ARR is a rollup from the linked Subscriptions table, which is one-way synced from Stripe — no double-entry, no drift.',
+    'ARR is a rollup from the linked Subscriptions table, which is one-way synced from Stripe, no double-entry, no drift.',
     'CSM is a linked record to the Staff table, so rebalancing books happens in one place and propagates everywhere.',
     'NPS (last) is a lookup from the most recent record in the NPS Responses table, refreshed automatically.',
   ] },
   { type: 'subheading', text: 'Two more views the team uses every day' },
   { type: 'p', text: 'Kanban by health band is the view the VP uses on Monday morning. Cards are stack-ordered by ARR, so the largest at-risk accounts always sit at the top. The colour bar on the left of each card encodes the band; the avatar in the corner is the CSM.' },
-  { type: 'img', file: 'case-content/airtable-saas/page6-img1.png', caption: 'Figure 2 — Kanban view of the Accounts table, grouped by health band. Healthy / At risk / Critical / Onboarding / Churned columns make book composition obvious in one glance.' },
+  { type: 'img', file: 'case-content/airtable-saas/page6-img1.png', caption: 'Figure 2: Kanban view of the Accounts table, grouped by health band. Healthy / At risk / Critical / Onboarding / Churned columns make book composition obvious in one glance.' },
   { type: 'subheading', text: 'The expanded account record' },
-  { type: 'p', text: 'Clicking any row opens the full account detail. This is the screen a CSM lives in during a customer review — every field a CSM might want is on one page, computed live from the underlying tables. The Health Score, Usage Trend, Open Tickets and Days to Renewal all turn red automatically when they cross their respective thresholds.' },
-  { type: 'img', file: 'case-content/airtable-saas/page7-img1.png', caption: 'Figure 3 — The expanded record view for ENT-00142 (Halcyon Robotics). Notice that the timeline at the bottom shows the champion-change event detected on Apr 18 that automatically triggered a save playbook.' },
+  { type: 'p', text: 'Clicking any row opens the full account detail. This is the screen a CSM lives in during a customer review, every field a CSM might want is on one page, computed live from the underlying tables. The Health Score, Usage Trend, Open Tickets and Days to Renewal all turn red automatically when they cross their respective thresholds.' },
+  { type: 'img', file: 'case-content/airtable-saas/page7-img1.png', caption: 'Figure 3: The expanded record view for ENT-00142 (Halcyon Robotics). Notice that the timeline at the bottom shows the champion-change event detected on Apr 18 that automatically triggered a save playbook.' },
 
   { type: 'eyebrow', text: 'The Data Model' },
   { type: 'heading', text: 'Eleven tables, one source of truth' },
-  { type: 'p', text: 'The base is built around Accounts as the central entity. Everything else — contacts, subscriptions, tickets, health scores, renewals, playbooks, NPS responses — links back to an account. This single design decision is what makes the rollups, formulas and automations possible.' },
-  { type: 'img', file: 'case-content/airtable-saas/page8-img1.png', caption: 'Figure 4 — The 11-table schema. Accounts is the hub; Subscriptions and Tickets are synced from Stripe and Zendesk respectively; the rest is native to Airtable.' },
+  { type: 'p', text: 'The base is built around Accounts as the central entity. Everything else (contacts, subscriptions, tickets, health scores, renewals, playbooks, NPS responses) links back to an account. This single design decision is what makes the rollups, formulas and automations possible.' },
+  { type: 'img', file: 'case-content/airtable-saas/page8-img1.png', caption: 'Figure 4: The 11-table schema. Accounts is the hub; Subscriptions and Tickets are synced from Stripe and Zendesk respectively; the rest is native to Airtable.' },
   { type: 'subheading', text: 'Field-level decisions worth calling out' },
   { type: 'list', items: [
     'health_score is a single formula combining four sub-scores: usage (40%), support (25%), NPS (20%), commercial signals (15%). Weights live in a Settings table so leadership can tune them without code changes.',
-    'health_band is a derived formula (Healthy / At risk / Critical) with bands at 80 and 60 — the only place the thresholds are defined in the entire workspace.',
+    'health_band is a derived formula (Healthy / At risk / Critical) with bands at 80 and 60, the only place the thresholds are defined in the entire workspace.',
     'days_to_renewal is a formula reading from renewal_date; the renewal automations all read this field, so date arithmetic lives in one place.',
-    'Subscriptions is one-way synced from Stripe — Airtable doesn’t write back. ARR is rolled up from synced rows.',
-    'Tickets is one-way synced from Zendesk every 15 minutes — open_tickets on the Account is a count rollup.',
+    'Subscriptions is one-way synced from Stripe: Airtable doesn’t write back. ARR is rolled up from synced rows.',
+    'Tickets is one-way synced from Zendesk every 15 minutes, open_tickets on the Account is a count rollup.',
   ] },
 
   { type: 'eyebrow', text: 'Interfaces' },
   { type: 'heading', text: 'Three role-based interfaces, one underlying base' },
-  { type: 'p', text: 'Different people on the CS org need different things from the same data. We built three Interfaces on top of the base, each tailored to a role. All three read from and write to the same tables — there is no duplication.' },
+  { type: 'p', text: 'Different people on the CS org need different things from the same data. We built three Interfaces on top of the base, each tailored to a role. All three read from and write to the same tables. There is no duplication.' },
   { type: 'subheading', text: 'The CSM Command Center' },
-  { type: 'p', text: 'This is the screen a CSM opens when they sit down at their desk. It surfaces the four KPIs that matter to them, the live health distribution of their book, a renewal forecast for the next six months, and a prioritised list of accounts that need attention today — all filtered to their book automatically.' },
-  { type: 'img', file: 'case-content/airtable-saas/page9-img1.png', caption: 'Figure 5 — The CSM Command Center, scoped to the logged-in CSM. KPI cards on top; health distribution and renewal forecast charts below; on the right, the accounts that need attention today, sorted by ARR × risk.' },
+  { type: 'p', text: 'This is the screen a CSM opens when they sit down at their desk. It surfaces the four KPIs that matter to them, the live health distribution of their book, a renewal forecast for the next six months, and a prioritised list of accounts that need attention today, all filtered to their book automatically.' },
+  { type: 'img', file: 'case-content/airtable-saas/page9-img1.png', caption: 'Figure 5: The CSM Command Center, scoped to the logged-in CSM. KPI cards on top; health distribution and renewal forecast charts below; on the right, the accounts that need attention today, sorted by ARR × risk.' },
   { type: 'subheading', text: 'Two other interfaces' },
   { type: 'list', items: [
-    'Account Detail Workspace — the single screen a CSM uses during a customer review. Live health timeline, ticket history, usage chart, contacts directory, active playbooks, and a notes stream — all on one scrollable page.',
-    'VP Forecast Room — read-only org-wide view for CS leadership. Net revenue retention trend, weighted renewal forecast by quarter, churn-risk dollar amount, and CSM utilisation. Replaces what used to be a manual Friday afternoon spreadsheet exercise.',
+    'Account Detail Workspace: the single screen a CSM uses during a customer review. Live health timeline, ticket history, usage chart, contacts directory, active playbooks, and a notes stream, all on one scrollable page.',
+    'VP Forecast Room: read-only org-wide view for CS leadership. Net revenue retention trend, weighted renewal forecast by quarter, churn-risk dollar amount, and CSM utilisation. Replaces what used to be a manual Friday afternoon spreadsheet exercise.',
   ] },
 
   { type: 'eyebrow', text: 'Automations' },
   { type: 'heading', text: 'Automating the work that catches churn early' },
-  { type: 'p', text: 'Nine automations remove roughly 3,700 manual touchpoints from the team’s month — but more importantly, they catch churn signals while there’s still time to act. None of them replace a CSM’s judgment; they make sure no signal slips through.' },
-  { type: 'img', file: 'case-content/airtable-saas/page10-img1.png', caption: 'Figure 6 — The Automations panel. Nine automations, eight currently enabled, with run counts visible per automation. The detail pane on the right shows the trigger and three actions of the renewal-playbook workflow.' },
+  { type: 'p', text: 'Nine automations remove roughly 3,700 manual touchpoints from the team’s month, but more importantly, they catch churn signals while there’s still time to act. None of them replace a CSM’s judgment; they make sure no signal slips through.' },
+  { type: 'img', file: 'case-content/airtable-saas/page10-img1.png', caption: 'Figure 6: The Automations panel. Nine automations, eight currently enabled, with run counts visible per automation. The detail pane on the right shows the trigger and three actions of the renewal-playbook workflow.' },
   { type: 'subheading', text: 'The automation catalogue' },
   { type: 'p', text: 'Each automation is owned by a named person on the CS Ops team, documented in a Notion runbook, and reviewed monthly.' },
   { type: 'table', headers: ['#', 'Automation', 'Trigger', 'Actions', 'Replaces'], rows: [
     ['1', 'Health score recompute (nightly)', 'Schedule: 2:00 AM, every night', 'Runs the health-score formula across all accounts; writes a row into Health Scores; updates health_band.', 'Quarterly spreadsheet exercise'],
-    ['2', 'Score drop > 15 pts → Alert CSM', 'Health Scores.delta_30d < −15', 'Slack DM to CSM + tags account as ‘momentum loss’; logs into the activity timeline.', 'Nothing — drops were missed'],
+    ['2', 'Score drop > 15 pts → Alert CSM', 'Health Scores.delta_30d < −15', 'Slack DM to CSM + tags account as ‘momentum loss’; logs into the activity timeline.', 'Nothing: drops were missed'],
     ['3', 'Renewal in 90/60/30 days → Playbook', 'Accounts.days_to_renewal IN (90, 60, 30)', 'Branches on plan + health to pick playbook (e.g. Enterprise + <80 → exec save). Spawns 5 linked tasks.', 'Manual playbook lookup in Notion'],
     ['4', 'Trial ending in 7 days → Sales handoff', 'Subscriptions.status = trial AND term_end in 7 days', 'Creates handoff record; assigns AE; Slack DM to AE with usage summary; books a calendar slot.', 'CSM-to-AE handoff via email'],
     ['5', 'New ticket P1 → Slack war room', 'Tickets.priority = P1 (synced from Zendesk)', 'Posts to #cs-warroom; tags CSM, AE, support engineer; creates a Linear issue if flagged.', 'Manual Slack post by support'],
     ['6', 'NPS detractor → Recovery sequence', 'NPS Responses.score ≤ 6', 'Sets account flag; emails CSM with NPS comment; creates a follow-up task due in 48 hours.', 'NPS responses going unread'],
     ['7', 'Usage anomaly → Tag account', 'Usage signal: WAU drop > 25% w/w', 'Sets a ‘usage_drop’ tag; surfaces it on CSM dashboard ‘Needs attention’ panel.', 'Caught (sometimes) at quarter-end'],
     ['8', 'Onboarding day 14/30/60 check-ins', 'Schedule: nightly scan of accounts in Onboarding', 'Spawns the right check-in task at each milestone; emails customer with the day-30 product-tour link.', 'Three different CSM templates'],
-    ['9', 'Champion change detected → Playbook', 'Contacts.is_primary changes OR HubSpot role-change signal', 'Creates ‘Champion change’ playbook record; spawns a 5-step exec-meeting save plan.', 'Nothing — usually noticed too late'],
+    ['9', 'Champion change detected → Playbook', 'Contacts.is_primary changes OR HubSpot role-change signal', 'Creates ‘Champion change’ playbook record; spawns a 5-step exec-meeting save plan.', 'Nothing: usually noticed too late'],
   ] },
-  { type: 'subheading', text: 'Worked example — automation #3 in detail' },
+  { type: 'subheading', text: 'Worked example: automation #3 in detail' },
   { type: 'list', items: [
     'Trigger: nightly check on every Account where days_to_renewal equals exactly 90, 60, or 30 and status = Active.',
-    'Action 1 — Conditional branch: evaluates plan + health. Enterprise + health < 80 routes to Playbook A: Executive Save; everything else routes to Playbook B: Standard Renewal.',
-    'Action 2 — Create Playbook + tasks: writes a row in the Playbooks table linked to the account, then spawns 5 tasks with due dates working back from the renewal date.',
-    'Action 3 — Notify: Slack DM to the CSM with a deep link to the account; appends the record to the VP’s weekly forecast view.',
-    'Replaced: CSMs manually checking renewal calendars and looking up playbooks in Notion — frequently the wrong playbook, frequently too late.',
+    'Action 1 (Conditional branch): evaluates plan + health. Enterprise + health < 80 routes to Playbook A: Executive Save; everything else routes to Playbook B: Standard Renewal.',
+    'Action 2 (Create Playbook + tasks): writes a row in the Playbooks table linked to the account, then spawns 5 tasks with due dates working back from the renewal date.',
+    'Action 3 (Notify): Slack DM to the CSM with a deep link to the account; appends the record to the VP’s weekly forecast view.',
+    'Replaced: CSMs manually checking renewal calendars and looking up playbooks in Notion (frequently the wrong playbook, frequently too late).',
   ] },
 
   { type: 'eyebrow', text: 'Integrations' },
   { type: 'heading', text: 'How the workspace connects to the SaaS stack' },
-  { type: 'p', text: 'Airtable doesn’t replace HubSpot, Zendesk, Stripe, or the product analytics warehouse — it coordinates them.' },
+  { type: 'p', text: 'Airtable doesn’t replace HubSpot, Zendesk, Stripe, or the product analytics warehouse. It coordinates them.' },
   { type: 'table', headers: ['System', 'Direction', 'What flows', 'Mechanism'], rows: [
     ['HubSpot', 'One-way (in)', 'Accounts and Contacts sync nightly. Field-level mapping for industry, employee count, lifecycle stage and owner.', 'Airtable HubSpot sync source'],
     ['Stripe', 'One-way (in)', 'Subscription rows sync every 4 hours. ARR rolls up from subscription records to the account.', 'Stripe → Airtable via Zapier'],
@@ -1444,26 +1444,26 @@ const CASE_STUDIES = [
     ['Net revenue retention (NRR)', '102%', '114%', '+12 pts'],
     ['Average risk-detection lag', '51 days', '4 days', '−92%'],
     ['Renewal forecast variance', '± 22%', '± 6%', '−73%'],
-    ['At-risk ARR identified earlier', '—', '$1.2M (Q1)', '+ saved revenue'],
+    ['At-risk ARR identified earlier', 'n/a', '$1.2M (Q1)', '+ saved revenue'],
     ['CSM time spent on reporting', '≈ 6 hr / week', '≈ 45 min / week', '−87%'],
     ['Playbook trigger rate', '≈ 14% of cases', '100% of cases', '+ coverage'],
-    ['Automated touchpoints / month', '0', '3,742 across 8 active flows', '—'],
-    ['CSM adoption (firm-wide)', '—', '14 / 14 active on day 1', '100%'],
+    ['Automated touchpoints / month', '0', '3,742 across 8 active flows', 'n/a'],
+    ['CSM adoption (firm-wide)', 'n/a', '14 / 14 active on day 1', '100%'],
   ] },
   { type: 'subheading', text: 'In the words of the team' },
-  { type: 'quote', text: 'The thing that changed isn’t really the dashboard — it’s that the team has time. My CSMs aren’t building reports any more, they’re actually talking to customers. And when an account starts going sideways, we know about it the next morning, not three weeks later when the renewal blows up. We saved $1.2M of ARR last quarter that would otherwise have walked out the door.', attribution: 'VP of Customer Success — Loomstack Inc.' },
+  { type: 'quote', text: 'The thing that changed isn’t really the dashboard: it’s that the team has time. My CSMs aren’t building reports any more, they’re actually talking to customers. And when an account starts going sideways, we know about it the next morning, not three weeks later when the renewal blows up. We saved $1.2M of ARR last quarter that would otherwise have walked out the door.', attribution: 'VP of Customer Success, Loomstack Inc.' },
   { type: 'subheading', text: 'What we’d do again, and what we’d change' },
   { type: 'list', items: [
     'Worked well: co-designing the health-score formula with leadership in week 1. Because they owned it from day one, nobody argued with the scores once they started shipping.',
     'Worked well: shipping the CSM Command Center first and the VP Forecast Room last. Adoption follows the front line.',
     'Would change: we underestimated the data-cleanup burden in HubSpot during phase 2. About 11% of accounts had missing or stale ownership; cleaning that up consumed three days we hadn’t planned for.',
-    'Would change: add an in-product feedback widget that writes directly to the NPS Responses table — the current Typeform-based flow has a higher drop-off than we’d like.',
+    'Would change: add an in-product feedback widget that writes directly to the NPS Responses table. The current Typeform-based flow has a higher drop-off than we’d like.',
   ] },
 ]
   },
   {
     id: 'powerbi-bnb-heaven',
-    title: 'Power BI — Turning Five Booking Systems Into One Revenue Engine',
+    title: 'Power BI: Turning Five Booking Systems Into One Revenue Engine',
     description: 'A governed Power BI model and two dashboards that replaced three days of manual owner-statement assembly with an automated daily refresh for a short-term rental portfolio.',
     source: 'Portfolio',
     tags: [
@@ -1476,7 +1476,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'BnB Heaven — short-term rental & boutique B&B management · 6-week engagement'
+        text: 'BnB Heaven: short-term rental & boutique B&B management · 6-week engagement'
       },
       {
         type: 'stats',
@@ -1501,7 +1501,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'BnB Heaven manages a portfolio of short-term rentals and boutique B&Bs across the UK. Bookings arrived from Airbnb, Booking.com, Vrbo and their own direct site; cleaning and turnovers lived in the ops tool; finance sat in the accounting system. Owner statements and the monthly board pack took three days to assemble by hand. This case study shows how we consolidated everything into one governed Power BI model with two dashboards — cutting reporting effort by roughly 90% and giving the team occupancy, rate and channel-profitability numbers they finally trust.'
+        text: 'BnB Heaven manages a portfolio of short-term rentals and boutique B&Bs across the UK. Bookings arrived from Airbnb, Booking.com, Vrbo and their own direct site; cleaning and turnovers lived in the ops tool; finance sat in the accounting system. Owner statements and the monthly board pack took three days to assemble by hand. This case study shows how we consolidated everything into one governed Power BI model with two dashboards, cutting reporting effort by roughly 90% and giving the team occupancy, rate and channel-profitability numbers they finally trust.'
       },
       {
         type: 'eyebrow',
@@ -1515,7 +1515,7 @@ const CASE_STUDIES = [
         type: 'list',
         items: [
           'Bookings scattered across platforms: Revenue lived in Airbnb, Booking.com, Vrbo and the direct site, with turnovers in the PMS and money in accounting. Nobody could see occupancy, nightly rate and net revenue in one place without exporting several files first.',
-          'Owner statements ate three days a month: A manager rebuilt every owner statement and the board pack by hand — copy, paste, reconcile, repeat. By the time they were ready the numbers were weeks old, and one slip meant redoing the lot.',
+          'Owner statements ate three days a month: A manager rebuilt every owner statement and the board pack by hand (copy, paste, reconcile, repeat). By the time they were ready the numbers were weeks old, and one slip meant redoing the lot.',
           'No shared version of the truth: Channel profitability after platform fees was invisible. It wasn’t clear which channels actually paid off once commissions were taken out, so pricing and listing decisions were made on gut feel.'
         ]
       },
@@ -1530,7 +1530,7 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'Discovery & metric definitions (week 1): Workshops to agree exactly what occupancy, ADR, RevPAR and net-of-fees revenue mean — one signed-off definition each, so the model has a single source of truth.',
+          'Discovery & metric definitions (week 1): Workshops to agree exactly what occupancy, ADR, RevPAR and net-of-fees revenue mean (one signed-off definition each, so the model has a single source of truth).',
           'Connect & clean with Power Query (weeks 2–3): ETL into all five sources, standardised property and channel keys, and consistent handling of platform fees, refunds and cancellations so figures reconcile to the accounts.',
           'Star-schema model & DAX (weeks 3–4): A clean fact-and-dimension model with a shared date table, reusable DAX measures (occupancy, ADR, RevPAR, YoY, target) and row-level security so each owner sees only their own properties.',
           'Dashboards, refresh & handover (weeks 5–6): Two role-based dashboards, an on-premises gateway for the automated 06:00 refresh, plus training and a short written guide so the team can extend the model themselves.'
@@ -1551,7 +1551,7 @@ const CASE_STUDIES = [
       {
         type: 'img',
         file: 'case-content/powerbi-bnb-heaven/image1.png',
-        caption: 'Revenue & Occupancy — the executive overview page, live in Power BI Desktop: KPIs, revenue trend, channel mix, property and location breakdowns and target attainment.'
+        caption: 'Revenue & Occupancy: the executive overview page, live in Power BI Desktop, with KPIs, revenue trend, channel mix, property and location breakdowns and target attainment.'
       },
       {
         type: 'subheading',
@@ -1564,7 +1564,7 @@ const CASE_STUDIES = [
       {
         type: 'img',
         file: 'case-content/powerbi-bnb-heaven/image2.png',
-        caption: 'Operations & Guest Experience — bookings vs occupancy, manager revenue, booking funnel and 5-star reviews by location.'
+        caption: 'Operations & Guest Experience: bookings vs occupancy, manager revenue, booking funnel and 5-star reviews by location.'
       },
       {
         type: 'list',
@@ -1671,13 +1671,13 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'With channel profitability visible net of platform fees, BnB Heaven leaned into direct bookings and trimmed commission-heavy inventory — finishing the year 6% ahead of target.'
+        text: 'With channel profitability visible net of platform fees, BnB Heaven leaned into direct bookings and trimmed commission-heavy inventory, finishing the year 6% ahead of target.'
       }
     ]
   },
     {
     id: 'powerbi-healthcare',
-    title: 'Power BI — One Live View of a Multi-Site Clinic Network',
+    title: 'Power BI: One Live View of a Multi-Site Clinic Network',
     description: 'A governed Power BI model unifying scheduling, EHR, billing and finance across four systems into two role-based dashboards refreshed every morning.',
     source: 'Portfolio',
     tags: [
@@ -1690,7 +1690,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Multi-site clinic network — scheduling, EHR, billing & finance unified · 6-week engagement'
+        text: 'Multi-site clinic network: scheduling, EHR, billing & finance unified · 6-week engagement'
       },
       {
         type: 'stats',
@@ -1715,12 +1715,12 @@ const CASE_STUDIES = [
       },
       {
         type: 'quote',
-        text: 'Reports that used to take days across sites now land by 6am — and we act on them the same morning.',
+        text: 'Reports that used to take days across sites now land by 6am, and we act on them the same morning.',
         attribution: 'Operations Director'
       },
       {
         type: 'p',
-        text: 'The network ran on four disconnected systems — scheduling, the EHR, billing/claims and finance. Leadership could never see patient flow, provider utilisation and revenue-cycle health in the same place, and each site’s monthly report was rebuilt by hand. I consolidated all four into one governed Power BI model behind two role-based dashboards, refreshed automatically every morning — turning days of manual reporting into a screen the team reads with their coffee.'
+        text: 'The network ran on four disconnected systems: scheduling, the EHR, billing/claims and finance. Leadership could never see patient flow, provider utilisation and revenue-cycle health in the same place, and each site’s monthly report was rebuilt by hand. I consolidated all four into one governed Power BI model behind two role-based dashboards, refreshed automatically every morning, turning days of manual reporting into a screen the team reads with their coffee.'
       },
       {
         type: 'eyebrow',
@@ -1730,13 +1730,13 @@ const CASE_STUDIES = [
         type: 'list',
         items: [
           'Siloed systems: Scheduling, EHR, billing and finance never lined up, so no-shows, utilisation and collections couldn’t be seen together.',
-          'Manual per-site reporting: Every site’s pack was rebuilt by hand — weeks behind by the time it landed, and easy to get wrong.',
+          'Manual per-site reporting: Every site’s pack was rebuilt by hand (weeks behind by the time it landed, and easy to get wrong).',
           'Invisible revenue leakage: Denials, AR aging and slow collections weren’t tracked in one place, so cash slipped through unnoticed.'
         ]
       },
       {
         type: 'eyebrow',
-        text: 'Dashboard One — Patient Flow & Utilisation'
+        text: 'Dashboard One: Patient Flow & Utilisation'
       },
       {
         type: 'p',
@@ -1745,7 +1745,7 @@ const CASE_STUDIES = [
       {
         type: 'img',
         file: 'case-content/powerbi-healthcare/image1.png',
-        caption: 'Patient Flow & Utilisation — Executive Overview'
+        caption: 'Patient Flow & Utilisation: Executive Overview'
       },
       {
         type: 'list',
@@ -1753,12 +1753,12 @@ const CASE_STUDIES = [
           'Utilisation heatmap: Spots under-used clinic slots by day and hour at a glance.',
           'Sites & departments: Ranks volume and no-shows together, site by site.',
           'Volume vs utilisation: Pairs appointment growth with the utilisation trend.',
-          'Capacity gauge: Tracks attainment against the plan — currently 96%.'
+          'Capacity gauge: Tracks attainment against the plan, currently 96%.'
         ]
       },
       {
         type: 'eyebrow',
-        text: 'Dashboard Two — Revenue Cycle & Claims'
+        text: 'Dashboard Two: Revenue Cycle & Claims'
       },
       {
         type: 'p',
@@ -1848,7 +1848,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'With utilisation and no-shows visible by site and hour, the network reallocated clinic slots and tightened reminders — lifting utilisation five points while trimming no-shows, and replacing days of manual work with an automatic 6am refresh reconciled to the ledger.'
+        text: 'With utilisation and no-shows visible by site and hour, the network reallocated clinic slots and tightened reminders, lifting utilisation five points while trimming no-shows, and replacing days of manual work with an automatic 6am refresh reconciled to the ledger.'
       }
     ]
   },
@@ -3220,11 +3220,11 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Load quote requests landed in a shared quotes@ inbox — around 40 a day. A dispatcher would read the request, log into the carrier portal (no public API for what they needed), check which trucks were available on that lane, cross-reference an internal rate sheet, and reply with three carriers and a price. Six to nine minutes each, every time.'
+        text: 'Load quote requests landed in a shared quotes@ inbox, around 40 a day. A dispatcher would read the request, log into the carrier portal (no public API for what they needed), check which trucks were available on that lane, cross-reference an internal rate sheet, and reply with three carriers and a price. Six to nine minutes each, every time.'
       },
       {
         type: 'p',
-        text: 'Their first automation attempt was a Python script on a five-minute cron driving a hosted agent platform. It worked about 70% of the time, cost roughly $0.42 per request, and failed silently — they usually found out from a customer, not a log.'
+        text: 'Their first automation attempt was a Python script on a five-minute cron driving a hosted agent platform. It worked about 70% of the time, cost roughly $0.42 per request, and failed silently. They usually found out from a customer, not a log.'
       },
       {
         type: 'p',
@@ -3234,7 +3234,7 @@ const CASE_STUDIES = [
         type: 'list',
         items: [
           'Polling. A 0–5 minute delay before anything started, and the cron had no idea what the previous run had done.',
-          'Re-planning on every run. The agent asked an LLM to navigate the portal from scratch each time, so any UI jitter became a fresh failure mode — and every run paid full navigation token cost.',
+          'Re-planning on every run. The agent asked an LLM to navigate the portal from scratch each time, so any UI jitter became a fresh failure mode, and every run paid full navigation token cost.',
           'No durable state. Nothing recorded which requests had been handled, so retries either duplicated replies or never happened.'
         ]
       },
@@ -3244,7 +3244,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Everything runs as a small Python service on a single Fly.io machine — a FastAPI app that receives Gmail push notifications, and a Celery worker pool that does the actual work.'
+        text: 'Everything runs as a small Python service on a single Fly.io machine, a FastAPI app that receives Gmail push notifications, and a Celery worker pool that does the actual work.'
       },
       {
         type: 'img',
@@ -3270,7 +3270,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Cached navigation instead of per-run LLM planning. Playwright drives a Browserbase session with stored credentials and a persistent context. The first time the portal layout is seen, an LLM produces a navigation plan — a sequence of selectors and actions — which is hashed against the page structure and cached in Postgres. Every subsequent run replays the cached plan with plain Playwright calls: no LLM, no tokens, sub-second steps. Only when a replay step fails does the code fall back to re-planning, write the new plan, and post a Slack notice that the portal changed. That\'s the same idea as Skyvern\'s Route Memorization, built explicitly so the failure path is visible rather than silent.'
+        text: 'Cached navigation instead of per-run LLM planning. Playwright drives a Browserbase session with stored credentials and a persistent context. The first time the portal layout is seen, an LLM produces a navigation plan, a sequence of selectors and actions, which is hashed against the page structure and cached in Postgres. Every subsequent run replays the cached plan with plain Playwright calls: no LLM, no tokens, sub-second steps. Only when a replay step fails does the code fall back to re-planning, write the new plan, and post a Slack notice that the portal changed. That\'s the same idea as Skyvern\'s Route Memorization, built explicitly so the failure path is visible rather than silent.'
       },
       {
         type: 'p',
@@ -3341,7 +3341,7 @@ const CASE_STUDIES = [
           [
             'Silent failures',
             'routine',
-            'none — every failure alerts'
+            'none, every failure alerts'
           ]
         ]
       },
@@ -3395,7 +3395,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Twenty-two suppliers were on the approved list. In practice the officer got through five or six before the purchase order had to go out, and the same five or six every time — the ones with the least annoying logins.'
+        text: 'Twenty-two suppliers were on the approved list. In practice the officer got through five or six before the purchase order had to go out, and the same five or six every time, the ones with the least annoying logins.'
       },
       {
         type: 'p',
@@ -3411,7 +3411,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Vendors don\'t agree on what anything is called. Metformin HCl USP, metformin hydrochloride BP/EP, or a bare product code — same molecule, three listings, no shared key except the CAS number buried somewhere on the page.'
+        text: 'Vendors don\'t agree on what anything is called. Metformin HCl USP, metformin hydrochloride BP/EP, or a bare product code, same molecule, three listings, no shared key except the CAS number buried somewhere on the page.'
       },
       {
         type: 'p',
@@ -3419,7 +3419,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'And it\'s a regulated purchase. Pharmacopoeia grade, GMP status, and whether the supplier holds a DMF or CEP are pass/fail gates, not preferences. A cheap quote from a vendor without the right filing isn\'t a cheap quote — it\'s not a quote at all. Every choice has to survive an audit two years later.'
+        text: 'And it\'s a regulated purchase. Pharmacopoeia grade, GMP status, and whether the supplier holds a DMF or CEP are pass/fail gates, not preferences. A cheap quote from a vendor without the right filing isn\'t a cheap quote. It\'s not a quote at all. Every choice has to survive an audit two years later.'
       },
       {
         type: 'heading',
@@ -3432,7 +3432,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'A reorder request arrives as a CAS number, a grade, and a quantity. Before anything opens a browser, that gets resolved against an internal ingredient register — deterministically, on the CAS number, never on the product name.'
+        text: 'A reorder request arrives as a CAS number, a grade, and a quantity. Before anything opens a browser, that gets resolved against an internal ingredient register, deterministically, on the CAS number, never on the product name.'
       },
       {
         type: 'p',
@@ -3444,7 +3444,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Everything then funnels back into a single normalisation pass — one model call, one strict schema, twenty-two vendors reduced to comparable rows: unit price, currency, unit of measure, MOQ, lead time, incoterm, grade, GMP status, DMF reference.'
+        text: 'Everything then funnels back into a single normalisation pass, one model call, one strict schema, twenty-two vendors reduced to comparable rows: unit price, currency, unit of measure, MOQ, lead time, incoterm, grade, GMP status, DMF reference.'
       },
       {
         type: 'p',
@@ -3468,7 +3468,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Skyvern can read credentials from several providers, and the client was already on 1Password. The alternative — standing up a dedicated secrets store — would have meant twenty-two sets of credentials living in two places, which is worse security dressed up as better engineering.'
+        text: 'Skyvern can read credentials from several providers, and the client was already on 1Password. The alternative, standing up a dedicated secrets store, would have meant twenty-two sets of credentials living in two places, which is worse security dressed up as better engineering.'
       },
       {
         type: 'subheading',
@@ -3852,7 +3852,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Supplier contracts (hotel, venue, bus) were being reviewed and filed by hand. That was slow, and important terms (cancellation clauses, fees, tax rates) could get missed, and contracts sometimes ended up in the wrong Drive folder — making them hard to find later for billing or disputes.'
+        text: 'Supplier contracts (hotel, venue, bus) were being reviewed and filed by hand. That was slow, and important terms (cancellation clauses, fees, tax rates) could get missed, and contracts sometimes ended up in the wrong Drive folder, making them hard to find later for billing or disputes.'
       },
       {
         type: 'heading',
@@ -3877,7 +3877,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'User uploads the PDF and picks a category (Hotel / Venue / Buses / Other). The text is extracted from the PDF and sent to Claude (Anthropic’s AI), which pulls out the specific terms that category requires — e.g. for Hotel: room rate, attrition clause, cancellation terms, tax rate. Each term comes back marked Found or Not Found.'
+        text: 'User uploads the PDF and picks a category (Hotel / Venue / Buses / Other). The text is extracted from the PDF and sent to Claude (Anthropic’s AI), which pulls out the specific terms that category requires, e.g. for Hotel: room rate, attrition clause, cancellation terms, tax rate. Each term comes back marked Found or Not Found.'
       },
       {
         type: 'subheading',
@@ -3885,7 +3885,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Anything Not Found must be manually checked and ticked off by a person before the contract can be filed — the tool never files something incomplete without a human saying it’s okay.'
+        text: 'Anything Not Found must be manually checked and ticked off by a person before the contract can be filed. The tool never files something incomplete without a human saying it’s okay.'
       },
       {
         type: 'subheading',
@@ -3893,7 +3893,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Using the contract’s group name (e.g. “State University - Alpha Chapter”) and date, the tool works out the correct folder path — Year → Season → University → Chapter → Category — and uploads the PDF there automatically. It only creates the last two folder levels itself; everything above that must already exist in Drive. Every filing is logged (who, what, where).'
+        text: 'Using the contract’s group name (e.g. “State University - Alpha Chapter”) and date, the tool works out the correct folder path, Year → Season → University → Chapter → Category, and uploads the PDF there automatically. It only creates the last two folder levels itself; everything above that must already exist in Drive. Every filing is logged (who, what, where).'
       },
       {
         type: 'heading',
@@ -3920,7 +3920,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'An internal tool for a group travel company. Each student travel group keeps two separate tabs in Google Sheets — a Paid List (who paid, how much, and their payment status) and a Rooming List (who’s actually assigned to a room). Those two lists can drift apart: someone pays but never gets added to a room, someone’s on the rooming list but never paid, or a name is slightly misspelled between the two. Catching that manually in a 100+ row spreadsheet is slow and error-prone.'
+        text: 'An internal tool for a group travel company. Each student travel group keeps two separate tabs in Google Sheets, a Paid List (who paid, how much, and their payment status) and a Rooming List (who’s actually assigned to a room). Those two lists can drift apart: someone pays but never gets added to a room, someone’s on the rooming list but never paid, or a name is slightly misspelled between the two. Catching that manually in a 100+ row spreadsheet is slow and error-prone.'
       },
       {
         type: 'heading',
@@ -3933,9 +3933,9 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'Matched — paid in full and on the rooming list. No action needed.',
-          'Paid List issues (🔴/🟨) — on the Paid List but missing from the Rooming List, or not marked “Paid in Full.”',
-          'Rooming List issues (🔴/🟨) — on the Rooming List but missing from the Paid List.'
+          'Matched: paid in full and on the rooming list. No action needed.',
+          'Paid List issues (🔴/🟨): on the Paid List but missing from the Rooming List, or not marked “Paid in Full.”',
+          'Rooming List issues (🔴/🟨): on the Rooming List but missing from the Paid List.'
         ]
       },
       {
@@ -3965,16 +3965,16 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'Parse both CSVs — the Rooming List always has a header row; the Paid List usually doesn’t, so the parser detects whichever shape it’s in (including an optional leading row-number column, and an “Amount” or “Payment” column).',
+          'Parse both CSVs: the Rooming List always has a header row; the Paid List usually doesn’t, so the parser detects whichever shape it’s in (including an optional leading row-number column, and an “Amount” or “Payment” column).',
           'Flatten each rooming-list row into individual occupants (up to 2 per room).',
           'Match people by exact, case-insensitive name between the two lists.',
-          'For anyone with no exact match, check the other list for a close-but-not-exact name (same last name, or a small edit-distance typo/nickname) — if found, flag it yellow (“Similar Name Found”) on both sides as a precaution; if truly nowhere on the other list, flag it red as a real discrepancy. A matched person who isn’t “Paid in Full” is also red.',
+          'For anyone with no exact match, check the other list for a close-but-not-exact name (same last name, or a small edit-distance typo/nickname), if found, flag it yellow (“Similar Name Found”) on both sides as a precaution; if truly nowhere on the other list, flag it red as a real discrepancy. A matched person who isn’t “Paid in Full” is also red.',
           'Results render as sortable tables in the browser, each downloadable as its own CSV.'
         ]
       },
       {
         type: 'p',
-        text: 'Everything runs stateless — nothing is saved to disk; each upload is compare-and-respond.'
+        text: 'Everything runs stateless: nothing is saved to disk; each upload is compare-and-respond.'
       },
       {
         type: 'heading',
@@ -3989,7 +3989,7 @@ const CASE_STUDIES = [
   {
     id: 'ai-lead-qualification-sales-routing-agent',
     title: 'AI Lead Qualification & Sales Routing Agent',
-    description: 'An end-to-end system for automated inbound lead scoring, enrichment, and real-time sales routing — powered by GPT-4.1 and n8n.',
+    description: 'An end-to-end system for automated inbound lead scoring, enrichment, and real-time sales routing, powered by GPT-4.1 and n8n.',
     source: 'Notion',
     url: 'https://hip-buttercup-705.notion.site/AI-Lead-Qualification-Case-Study-38bb33f9293f80f382aede8fa1236954?source=copy_link',
     tags: [
@@ -4017,7 +4017,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Most sales teams receive inbound leads from multiple sources — website contact forms, paid ad landing pages, partner referrals, and API integrations — and have no consistent, fast way to decide which ones deserve immediate attention.'
+        text: 'Most sales teams receive inbound leads from multiple sources (website contact forms, paid ad landing pages, partner referrals, and API integrations) and have no consistent, fast way to decide which ones deserve immediate attention.'
       },
       {
         type: 'p',
@@ -4026,11 +4026,11 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'No consistent scoring methodology — qualification decisions depended on whoever happened to read the form first, leading to missed opportunities and wasted rep time',
-          'Hot leads were going cold — without instant routing, a prospect who said “ASAP, budget approved” could wait hours before a rep saw the submission',
-          'Company intelligence had to be looked up manually — reps spent time researching the company behind an email address before they could even decide whether to respond',
-          'No tiered escalation — there was no system to distinguish between a lead that needed a call in the next hour versus one that could go into a drip sequence',
-          'No unified lead record — repeat contacts from the same email were logged as separate entries, losing the interaction history'
+          'No consistent scoring methodology: qualification decisions depended on whoever happened to read the form first, leading to missed opportunities and wasted rep time',
+          'Hot leads were going cold: without instant routing, a prospect who said “ASAP, budget approved” could wait hours before a rep saw the submission',
+          'Company intelligence had to be looked up manually: reps spent time researching the company behind an email address before they could even decide whether to respond',
+          'No tiered escalation: there was no system to distinguish between a lead that needed a call in the next hour versus one that could go into a drip sequence',
+          'No unified lead record: repeat contacts from the same email were logged as separate entries, losing the interaction history'
         ]
       },
       {
@@ -4043,7 +4043,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'The system is composed of three interconnected layers: a lead intake API, a backend processing pipeline, and a real-time alerting engine — all orchestrated through n8n and a Node.js Express server.'
+        text: 'The system is composed of three interconnected layers: a lead intake API, a backend processing pipeline, and a real-time alerting engine, all orchestrated through n8n and a Node.js Express server.'
       },
       {
         type: 'subheading',
@@ -4054,7 +4054,7 @@ const CASE_STUDIES = [
         items: [
           'Accepts inbound leads via a hosted landing page form, a direct REST API call, an embedded form webhook, or an n8n-triggered workflow',
           'Validates required fields (name, email) and normalises all input before processing begins',
-          'Detects repeat submissions from the same email address — existing records are updated with the new interaction rather than duplicated',
+          'Detects repeat submissions from the same email address: existing records are updated with the new interaction rather than duplicated',
           'Supports a source field to track which channel each lead arrived from (website, paid ad, referral, n8n, etc.)'
         ]
       },
@@ -4068,7 +4068,7 @@ const CASE_STUDIES = [
           'Each lead is analysed by GPT-4.1 across five dimensions: budget signals, urgency language, purchase intent, ICP (Ideal Customer Profile) match, and email quality',
           'Returns a structured score from 0–100 and classifies the lead as HOT, WARM, or COLD',
           'Produces a 12-field analysis object: score, category, intent, budget, urgency, ICP match, AI summary, recommended action, key signals, risk factors, estimated deal size, and sales rep assignment',
-          'Falls back to a rule-based keyword scoring engine if the OpenAI API is unavailable — guaranteeing zero-downtime operation'
+          'Falls back to a rule-based keyword scoring engine if the OpenAI API is unavailable, guaranteeing zero-downtime operation'
         ]
       },
       {
@@ -4080,7 +4080,7 @@ const CASE_STUDIES = [
         items: [
           'Extracts the company domain from the lead’s email address and enriches it with external company intelligence',
           'With Clearbit: pulls company name, industry, employee count, estimated revenue, tech stack, LinkedIn URL, and headquarters location',
-          'Without Clearbit: performs basic domain analysis — infers company name, identifies TLD-based region, and confirms it is a business (not free) email',
+          'Without Clearbit: performs basic domain analysis, infers company name, identifies TLD-based region, and confirms it is a business (not free) email',
           'Free email providers (Gmail, Yahoo, Hotmail, etc.) are skipped for enrichment and flagged accordingly'
         ]
       },
@@ -4091,7 +4091,7 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'Fires Slack alerts for every HOT lead — rich Block Kit messages, including all 12 analysis fields, AI summary, estimated deal size, and assigned sales team',
+          'Fires Slack alerts for every HOT lead: rich Block Kit messages, including all 12 analysis fields, AI summary, estimated deal size, and assigned sales team',
           'Routes WARM leads to a nurture queue for email sequence follow-up',
           'Archives COLD leads automatically with no sales action triggered',
           'All notification steps run asynchronously, so they never delay the API response back to the form or caller'
@@ -4106,7 +4106,7 @@ const CASE_STUDIES = [
         items: [
           'Pushes every processed lead to Airtable with 18 mapped fields, including all analysis outputs',
           'Designed to be swapped for HubSpot or any other CRM with a single service file change',
-          'Skips gracefully if CRM credentials are not configured — the pipeline continues without interruption'
+          'Skips gracefully if CRM credentials are not configured: the pipeline continues without interruption'
         ]
       },
       {
@@ -4116,13 +4116,13 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'Hot leads reach a rep in seconds, not hours — the moment a high-intent submission arrives, a Slack alert lands in the right channel with everything the rep needs to act',
-          'Consistent, bias-free scoring — every lead is evaluated against the same GPT-4.1 criteria, removing the inconsistency of human triage',
-          'Company intelligence without manual research — reps open a Slack alert and already know the company’s industry, size, and tech stack',
-          'Zero-downtime resilience — if the AI API goes down, rule-based fallback scoring keeps the pipeline running',
-          'Unified lead history — repeat contacts are detected, and interactions are appended to the original record, preserving full context',
-          'Clean data from day one — lead sources are tracked, free email submissions are flagged, and all records share a consistent schema',
-          'Scalable without config changes — new lead sources plug in via the webhook endpoint; the pipeline handles volume automatically'
+          'Hot leads reach a rep in seconds, not hours, the moment a high-intent submission arrives, a Slack alert lands in the right channel with everything the rep needs to act',
+          'Consistent, bias-free scoring: every lead is evaluated against the same GPT-4.1 criteria, removing the inconsistency of human triage',
+          'Company intelligence without manual research: reps open a Slack alert and already know the company’s industry, size, and tech stack',
+          'Zero-downtime resilience: if the AI API goes down, rule-based fallback scoring keeps the pipeline running',
+          'Unified lead history: repeat contacts are detected, and interactions are appended to the original record, preserving full context',
+          'Clean data from day one: lead sources are tracked, free email submissions are flagged, and all records share a consistent schema',
+          'Scalable without config changes: new lead sources plug in via the webhook endpoint; the pipeline handles volume automatically'
         ]
       },
       {
@@ -4132,16 +4132,16 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'A lead arrives via the landing page form, a direct API call, an embedded form, or an n8n webhook — all routes converge on the same processing pipeline',
+          'A lead arrives via the landing page form, a direct API call, an embedded form, or an n8n webhook, all routes converge on the same processing pipeline',
           'The system checks for a repeat submission by looking up the email address in the lead store; if found, the new interaction is logged against the existing record',
-          'The lead is enriched — the email domain is used to pull company data from Clearbit, or a basic domain analysis runs as a fallback',
-          'GPT-4.1 analyses the lead — the full enriched record is submitted to the AI with a structured scoring prompt; a 12-field JSON response is returned in under two seconds',
+          'The lead is enriched: the email domain is used to pull company data from Clearbit, or a basic domain analysis runs as a fallback',
+          'GPT-4.1 analyses the lead: the full enriched record is submitted to the AI with a structured scoring prompt; a 12-field JSON response is returned in under two seconds',
           'The lead is stored in the in-memory data layer (replaceable with PostgreSQL or Supabase) and a full analysis record is written',
           'HOT lead → Slack alert is sent to the relevant sales channel, tagging the assigned rep team with the full AI summary and deal estimate',
-          'WARM lead → nurture queue — logged for drip email sequence follow-up',
-          'COLD lead → archived — stored for reference with no immediate sales action',
-          'The CRM is updated asynchronously — Airtable receives the full 18-field record without blocking the API response',
-          'The caller receives an instant response — the full analysis JSON is returned to the form or API caller within the same two-second window'
+          'WARM lead → nurture queue: logged for drip email sequence follow-up',
+          'COLD lead → archived: stored for reference with no immediate sales action',
+          'The CRM is updated asynchronously: Airtable receives the full 18-field record without blocking the API response',
+          'The caller receives an instant response: the full analysis JSON is returned to the form or API caller within the same two-second window'
         ]
       },
       {
@@ -4155,7 +4155,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Ops-controlled settings — thresholds, routing rules, and CRM field mappings are managed through environment configuration:'
+        text: 'Ops-controlled settings (thresholds, routing rules, and CRM field mappings) are managed through environment configuration:'
       },
       {
         type: 'table',
@@ -4207,7 +4207,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'The lead form renders a live results card immediately after submission, displaying the AI score, category, intent rating, budget signal, urgency level, ICP match, and a plain-English summary of why the lead scored the way it did — along with a specific recommended next action.'
+        text: 'The lead form renders a live results card immediately after submission, displaying the AI score, category, intent rating, budget signal, urgency level, ICP match, and a plain-English summary of why the lead scored the way it did, along with a specific recommended next action.'
       },
       {
         type: 'p',
@@ -4219,7 +4219,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'When a lead is classified as HOT, a Block Kit alert fires to the configured Slack channel. The message includes: lead name and company, email, phone, all five scoring dimensions, the AI-generated summary, recommended action, estimated deal size, and assigned sales team — formatted as a structured card with section dividers.'
+        text: 'When a lead is classified as HOT, a Block Kit alert fires to the configured Slack channel. The message includes: lead name and company, email, phone, all five scoring dimensions, the AI-generated summary, recommended action, estimated deal size, and assigned sales team, formatted as a structured card with section dividers.'
       },
       {
         type: 'p',
@@ -4235,7 +4235,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Accessible at /dashboard — no login required in base configuration'
+        text: 'Accessible at /dashboard: no login required in base configuration'
       },
       {
         type: 'subheading',
@@ -4253,7 +4253,7 @@ const CASE_STUDIES = [
         type: 'list',
         items: [
           'Initial GPT-4 integration replaced with GPT-4.1 for faster, more consistent structured output',
-          'AI temperature set to 0.3 after testing — balances consistency with contextual sensitivity',
+          'AI temperature set to 0.3 after testing: balances consistency with contextual sensitivity',
           'Strict JSON output schema enforced via system prompt to eliminate parsing failures',
           'Rule-based fallback engine added to ensure zero downtime when the OpenAI API is unavailable',
           'Score validation and sanitisation layer added (score clamped 0–100; category constrained to enum)'
@@ -4267,7 +4267,7 @@ const CASE_STUDIES = [
         type: 'list',
         items: [
           'Clearbit integration added as the primary enrichment source for business email domains',
-          'Domain-only fallback implemented — company name inference, TLD region mapping, business email detection',
+          'Domain-only fallback implemented: company name inference, TLD region mapping, business email detection',
           'Free email provider list maintained to skip enrichment for Gmail, Yahoo, Hotmail, iCloud, ProtonMail, and similar'
         ]
       },
@@ -4281,7 +4281,7 @@ const CASE_STUDIES = [
           'Slack alerts upgraded from plain text to full Block Kit format with eight labelled fields and section dividers',
           'Tiered routing logic added: HOT → Slack, WARM → nurture queue, COLD → archive',
           'All notification steps moved to asynchronous execution to keep main API response time under two seconds',
-          'CRM push also made non-blocking — Airtable delays no longer affect the caller experience'
+          'CRM push also made non-blocking: Airtable delays no longer affect the caller experience'
         ]
       },
       {
@@ -4304,9 +4304,9 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'Repeat lead detection added — duplicate email submissions update the existing record rather than creating a new one',
+          'Repeat lead detection added: duplicate email submissions update the existing record rather than creating a new one',
           'Interaction history log added to each lead record for full contact context',
-          'Analytics aggregation engine built into the storage service — computes category counts, average score, conversion rate, score distribution, top sources, and temporal metrics on demand',
+          'Analytics aggregation engine built into the storage service: computes category counts, average score, conversion rate, score distribution, top sources, and temporal metrics on demand',
           'Dashboard feed endpoint added with configurable pagination and category/source filters'
         ]
       },
@@ -4330,7 +4330,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'How data moves through each stage and at what cadence — a key reference for ops teams integrating this system into existing stacks:'
+        text: 'How data moves through each stage and at what cadence, a key reference for ops teams integrating this system into existing stacks:'
       },
       {
         type: 'table',
@@ -4385,7 +4385,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'The current storage layer uses an in-memory Map for speed and simplicity. For production deployments requiring persistence across restarts or horizontal scaling, this is designed to be swapped for PostgreSQL, Supabase, or MongoDB — the storage service exposes a clean interface with no direct database calls in the route layer.'
+        text: 'The current storage layer uses an in-memory Map for speed and simplicity. For production deployments requiring persistence across restarts or horizontal scaling, this is designed to be swapped for PostgreSQL, Supabase, or MongoDB, the storage service exposes a clean interface with no direct database calls in the route layer.'
       },
       {
         type: 'subheading',
@@ -4431,11 +4431,11 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'Budget — explicit dollar amounts, investment language, company size inference',
-          'Urgency — timeline pressure, ASAP / deadline keywords, quarter-based mentions',
-          'Intent — active buying vs. passive browsing language (“want to buy” vs. “just exploring”)',
-          'ICP Match — B2B vs. B2C, company size (50–500 employees = Excellent), industry alignment',
-          'Email Quality — business domain vs. free provider (Gmail, Yahoo, Hotmail, etc.)'
+          'Budget: explicit dollar amounts, investment language, company size inference',
+          'Urgency: timeline pressure, ASAP / deadline keywords, quarter-based mentions',
+          'Intent: active buying vs. passive browsing language (“want to buy” vs. “just exploring”)',
+          'ICP Match: B2B vs. B2C, company size (50–500 employees = Excellent), industry alignment',
+          'Email Quality: business domain vs. free provider (Gmail, Yahoo, Hotmail, etc.)'
         ]
       }
     ]
@@ -4443,7 +4443,7 @@ const CASE_STUDIES = [
   {
     id: 'leadflow-ai-dubai-real-estate-lead-automation',
     title: 'LeadFlow AI (Dubai Real Estate Lead Automation)',
-    description: 'AI-powered SaaS platform for Dubai real estate brokerages. Capture inbound leads, classify with GPT-4o, auto-reply via WhatsApp, assign to agents, and track follow-ups — all behind Stripe subscription billing.',
+    description: 'AI-powered SaaS platform for Dubai real estate brokerages. Capture inbound leads, classify with GPT-4o, auto-reply via WhatsApp, assign to agents, and track follow-ups, all behind Stripe subscription billing.',
     source: 'Notion',
     url: 'https://hip-buttercup-705.notion.site/Leadflow-AI-case-study-38eb33f9293f8074a1bfd0fac1678aae?source=copy_link',
     tags: [
@@ -4459,11 +4459,11 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'Type: Product Case Study — SaaS Platform',
-          'Product: LeadFlow AI — Dubai Real Estate Lead Automation',
+          'Type: Product Case Study, SaaS Platform',
+          'Product: LeadFlow AI, Dubai Real Estate Lead Automation',
           'Industry: Proptech / Real Estate (Dubai, UAE)',
-          'Frontend: React (Vite) + Tailwind CSS — hosted on Vercel',
-          'Backend: Node.js + Express — hosted on Render',
+          'Frontend: React (Vite) + Tailwind CSS, hosted on Vercel',
+          'Backend: Node.js + Express, hosted on Render',
           'Database: Firebase Firestore + Firebase Auth',
           'AI Engine: OpenAI GPT-4o',
           'Messaging: WhatsApp Cloud API (Meta Graph API v21.0)',
@@ -4485,17 +4485,17 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'No consistent lead qualification — every agent applied their own judgment to decide which leads to call first, leading to hot buyers being left to wait while cold inquiries were chased',
-          'Response time was too slow — manually reading, sorting, and replying to leads during business hours meant international prospects in different time zones received no reply at all',
-          'WhatsApp was unmanaged — the primary communication channel in the UAE was handled informally, with no message history, no threading, and no record-keeping in the CRM',
-          'Language was a barrier — Dubai’s buyer pool is global; leads arrived in Arabic, Russian, Chinese, French, and English, and most brokerages had no way to reply professionally in anything other than English',
-          'Agent workload was unbalanced — lead distribution depended on who was online or who a manager happened to message, with no fair rotation system',
-          'Follow-up fell through the cracks — with no automated reminders, leads that needed a call in three days were simply forgotten'
+          'No consistent lead qualification: every agent applied their own judgment to decide which leads to call first, leading to hot buyers being left to wait while cold inquiries were chased',
+          'Response time was too slow: manually reading, sorting, and replying to leads during business hours meant international prospects in different time zones received no reply at all',
+          'WhatsApp was unmanaged: the primary communication channel in the UAE was handled informally, with no message history, no threading, and no record-keeping in the CRM',
+          'Language was a barrier: Dubai’s buyer pool is global; leads arrived in Arabic, Russian, Chinese, French, and English, and most brokerages had no way to reply professionally in anything other than English',
+          'Agent workload was unbalanced: lead distribution depended on who was online or who a manager happened to message, with no fair rotation system',
+          'Follow-up fell through the cracks: with no automated reminders, leads that needed a call in three days were simply forgotten'
         ]
       },
       {
         type: 'p',
-        text: 'The goal was to build a turnkey SaaS platform that any Dubai brokerage could subscribe to, embed a lead capture form on their website, and immediately have every inbound enquiry processed, classified, replied to, and assigned — automatically, in any language, within seconds.'
+        text: 'The goal was to build a turnkey SaaS platform that any Dubai brokerage could subscribe to, embed a lead capture form on their website, and immediately have every inbound enquiry processed, classified, replied to, and assigned, automatically, in any language, within seconds.'
       },
       {
         type: 'heading',
@@ -4513,10 +4513,10 @@ const CASE_STUDIES = [
         type: 'list',
         items: [
           'Accepts inbound leads via a REST API endpoint that can be embedded into any website contact form, landing page, or chatbot',
-          'Validates and checks the brokerage subscription before processing — if the Basic plan’s 100-lead monthly limit is reached, the endpoint returns a clear upgrade prompt',
+          'Validates and checks the brokerage subscription before processing: if the Basic plan’s 100-lead monthly limit is reached, the endpoint returns a clear upgrade prompt',
           'Sends the lead through GPT-4o for classification: language detection, intent classification (buy / rent / invest / general inquiry), temperature scoring (hot/warm / cold), and AI-generated reply',
-          'Assigns the lead to an agent via atomic round-robin rotation — a Firestore transaction ensures fair distribution even under concurrent submissions',
-          'Sends the AI-generated reply directly to the lead’s WhatsApp number via the Meta Cloud API — in the same language the lead wrote in',
+          'Assigns the lead to an agent via atomic round-robin rotation, a Firestore transaction ensures fair distribution even under concurrent submissions',
+          'Sends the AI-generated reply directly to the lead’s WhatsApp number via the Meta Cloud API, in the same language the lead wrote in',
           'Stores the complete lead record, AI analysis, and message thread in Firestore for full history'
         ]
       },
@@ -4527,11 +4527,11 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'System prompt defines a “premium Dubai luxury real estate” tone — professional, no emojis, no slang, concise but warm',
+          'System prompt defines a “premium Dubai luxury real estate” tone, professional, no emojis, no slang, concise but warm',
           'Detects lead language automatically (ISO 639-1 codes: en, ar, ru, zh, fr, and others) and replies in that language',
           'Classifies intent as buy, rent, invest, or inquiry based on message content',
           'Tags lead temperature: hot (specific budget/area / timeline), warm (genuine interest, lacks specifics), or cold (general browsing)',
-          'Runs at temperature 0.4 with JSON response format enforced — consistent, structured output on every call',
+          'Runs at temperature 0.4 with JSON response format enforced, consistent, structured output on every call',
           'Falls back to a safe default reply if the AI call fails, ensuring no lead is ever left without an acknowledgement'
         ]
       },
@@ -4560,7 +4560,7 @@ const CASE_STUDIES = [
           'Shows agent performance table: total leads assigned vs. leads closed per agent',
           'Lists the 10 most recent leads with full status, temperature, and intent data',
           'The owner can reassign leads between agents directly from the dashboard',
-          'Visible only to users with the owner role — enforced server-side via requireRole middleware'
+          'Visible only to users with the owner role: enforced server-side via requireRole middleware'
         ]
       },
       {
@@ -4572,7 +4572,7 @@ const CASE_STUDIES = [
         items: [
           'Shows assigned leads, active (non-closed) leads, and follow-ups currently due',
           'Lists the agent’s 10 most recent assigned leads',
-          'Agents can only view and interact with leads assigned to them — enforced in every route handler',
+          'Agents can only view and interact with leads assigned to them, enforced in every route handler',
           'Agents can send messages to leads, update lead status, and set follow-up dates'
         ]
       },
@@ -4587,7 +4587,7 @@ const CASE_STUDIES = [
           'Both plans include a 7-day free trial before billing begins',
           'Stripe Checkout handles the payment flow; Stripe Billing Portal handles plan changes and cancellations',
           'Stripe webhooks update Firestore user records in real time on subscription activation, update, and cancellation',
-          'Agents automatically inherit their owner’s subscription status — if the owner’s plan lapses, agents lose access too'
+          'Agents automatically inherit their owner’s subscription status: if the owner’s plan lapses, agents lose access too'
         ]
       },
       {
@@ -4610,14 +4610,14 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'Instant first response at any hour — every lead gets a professional WhatsApp reply within seconds, regardless of time zone or day of the week',
-          'Replies in the lead’s language — Arabic, Russian, Chinese, French, and English buyers all receive a response in their own language without any manual effort',
-          'Fair, automatic agent assignment — round-robin distribution via Firestore transactions means no agent is overlooked and no manager needs to manually route leads',
-          'Hot leads surface immediately — buyers who mention a specific budget, area, or timeline are flagged HOT so agents know exactly who to call first',
-          'Complete conversation history — every WhatsApp message in and out is stored against the lead record, giving agents full context before they pick up the phone',
-          'No missed follow-ups — the daily cron job ensures agents see overdue leads on their dashboard each morning without any manual diary management',
-          'Subscription-gated access — brokerages pay per month; if a plan lapses, access is revoked automatically via Stripe webhook sync',
-          'Multi-tenant by design — each brokerage’s data is isolated by ownerUid; no lead or agent data is ever visible across brokerage accounts'
+          'Instant first response at any hour: every lead gets a professional WhatsApp reply within seconds, regardless of time zone or day of the week',
+          'Replies in the lead’s language: Arabic, Russian, Chinese, French, and English buyers all receive a response in their own language without any manual effort',
+          'Fair, automatic agent assignment: round-robin distribution via Firestore transactions means no agent is overlooked and no manager needs to manually route leads',
+          'Hot leads surface immediately: buyers who mention a specific budget, area, or timeline are flagged HOT so agents know exactly who to call first',
+          'Complete conversation history: every WhatsApp message in and out is stored against the lead record, giving agents full context before they pick up the phone',
+          'No missed follow-ups: the daily cron job ensures agents see overdue leads on their dashboard each morning without any manual diary management',
+          'Subscription-gated access: brokerages pay per month; if a plan lapses, access is revoked automatically via Stripe webhook sync',
+          'Multi-tenant by design: each brokerage’s data is isolated by ownerUid; no lead or agent data is ever visible across brokerage accounts'
         ]
       },
       {
@@ -4627,16 +4627,16 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'A lead submits a form on the brokerage’s website — the form POSTs to the public /api/leads endpoint with name, email, phone, message, and ownerUid',
-          'Subscription and plan limits are checked — the server verifies the brokerage has an active or trialing Stripe subscription, and that the Basic plan lead cap has not been reached',
-          'GPT-4o processes the lead — language is detected, intent classified, temperature scored, and a professional reply generated in the lead’s own language',
-          'The lead is assigned to an agent — a Firestore transaction reads the round-robin counter, selects the next agent in the rotation, and atomically increments the counter',
-          'The lead record is written to Firestore — all fields stored: name, contact details, message, AI analysis (language, intent, temperature), assigned agent, status, and timestamps',
-          'The AI reply is sent via WhatsApp — if a phone number was provided, the generated reply is dispatched through the Meta Cloud API, and the WhatsApp message ID is stored',
-          'The API returns a success response — the caller receives the lead ID, AI reply text, intent, temperature, and assigned agent ID',
-          'The agent is notified via their dashboard — the new lead appears in their assigned leads list with full AI analysis visible',
-          'If the lead replies on WhatsApp — the message arrives at the Meta webhook, is validated, matched to the lead by phone number, and stored in the messages collection',
-          'Follow-up dates are tracked automatically — the daily cron job at 8 AM UAE time flags any lead whose follow-up date has arrived, surfacing it on the agent’s dashboard'
+          'A lead submits a form on the brokerage’s website, the form POSTs to the public /api/leads endpoint with name, email, phone, message, and ownerUid',
+          'Subscription and plan limits are checked: the server verifies the brokerage has an active or trialing Stripe subscription, and that the Basic plan lead cap has not been reached',
+          'GPT-4o processes the lead: language is detected, intent classified, temperature scored, and a professional reply generated in the lead’s own language',
+          'The lead is assigned to an agent: a Firestore transaction reads the round-robin counter, selects the next agent in the rotation, and atomically increments the counter',
+          'The lead record is written to Firestore, all fields stored: name, contact details, message, AI analysis (language, intent, temperature), assigned agent, status, and timestamps',
+          'The AI reply is sent via WhatsApp: if a phone number was provided, the generated reply is dispatched through the Meta Cloud API, and the WhatsApp message ID is stored',
+          'The API returns a success response: the caller receives the lead ID, AI reply text, intent, temperature, and assigned agent ID',
+          'The agent is notified via their dashboard: the new lead appears in their assigned leads list with full AI analysis visible',
+          'If the lead replies on WhatsApp: the message arrives at the Meta webhook, is validated, matched to the lead by phone number, and stored in the messages collection',
+          'Follow-up dates are tracked automatically: the daily cron job at 8 AM UAE time flags any lead whose follow-up date has arrived, surfacing it on the agent’s dashboard'
         ]
       },
       {
@@ -4705,11 +4705,11 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'The agent\'s view is designed for daily use. It shows the agent’s assigned lead count, active (non-closed) lead count, and follow-ups currently due — the three numbers that define their working day. Below the KPIs is a list of their most recently assigned leads.'
+        text: 'The agent\'s view is designed for daily use. It shows the agent’s assigned lead count, active (non-closed) lead count, and follow-ups currently due, the three numbers that define their working day. Below the KPIs is a list of their most recently assigned leads.'
       },
       {
         type: 'p',
-        text: 'Agents only see leads assigned to them — enforced at the API level'
+        text: 'Agents only see leads assigned to them: enforced at the API level'
       },
       {
         type: 'subheading',
@@ -4793,7 +4793,7 @@ const CASE_STUDIES = [
         items: [
           'GPT-4 integration upgraded to GPT-4o for higher accuracy and lower latency',
           'response_format: { type: \'json_object\' } enforced to eliminate markdown-wrapped JSON parsing failures',
-          'Temperature set to 0.4 after testing — lower values produced overly rigid replies; higher values produced inconsistent classification',
+          'Temperature set to 0.4 after testing: lower values produced overly rigid replies; higher values produced inconsistent classification',
           'Fallback reply added, so no lead is ever unanswered if the OpenAI API is unavailable',
           'Intent classification expanded from buy/rent to include invest and inquiry as distinct categories'
         ]
@@ -4951,7 +4951,7 @@ const CASE_STUDIES = [
           [
             'POST',
             '/api/leads',
-            'Public lead capture — no auth required. Runs AI, assigns agent, sends WhatsApp.'
+            'Public lead capture: no auth required. Runs AI, assigns agent, sends WhatsApp.'
           ],
           [
             'GET',
@@ -5084,7 +5084,7 @@ const CASE_STUDIES = [
   {
     id: 'estato-real-estate-management-dashboard',
     title: 'Estato (Real Estate Management Dashboard)',
-    description: 'A full-stack MERN real estate operations platform with CRUD, Google Auth, live charts, and Cloudinary image management — built on the Refine framework with Material UI.',
+    description: 'A full-stack MERN real estate operations platform with CRUD, Google Auth, live charts, and Cloudinary image management, built on the Refine framework with Material UI.',
     source: 'Notion',
     url: 'https://hip-buttercup-705.notion.site/Estato-Mern-Case-study-38eb33f9293f8031ba3dd9572b00e99e?source=copy_link',
     tags: [
@@ -5101,7 +5101,7 @@ const CASE_STUDIES = [
         type: 'list',
         items: [
           'Type: Full-Stack MERN Application Case Study',
-          'Product: Estato — Real Estate Management Dashboard',
+          'Product: Estato, Real Estate Management Dashboard',
           'Frontend: React 18 + TypeScript · Refine Framework · Material UI · ApexCharts',
           'Backend: Node.js + Express · ESM modules · port 8080',
           'Database: MongoDB Atlas via Mongoose ODM',
@@ -5126,12 +5126,12 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'No centralised property database — listings were scattered across portals and spreadsheets with no consistent schema for type, location, price, or description',
-          'Agent visibility was absent — managers had no way to see, at a glance, which agents held the most listings or how the portfolio was distributed across the team',
-          'Creating and editing listings was slow — no standard form, no structured property types, and no direct photo upload meant listings were inconsistent and time-consuming to publish',
-          'No dashboard-level KPIs — total properties for sale, total for rent, total customers, and total agents were metrics that required manual counting across multiple systems',
-          'No referral source insight — the team could not measure which channels (social media, marketplaces, websites, digital ads) were driving enquiries',
-          'Authentication was unmanaged — agents accessed tools via shared passwords with no individual accountability and no way to tie listings back to a specific user'
+          'No centralised property database: listings were scattered across portals and spreadsheets with no consistent schema for type, location, price, or description',
+          'Agent visibility was absent: managers had no way to see, at a glance, which agents held the most listings or how the portfolio was distributed across the team',
+          'Creating and editing listings was slow: no standard form, no structured property types, and no direct photo upload meant listings were inconsistent and time-consuming to publish',
+          'No dashboard-level KPIs: total properties for sale, total for rent, total customers, and total agents were metrics that required manual counting across multiple systems',
+          'No referral source insight: the team could not measure which channels (social media, marketplaces, websites, digital ads) were driving enquiries',
+          'Authentication was unmanaged: agents accessed tools via shared passwords with no individual accountability and no way to tie listings back to a specific user'
         ]
       },
       {
@@ -5153,7 +5153,7 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'Four donut-style KPI tiles at the top of the home page give instant visibility: Properties for Sale (live count from the API), Properties for Rent, Total Customers, and Total Agents — each with a percentage ring showing the proportion against a target',
+          'Four donut-style KPI tiles at the top of the home page give instant visibility: Properties for Sale (live count from the API), Properties for Rent, Total Customers, and Total Agents, each with a percentage ring showing the proportion against a target',
           'Total Revenue area chart (ApexCharts) renders monthly revenue data across the full year with a smooth curve and gradient fill',
           'Property Referrals horizontal bar chart shows the contribution of each lead source: Social Media (64%), Digital Ads (80%), Websites (50%), Marketplace (40%), and Others (15%).',
           'Latest Properties section beneath the charts shows the 4 most recently added properties as live cards pulled from the API in real time'
@@ -5218,14 +5218,14 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'Single source of truth for the portfolio — every property, agent, and relationship lives in one MongoDB database with a consistent schema, accessible from any device',
-          'Live KPIs on every login — four dashboard tiles give the team instant situational awareness without opening a single spreadsheet',
-          'Consistent listing creation — the structured form with defined property types ensures every listing is created to the same standard, with a real photo uploaded directly to Cloudinary',
-          'Role-aware property actions — agents can only edit or delete their own listings; other agents’ listings show contact options instead',
-          'Atomic data integrity — create and delete operations use Mongoose session transactions to keep the Property collection and the User.allProperties array perfectly synchronised',
-          'Zero password management — Google OAuth means no passwords to store, reset, or manage; every agent has their own authenticated identity',
-          'Scalable Refine architecture — adding a new resource (reviews, messages, enquiries) requires registering it in App.tsx; the data provider, routing, and UI scaffolding are automatically available',
-          'Dark/light mode out of the box — system preference is respected on first load; the preference is then stored in localStorage and toggleable at any time'
+          'Single source of truth for the portfolio: every property, agent, and relationship lives in one MongoDB database with a consistent schema, accessible from any device',
+          'Live KPIs on every login: four dashboard tiles give the team instant situational awareness without opening a single spreadsheet',
+          'Consistent listing creation: the structured form with defined property types ensures every listing is created to the same standard, with a real photo uploaded directly to Cloudinary',
+          'Role-aware property actions: agents can only edit or delete their own listings; other agents’ listings show contact options instead',
+          'Atomic data integrity: create and delete operations use Mongoose session transactions to keep the Property collection and the User.allProperties array perfectly synchronised',
+          'Zero password management: Google OAuth means no passwords to store, reset, or manage; every agent has their own authenticated identity',
+          'Scalable Refine architecture: adding a new resource (reviews, messages, enquiries) requires registering it in App.tsx; the data provider, routing, and UI scaffolding are automatically available',
+          'Dark/light mode out of the box: system preference is respected on first load; the preference is then stored in localStorage and toggleable at any time'
         ]
       },
       {
@@ -5476,7 +5476,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'label',
-        text: 'Home — KPI dashboard'
+        text: 'Home: KPI dashboard'
       },
       {
         type: 'p',
@@ -5645,8 +5645,8 @@ const CASE_STUDIES = [
       {
         type: 'list',
         items: [
-          'Refine’s authProvider interface cleanly separates login, logout, checkAuth, checkError, getPermissions, and getUserIdentity into distinct lifecycle methods. This meant the Google OAuth integration did not need custom redirect handling or session management — Refine’s router integration handles all protected route redirects',
-          'The dataProvider from @pankod/refine-simple-rest maps Refine’s resource operations (list, show, create, edit, delete) directly to REST endpoints. Adding a new resource requires only one entry in the resources array in App.tsx — no custom data fetching code needed',
+          'Refine’s authProvider interface cleanly separates login, logout, checkAuth, checkError, getPermissions, and getUserIdentity into distinct lifecycle methods. This meant the Google OAuth integration did not need custom redirect handling or session management, Refine’s router integration handles all protected route redirects',
+          'The dataProvider from @pankod/refine-simple-rest maps Refine’s resource operations (list, show, create, edit, delete) directly to REST endpoints. Adding a new resource requires only one entry in the resources array in App.tsx, no custom data fetching code needed',
           'useTable was chosen over a manual useState + useEffect approach because it automatically manages pagination state (current page, page size), sorter, and filters as a unified state object, and syncs them to API query params on every change'
         ]
       },
@@ -7114,7 +7114,7 @@ const CASE_STUDIES = [
     content: [
       {
         type: 'p',
-        text: 'This Zap streamlines the process of appointment cancellations by integrating ClickUp with Calendly. When a cancellation is initiated from within ClickUp—by pressing the cancel button on a specific task—the relevant appointment is automatically cancelled in Calendly. This automation ensures that appointment slots are efficiently managed and updated in real time, reducing manual oversight and the potential for scheduling conflicts.'
+        text: 'This Zap streamlines the process of appointment cancellations by integrating ClickUp with Calendly. When a cancellation is initiated from within ClickUp, by pressing the cancel button on a specific task, the relevant appointment is automatically cancelled in Calendly. This automation ensures that appointment slots are efficiently managed and updated in real time, reducing manual oversight and the potential for scheduling conflicts.'
       },
       {
         type: 'img',
@@ -7622,7 +7622,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'The workflow starts by pulling Instagram usernames from your list, finds the creator’s most viewed video, and uses AI to break it down—frame by frame, word by word—to reveal the hidden ingredients of viral success.'
+        text: 'The workflow starts by pulling Instagram usernames from your list, finds the creator’s most viewed video, and uses AI to break it down (frame by frame, word by word) to reveal the hidden ingredients of viral success.'
       },
       {
         type: 'label',
@@ -7633,15 +7633,15 @@ const CASE_STUDIES = [
         items: [
           'Schedule it to run: .Schedule it to run daily, weekly or monthly.',
           'Fetches Creators: It pulls Instagram usernames from your Airtable.',
-          'Finds the Top Video: From each creator, it picks the reel with the highest views—because we only care about what’s working 📈',
+          'Finds the Top Video: From each creator, it picks the reel with the highest views, because we only care about what’s working 📈',
           'Stores the Essentials: Saves the video link, caption, creator name, and view count.',
           'Downloads the Video: Preps the reel so we can take a closer look under the hood.',
           'Uses AI to Analyze the Magic: Here’s where it gets spicy 🔍',
           'What’s the hook? How does it grab attention in the first 3 seconds?',
-          'What’s the vibe? What’s happening in the video—background, setting, energy?',
+          'What’s the vibe? What’s happening in the video: background, setting, energy?',
           'Visual style: What kind of text, clothes, or framing makes it pop?',
           'Game-changer moments: What moment makes viewers stop scrolling and watch till the end?',
-          'Saves the Analysis: The insights are written down and saved back in your Airtable. Boom—structured, searchable, gold-standard content breakdown.'
+          'Saves the Analysis: The insights are written down and saved back in your Airtable. Boom: structured, searchable, gold-standard content breakdown.'
         ]
       },
       {
@@ -7653,7 +7653,7 @@ const CASE_STUDIES = [
   {
     id: 'ai-agent-smart-amazon-product-tracker-for-price',
     title: 'Smart Amazon Product Tracker for Price Drop Alerts',
-    description: 'To fetch product details from Amazon and alert you if the price drops—because who doesn’t love a good deal? 💸',
+    description: 'To fetch product details from Amazon and alert you if the price drops, because who doesn’t love a good deal? 💸',
     source: 'Portfolio',
     url: 'https://bit.ly/4ePg6cL',
     tags: [
@@ -7666,7 +7666,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'To fetch product details from Amazon and alert you if the price drops—because who doesn’t love a good deal? 💸'
+        text: 'To fetch product details from Amazon and alert you if the price drops, because who doesn’t love a good deal? 💸'
       },
       {
         type: 'label',
@@ -7674,7 +7674,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'The workflow grabs product links from a database,, scrapes product info, compares old vs new prices, updates the records, and—if there\'s a discount—sends you an email so you can grab it before it’s gone.'
+        text: 'The workflow grabs product links from a database, scrapes product info, compares old vs new prices, updates the records, and, if there\'s a discount, sends you an email so you can grab it before it’s gone.'
       },
       {
         type: 'label',
@@ -7734,7 +7734,7 @@ const CASE_STUDIES = [
         items: [
           'Triggered by a Click: You hit “Start” to run the process.',
           'Grabs Video Links: It picks up YouTube links marked as “ready” in your Airtable.',
-          'Runs the Scraper: Sends each link to an automation tool that fetches all available video details—title, channel name, views, likes, subtitles, description, and thumbnail.',
+          'Runs the Scraper: Sends each link to an automation tool that fetches all available video details (title, channel name, views, likes, subtitles, description, and thumbnail).',
           'Waits for Results: Gives the scraper time to finish collecting the info.',
           'Saves Everything Back: Once done, all the data is pushed back into Airtable, organized and ready for your analysis.'
         ]
@@ -7866,7 +7866,7 @@ const CASE_STUDIES = [
   {
     id: 'ai-agent-ai-powered-social-post-generator-from',
     title: 'AI-Powered Social Post Generator: From Spreadsheet to Socials in Seconds!',
-    description: 'Automatically create short, engaging, and fact-based posts (with emojis!) based on your content ideas—and publish them to the right platform.',
+    description: 'Automatically create short, engaging, and fact-based posts (with emojis!) based on your content ideas, and publish them to the right platform.',
     source: 'Portfolio',
     url: 'https://bit.ly/4ePg6cL',
     tags: [
@@ -7879,7 +7879,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Automatically create short, engaging, and fact-based posts (with emojis!) based on your content ideas—and publish them to the right platform.'
+        text: 'Automatically create short, engaging, and fact-based posts (with emojis!) based on your content ideas, and publish them to the right platform.'
       },
       {
         type: 'label',
@@ -7919,7 +7919,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Done. One idea, one click, and you’ve got content live on the right platform—no copy-pasting needed.'
+        text: 'Done. One idea, one click, and you’ve got content live on the right platform, no copy-pasting needed.'
       },
       {
         type: 'img',
@@ -8083,7 +8083,7 @@ const CASE_STUDIES = [
       {
         type: 'img',
         file: 'case-content/google-apps-script-portfolio/image3.png',
-        caption: 'The growth funnel model — awareness, engagement, and retention KPIs tracked month over month.'
+        caption: 'The growth funnel model: awareness, engagement, and retention KPIs tracked month over month.'
       }
     ]
   },
@@ -8282,7 +8282,7 @@ const CASE_STUDIES = [
       {
         type: 'img',
         file: 'case-content/google-apps-script-portfolio/image12.png',
-        caption: 'Multi-warehouse inventory data with flagged data-quality issues the cleaning step catches — mismatched locations and unidentified SKUs.'
+        caption: 'Multi-warehouse inventory data with flagged data-quality issues the cleaning step catches: mismatched locations and unidentified SKUs.'
       }
     ]
   },
@@ -8328,7 +8328,7 @@ const CASE_STUDIES = [
   },
   {
     id: 'looker-studio-meta-ads',
-    title: 'Looker Studio — Meta Ads Dashboard',
+    title: 'Looker Studio: Meta Ads Dashboard',
     description: 'A Looker Studio dashboard tracking Meta ad spend, clicks, impressions and campaign-level ROAS in one live view.',
     source: 'Portfolio',
     tags: [
@@ -8367,18 +8367,18 @@ const CASE_STUDIES = [
       {
         type: 'img',
         file: 'case-content/ad-performance-dashboards/image1.png',
-        caption: 'Meta Ads dashboard overview — clicks, link clicks, impressions, ROAS and spend for a single brand’s campaigns.'
+        caption: 'Meta Ads dashboard overview: clicks, link clicks, impressions, ROAS and spend for a single brand’s campaigns.'
       },
       {
         type: 'img',
         file: 'case-content/ad-performance-dashboards/image2.png',
-        caption: 'Campaign-level breakdown — ROAS, clicks, spend, impressions and CPM for every ad and campaign, filterable by name.'
+        caption: 'Campaign-level breakdown: ROAS, clicks, spend, impressions and CPM for every ad and campaign, filterable by name.'
       }
     ]
   },
   {
     id: 'looker-studio-facebook-ads',
-    title: 'Looker Studio — Facebook Ads Dashboard',
+    title: 'Looker Studio: Facebook Ads Dashboard',
     description: 'A Looker Studio dashboard rolling up Facebook ad spend, revenue, ROAS and profit margin across a 9-month window.',
     source: 'Portfolio',
     tags: [
@@ -8417,7 +8417,7 @@ const CASE_STUDIES = [
       {
         type: 'img',
         file: 'case-content/ad-performance-dashboards/image3.png',
-        caption: 'Facebook performance overview across a 9-month window — spend, revenue, ROAS and profit margin alongside a daily revenue-vs-spend trend.'
+        caption: 'Facebook performance overview across a 9-month window: spend, revenue, ROAS and profit margin alongside a daily revenue-vs-spend trend.'
       },
       {
         type: 'p',
@@ -8427,7 +8427,7 @@ const CASE_STUDIES = [
   },
   {
     id: 'looker-studio-google-ads',
-    title: 'Looker Studio — Google Ads Dashboard',
+    title: 'Looker Studio: Google Ads Dashboard',
     description: 'A Looker Studio dashboard tracking Google Ads cost, revenue, orders, profit and ROAS for the same multi-channel account.',
     source: 'Portfolio',
     tags: [
@@ -8445,7 +8445,7 @@ const CASE_STUDIES = [
       {
         type: 'img',
         file: 'case-content/ad-performance-dashboards/image4.png',
-        caption: 'Google Ads dashboard for the same account — cost, revenue, orders, profit and ROAS alongside clicks and conversion rate.'
+        caption: 'Google Ads dashboard for the same account: cost, revenue, orders, profit and ROAS alongside clicks and conversion rate.'
       },
       {
         type: 'p',
@@ -8523,7 +8523,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Core challenge: Teams had the knowledge — but no system to retrieve, apply, and respond consistently at scale.'
+        text: 'Core challenge: Teams had the knowledge, but no system to retrieve, apply, and respond consistently at scale.'
       },
       {
         type: 'subheading',
@@ -9572,7 +9572,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Core challenge: Teams needed a single system to reliably create, review, approve, and publish content at scale — without operational chaos.'
+        text: 'Core challenge: Teams needed a single system to reliably create, review, approve, and publish content at scale, without operational chaos.'
       },
       {
         type: 'subheading',
@@ -10732,7 +10732,7 @@ const CASE_STUDIES = [
         type: 'list',
         items: [
           '70–85% of incoming queries were handled automatically',
-          'Customers received instant replies — even outside business hours',
+          'Customers received instant replies, even outside business hours',
           'Voice messages were transcribed and answered automatically',
           'Image-based queries (products, issues) were understood by AI',
           'Answers were consistent, accurate, and policy-aligned',
@@ -10800,7 +10800,7 @@ const CASE_STUDIES = [
       },
       {
         type: 'p',
-        text: 'Customers never feel like they’re talking to a bot — just fast, helpful support.'
+        text: 'Customers never feel like they’re talking to a bot, just fast, helpful support.'
       },
       {
         type: 'subheading',
@@ -11115,12 +11115,12 @@ const CASE_STUDIES = [
       {
         type: 'img',
         file: 'case-content/ecommerce-pnl-tracker/image1.png',
-        caption: 'Monthly sales and profit dashboard — total sales, real/estimated profit, margins and marketing cost calculated automatically from raw order data.'
+        caption: 'Monthly sales and profit dashboard: total sales, real/estimated profit, margins and marketing cost calculated automatically from raw order data.'
       },
       {
         type: 'img',
         file: 'case-content/ecommerce-pnl-tracker/image2.png',
-        caption: 'The same template applied to a different brand — totals, COGS and marketing cost recalculated instantly for any date range.'
+        caption: 'The same template applied to a different brand: totals, COGS and marketing cost recalculated instantly for any date range.'
       },
       {
         type: 'subheading',
@@ -11133,7 +11133,7 @@ const CASE_STUDIES = [
       {
         type: 'img',
         file: 'case-content/ecommerce-pnl-tracker/image3.png',
-        caption: 'Daily dashboard — total and last-30-days sales, profit and expense metrics side by side for fast day-to-day monitoring.'
+        caption: 'Daily dashboard: total and last-30-days sales, profit and expense metrics side by side for fast day-to-day monitoring.'
       },
       {
         type: 'subheading',

@@ -2,7 +2,7 @@
 
 Frontend-only case study platform. Home page shows category cards (one per tool/use case); clicking a category shows the case studies tagged under it; clicking a case study opens its original source (Notion, Google Docs, Google Drive) in a new tab. A single case study can be tagged under multiple categories.
 
-No database, no backend logic — `server.js` serves the static files in `public/` and also sends the content as plain HTML and text so AI tools and search engines can read it (see "Readable by AI tools" below).
+No database, no backend logic. `server.js` serves the static files in `public/` and also sends the content as plain HTML and text so AI tools and search engines can read it (see "Readable by AI tools" below).
 
 ## Project structure
 
@@ -37,7 +37,7 @@ Every logo falls back to a plain emoji automatically if it ever fails to load, s
 
 Everything lives in `public/data.js`:
 - `CATEGORIES`: the tiles on the home page (slug, icon emoji, name, description).
-- `CASE_STUDIES`: each entry has a `tags` array — add multiple slugs to make one case study show up under multiple categories.
+- `CASE_STUDIES`: each entry has a `tags` array, so add multiple slugs to make one case study show up under multiple categories.
 
 No build step. Just edit `data.js` and refresh.
 

@@ -506,7 +506,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* When a heading is introduced by an eyebrow label right above it, the
-   eyebrow already reads as the section divider — don't double it up. */
+   eyebrow already reads as the section divider, so don't double it up. */
 .case-detail-content .content-eyebrow + h3 {
   margin-top: 6px;
   padding-top: 0;
