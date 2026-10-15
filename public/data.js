@@ -2097,6 +2097,140 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'n8n-telegram-thread-builder',
+    title: 'Telegram Thread Builder: From Dropped Screenshots to a Reviewed X Thread',
+    description: 'An n8n workflow that turns a source text and screenshots dropped in a Telegram chat into a ready-to-review X thread, with automatic image blurring, AI writing and a card created in Airtable.',
+    source: 'Portfolio',
+    tags: [
+      'n8n'
+    ],
+    tools: [
+      'n8n',
+      'Telegram',
+      'Airtable',
+      'Claude',
+      'X'
+    ],
+    content: [
+      {
+        type: 'heading',
+        text: 'Purpose'
+      },
+      {
+        type: 'p',
+        text: 'A content team collects ideas in a Telegram group chat: a piece of source text, plus screenshots of results. This workflow lets them turn that material into an X thread, or a single post, without leaving Telegram. The finished draft lands in Airtable as a card for review.'
+      },
+      {
+        type: 'heading',
+        text: 'The Solution'
+      },
+      {
+        type: 'p',
+        text: 'The chat works like a conversation. A person opens a session, drops the material, answers a few short questions, and the workflow builds the thread. Every message in the chat is saved in Airtable against the session, so nothing is lost between steps.'
+      },
+      {
+        type: 'subheading',
+        text: 'Step 1: Open a session'
+      },
+      {
+        type: 'list',
+        items: [
+          'Someone replies “Go” to a dropped text or image. They can add a format at the same time: thread, image, text or long.',
+          'The bot answers with the steps. Drop the images in order, where a caption under an image becomes the text for that post. Send any extra text. Send “done” when finished, or “cancel” to stop.',
+          'Telegram splits long texts into several messages. The workflow merges those parts back together in the right order.',
+          'Each image and text is saved in Airtable as its own row, linked to the session. A session stays open for 12 hours.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Step 2: Answer the setup questions'
+      },
+      {
+        type: 'list',
+        items: [
+          'When “done” arrives, the bot asks only what it does not know yet. These are numbered questions, so a reply is just a number: how many posts, which call-to-action and on which post, and whether to blur the images.',
+          'Writing “go” at any point accepts the defaults for everything still open. Tags typed with the first “Go”, such as “no blur” or “cta newsletter”, skip those questions.',
+          'The bot ends with a one-line summary, and a reply of 1 starts the build. If nobody answers for 10 minutes, the workflow carries on by itself with the defaults.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Step 3: Prepare and blur the images'
+      },
+      {
+        type: 'list',
+        items: [
+          'The workflow collects the session’s images in order, up to 15, and downloads each one from Telegram.',
+          'Each image goes to a blur service that hides page names, logos and faces.',
+          'A check then confirms that every image came back blurred. If any image fails, no thread is created. The session is reopened, and the bot says which images failed and why, so the team can send “done” again.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Step 4: Write the thread'
+      },
+      {
+        type: 'list',
+        items: [
+          'Claude receives the full source text, the team’s captions and notes, every blurred image, and the current Post Rules from Airtable. It reads the numbers and labels inside the screenshots as part of the source.',
+          'The prompt fixes the number of posts, puts one image on each post in order, and asks Claude to use every fact from the material.',
+          'It also sets the voice: a long opening hook, replies that each carry one step of the story, and an analysis near the end. The posts must not name any page, person or brand shown in the material.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Step 5: Clean up, add CTAs and deliver'
+      },
+      {
+        type: 'list',
+        items: [
+          'A code step cleans the writer’s output. It removes links, handles, “via” credits, post numbering and stock phrases, and it keeps the thread to the agreed number of posts.',
+          'It checks that every image is used exactly once, in order, and spreads them again if the writer got that wrong.',
+          'Call-to-actions are added from the CTA library in Airtable, for example a newsletter reply at the end, or a consulting reply placed at post 4.',
+          'n8n creates the card in Airtable with status Pending Review, the hook and the full thread, and attaches each blurred image. It marks the session done.',
+          'The bot replies in Telegram with the post count, the number of images, the CTA used and a preview of the hook, plus a link to the card so the team can check the blur and approve.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/n8n-telegram-thread-builder/image1.png',
+        caption: 'The Telegram thread session workflow in n8n: messages come in on the left and are routed by what they mean (start, image, note, cancel, done, ask, single post). The long middle row builds the thread, from blurring the images to the Claude writer, the Airtable card and the Telegram summary. The rows below handle the setup questions with the 10-minute timer, and single-post sessions.'
+      },
+      {
+        type: 'heading',
+        text: 'Single Posts'
+      },
+      {
+        type: 'p',
+        text: 'The same chat also handles posts that are not threads. After “Go”, the bot asks the shorter set of questions. The workflow then merges the text, captions, first image and chosen CTA into one request and hands it to the team’s existing intake workflow, so single posts use the same writer, blur and card steps as everything else.'
+      },
+      {
+        type: 'heading',
+        text: 'Built-in Safeguards'
+      },
+      {
+        type: 'list',
+        items: [
+          'An unblurred image is never attached, unless the team asked for no blur.',
+          'When the blur or the writer fails, the session is reopened and the team is told in Telegram, so they can retry with “done” instead of starting again.',
+          'If the writer returns something unusable, no card is created.',
+          'An image that fails to upload to the card is reported in the summary message.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Good to Know'
+      },
+      {
+        type: 'list',
+        items: [
+          'This is a large workflow of about 65 nodes, which is why the diagram is wide. It is read from left to right, and each row has one job.',
+          'The Post Rules, the CTA library and the session rows all live in Airtable, so the team can change how threads are written without opening n8n.'
+        ]
+      }
+    ]
+  },
+  {
     id: 'whatsapp-voice-business-agent',
     title: 'WhatsApp Voice & Business Agent with n8n',
     description: 'Turning customer voice notes, photos and text messages on WhatsApp into instant, database-backed answers through an n8n workflow.',
