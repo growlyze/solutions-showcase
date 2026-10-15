@@ -3459,6 +3459,289 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'python-mcp-server-field-service-crm',
+    title: 'Python MCP Server Connecting Claude to a Field-Service CRM',
+    description: 'A hosted, OAuth-protected MCP server in Python that lets a home-services business ask Claude about customers, jobs, invoices and leads, with write actions hidden unless allowed.',
+    source: 'Notion',
+    tags: [
+      'python'
+    ],
+    tools: [
+      'Python',
+      'FastMCP',
+      'OAuth 2.0',
+      'REST API',
+      'Railway',
+      'Claude'
+    ],
+    content: [
+      {
+        type: 'heading',
+        text: 'The Problem'
+      },
+      {
+        type: 'p',
+        text: 'A home-services business wanted to ask Claude questions about customers, jobs, invoices and leads, and to take safe actions, without giving it raw database access.'
+      },
+      {
+        type: 'heading',
+        text: 'The Solution'
+      },
+      {
+        type: 'p',
+        text: 'A Model Context Protocol server that exposes the full REST API of the business’s field-service software (Housecall Pro) as about 20 domain modules: customers, jobs, estimates, invoices, leads, employees, scheduling, webhooks and more. They are all mounted under one FastMCP app. It is deployed on Railway and connects straight into claude.ai.'
+      },
+      {
+        type: 'subheading',
+        text: 'Notable details'
+      },
+      {
+        type: 'list',
+        items: [
+          'OAuth login sits in front of the server (GitHub provider, redirecting back to claude.ai), so no shared API keys are handed to users.',
+          'A read-only enforcer middleware hides every tool whose name contains create, update, delete, send, void or dispatch from the tool list, unless it is explicitly allowed. This is per-agent permission control at the protocol level.',
+          'Tools are namespaced (customers_*, jobs_*, invoices_*), so the model cannot confuse one domain with another.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/mcp-fieldservice-crm/image1.png',
+        caption: 'The server entry point: GitHub OAuth in front, one FastMCP app, and each domain module (customers, jobs, estimates, invoices, leads, employees) mounted under its own namespace.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/mcp-fieldservice-crm/image2.png',
+        caption: 'The repository: one Python module for each area of the field-service API, plus a Procfile for deployment on Railway. The commit messages are blurred.'
+      },
+      {
+        type: 'label',
+        text: 'Built with'
+      },
+      {
+        type: 'p',
+        text: 'Python, FastMCP, OAuth 2.0, REST and Railway.'
+      }
+    ]
+  },
+  {
+    id: 'python-ticket-count-automation-gmail-bigquery-sheets',
+    title: 'Daily Ticket-Count Automation: Gmail PDFs to BigQuery and Google Sheets',
+    description: 'A Python job that reads daily Ticketmaster audit PDFs from email, stores every figure in BigQuery and publishes a Google Sheet that mirrors the team’s existing workbook.',
+    source: 'Notion',
+    tags: [
+      'python'
+    ],
+    tools: [
+      'Python',
+      'Gmail API',
+      'BigQuery',
+      'Google Sheets',
+      'pytest'
+    ],
+    content: [
+      {
+        type: 'heading',
+        text: 'The Problem'
+      },
+      {
+        type: 'p',
+        text: 'An events company received daily Ticketmaster audit PDFs by email and re-typed the figures into a workbook by hand.'
+      },
+      {
+        type: 'heading',
+        text: 'The Solution'
+      },
+      {
+        type: 'p',
+        text: 'A daily job reads the report emails through the Gmail API (with an OAuth refresh token), downloads and parses the audit PDFs, stores every figure in BigQuery, and publishes a Google Sheet that mirrors the team’s existing workbook. It was built spec first: a design spec, then an implementation plan, then tests with fixture PDFs, then the pipeline.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ticket-count-automation/image1.png',
+        caption: 'The project repository, with the ticket-count source code, tests, scripts and design documents.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ticket-count-automation/image2.png',
+        caption: 'The Google Sheet the job publishes: tickets sold per day against capacity, split into GA and VIP, with the percentage sold. Event names and some tab names are hidden.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ticket-count-automation/image3.png',
+        caption: 'The Run Log tab, with one row for each run of the job and its time.'
+      },
+      {
+        type: 'label',
+        text: 'Built with'
+      },
+      {
+        type: 'p',
+        text: 'Python, the Gmail API (OAuth), PDF parsing, BigQuery, the Google Sheets API and pytest.'
+      }
+    ]
+  },
+  {
+    id: 'python-production-vps-audit-and-pipeline-repair',
+    title: 'Production Linux Server Audit and Repair for a Data Subscription Site',
+    description: 'An audit of the single Ubuntu server behind a financial-data subscription site, a fix for its silently failed social-posting pipeline, and a documented setup so it can be maintained safely.',
+    source: 'Notion',
+    tags: [
+      'python'
+    ],
+    tools: [
+      'Python',
+      'Flask',
+      'SQLite',
+      'systemd',
+      'Nginx',
+      'Gunicorn',
+      'Cloudflare Tunnel',
+      'Stripe',
+      'WordPress',
+      'Brevo'
+    ],
+    content: [
+      {
+        type: 'heading',
+        text: 'The Problem'
+      },
+      {
+        type: 'p',
+        text: 'A financial-data subscription site ran a Python backend, scheduled jobs, blog and email automation and a social-posting pipeline, all on one Ubuntu VPS. The social pipeline had silently died. The client needed an audit, a fix and a roadmap.'
+      },
+      {
+        type: 'heading',
+        text: 'What Was Done'
+      },
+      {
+        type: 'list',
+        items: [
+          'Audited the whole server (systemd units, cron, logs, nginx, gunicorn, the SQLite database and the backup job) and wrote a plain-English client report with a health score and prioritised fixes.',
+          'Fixed the dead social pipeline with two targeted changes and stabilised the scheduling.',
+          'Set up maintenance through a git mirror of /opt with a CLAUDE.md that describes the architecture, so Claude Code can work on it safely.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'How the system runs'
+      },
+      {
+        type: 'p',
+        text: 'A single source of truth: one SQLite database plus JSON outputs.'
+      },
+      {
+        type: 'code',
+        language: 'plain text',
+        text: '20:00 ET  systemd timer  → nightly_pipeline.sh\n                            ingest OHLC → run scanners → build JSON → DB backup to Drive (rclone)\n                            → build newsletter + blog post (publish via WP REST API)\n                            → send daily email (Brevo)\n15:45 ET  systemd timer  → live_pipeline.py (real-time signals + options pricing)\nalways    systemd service → gunicorn Flask API :5500 behind nginx + Cloudflare Tunnel\ncron      08:15 / 08:45 / every 15 min market hours / 21:00 → content engine renders PNG/MP4 cards and posts to IG / X / TikTok'
+      },
+      {
+        type: 'label',
+        text: 'Built with'
+      },
+      {
+        type: 'p',
+        text: 'Python, Flask, SQLite, systemd, cron, bash, nginx, gunicorn, Cloudflare Tunnel, rclone, JWT auth, Stripe, the WordPress REST API, Brevo and the Post for Me API.'
+      }
+    ]
+  },
+  {
+    id: 'python-cold-email-copy-generation-quality-checks',
+    title: 'Cold Email Copy Generation with Automatic Quality Checks',
+    description: 'An AI tool that writes five cold email sequences in spintax format in minutes and checks each one against eight quality rules, rewriting any that fail.',
+    source: 'Notion',
+    tags: [
+      'python'
+    ],
+    tools: [
+      'Python',
+      'FastAPI',
+      'Claude',
+      'TypeScript',
+      'React',
+      'Next.js'
+    ],
+    content: [
+      {
+        type: 'heading',
+        text: 'Overview'
+      },
+      {
+        type: 'p',
+        text: 'Cold email copy generation and quality control. Instead of spending hours writing email variations by hand in spintax format and checking each line against banned phrases and formatting rules, teams now get five production-ready email sequences in minutes.'
+      },
+      {
+        type: 'heading',
+        text: 'The Problem'
+      },
+      {
+        type: 'p',
+        text: 'Creating cold email variations meant hours of manual work. Writers had to draft email sequences by hand, then apply spintax format line by line, a tedious process where every variation had to be written and formatted separately. Quality control was completely manual: each line had to be checked against banned phrases and banned words, word counts verified, spintax coverage confirmed, and offer rotation rules checked. With no automated checklist, mistakes slipped through before emails went into the sending tool. Creating five email sequences took 5 to 10 hours of work, was error-prone, and depended entirely on someone being available to do it correctly.'
+      },
+      {
+        type: 'heading',
+        text: 'What the Automation Does'
+      },
+      {
+        type: 'img',
+        file: 'case-content/cold-email-generation/image1.png',
+        caption: 'The team interface: a chat assistant on the left, a button to generate the week’s strategy, and Copy Variations and History at the top.'
+      },
+      {
+        type: 'label',
+        text: 'Step 1: Email sequences are generated'
+      },
+      {
+        type: 'p',
+        text: 'The automation takes the email parameters and requirements, then uses AI to generate five complete cold email sequences in full spintax format, with multiple variations per email step (A/B variants) so testing options are built in.'
+      },
+      {
+        type: 'label',
+        text: 'Step 2: Automatic quality checks run'
+      },
+      {
+        type: 'p',
+        text: 'Every generated copy is automatically checked against eight quality rules: word count, spintax coverage on every line, banned phrases, banned words, offer accuracy, hook uniqueness, offer rotation compliance, and more. If a copy passes all checks, it is flagged as production-ready. If it fails, the system automatically rewrites it (up to three retries) to meet the requirements.'
+      },
+      {
+        type: 'label',
+        text: 'Step 3: Ready-to-send copies are delivered'
+      },
+      {
+        type: 'p',
+        text: 'The team receives five email sequences with a pass or fail verdict on each. Every copy is either production-ready or clearly flagged as needing manual revision, so there are no surprises or quality issues after the copy goes into the sending tool.'
+      },
+      {
+        type: 'heading',
+        text: 'Tools and Integrations Used'
+      },
+      {
+        type: 'list',
+        items: [
+          'Custom code automation (AI-powered email generation and quality control)',
+          'Anthropic Claude (copywriting and analysis)',
+          'Python and FastAPI (backend automation)',
+          'TypeScript, React and Next.js (team interface)'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'The Result'
+      },
+      {
+        type: 'p',
+        text: 'Teams no longer spend 5 to 10 hours writing and quality-checking email sequences by hand. Five production-ready sequences now generate automatically in minutes. Quality control shifted from a manual checklist to an automated pipeline that catches banned phrases, spintax gaps, word count violations and formatting mistakes instantly. Every copy follows the same proven structure with consistent formatting. What used to take hours of manual writing and QA now happens automatically, freeing the team to focus on strategy and testing instead of production work.'
+      },
+      {
+        type: 'heading',
+        text: 'Summary'
+      },
+      {
+        type: 'p',
+        text: 'The tool automates the full cycle from email copy generation to quality-checked delivery. Teams provide their email requirements, the automation generates five complete sequences in spintax format, automatic quality checks verify everything, and production-ready emails are delivered in minutes instead of hours. The team stays in control, since they review and approve the output, while the repetitive writing and quality-checking work is handled automatically.'
+      }
+    ]
+  },
+  {
     id: 'contract-intake-tool',
     title: 'Contract Intake Tool',
     description: 'A web app that scans an uploaded supplier contract for key terms with Claude, has a person review anything missing, and files it into the right Google Drive folder.',
