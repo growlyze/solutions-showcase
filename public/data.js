@@ -2031,6 +2031,72 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'n8n-unschedule-cleanup-metricool',
+    title: 'Automatic Cleanup of Scheduled Posts When a Card Is Unapproved',
+    description: 'An n8n workflow that checks every 15 minutes for cards that are no longer approved and removes their still-scheduled posts from Metricool, without touching anything already published or about to go out.',
+    source: 'Portfolio',
+    tags: [
+      'n8n'
+    ],
+    tools: ['n8n', 'Airtable', 'Metricool', 'X', 'Facebook', 'LinkedIn', 'Threads'],
+    content: [
+      {
+        type: 'heading',
+        text: 'Purpose'
+      },
+      {
+        type: 'p',
+        text: 'A content team schedules social posts through Metricool from cards in Airtable. Each card stores the Metricool post ID for X, Facebook, LinkedIn and Threads. If a card is later denied, sent back to review, or its scheduling fails, the posts already scheduled for it would still go out. This workflow finds those cards and removes the leftover scheduled posts safely.'
+      },
+      {
+        type: 'heading',
+        text: 'The Solution'
+      },
+      {
+        type: 'list',
+        items: [
+          'Every 15 minutes n8n searches Airtable for cards whose status is Pending Review, Denied, Schedule Failed or blank, but that still hold a Metricool post ID.',
+          'A code step turns each card into one item per post ID. IDs that were already handled and logged are skipped, so settled posts are not checked again on every run.',
+          'For each ID, n8n asks Metricool for the post, one at a time with a short pause between calls. A failed call does not stop the workflow.',
+          'A decision step applies the safety rules below and marks each post as delete, keep, clear or retry later.',
+          'The Delete? branch sends the delete request to Metricool for posts marked delete. Every other post goes straight to the merge step, which joins both paths.',
+          'A code step builds one update per card. It clears the IDs of posts that were deleted or were already gone, adds a timestamped line to the card’s Unschedule Log for each ID handled, and clears the Scheduled Time when a post was deleted, so approving the card again schedules it fresh.',
+          'Airtable saves the update. A lookup or delete that failed is left untouched, so the next run tries it again.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/n8n-metricool-unschedule-cleanup/image1.png',
+        caption: 'Unschedule cleanup in n8n: a 15-minute schedule trigger, an Airtable search, a code step that splits each card into one item per Metricool ID, a lookup of each post, a decision step, a Delete? branch that either calls Metricool’s delete or skips to the merge, and a code step and Airtable update that clear the IDs and write the log.'
+      },
+      {
+        type: 'heading',
+        text: 'Safety Rules'
+      },
+      {
+        type: 'list',
+        items: [
+          'A post that is already published is never deleted.',
+          'A post due within the next five minutes, or already past due but not marked as published, is left alone, and the log asks someone to check Metricool.',
+          'Only a future, unpublished post is deleted. The same rules apply to every network, X included.',
+          'A post that Metricool no longer has counts as already gone, so its ID is simply cleared from the card.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'Good to Know'
+      },
+      {
+        type: 'list',
+        items: [
+          'The workflow is live and runs on its own schedule.',
+          'Every decision is written to the card’s log, so the team can see what was deleted, kept or cleared, and when.',
+          'Metricool is called one post at a time, so a long list of cards does not flood it with requests.'
+        ]
+      }
+    ]
+  },
+  {
     id: 'whatsapp-voice-business-agent',
     title: 'WhatsApp Voice & Business Agent with n8n',
     description: 'Turning customer voice notes, photos and text messages on WhatsApp into instant, database-backed answers through an n8n workflow.',
