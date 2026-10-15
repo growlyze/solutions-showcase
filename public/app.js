@@ -209,6 +209,9 @@ function contentBlockHtml(block) {
     const body = block.rows.map((row) => `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join('')}</tr>`).join('');
     return `<div class="content-table-wrap"><table class="content-table"><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
   }
+  if (block.type === 'code') {
+    return `<pre class="content-code" tabindex="0"><code>${escapeHtml(block.text)}</code></pre>`;
+  }
   if (block.type === 'quote') {
     return `<blockquote class="content-quote"><p>${escapeHtml(block.text)}</p><cite>${escapeHtml(block.attribution)}</cite></blockquote>`;
   }

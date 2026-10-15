@@ -880,3 +880,29 @@ body.lightbox-open { overflow: hidden; }
   width: 0;
   min-width: 100%;
 }
+
+/* ---- Code snippets inside case studies ---- */
+
+.content-code {
+  margin: 18px 0 22px;
+  padding: 14px 18px;
+  background: var(--surface-hover);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--text);
+  tab-size: 4;
+}
+
+.content-code code {
+  font: inherit;
+  white-space: pre;
+}
+
+.content-code:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}

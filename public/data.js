@@ -2811,6 +2811,366 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'event-driven-quote-triage-freight-brokerage',
+    title: 'Event-Driven Quote Triage for a Freight Brokerage',
+    description: 'An event-driven Python service (FastAPI, Celery, Playwright and Claude) that answers load quote requests from a shared inbox with three ranked carriers. Median first reply: 48 seconds, down from 7 minutes 40.',
+    source: 'Notion',
+    tags: [
+      'python'
+    ],
+    tools: [
+      'Python',
+      'FastAPI',
+      'Celery',
+      'Redis',
+      'PostgreSQL',
+      'Browserbase',
+      'Playwright',
+      'Airtable',
+      'Claude',
+      'Slack'
+    ],
+    content: [
+      {
+        type: 'list',
+        items: [
+          'Client: regional 3PL, 11 dispatchers',
+          'Stack: Python 3.12 · FastAPI · Celery + Redis · Postgres · Browserbase + Playwright · Airtable · Anthropic API (Claude Sonnet 4.6) · Slack'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'The problem'
+      },
+      {
+        type: 'p',
+        text: 'Load quote requests landed in a shared quotes@ inbox — around 40 a day. A dispatcher would read the request, log into the carrier portal (no public API for what they needed), check which trucks were available on that lane, cross-reference an internal rate sheet, and reply with three carriers and a price. Six to nine minutes each, every time.'
+      },
+      {
+        type: 'p',
+        text: 'Their first automation attempt was a Python script on a five-minute cron driving a hosted agent platform. It worked about 70% of the time, cost roughly $0.42 per request, and failed silently — they usually found out from a customer, not a log.'
+      },
+      {
+        type: 'p',
+        text: 'Three root causes, and all three shaped the rebuild:'
+      },
+      {
+        type: 'list',
+        items: [
+          'Polling. A 0–5 minute delay before anything started, and the cron had no idea what the previous run had done.',
+          'Re-planning on every run. The agent asked an LLM to navigate the portal from scratch each time, so any UI jitter became a fresh failure mode — and every run paid full navigation token cost.',
+          'No durable state. Nothing recorded which requests had been handled, so retries either duplicated replies or never happened.'
+        ]
+      },
+      {
+        type: 'heading',
+        text: 'The architecture'
+      },
+      {
+        type: 'p',
+        text: 'Everything runs as a small Python service on a single Fly.io machine — a FastAPI app that receives Gmail push notifications, and a Celery worker pool that does the actual work.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/quote-triage-freight/image1.png',
+        caption: 'Event-driven quote triage pipeline: a FastAPI webhook verifies and acknowledges the push, the request is de-duplicated and queued (Postgres key, Redis queue), Browserbase and Playwright check portal availability while an Airtable rate sheet supplies lanes, margins and exclusions, Claude ranks the top 3 carriers, and a threaded reply goes out on Gmail and Slack.'
+      },
+      {
+        type: 'subheading',
+        text: 'Key engineering decisions'
+      },
+      {
+        type: 'p',
+        text: 'Real-time trigger, not a cron. Gmail\'s users.watch publishes to a Google Pub/Sub topic, which pushes to a FastAPI endpoint. The handler does three things and nothing else: verify the JWT on the push request, write the message ID to Postgres, and return 204. Pub/Sub redelivers anything not acked within 10 seconds, so all real work is handed to Celery and the endpoint stays under 50 ms.'
+      },
+      {
+        type: 'code',
+        language: 'python',
+        text: '@app.post("/gmail/push")\nasync def gmail_push(req: Request, claims=Depends(verify_pubsub_jwt)):\n    envelope = await req.json()\n    history_id = decode_message(envelope["message"])["historyId"]\n    for msg in gmail.list_since(history_id):\n        if requests_repo.claim(msg.thread_id):   # INSERT ... ON CONFLICT DO NOTHING\n            process_quote.delay(msg.thread_id)\n    return Response(status_code=204)'
+      },
+      {
+        type: 'p',
+        text: 'Idempotency lives in the database, not in memory. claim() is an INSERT ... ON CONFLICT DO NOTHING on the Gmail thread ID. If Pub/Sub redelivers, or the safety net and a live webhook race each other, exactly one worker wins the row. This is the piece that eliminated duplicate replies outright.'
+      },
+      {
+        type: 'p',
+        text: 'Cached navigation instead of per-run LLM planning. Playwright drives a Browserbase session with stored credentials and a persistent context. The first time the portal layout is seen, an LLM produces a navigation plan — a sequence of selectors and actions — which is hashed against the page structure and cached in Postgres. Every subsequent run replays the cached plan with plain Playwright calls: no LLM, no tokens, sub-second steps. Only when a replay step fails does the code fall back to re-planning, write the new plan, and post a Slack notice that the portal changed. That\'s the same idea as Skyvern\'s Route Memorization, built explicitly so the failure path is visible rather than silent.'
+      },
+      {
+        type: 'p',
+        text: 'Prompt caching on the ranking call. The system prompt, the scoring rubric, and the serialised carrier roster are static across requests and sit in a cached block; only the parsed request and the fresh availability data go in the user turn. Roughly 11k stable input tokens moved to cache reads.'
+      },
+      {
+        type: 'code',
+        language: 'python',
+        text: 'system=[{\n    "type": "text",\n    "text": RUBRIC + roster_block,\n    "cache_control": {"type": "ephemeral"},\n}]'
+      },
+      {
+        type: 'p',
+        text: 'Concurrency capped deliberately. The Celery pool runs three workers. The portal rate-limits aggressively and had previously locked the shared account twice, so throughput was traded for account safety.'
+      },
+      {
+        type: 'heading',
+        text: 'State machine and the safety net'
+      },
+      {
+        type: 'p',
+        text: 'Every request row moves through an explicit status column. The hourly sweep is the belt-and-braces layer for the rare case where a Pub/Sub push is lost or a worker dies mid-run.'
+      },
+      {
+        type: 'img',
+        file: 'case-content/quote-triage-freight/image2.png',
+        caption: 'Request states and recovery: a request is processing (row claimed, timestamp set), then done (reply sent, thread id) on success or failed (alert posted to Slack) on error. An hourly sweep re-runs rows stuck for more than 15 minutes.'
+      },
+      {
+        type: 'p',
+        text: 'The sweep is a Celery Beat task, about 30 lines: select rows in processing with claimed_at < now() - interval \'15 minutes\', reset the attempt counter, re-enqueue. After three attempts it moves to failed and posts a Slack alert with the thread link and the last exception, so a dispatcher can handle it manually and an engineer can see exactly where it broke.'
+      },
+      {
+        type: 'p',
+        text: 'Errors are handled in three tiers rather than one generic retry: transient network and portal timeouts retry with exponential backoff inside the task; a failed selector replay triggers re-planning and a "portal layout changed" notice; anything else fails the row loudly.'
+      },
+      {
+        type: 'heading',
+        text: 'Results'
+      },
+      {
+        type: 'table',
+        headers: [
+          '',
+          'Before',
+          'After'
+        ],
+        rows: [
+          [
+            'Time to first reply (median)',
+            '7 min 40 s',
+            '48 s'
+          ],
+          [
+            'Cost per request',
+            '$0.42',
+            '$0.06'
+          ],
+          [
+            'Success rate (30-day)',
+            '71%',
+            '98.6%'
+          ],
+          [
+            'Duplicate replies / week',
+            '4–6',
+            '0'
+          ],
+          [
+            'Silent failures',
+            'routine',
+            'none — every failure alerts'
+          ]
+        ]
+      },
+      {
+        type: 'p',
+        text: 'The cost drop came from two places roughly equally: cached navigation removed the per-run planning tokens, and prompt caching cut input cost on the ranking call.'
+      },
+      {
+        type: 'heading',
+        text: 'Delivered'
+      },
+      {
+        type: 'p',
+        text: 'Dockerised FastAPI + Celery service with a one-command deploy; Postgres schema and migrations; the Browserbase automation module with cached-plan replay and fallback; the Claude ranking module with the rubric prompt; Slack alerting; a runbook covering the four common failure modes and how to re-run a request by thread ID; and a 45-minute handoff call testing a live request end to end.'
+      }
+    ]
+  },
+  {
+    id: 'ingredient-quoting-22-supplier-portals',
+    title: 'Ingredient Quoting Across 22 Supplier Portals',
+    description: 'A Python pipeline (Prefect, Skyvern and GPT-4.1) that quotes all 22 approved suppliers for every ingredient reorder and delivers a ranked comparison in about four hours instead of 3.5 days.',
+    source: 'Notion',
+    tags: [
+      'python'
+    ],
+    tools: [
+      'Python',
+      'Prefect',
+      'Skyvern',
+      'OpenAI',
+      'PostgreSQL',
+      'Amazon S3',
+      'Slack'
+    ],
+    content: [
+      {
+        type: 'label',
+        text: 'At a glance'
+      },
+      {
+        type: 'p',
+        text: 'Mid-size generic drug manufacturer, ~40 SKUs in production. Five weeks. Python 3.12, Prefect, Skyvern Cloud, OpenAI GPT-4.1, Postgres, S3, Slack. Went from quoting a fifth of their supplier base per order to quoting all of it.'
+      },
+      {
+        type: 'heading',
+        text: 'The 6% nobody could see'
+      },
+      {
+        type: 'p',
+        text: 'Production planning flags a reorder for an active ingredient. A procurement officer opens a portal, searches the CAS number, pulls a price, downloads the spec sheet, pastes it into Excel. Then the next portal. Then the next.'
+      },
+      {
+        type: 'p',
+        text: 'Twenty-two suppliers were on the approved list. In practice the officer got through five or six before the purchase order had to go out, and the same five or six every time — the ones with the least annoying logins.'
+      },
+      {
+        type: 'p',
+        text: 'The waste wasn\'t the officer\'s afternoon. It was the sixteen vendors nobody had time to ask. When the full list was finally quoted, the cheapest compliant supplier turned out not to be one of the usual five surprisingly often.'
+      },
+      {
+        type: 'heading',
+        text: 'Why this wasn\'t a scraping job'
+      },
+      {
+        type: 'p',
+        text: 'Three things ruled out the obvious approach, and a hand-written Playwright suite had already been abandoned for exactly these reasons.'
+      },
+      {
+        type: 'p',
+        text: 'Vendors don\'t agree on what anything is called. Metformin HCl USP, metformin hydrochloride BP/EP, or a bare product code — same molecule, three listings, no shared key except the CAS number buried somewhere on the page.'
+      },
+      {
+        type: 'p',
+        text: 'Quotes don\'t arrive in one shape. Some portals render a price table. Some hand back a PDF. Some won\'t tell you anything until you\'ve submitted an RFQ form and waited for an email.'
+      },
+      {
+        type: 'p',
+        text: 'And it\'s a regulated purchase. Pharmacopoeia grade, GMP status, and whether the supplier holds a DMF or CEP are pass/fail gates, not preferences. A cheap quote from a vendor without the right filing isn\'t a cheap quote — it\'s not a quote at all. Every choice has to survive an audit two years later.'
+      },
+      {
+        type: 'heading',
+        text: 'Following one RFQ through'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ingredient-quoting/image1.png',
+        caption: 'Multi-vendor ingredient quoting pipeline: RFQ intake (CAS number, grade, quantity), a Skyvern browser handles login, 2FA and CAPTCHA, prices come from an in-page table or from a downloaded and parsed PDF or emailed quote, GPT-4.1 normalises and validates them, and the ranked comparison goes to a Slack thread with an audit log.'
+      },
+      {
+        type: 'p',
+        text: 'A reorder request arrives as a CAS number, a grade, and a quantity. Before anything opens a browser, that gets resolved against an internal ingredient register — deterministically, on the CAS number, never on the product name.'
+      },
+      {
+        type: 'p',
+        text: 'Prefect then fans the request out to twenty-two isolated subflows, one per vendor. Each launches its own Skyvern cloud browser and logs in. Nine of these portals want 2FA and two sit behind CAPTCHAs; that\'s handled inside the login step rather than being a per-vendor engineering problem.'
+      },
+      {
+        type: 'p',
+        text: 'From there the paths diverge by portal. Where the price sits in the page, it\'s read straight off the page against a schema. Where it only exists as a PDF or an emailed quote sheet, the file is downloaded and parsed separately.'
+      },
+      {
+        type: 'p',
+        text: 'Everything then funnels back into a single normalisation pass — one model call, one strict schema, twenty-two vendors reduced to comparable rows: unit price, currency, unit of measure, MOQ, lead time, incoterm, grade, GMP status, DMF reference.'
+      },
+      {
+        type: 'p',
+        text: 'The ranked comparison lands in Slack about four hours later, with every row linking to the evidence behind it.'
+      },
+      {
+        type: 'heading',
+        text: 'Four forks in the road'
+      },
+      {
+        type: 'subheading',
+        text: 'Skyvern rather than raw Playwright'
+      },
+      {
+        type: 'p',
+        text: 'The rejected option was writing and maintaining twenty-two scripts. That\'s what had already failed. At this many portals somebody is always redesigning something, and the maintenance load quietly exceeded the hours the automation was saving. Buying the resilience rather than building it was the entire reason the project was viable a second time.'
+      },
+      {
+        type: 'subheading',
+        text: '1Password rather than a second vault'
+      },
+      {
+        type: 'p',
+        text: 'Skyvern can read credentials from several providers, and the client was already on 1Password. The alternative — standing up a dedicated secrets store — would have meant twenty-two sets of credentials living in two places, which is worse security dressed up as better engineering.'
+      },
+      {
+        type: 'subheading',
+        text: 'Selectors first, model second'
+      },
+      {
+        type: 'p',
+        text: 'Every stable element on a page gets a selector and a prompt. The selector runs, costs nothing, and usually works; the model only engages when it misses. Going model-first on everything would have been simpler to write and roughly ten times the running cost.'
+      },
+      {
+        type: 'subheading',
+        text: 'The model never decides what an ingredient is'
+      },
+      {
+        type: 'p',
+        text: 'It was tempting to let a model reconcile vendor product names. It isn\'t allowed to. Where a listing has no CAS field, the model may suggest a match, and that suggestion goes to a human. Misidentifying an ingredient in this industry isn\'t a data quality issue, and no accuracy figure would have made that trade acceptable.'
+      },
+      {
+        type: 'heading',
+        text: 'When it breaks'
+      },
+      {
+        type: 'img',
+        file: 'case-content/ingredient-quoting/image2.png',
+        caption: 'Route Memorization in practice: a memorized route replays deterministically. If the replay works the quote is captured with its evidence hash; if the route breaks it is regenerated by AI with a diff alert; if it keeps failing it goes to a review queue with the session recording attached.'
+      },
+      {
+        type: 'p',
+        text: 'Skyvern\'s Route Memorization compiles a successful run into a deterministic script and replays it. When a portal changes and the replay fails, it re-plans with AI, finds the new path, and regenerates the script. That mechanism does the heavy lifting here.'
+      },
+      {
+        type: 'p',
+        text: 'What it doesn\'t do is announce itself. A regenerated route is a silent event, and silent events don\'t belong in a regulated purchasing process.'
+      },
+      {
+        type: 'p',
+        text: 'So the wrapper watches for it. Each subflow records its action count and wall-clock duration; a memorised replay sits in a tight, predictable band, and an AI re-plan blows straight through it. That signal tags the run as a regeneration, diffs the new route against the old one, and drops a summary into Slack so someone can see what the portal changed before the next cycle.'
+      },
+      {
+        type: 'p',
+        text: 'If a regenerated route produces a quote that can\'t be evidence-checked, that vendor goes to a review queue with its session recording attached instead of into the comparison. About 4% of quotes land there, mostly from two portals that render prices as images.'
+      },
+      {
+        type: 'p',
+        text: 'The result is that failure is local. One portal breaking means twenty-one quotes still land and the RFQ is still useful.'
+      },
+      {
+        type: 'heading',
+        text: 'Impact'
+      },
+      {
+        type: 'table',
+        headers: [
+          '',
+          'Before',
+          'After'
+        ],
+        rows: [
+          [
+            'Vendors quoted per RFQ',
+            '5–6',
+            '22'
+          ],
+          [
+            'Time to full comparison',
+            '3.5 days',
+            '~4 hours'
+          ],
+          [
+            'Procurement hours per month',
+            '~26',
+            '~3'
+          ]
+        ]
+      }
+    ]
+  },
+  {
     id: 'contract-intake-tool',
     title: 'Contract Intake Tool',
     description: 'A web app that scans an uploaded supplier contract for key terms with Claude, has a person review anything missing, and files it into the right Google Drive folder.',

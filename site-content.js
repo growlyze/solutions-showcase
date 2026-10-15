@@ -95,6 +95,7 @@ function create() {
       case 'img': return b.caption ? `<p><em>Image: ${esc(b.caption)}</em></p>` : '';
       case 'stats': return `<ul>${b.items.map((x) => `<li>${esc(x.value)} — ${esc(x.label)}</li>`).join('')}</ul>`;
       case 'table': return `<table><thead><tr>${b.headers.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${b.rows.map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+      case 'code': return `<pre><code>${esc(b.text)}</code></pre>`;
       case 'quote': return `<blockquote><p>${esc(b.text)}</p><footer>${esc(b.attribution)}</footer></blockquote>`;
       default: return `<p>${esc(b.text)}</p>`;
     }
@@ -220,6 +221,7 @@ function create() {
         const row = (r) => `| ${r.map((c) => String(c).replace(/\|/g, '/').replace(/\n/g, ' ')).join(' | ')} |`;
         return [row(b.headers), row(b.headers.map(() => '---')), ...b.rows.map(row)].join('\n');
       }
+      case 'code': return '```' + (b.language || '') + '\n' + b.text + '\n```';
       case 'quote': return `> ${b.text}\n> — ${b.attribution}`;
       default: return b.text;
     }
