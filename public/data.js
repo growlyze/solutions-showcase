@@ -1943,6 +1943,94 @@ const CASE_STUDIES = [
     ]
   },
   {
+    id: 'n8n-social-post-redo-and-cta-rotation',
+    title: 'AI Post Rewrites and CTA Rotation for a Content Team',
+    description: 'Two n8n workflows that rewrite a social post when a reviewer ticks Redo, and add the best call-to-action to each thread from a rotating library.',
+    source: 'Portfolio',
+    tags: [
+      'n8n'
+    ],
+    content: [
+      {
+        type: 'heading',
+        text: 'Purpose'
+      },
+      {
+        type: 'p',
+        text: 'A content team keeps its social post drafts in Airtable, with a version for X, LinkedIn and Threads. A reviewer checks each draft there. These two n8n workflows handle two jobs inside that review loop: rewriting a draft when the reviewer asks for changes, and adding the right call-to-action (CTA) to each thread.'
+      },
+      {
+        type: 'heading',
+        text: 'The Solution'
+      },
+      {
+        type: 'p',
+        text: 'Both workflows read and write the same Airtable base, and both send their writing tasks to Claude through one shared sub-workflow.'
+      },
+      {
+        type: 'subheading',
+        text: 'Workflow 1: Redo (rewrites a draft from reviewer feedback)'
+      },
+      {
+        type: 'list',
+        items: [
+          'The reviewer ticks the Redo checkbox on a card and writes what to change in the Feedback field.',
+          'n8n finds every card with Redo ticked and source text filled in. A dispatcher workflow can start it, and an hourly run catches anything that was missed.',
+          'It reads the current Post Rules and Craft Playbook from a settings record in Airtable. The team edits them there, and every new draft follows them first.',
+          'Claude gets the original source, the previous draft and the feedback. It applies the feedback exactly, keeps everything the reviewer did not mention, and returns three versions: the X post, a LinkedIn post of 600 to 1,100 characters, and a Threads post of about 420 characters (500 at most) that ends on a complete sentence.',
+          'A clean-up step removes hedging lines such as “the source does not establish…”. It also keeps the “shared by a publisher” credit line only on posts that carry an image, and moves it to the last line.',
+          'n8n writes all three drafts back to the card, unticks Redo and sets the status to Pending Review. Because Redo is cleared, each request is handled once. The feedback stays on the card as a record.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'What the prompt enforces'
+      },
+      {
+        type: 'list',
+        items: [
+          'Use only facts that appear in the source text or the previous draft, and never invent numbers, dates, figures or view counts.',
+          'Return the full revised post, not a list of changes.',
+          'If the feedback asks for a quote, keep the publisher’s own words word for word in quotation marks, and write any analysis separately after it.',
+          'Follow the account’s voice rules, with a list of banned words and AI-sounding phrases.'
+        ]
+      },
+      {
+        type: 'subheading',
+        text: 'Workflow 2: CTA Auto-Insert (picks the call-to-action for each thread)'
+      },
+      {
+        type: 'list',
+        items: [
+          'Every two minutes it looks for draft cards that have no CTA linked yet.',
+          'It reads every active CTA from a CTA library in Airtable. Each entry has the CTA text, link, category, weight, times used, conversions, a weekly cap and a “use when” note.',
+          'A code step drops CTAs that have reached their cap and scores the rest. Weight counts double, each conversion adds half a point, and each earlier use takes one point off. The list is sorted best first.',
+          'Claude receives the post, its source and the ranked list. It picks one primary CTA that fits the topic and a different secondary CTA, using the “use when” notes. When two fit equally well, it takes the higher-ranked one so no CTA is overused. It writes the reply in the account’s voice and keeps each link exactly as stored.',
+          'Another code step builds the thread. The lead post comes first, the primary CTA is the first reply, the rest of the thread follows, and the secondary CTA goes at the end. Each part is numbered 1/, 2/ and so on.',
+          'n8n saves the thread on the card and links the primary CTA record to it. A linked CTA means the card no longer matches the search, so it is not processed twice.',
+          'The Times Used counter goes up by one for the primary CTA, and for the secondary CTA when there is one, so the rotation stays fair.'
+        ]
+      },
+      {
+        type: 'img',
+        file: 'case-content/n8n-post-redo-cta-rotation/image1.png',
+        caption: 'CTA Auto-Insert in n8n: a schedule trigger, an Airtable search, a read of the CTA library, a code step that ranks the CTAs, a prompt step, the Claude pick through a shared sub-workflow, a code step that builds the thread, and an Airtable update that links the CTA, followed by two branches that raise the Times Used counters.'
+      },
+      {
+        type: 'heading',
+        text: 'Good to Know'
+      },
+      {
+        type: 'list',
+        items: [
+          'The Redo workflow is live. The CTA workflow is switched off in this version, because checking every two minutes would use about 21,600 executions a month.',
+          'Both workflows have an exit rule that stops a card from being handled twice: Redo is unticked in the first, and a CTA is linked in the second.',
+          'The rules, the playbook and the CTA library all live in Airtable, so the team can change how posts are written and which CTAs are used without opening n8n.'
+        ]
+      }
+    ]
+  },
+  {
     id: 'whatsapp-voice-business-agent',
     title: 'WhatsApp Voice & Business Agent with n8n',
     description: 'Turning customer voice notes, photos and text messages on WhatsApp into instant, database-backed answers through an n8n workflow.',
