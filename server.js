@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
-const { create } = require('./site-content');
+const { create, mergedDataSource, originalCaseStudies } = require('./site-content');
+const { createStore } = require('./store');
+const { adminRouter } = require('./admin');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -8,13 +10,48 @@ const PORT = process.env.PORT || 3000;
 // Railway terminates HTTPS in front of the app; trust it so absolute links use https.
 app.set('trust proxy', true);
 
-const site = create();
+// Edits saved from the browser editor live in the store (Postgres on Railway) and are laid over
+// public/data.js. After every save the pages are drawn again from the merged content.
+const store = createStore();
+const adminPassword = { value: process.env.ADMIN_PASSWORD || '', hash: '' };
+const overrides = new Map();
+const original = originalCaseStudies();
+const originalById = new Map(original.cases.map((c) => [c.id, c]));
+let site = null;
+let dataJs = '';
+function rebuild() {
+  site = create(overrides);
+  dataJs = mergedDataSource(overrides);
+}
+
 const baseUrl = (req) => `${req.protocol}://${req.get('host')}`;
-const CACHE = 'public, max-age=300';
+// Pages can change whenever the admin saves an edit, so browsers and proxies check back each time
+// (cheap: an unchanged page is answered with "not modified").
+const CACHE = 'no-cache';
 
 function send(res, type, body, status = 200) {
   res.status(status).set({ 'Content-Type': type, 'Cache-Control': CACHE }).send(body);
 }
+
+app.use('/api', adminRouter({
+  store,
+  getOriginal: (id) => originalById.get(id),
+  categorySlugs: new Set(original.categories.map((c) => c.slug)),
+  overrides,
+  adminPassword,
+  onChange: rebuild,
+}));
+
+// The content the browser app reads: public/data.js with the saved edits applied.
+app.get('/data.js', (req, res) => send(res, 'application/javascript; charset=utf-8', dataJs));
+
+// Images uploaded from the editor.
+app.get('/uploads/:name', async (req, res) => {
+  if (!/^[a-f0-9]{24}\.(png|jpg|webp|gif)$/.test(req.params.name)) return res.status(404).end();
+  const file = await store.getUpload(req.params.name).catch(() => null);
+  if (!file) return res.status(404).end();
+  res.set({ 'Content-Type': file.mime, 'Cache-Control': 'public, max-age=31536000, immutable' }).send(file.buffer);
+});
 
 // Machine-readable files: what AI tools and search engines look for.
 app.get('/robots.txt', (req, res) => send(res, 'text/plain; charset=utf-8', site.robotsTxt(baseUrl(req))));
@@ -88,6 +125,16 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+(async () => {
+  await store.init();
+  adminPassword.hash = await store.getAdminPasswordHash();
+  for (const [id, o] of await store.allOverrides()) if (originalById.has(id) || o.isNew || o.isDeleted) overrides.set(id, o);
+  rebuild();
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT} (edits stored in ${store.kind}, ${overrides.size} edited case studies)`);
+    if (!adminPassword.hash && !adminPassword.value) console.log('ADMIN_PASSWORD is not set: editing is switched off.');
+  });
+})().catch((e) => {
+  console.error('Startup failed', e);
+  process.exit(1);
 });

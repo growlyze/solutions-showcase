@@ -10,3 +10,6 @@ _extract/
 *.zip
 /Airtable/
 /Powe bi/
+
+# Local edits and uploads when running without DATABASE_URL
+.data/

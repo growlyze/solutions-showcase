@@ -41,6 +41,42 @@ Everything lives in `public/data.js`:
 
 No build step. Just edit `data.js` and refresh.
 
+## Editing case studies on the site
+
+Every case study can be edited in the browser, Notion-style, by the admin. Visitors only see an "Admin login" link next to Home in the header.
+
+1. Click **Admin login** in the header (next to Home) and enter the password (`ADMIN_PASSWORD`).
+   - To change it, choose **Change password** in the admin header. Enter the current password and a new password of at least 12 characters; changing it logs you out.
+2. Open a case study and press **Edit this case study**.
+3. Edit it like a Notion page:
+   - **Text:** click anything to type. Select text for the formatting bar (bold, italic, strikethrough, inline code, link, clear), or use Ctrl+B / Ctrl+I / Ctrl+Shift+S / Ctrl+E / Ctrl+K.
+   - **Cover and icon:** "Add cover" (upload, or reuse an image already on the page; any image block also has "Use as cover") and "Add icon" (emoji picker). Covers also show on the case study's card.
+   - **Blocks:** hover a block for its controls: drag ⋮⋮ to move it, change its type, move up/down, duplicate, add below, delete. Block types: text, heading, subheading, section heading, bold line, bulleted and numbered lists, callout (with colours), quote, image, table, stats, divider, code.
+   - **Text alignment:** use a text block's alignment menu to align left, center, right or justify its text.
+   - **Keyboard:** **/** in an empty paragraph opens the block menu (type to filter). Typing `- `, `1. `, `# `, `## `, `### `, `> ` or `---` at the start of a paragraph turns it into that block. **Enter** splits a paragraph, **Backspace** at the start joins it to the one above, and arrow keys move between blocks. Ctrl+Z / Ctrl+Shift+Z undo and redo block changes.
+   - **Pasting:** paste a screenshot or image file and it becomes an image block; drag image files in from your computer too (PNG, JPG, WebP or GIF up to 8 MB). Copy a section from Notion, Google Docs, Word or any web page and paste it: headings, paragraphs, bold/italic/links, lists, tables, quotes, dividers and images come across as blocks. Images inside pasted content are downloaded and stored by the site (an image behind a login, such as a private Notion file, can't be fetched; paste or upload that image itself).
+   - The title, the summary and the sections the case study is listed under are editable too.
+4. Press **Save** (or Ctrl+S). The change is live for every visitor straight away; no redeploy needed. **Revert to original** throws away the site edits for that case study. **Delete case study** permanently removes it from the site for everyone; this cannot be undone.
+
+Body text is stored markdown-style (`**bold**`, `*italic*`, `~~strike~~`, `` `code` ``, `[link](https://…)`), so the plain-text versions for AI tools stay readable; `inlineHtml()` in `app.js` turns it into HTML and escapes everything else.
+
+How it is stored: `public/data.js` stays the original content. A saved edit is an override for that one case study, kept in Postgres (`case_overrides` table; uploaded images in `uploads`) and laid over `data.js` whenever the site is drawn, by the browser (`/data.js` is served with the edits applied) and by the server pages for AI tools and search engines. The changed admin password is stored as a salted scrypt hash in Postgres (`admin_settings`) or `.data/admin.json` locally. Deleting an original case study stores a tombstone in the same table so it stays removed after restarts; deleting a case study created on the site removes its stored record. If `data.js` is later changed by hand for a case study that also has a site edit, the site edit wins until it is reverted.
+
+| File | Role |
+|---|---|
+| `public/editor.js` | The editor (browser only) |
+| `admin.js` | Login and the editing API (`/api/session`, `/api/login`, `/api/logout`, `/api/password`, `POST`/`PUT`/`DELETE /api/cases/<id>`, `POST /api/cases/<id>/revert`, `POST /api/uploads`, `POST /api/uploads/from-url`) |
+| `store.js` | Storage: Postgres when `DATABASE_URL` is set, otherwise a local `.data/` folder (for development); stores the scrypt password hash after an admin changes the password |
+
+Environment variables:
+
+| Variable | Needed | What it does |
+|---|---|---|
+| `ADMIN_PASSWORD` | yes, to edit | The initial admin password. Without it editing is switched off unless a password was already changed and stored. After changing the password in the admin menu, the stored password hash is used instead; reset it by removing the `password_hash` row from Postgres `admin_settings` or the local `.data/admin.json` file |
+| `DATABASE_URL` | yes on Railway | Postgres connection string. In Railway, add a Postgres database to the project and reference its `DATABASE_URL` in this service's variables |
+| `PGSSL` | no | Set to `true` if connecting to Postgres over its public URL needs SSL |
+| `SESSION_SECRET` | no | Extra secret mixed into the login cookie signature |
+
 ## Run locally
 
 ```bash
@@ -48,13 +84,13 @@ npm install
 npm start
 ```
 
-Then open http://localhost:3000
+Then open http://localhost:3000. To try editing locally, start it with a password: `ADMIN_PASSWORD=yourpassword npm start` (edits are saved in `.data/`).
 
 ## Deploy to Railway
 
 1. Push this folder to a GitHub repo (or use the Railway CLI directly from this folder).
 2. In Railway: **New Project → Deploy from GitHub repo** (or run `railway init` then `railway up` from this folder if using the CLI).
-3. Railway auto-detects Node via Nixpacks and runs `npm install` then `npm start` (see `railway.json`). No environment variables are required.
+3. Railway auto-detects Node via Nixpacks and runs `npm install` then `npm start` (see `railway.json`). For editing, add a Postgres database to the project and set `ADMIN_PASSWORD` and `DATABASE_URL` on this service (see "Editing case studies on the site").
 4. Once deployed, Railway gives you a public `*.up.railway.app` URL (you can attach a custom domain from the Railway dashboard under Settings → Domains).
 
 ## Known gaps / needs your input

@@ -18,11 +18,50 @@ const esc = (s) => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const itemText = (i) => (typeof i === 'string' ? i : Object.values(i).join(' '));
 
+// ---------- edits made in the browser ----------
+// public/data.js holds the original content. Edits saved by the admin (see admin.js) are kept as
+// overrides and laid over it here, so the browser and the server both draw the edited version.
+// The browser receives this same merged file at /data.js.
+const ORIGINAL_DATA_SRC = fs.readFileSync(path.join(PUBLIC_DIR, 'data.js'), 'utf8');
+
+// An override is either an edit of an original case study, or (isNew) a whole case study that was
+// created on the site; new ones are listed first, newest first.
+function mergedDataSource(overrides = new Map()) {
+  const edits = {};
+  const added = [];
+  const deleted = [];
+  for (const [id, o] of overrides) {
+    if (o.isDeleted) { deleted.push(id); continue; }
+    const fields = { title: o.title, description: o.description, tags: o.tags, content: o.content, cover: o.cover || '', icon: o.icon || '' };
+    if (o.isNew) added.push({ id, source: 'Site', url: '', isNew: true, createdAt: o.createdAt || '', ...fields });
+    else edits[id] = fields;
+  }
+  added.sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  return `${ORIGINAL_DATA_SRC}
+// Edits saved from the site's editor, laid over the original entries above, and case studies
+// created on the site.
+var EDITED_CASE_IDS = ${JSON.stringify(Object.keys(edits))};
+(function (edits, added, deleted) {
+  CASE_STUDIES.forEach(function (c) { if (edits[c.id]) Object.assign(c, edits[c.id]); });
+  CASE_STUDIES.unshift.apply(CASE_STUDIES, added);
+  for (var i = CASE_STUDIES.length - 1; i >= 0; i--) {
+    if (deleted.indexOf(CASE_STUDIES[i].id) !== -1) CASE_STUDIES.splice(i, 1);
+  }
+})(${JSON.stringify(edits)}, ${JSON.stringify(added)}, ${JSON.stringify(deleted)});
+`;
+}
+
+// The case studies exactly as public/data.js has them, for "revert to original".
+function originalCaseStudies() {
+  const context = vm.createContext({});
+  vm.runInContext(`${ORIGINAL_DATA_SRC}\n;globalThis.__cases = CASE_STUDIES; globalThis.__cats = CATEGORIES;`, context);
+  return { cases: context.__cases, categories: context.__cats };
+}
+
 // ---------- run the app's rendering code on the server ----------
 // app.js draws pages by writing HTML into #app. A tiny stand-in for the few browser objects it
 // touches lets the same code produce the same HTML here.
-function createRenderer() {
-  const dataSrc = fs.readFileSync(path.join(PUBLIC_DIR, 'data.js'), 'utf8');
+function createRenderer(dataSrc) {
   const appSrc = fs.readFileSync(path.join(PUBLIC_DIR, 'app.js'), 'utf8');
 
   const target = { innerHTML: '', querySelectorAll: () => [] };
@@ -49,7 +88,7 @@ function createRenderer() {
     document: documentStub, window: windowStub, localStorage: { getItem: () => null, setItem: noop }, console,
   });
   vm.runInContext(
-    `${dataSrc}\n${appSrc}\n;globalThis.__api = { CATEGORIES, CASE_STUDIES, renderHome, renderCategory, renderCaseDetail, toolsFor };`,
+    `${dataSrc}\n${appSrc}\n;globalThis.__api = { CATEGORIES, CASE_STUDIES, renderHome, renderCategory, renderCaseDetail, toolsFor, inlineHtml };`,
     context, { filename: 'app-and-data' },
   );
   const api = context.__api;
@@ -74,10 +113,10 @@ function createRenderer() {
   };
 }
 
-function create() {
-  const renderer = createRenderer();
+function create(overrides) {
+  const renderer = createRenderer(mergedDataSource(overrides));
   const categories = renderer.api.CATEGORIES;
-  const cases = renderer.api.CASE_STUDIES.filter((c) => c.content && c.content.length);
+  const cases = renderer.api.CASE_STUDIES.filter((c) => Array.isArray(c.content) && (c.content.length || c.isNew));
   const caseById = new Map(cases.map((c) => [c.id, c]));
   const categoryBySlug = new Map(categories.map((c) => [c.slug, c]));
   const casesFor = (slug) => cases.filter((c) => c.tags.includes(slug));
@@ -86,18 +125,24 @@ function create() {
   // ---------- "Full text" pages: the whole content in one visible HTML page ----------
   // Served to AI tools and crawlers (and to anyone who adds ?full=1). Plain, compact markup with the
   // app's scripts left out, so a tool that runs JavaScript sees the same text as one that does not.
+  const inline = renderer.api.inlineHtml;
   function blockHtml(b) {
+    const alignment = ['center', 'right', 'justify'].includes(b.align) ? b.align : '';
+    const wrapAligned = (html) => alignment ? `<div class="content-align content-align--${alignment}">${html}</div>` : html;
     switch (b.type) {
-      case 'heading': case 'eyebrow': return `<h3>${esc(b.text)}</h3>`;
-      case 'subheading': return `<h4>${esc(b.text)}</h4>`;
-      case 'label': return `<p><strong>${esc(b.text)}</strong></p>`;
-      case 'list': return `<ul>${b.items.map((i) => `<li>${esc(itemText(i))}</li>`).join('')}</ul>`;
+      case 'heading': case 'eyebrow': return wrapAligned(`<h3>${esc(b.text)}</h3>`);
+      case 'subheading': return wrapAligned(`<h4>${esc(b.text)}</h4>`);
+      case 'label': return wrapAligned(`<p><strong>${esc(b.text)}</strong></p>`);
+      case 'list': return wrapAligned(`<ul>${b.items.map((i) => `<li>${inline(itemText(i))}</li>`).join('')}</ul>`);
+      case 'olist': return wrapAligned(`<ol>${b.items.map((i) => `<li>${inline(itemText(i))}</li>`).join('')}</ol>`);
+      case 'callout': return wrapAligned(`<p>${b.icon ? `${esc(b.icon)} ` : ''}${inline(b.text)}</p>`);
+      case 'divider': return '<hr />';
       case 'img': return b.caption ? `<p><em>Image: ${esc(b.caption)}</em></p>` : '';
       case 'stats': return `<ul>${b.items.map((x) => `<li>${esc(x.value)}: ${esc(x.label)}</li>`).join('')}</ul>`;
-      case 'table': return `<table><thead><tr>${b.headers.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${b.rows.map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+      case 'table': return `<table><thead><tr>${b.headers.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${b.rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
       case 'code': return `<pre><code>${esc(b.text)}</code></pre>`;
-      case 'quote': return `<blockquote><p>${esc(b.text)}</p><footer>${esc(b.attribution)}</footer></blockquote>`;
-      default: return `<p>${esc(b.text)}</p>`;
+      case 'quote': return wrapAligned(`<blockquote><p>${inline(b.text)}</p><footer>${esc(b.attribution)}</footer></blockquote>`);
+      default: return wrapAligned(`<p>${inline(b.text)}</p>`);
     }
   }
 
@@ -215,6 +260,9 @@ function create() {
       case 'subheading': return `### ${b.text}`;
       case 'label': return `**${b.text}**`;
       case 'list': return b.items.map((i) => `- ${itemText(i)}`).join('\n');
+      case 'olist': return b.items.map((i, n) => `${n + 1}. ${itemText(i)}`).join('\n');
+      case 'callout': return `> ${b.icon ? `${b.icon} ` : ''}${b.text}`;
+      case 'divider': return '---';
       case 'img': return `Image${b.caption ? `: ${b.caption}` : ''} (${base}/${b.file})`;
       case 'stats': return b.items.map((s) => `- ${s.value}: ${s.label}`).join('\n');
       case 'table': {
@@ -280,7 +328,7 @@ function create() {
   const FOOTER_LINE = '<p>Click any category to browse its case studies.</p>';
   const anchors = [
     `<title>${SITE_NAME}</title>`, '<main id="app" class="container"></main>', '</head>',
-    'href="style.css"', 'src="data.js"', 'src="app.js"', FOOTER_LINE,
+    'href="style.css"', 'src="data.js"', 'src="app.js"', 'src="editor.js"', FOOTER_LINE,
   ];
   for (const a of anchors) if (!template.includes(a)) throw new Error('index.html is missing: ' + a);
   if (!/<meta name="description" content="[^"]*" \/>/.test(template)) throw new Error('index.html is missing the description meta tag');
@@ -300,7 +348,8 @@ function create() {
       .replace(FOOTER_LINE, aiLine)
       .replace('href="style.css"', 'href="/style.css"')
       .replace('<script src="data.js"></script>', app ? '<script src="/data.js"></script>' : '')
-      .replace('<script src="app.js"></script>', app ? '<script src="/app.js"></script>' : '');
+      .replace('<script src="app.js"></script>', app ? '<script src="/app.js"></script>' : '')
+      .replace('<script src="editor.js"></script>', app ? '<script src="/editor.js"></script>' : '');
   }
 
   return {
@@ -318,4 +367,4 @@ function create() {
   };
 }
 
-module.exports = { create };
+module.exports = { create, mergedDataSource, originalCaseStudies };

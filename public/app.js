@@ -4,6 +4,38 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
+// Escaping that is also safe inside attribute values (the DOM-based escapeHtml leaves quotes).
+function escAttr(str) {
+  return String(str == null ? '' : str)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// Inline formatting inside body text, written the markdown way: **bold**, *italic*,
+// ~~strikethrough~~, `code` and [links](https://…). A backslash keeps the next character as
+// it is (\* shows a plain asterisk). Everything else is escaped, so text can never add HTML.
+function emphasisHtml(s) {
+  return s
+    .replace(/\*\*(?=\S)([\s\S]*?\S)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^\w*])\*(?=[^\s*])([\s\S]*?[^\s*])\*(?![\w*])/g, '$1<em>$2</em>')
+    .replace(/~~(?=\S)([\s\S]*?\S)~~/g, '<s>$1</s>');
+}
+
+function inlineHtml(text) {
+  const held = [];
+  const hold = (html) => `\u0000${held.push(html) - 1}\u0000`;
+  let s = String(text == null ? '' : text)
+    .replace(/\\([\\*`~[\]()_])/g, (m, ch) => hold(escAttr(ch)))
+    .replace(/`([^`\n]+)`/g, (m, code) => hold(`<code>${escAttr(code)}</code>`))
+    .replace(/\[([^\]\n]+)\]\(([^)\s]+)\)/g, (m, label, url) => {
+      if (!/^(https?:\/\/|mailto:|\/|#)/i.test(url)) return m;
+      const external = /^https?:/i.test(url) ? ' target="_blank" rel="noopener noreferrer"' : '';
+      return hold(`<a href="${escAttr(url)}"${external}>${emphasisHtml(escAttr(label))}</a>`);
+    });
+  s = emphasisHtml(escAttr(s));
+  while (/\u0000\d+\u0000/.test(s)) s = s.replace(/\u0000(\d+)\u0000/g, (m, i) => held[i]);
+  return s;
+}
+
 function casesForTag(slug) {
   return CASE_STUDIES.filter((c) => c.tags.includes(slug));
 }
@@ -136,14 +168,16 @@ function renderCategory(slug) {
           .filter(Boolean)
           .map((c) => `<span class="tag-pill">${iconHtml(c)} ${escapeHtml(c.name)}</span>`)
           .join('');
-        const hasContent = cs.content && cs.content.length;
+        const hasContent = Array.isArray(cs.content) && (cs.content.length || cs.isNew);
         const href = hasContent ? `#/case/${cs.id}` : cs.url;
         const linkAttrs = hasContent ? '' : ' target="_blank" rel="noopener noreferrer"';
         const ctaLabel = hasContent ? 'Read case study' : 'Open case study';
         const ctaIcon = hasContent ? '&rarr;' : '&nearr;';
+        const cover = cs.cover ? `<div class="card-cover"><img src="${escAttr(cs.cover)}" alt="" loading="lazy" /></div>` : '';
+        const icon = cs.icon ? `<span class="card-case-icon" aria-hidden="true">${escapeHtml(cs.icon)}</span> ` : '';
         return `
-          <a class="card${cases.length === 1 ? ' card--row card--row-case' : ''}" href="${escapeHtml(href)}"${linkAttrs}>
-            <h3>${escapeHtml(cs.title)}</h3>
+          <a class="card${cases.length === 1 ? ' card--row card--row-case' : ''}${cs.cover ? ' card--cover' : ''}" href="${escapeHtml(href)}"${linkAttrs}>
+            ${cover}<h3>${icon}${escapeHtml(cs.title)}</h3>
             <p>${escapeHtml(cs.description)}</p>
             <div class="tag-row">${tags}</div>
             <span class="card-cta">${ctaLabel} <span aria-hidden="true">${ctaIcon}</span></span>
@@ -164,6 +198,8 @@ function renderCategory(slug) {
     <div class="${gridClass(cases.length)}">${cardsHtml}</div>
   `;
   attachLogoFallbacks(app);
+  // editor.js (browser only) adds the admin's "Add a case study" card here.
+  if (window.onCategoryRendered) window.onCategoryRendered(category);
 }
 
 // List items written as "Term: explanation" are bolded up to the colon so a
@@ -175,16 +211,20 @@ function splitLeadIn(text) {
 
 // A single bold item in an otherwise plain list looks like a mistake, so terms
 // are only bolded when at least half of the list's items are written that way.
-function listHtml(items) {
+// Items that already carry their own **bold** are left as written.
+function listHtml(items, ordered) {
   const bold = items.filter(splitLeadIn).length * 2 >= items.length;
   const li = (text) => {
-    const m = bold && splitLeadIn(text);
-    return `<li>${m ? `<strong>${escapeHtml(m[1])}:</strong> ${escapeHtml(m[2])}` : escapeHtml(text)}</li>`;
+    const m = bold && !/^\*\*/.test(text) && splitLeadIn(text);
+    return `<li>${m ? `<strong>${inlineHtml(m[1])}:</strong> ${inlineHtml(m[2])}` : inlineHtml(text)}</li>`;
   };
-  return `<ul class="content-list">${items.map(li).join('')}</ul>`;
+  const tag = ordered ? 'ol' : 'ul';
+  return `<${tag} class="content-list${ordered ? ' content-olist' : ''}">${items.map(li).join('')}</${tag}>`;
 }
 
-function contentBlockHtml(block) {
+const CALLOUT_TONES = ['default', 'green', 'blue', 'yellow', 'red', 'gray'];
+
+function contentBlockInnerHtml(block) {
   if (block.type === 'heading') return `<h3>${escapeHtml(block.text)}</h3>`;
   if (block.type === 'subheading') return `<h4>${escapeHtml(block.text)}</h4>`;
   if (block.type === 'eyebrow') return `<p class="content-eyebrow">${escapeHtml(block.text)}</p>`;
@@ -201,21 +241,38 @@ function contentBlockHtml(block) {
   if (block.type === 'list') {
     return listHtml(block.items);
   }
+  if (block.type === 'olist') {
+    return listHtml(block.items, true);
+  }
+  if (block.type === 'callout') {
+    const tone = CALLOUT_TONES.includes(block.tone) ? block.tone : 'default';
+    const icon = block.icon ? `<span class="callout-icon" aria-hidden="true">${escapeHtml(block.icon)}</span>` : '';
+    return `<div class="content-callout callout-${tone}">${icon}<div class="callout-text">${inlineHtml(block.text)}</div></div>`;
+  }
+  if (block.type === 'divider') {
+    return '<hr class="content-divider" />';
+  }
   if (block.type === 'stats') {
     return `<div class="content-stats">${block.items.map((s) => `<div class="stat-tile"><div class="stat-value">${escapeHtml(s.value)}</div><div class="stat-label">${escapeHtml(s.label)}</div></div>`).join('')}</div>`;
   }
   if (block.type === 'table') {
     const head = `<tr>${block.headers.map((h) => `<th>${escapeHtml(h)}</th>`).join('')}</tr>`;
-    const body = block.rows.map((row) => `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join('')}</tr>`).join('');
+    const body = block.rows.map((row) => `<tr>${row.map((cell) => `<td>${inlineHtml(cell)}</td>`).join('')}</tr>`).join('');
     return `<div class="content-table-wrap"><table class="content-table"><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
   }
   if (block.type === 'code') {
     return `<pre class="content-code" tabindex="0"><code>${escapeHtml(block.text)}</code></pre>`;
   }
   if (block.type === 'quote') {
-    return `<blockquote class="content-quote"><p>${escapeHtml(block.text)}</p><cite>${escapeHtml(block.attribution)}</cite></blockquote>`;
+    return `<blockquote class="content-quote"><p>${inlineHtml(block.text)}</p><cite>${escapeHtml(block.attribution)}</cite></blockquote>`;
   }
-  return `<p>${escapeHtml(block.text)}</p>`;
+  return `<p>${inlineHtml(block.text)}</p>`;
+}
+
+function contentBlockHtml(block) {
+  const html = contentBlockInnerHtml(block);
+  const alignment = ['center', 'right', 'justify'].includes(block.align) ? block.align : '';
+  return alignment ? `<div class="content-align content-align--${alignment}">${html}</div>` : html;
 }
 
 // Many case studies open with the same sentence that is used as the card
@@ -374,10 +431,16 @@ function renderCaseDetail(id) {
     .map((c) => `<span class="tag-pill">${iconHtml(c)} ${escapeHtml(c.name)}</span>`)
     .join('');
 
+  // Optional cover photo across the top and a page icon above the title, as in a Notion page.
+  const cover = cs.cover ? `<div class="case-cover"><img src="${escAttr(cs.cover)}" alt="" /></div>` : '';
+  const icon = cs.icon ? `<div class="case-icon${cs.cover ? ' case-icon--over' : ''}" aria-hidden="true">${escapeHtml(cs.icon)}</div>` : '';
+
   app.innerHTML = `
     <div class="case-detail-wrap">
       <a class="back-link" href="#/" data-back="smart">&larr; Back</a>
+      ${cover}
       <div class="case-detail-header">
+        ${icon}
         <h1>${escapeHtml(cs.title)}</h1>
         ${descriptionRepeatedInBody(cs) ? '' : `<p>${escapeHtml(cs.description)}</p>`}
         <div class="tag-row">${tags}</div>${quickFactsHtml(cs)}
@@ -388,6 +451,8 @@ function renderCaseDetail(id) {
     </div>
   `;
   attachLogoFallbacks(app);
+  // editor.js (browser only) adds the admin's Edit button here.
+  if (window.onCaseRendered) window.onCaseRendered(cs);
 }
 
 function router() {
