@@ -1,0 +1,12 @@
+.git
+.data
+node_modules
+.env
+.env.*
+!.env.example
+*.docx
+*.pdf
+*.zip
+_extract
+Airtable
+Powe bi

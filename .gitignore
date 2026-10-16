@@ -13,3 +13,8 @@ _extract/
 
 # Local edits and uploads when running without DATABASE_URL
 .data/
+
+# Local deployment secrets
+.env
+.env.*
+!.env.example

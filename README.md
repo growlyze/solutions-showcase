@@ -86,6 +86,32 @@ npm start
 
 Then open http://localhost:3000. To try editing locally, start it with a password: `ADMIN_PASSWORD=yourpassword npm start` (edits are saved in `.data/`).
 
+## Run with Docker (Hostinger VPS)
+
+Docker hosting requires a Hostinger VPS with Docker/Compose support; Hostinger shared web hosting does not run Docker containers. This setup keeps the existing project layout. The Compose file builds the app from this folder and persists local edits, uploaded images, and the changed admin password in a named Docker volume.
+
+1. Install Docker Engine and the Docker Compose plugin on the VPS, then connect over SSH.
+2. Get this project onto the VPS (for example, clone the GitHub repository) and enter its project folder.
+3. Create the private environment file and set your own strong credentials:
+
+   ```bash
+   cp .env.example .env
+   nano .env
+   ```
+
+   Set `ADMIN_PASSWORD` to a unique password of at least 12 characters. Generate a random value for `SESSION_SECRET` with `openssl rand -hex 32` and put it in `.env`. Keep `.env` private; it is excluded from Git and the Docker build. Leave `DATABASE_URL` blank to use the persistent local volume, or supply a Postgres connection string if you have a database.
+4. Build and start the app:
+
+   ```bash
+   docker compose up -d --build
+   docker compose logs -f
+   ```
+
+   The app listens on `127.0.0.1:3000` on the VPS so it is not exposed directly to the public internet.
+5. Point your domain's DNS to the VPS IP address and configure the VPS reverse proxy/web server to provide HTTPS and forward traffic to `127.0.0.1:3000`. Do not expose the admin login over plain HTTP on a public network.
+
+To deploy later updates, pull the latest code and run `docker compose up -d --build` again. The `showcase-data` volume remains in place when the container is rebuilt. Back it up regularly; removing that volume deletes the locally stored edits, uploads, and changed password hash.
+
 ## Deploy to Railway
 
 1. Push this folder to a GitHub repo (or use the Railway CLI directly from this folder).
