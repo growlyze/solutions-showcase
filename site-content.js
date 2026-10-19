@@ -321,14 +321,14 @@ function create(overrides) {
       + urls.map((u) => `  <url><loc>${esc(base + u)}</loc></url>`).join('\n') + '\n</urlset>\n';
   }
 
-  const robotsTxt = (base) => `User-agent: *\nAllow: /\n\nSitemap: ${base}/sitemap.xml\n`;
+  const robotsTxt = (base) => `User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: ${base}/sitemap.xml\n`;
 
   // ---------- page shell: the real index.html with the page's HTML filled in ----------
   const template = fs.readFileSync(path.join(PUBLIC_DIR, 'index.html'), 'utf8');
   const FOOTER_LINE = '<p>Click any category to browse its case studies.</p>';
   const anchors = [
     `<title>${SITE_NAME}</title>`, '<main id="app" class="container"></main>', '</head>',
-    'href="style.css"', 'src="data.js"', 'src="app.js"', 'src="editor.js"', FOOTER_LINE,
+    'href="style.css"', 'src="data.js"', 'src="app.js"', FOOTER_LINE,
   ];
   for (const a of anchors) if (!template.includes(a)) throw new Error('index.html is missing: ' + a);
   if (!/<meta name="description" content="[^"]*" \/>/.test(template)) throw new Error('index.html is missing the description meta tag');
@@ -339,17 +339,14 @@ function create(overrides) {
     const head = `<link rel="canonical" href="${esc(base + urlPath)}" />\n`
       + (alternate ? `<link rel="alternate" type="text/markdown" href="${esc(base + alternate)}" />\n` : '')
       + `<link rel="alternate" type="text/plain" href="${esc(base)}/llms.txt" title="Plain-text index of every case study" />\n</head>`;
-    const aiLine = `${FOOTER_LINE}\n      <p>Reading this with an AI tool? One section: <a href="/full/ai-whatsapp">${esc(base)}/full/&lt;section&gt;</a> (for example /full/ai-whatsapp) · everything on one page: <a href="/full">${esc(base)}/full</a> · plain text: <a href="/llms.txt">${esc(base)}/llms.txt</a></p>`;
     return template
       .replace(`<title>${SITE_NAME}</title>`, `<title>${esc(fullTitle)}</title>`)
       .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${esc(desc)}" />`)
       .replace('</head>', head)
       .replace('<main id="app" class="container"></main>', `<main id="app" class="container">${body}</main>`)
-      .replace(FOOTER_LINE, aiLine)
       .replace('href="style.css"', 'href="/style.css"')
       .replace('<script src="data.js"></script>', app ? '<script src="/data.js"></script>' : '')
-      .replace('<script src="app.js"></script>', app ? '<script src="/app.js"></script>' : '')
-      .replace('<script src="editor.js"></script>', app ? '<script src="/editor.js"></script>' : '');
+      .replace('<script src="app.js"></script>', app ? '<script src="/app.js"></script>' : '');
   }
 
   return {

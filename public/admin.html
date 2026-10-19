@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<script>
+  try { if (localStorage.getItem('theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Admin | Solutions Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body class="admin-page">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="brand">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+        Solutions Showcase
+      </a>
+      <div class="header-right">
+        <nav class="header-nav">
+          <a href="/">View public site</a>
+        </nav>
+        <button id="theme-toggle" class="theme-switch" type="button" aria-label="Toggle dark/light theme" aria-pressed="true">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon">☀️</span>
+            <span class="theme-switch-icon">🌙</span>
+          </span>
+          <span class="theme-switch-thumb"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container admin-main">
+    <section id="admin-gate" class="admin-gate" aria-labelledby="admin-title">
+      <h1 id="admin-title">Showcase admin</h1>
+      <p id="admin-status">Checking admin access…</p>
+      <button id="admin-login" class="ed-btn ed-btn--primary" type="button">Log in</button>
+    </section>
+    <div id="app" class="container" hidden></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Admin workspace · <a href="/">Return to the public site</a></p>
+    </div>
+  </footer>
+
+  <script src="/data.js"></script>
+  <script src="/app.js"></script>
+  <script src="/editor.js"></script>
+</body>
+</html>

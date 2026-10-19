@@ -43,9 +43,9 @@ No build step. Just edit `data.js` and refresh.
 
 ## Editing case studies on the site
 
-Every case study can be edited in the browser, Notion-style, by the admin. Visitors only see an "Admin login" link next to Home in the header.
+The admin workspace is at `/admin`; it is separate from the public home page and requires the admin password. The editor is not loaded on the public page.
 
-1. Click **Admin login** in the header (next to Home) and enter the password (`ADMIN_PASSWORD`).
+1. Open **`/admin`** and enter the password (`ADMIN_PASSWORD`).
    - To change it, choose **Change password** in the admin header. Enter the current password and a new password of at least 12 characters; changing it logs you out.
 2. Open a case study and press **Edit this case study**.
 3. Edit it like a Notion page:

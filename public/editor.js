@@ -1,5 +1,5 @@
 // Notion-style editing of case studies for the site's admin (browser only; the server never runs
-// this file). Visitors see nothing of it except an "Admin login" link in the header.
+// this file). It is loaded only by the authenticated /admin workspace.
 //
 // Logged in, a case study page gets an "Edit" button. Edit mode draws the same page with every
 // piece of text editable in place:
@@ -50,7 +50,14 @@
     editing: null,          // { id, draft, dirty } while in edit mode
     stashed: new Map(),     // unsaved drafts left behind by navigating away
   };
+  const onAdminPage = document.body.classList.contains('admin-page');
   const history = { undo: [], redo: [], lastWasStructural: false };
+
+  function showAdminWorkspace(isAdmin) {
+    if (!onAdminPage) return;
+    document.getElementById('admin-gate').hidden = isAdmin;
+    document.getElementById('app').hidden = !isAdmin;
+  }
 
   // ---------- small helpers ----------
   const esc = escAttr; // from app.js; also escapes quotes
@@ -174,6 +181,7 @@
         await api('POST', '/api/login', { password: input.value });
         state.admin = true;
         close();
+        showAdminWorkspace(true);
         drawAdminChrome();
         refreshCaseToolbar();
         refreshAddCard();
@@ -192,6 +200,7 @@
     await api('POST', '/api/logout').catch(() => {});
     state.admin = false;
     state.editing = null;
+    showAdminWorkspace(false);
     document.querySelector('.ed-savebar')?.remove();
     drawAdminChrome();
     router();
@@ -238,6 +247,7 @@
         modal.remove();
         state.admin = false;
         state.editing = null;
+        showAdminWorkspace(false);
         document.querySelector('.ed-savebar')?.remove();
         drawAdminChrome();
         router();
@@ -251,7 +261,7 @@
     });
   }
 
-  // "Admin login" next to Home in the header; once logged in, an "Admin" chip with "Log out".
+  // Once logged in, show the admin menu; the login link remains only on older public shells.
   function drawAdminChrome() {
     document.querySelector('.ed-admin-chip')?.remove();
     document.querySelector('.ed-login-link')?.remove();
@@ -288,7 +298,7 @@
         }
       });
       nav.appendChild(chip);
-    } else if (state.enabled) {
+    } else if (state.enabled && !onAdminPage) {
       const link = document.createElement('button');
       link.type = 'button';
       link.className = 'ed-login-link';
@@ -1897,14 +1907,30 @@
   }
 
   // ---------- start ----------
+  document.getElementById('admin-login')?.addEventListener('click', () => openLogin());
+
   fetch('/api/session', { credentials: 'same-origin' })
     .then((r) => (r.ok ? r.json() : { admin: false, enabled: false }))
     .then((s) => {
       state.admin = s.admin;
       state.enabled = s.enabled;
+      showAdminWorkspace(state.admin);
+      const status = document.getElementById('admin-status');
+      const login = document.getElementById('admin-login');
+      if (status) status.textContent = state.enabled
+        ? 'Log in to manage categories and edit all case studies.'
+        : 'Editing is disabled. Set ADMIN_PASSWORD on the server to enable admin access.';
+      if (login) login.hidden = !state.enabled;
       drawAdminChrome();
       refreshCaseToolbar();
       refreshAddCard();
+      if (onAdminPage && state.enabled && !state.admin) openLogin();
     })
-    .catch(() => {});
+    .catch(() => {
+      if (!onAdminPage) return;
+      const status = document.getElementById('admin-status');
+      const login = document.getElementById('admin-login');
+      if (status) status.textContent = 'Could not check admin access. Please refresh and try again.';
+      if (login) login.hidden = true;
+    });
 })();

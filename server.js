@@ -42,6 +42,11 @@ app.use('/api', adminRouter({
   onChange: rebuild,
 }));
 
+app.get(['/admin', '/admin/'], (req, res) => {
+  res.set('X-Robots-Tag', 'noindex, nofollow')
+    .sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
 // The content the browser app reads: public/data.js with the saved edits applied.
 app.get('/data.js', (req, res) => send(res, 'application/javascript; charset=utf-8', dataJs));
 
