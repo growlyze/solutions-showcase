@@ -3888,12 +3888,22 @@ const CASE_STUDIES = [
         text: 'Anything Not Found must be manually checked and ticked off by a person before the contract can be filed. The tool never files something incomplete without a human saying it’s okay.'
       },
       {
+        type: 'img',
+        file: 'case-content/contract-intake-tool/image2.png',
+        caption: 'The review screen after a scan: each key term (group name, number of rooms, rate, attrition, cancellation, additional fees and tax rate) with the text found in the contract and a Found status, plus a File button. The group name and company name are blurred.'
+      },
+      {
         type: 'subheading',
         text: '3. File'
       },
       {
         type: 'p',
         text: 'Using the contract’s group name (e.g. “State University - Alpha Chapter”) and date, the tool works out the correct folder path, Year → Season → University → Chapter → Category, and uploads the PDF there automatically. It only creates the last two folder levels itself; everything above that must already exist in Drive. Every filing is logged (who, what, where).'
+      },
+      {
+        type: 'img',
+        file: 'case-content/contract-intake-tool/image1.png',
+        caption: 'The Google Drive folder tree the contracts are filed into: Formal Contracts, then the year, then (inside 2027) a season folder, Spring 2027, and a group folder. One folder name and its owner are blurred.'
       },
       {
         type: 'heading',
