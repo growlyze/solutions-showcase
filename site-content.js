@@ -346,7 +346,8 @@ function create(overrides) {
       .replace('<main id="app" class="container"></main>', `<main id="app" class="container">${body}</main>`)
       .replace('href="style.css"', 'href="/style.css"')
       .replace('<script src="data.js"></script>', app ? '<script src="/data.js"></script>' : '')
-      .replace('<script src="app.js"></script>', app ? '<script src="/app.js"></script>' : '');
+      .replace('<script src="app.js"></script>', app ? '<script src="/app.js"></script>' : '')
+      .replace('<script src="motion.js"></script>', app ? '<script src="/motion.js"></script>' : '');
   }
 
   return {

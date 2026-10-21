@@ -370,8 +370,7 @@
     history.undo = []; history.redo = []; history.lastWasStructural = false;
     try { document.execCommand('styleWithCSS', false, false); } catch (e) {}
     drawEditor();
-    window.scrollTo(0, 0);
-    document.querySelector('.ed-title')?.focus();
+    document.querySelector('.ed-title')?.focus({ preventScroll: true });
   }
 
   function stopEditing() {
@@ -379,7 +378,36 @@
     state.editing = null;
     document.querySelector('.ed-savebar')?.remove();
     closePopups();
-    if (id) renderCaseDetail(id); else router();
+    if (id) keepScroll(() => renderCaseDetail(id)); else router();
+  }
+
+  // Every edit (adding, moving or deleting a block, undo, save, cancel) redraws the whole page.
+  // Images then have no height until they decode again, so the page briefly gets shorter and the
+  // browser jumps up. The block nearest the top of the screen is noted first and put back at the
+  // same spot afterwards, and the page keeps its height until the images are back.
+  function pageBlocks(app) {
+    const editing = app.querySelectorAll('.ed-blocks > .ed-block');
+    return editing.length ? [...editing] : [...app.querySelectorAll('.case-detail-content > *')];
+  }
+
+  function keepScroll(redraw) {
+    const app = document.getElementById('app');
+    const y = window.scrollY;
+    const before = pageBlocks(app);
+    // Only anchor to a block once the reader has scrolled into the content; above it, the
+    // plain scroll position is right (the header differs between view and edit mode).
+    const anchor = before.length && before[0].getBoundingClientRect().top < 0
+      ? before.findIndex((el) => el.getBoundingClientRect().bottom > 0)
+      : -1;
+    const anchorTop = anchor >= 0 ? before[anchor].getBoundingClientRect().top : 0;
+    app.style.minHeight = `${app.offsetHeight}px`;
+    redraw();
+    const after = anchor >= 0 ? pageBlocks(app)[anchor] : null;
+    window.scrollTo(0, after ? window.scrollY + after.getBoundingClientRect().top - anchorTop : y);
+    const loading = [...app.querySelectorAll('img')].filter((img) => !img.complete)
+      .map((img) => new Promise((done) => { img.addEventListener('load', done, { once: true }); img.addEventListener('error', done, { once: true }); }));
+    Promise.race([Promise.all(loading), new Promise((done) => setTimeout(done, 3000))])
+      .then(() => { app.style.minHeight = ''; });
   }
 
   function markDirty() {
@@ -496,7 +524,7 @@
       <div class="ed-page-actions">
         <button type="button" class="ed-btn ed-btn--small" data-act="icon-pick"><span aria-hidden="true">☺</span> Add icon</button>
       </div>` : '';
-    app.innerHTML = `
+    keepScroll(() => { app.innerHTML = `
       <div class="case-detail-wrap ed-editing">
         <div class="ed-banner">Editing. Click any text to change it. Select text to format it, paste images or content from Notion and Docs, press <kbd>/</kbd> for blocks, and drag <span aria-hidden="true">⋮⋮</span> to move a block.</div>
         ${cover}
@@ -510,7 +538,7 @@
           ${draft.content.map((b, i) => blockHtml(b, i, draft.content.length)).join('')}
           <button type="button" class="ed-add-end" data-act="add" data-i="${draft.content.length - 1}">+ Add a block</button>
         </div>
-      </div>`;
+      </div>`; });
     drawSaveBar(id);
     if (focus) focusBlock(focus.index, focus.at);
   }

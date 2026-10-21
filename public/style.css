@@ -1,44 +1,52 @@
+/* Growlyze brand colours (growlyze.com). Dark matches its dark sections: #120825 page,
+   #413951 borders, white headings, #d0ced3 body text, #e3632c orange. */
 :root {
   color-scheme: dark;
-  --bg: #0d0f15;
-  --surface: #171a23;
-  --surface-hover: #1d212c;
-  --border: #272c3a;
-  --text: #f1f3f9;
-  --text-muted: #9aa1b4;
-  --accent: #818cf8;
-  --on-accent: #0f1220;
-  --accent-strong: #a5b0ff;
-  --accent-vivid: #6366f1;
-  --accent-soft: rgba(129, 140, 248, 0.16);
-  --accent-glow: rgba(99, 102, 241, 0.32);
-  --chip-bg: rgba(129, 140, 248, 0.16);
-  --chip-text: #c7d0ff;
+  --bg: #120825;
+  --surface: #120825;
+  --surface-hover: #170c2e;
+  --border: #413951;
+  --text: #ffffff;
+  --text-muted: #d0ced3;
+  --accent: #e3632c;
+  --accent-text: #e3632c;
+  --on-accent: #ffffff;
+  --accent-strong: #ef7a48;
+  --accent-vivid: #e3632c;
+  --accent-soft: rgba(227, 99, 44, 0.12);
+  --accent-glow: rgba(227, 99, 44, 0.3);
+  --chip-bg: rgba(227, 99, 44, 0.12);
+  --chip-text: #ef7a48;
+  --ink-shadow: #e3632c;
   --logo-badge-bg: #ffffff;
   --radius: 16px;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.25);
-  --shadow-hover: 0 12px 28px -6px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--accent-soft), 0 14px 36px -12px var(--accent-glow);
+  --shadow: none;
+  --shadow-hover: 5px 5px 0 var(--ink-shadow);
 }
 
+/* Light: cream #f5f0e6, ink #140827, orange #f55809. Small orange text uses a deeper shade
+   (#b8410a) so it stays readable on cream. */
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #f6f7fb;
-  --surface: #ffffff;
-  --surface-hover: #fbfbfe;
-  --border: #e4e7ef;
-  --text: #1b1f2a;
-  --text-muted: #636b7c;
-  --accent: #4f46e5;
+  --bg: #f5f0e6;
+  --surface: #fffcf6;
+  --surface-hover: #ffffff;
+  --border: #e5dac6;
+  --text: #140827;
+  --text-muted: #5c5468;
+  --accent: #f55809;
+  --accent-text: #b8410a;
   --on-accent: #ffffff;
-  --accent-strong: #4338ca;
-  --accent-vivid: #4f46e5;
-  --accent-soft: #eef0fe;
-  --accent-glow: rgba(79, 70, 229, 0.16);
-  --chip-bg: #eef0fe;
-  --chip-text: #4338ca;
+  --accent-strong: #d94a04;
+  --accent-vivid: #f55809;
+  --accent-soft: rgba(245, 88, 9, 0.1);
+  --accent-glow: rgba(245, 88, 9, 0.2);
+  --chip-bg: rgba(245, 88, 9, 0.1);
+  --chip-text: #a83c08;
+  --ink-shadow: #140827;
   --logo-badge-bg: #ffffff;
-  --shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
-  --shadow-hover: 0 10px 24px -6px rgba(16, 24, 40, 0.1), 0 0 0 1px var(--accent-soft), 0 14px 32px -12px var(--accent-glow);
+  --shadow: 0 1px 2px rgba(20, 8, 39, 0.05);
+  --shadow-hover: 5px 5px 0 var(--ink-shadow);
 }
 
 * { box-sizing: border-box; }
@@ -1598,3 +1606,56 @@ select.ed-type:hover { background: var(--accent-soft); }
 
 .ed-savebar-left { display: flex; align-items: center; gap: 4px; }
 .ed-savebar-left .ed-status { margin-left: 8px; }
+
+/* ---- Growlyze brand look: hard offset shadow on hover, orange markers, fade-up reveal ---- */
+
+.site-header { background: color-mix(in srgb, var(--bg) 88%, transparent); border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.brand-mark { background: var(--accent-vivid); box-shadow: 2px 2px 0 var(--ink-shadow); transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+.brand:hover .brand-mark { transform: rotate(-8deg) scale(1.06); }
+.header-nav a:hover { color: var(--accent-text); }
+.theme-switch-thumb { background: var(--accent-vivid); box-shadow: none; }
+.theme-switch:hover { border-color: var(--accent-vivid); }
+
+/* Section titles get the orange dot marker used across growlyze.com */
+.section-title { display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--text-muted); }
+.section-title::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent-vivid);
+  box-shadow: 0 0 0 5px var(--accent-soft);
+}
+
+.card { transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s ease, border-color .2s ease, background .2s ease; }
+.card:hover { transform: translate(-4px, -4px); border-color: var(--ink-shadow); box-shadow: var(--shadow-hover); background: var(--surface-hover); }
+.card:active { transform: translate(0, 0); box-shadow: 1px 1px 0 var(--ink-shadow); }
+.card h3 { transition: color .2s ease; }
+.card:hover h3 { color: var(--accent-text); }
+.card-icon { transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
+.card:hover .card-icon { transform: rotate(-6deg) scale(1.06); }
+.card-cta { color: var(--accent-text); background: var(--accent-soft); }
+.card:hover .card-cta, .card:focus-visible .card-cta { background: var(--text); color: var(--bg); }
+.card:hover .card-cta span { color: var(--accent-vivid); transform: translateX(4px); }
+
+.tag-pill { color: var(--chip-text); }
+
+/* Dark: light frosted header with ink text, as on growlyze.com */
+:root:not([data-theme="light"]) .site-header { background: rgba(236,233,242,.78); border-bottom-color: rgba(255,255,255,.4); }
+:root:not([data-theme="light"]) .brand,
+:root:not([data-theme="light"]) .header-nav a { color: #120825; }
+:root:not([data-theme="light"]) .header-nav a:hover { color: #c24e1c; background: rgba(18,8,37,.06); }
+:root:not([data-theme="light"]) .brand-mark { box-shadow: 2px 2px 0 #120825; }
+:root:not([data-theme="light"]) .theme-switch { background: #120825; border-color: #120825; box-shadow: 2px 2px 0 #e3632c; }
+:root:not([data-theme="light"]) .section-title { color: #a8a2b5; }
+:root:not([data-theme="light"]) .card:hover { background: var(--surface-hover); }
+:root:not([data-theme="light"]) .card:hover .card-cta { background: #ffffff; color: #120825; }
+.back-link:hover { color: var(--accent-text); }
+
+/* Fade-up reveal (growlyze.com: opacity 0, translateY 24px) */
+.gz-motion #app .card:not(.gz-in), .gz-motion #app .section-title:not(.gz-in),
+.gz-motion #app .category-header:not(.gz-in), .gz-motion #app .case-detail-header:not(.gz-in) { opacity: 0; }
+.gz-in { animation: gz-up .7s cubic-bezier(.22,1,.36,1) var(--gz-delay, 0ms) backwards; }
+@keyframes gz-up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .card-icon, .brand-mark { transition: none; }
+  .card:hover { transform: none; }
+}
