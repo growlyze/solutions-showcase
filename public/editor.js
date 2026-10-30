@@ -261,6 +261,37 @@
     });
   }
 
+  // Every case study, oldest first. data.js has no dates, so its order stands in for creation order
+  // and those all predate site-created ones, which carry createdAt (the merged list puts them first,
+  // newest first).
+  function openCaseList() {
+    document.querySelector('.ed-modal')?.remove();
+    const added = CASE_STUDIES.filter((c) => c.isNew)
+      .sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)));
+    const ordered = [...CASE_STUDIES.filter((c) => !c.isNew), ...added];
+    const dateOf = (c) => (c.createdAt ? new Date(c.createdAt).toLocaleDateString() : 'Original');
+    const modal = document.createElement('div');
+    modal.className = 'ed-modal';
+    modal.innerHTML = `
+      <div class="ed-modal-box ed-case-list-box" role="dialog" aria-modal="true" aria-labelledby="ed-case-list-title">
+        <h2 id="ed-case-list-title">All case studies</h2>
+        <p>${ordered.length} case studies, in the order they were created.</p>
+        <ol class="ed-case-list">
+          ${ordered.map((c) => `
+            <li><a href="#/case/${esc(c.id)}">${esc(c.title)}</a><span>${esc(dateOf(c))}</span></li>`).join('')}
+        </ol>
+        <div class="ed-modal-actions">
+          <button type="button" class="ed-btn" data-act="close">Close</button>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+    modal.querySelector('[data-act="close"]').focus();
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target.dataset.act === 'close' || e.target.closest('.ed-case-list a')) modal.remove();
+    });
+    modal.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.remove(); });
+  }
+
   // Once logged in, show the admin menu; the login link remains only on older public shells.
   function drawAdminChrome() {
     document.querySelector('.ed-admin-chip')?.remove();
@@ -275,9 +306,11 @@
           <span>Admin</span><span aria-hidden="true">▾</span>
         </button>
         <div class="ed-admin-menu" role="menu" hidden>
+          <button type="button" role="menuitem" data-act="list-cases">All case studies</button>
           <button type="button" role="menuitem" data-act="change-password">Change password</button>
           <button type="button" role="menuitem" data-act="logout">Log out</button>
         </div>`;
+      chip.querySelector('[data-act="list-cases"]').addEventListener('click', openCaseList);
       chip.querySelector('[data-act="change-password"]').addEventListener('click', openChangePassword);
       chip.querySelector('[data-act="logout"]').addEventListener('click', logout);
       const toggle = chip.querySelector('.ed-admin-toggle');
