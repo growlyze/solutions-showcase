@@ -63,6 +63,13 @@
   const esc = escAttr; // from app.js; also escapes quotes
   const clone = (v) => JSON.parse(JSON.stringify(v));
   const editedIds = () => (typeof EDITED_CASE_IDS !== 'undefined' ? EDITED_CASE_IDS : []);
+  const hiddenIds = new Set(typeof HIDDEN_CASE_IDS !== 'undefined' ? HIDDEN_CASE_IDS : []);
+
+  async function setHidden(id, hide) {
+    await api('POST', `/api/cases/${encodeURIComponent(id)}/visibility`, { hidden: hide });
+    if (hide) hiddenIds.add(id); else hiddenIds.delete(id);
+    toast(hide ? 'Hidden from the public site.' : 'Visible on the public site again.');
+  }
   const plaintextOnly = (() => {
     const d = document.createElement('div');
     try { d.contentEditable = 'plaintext-only'; } catch (e) { return false; }
@@ -185,6 +192,8 @@
         drawAdminChrome();
         refreshCaseToolbar();
         refreshAddCard();
+        // The admin page's data was loaded before login, so it lacks the hidden case studies.
+        if (onAdminPage && typeof HIDDEN_CASE_IDS === 'undefined') return window.location.reload();
         toast('Logged in. Open any case study and press Edit.');
         if (onSuccess) onSuccess();
       } catch (err) {
@@ -278,7 +287,7 @@
         <p>${ordered.length} case studies, in the order they were created.</p>
         <ol class="ed-case-list">
           ${ordered.map((c) => `
-            <li><a href="#/case/${esc(c.id)}">${esc(c.title)}</a><span>${esc(dateOf(c))}</span></li>`).join('')}
+            <li><a href="#/case/${esc(c.id)}">${esc(c.title)}</a><span>${esc(dateOf(c))}<button type="button" class="ed-btn ed-case-list-toggle" data-id="${esc(c.id)}">${hiddenIds.has(c.id) ? 'Unhide' : 'Hide'}</button></span></li>`).join('')}
         </ol>
         <div class="ed-modal-actions">
           <button type="button" class="ed-btn" data-act="close">Close</button>
@@ -290,6 +299,19 @@
       if (e.target === modal || e.target.dataset.act === 'close' || e.target.closest('.ed-case-list a')) modal.remove();
     });
     modal.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.remove(); });
+    modal.querySelector('.ed-case-list').addEventListener('click', async (e) => {
+      const btn = e.target.closest('.ed-case-list-toggle');
+      if (!btn) return;
+      btn.disabled = true;
+      try {
+        await setHidden(btn.dataset.id, !hiddenIds.has(btn.dataset.id));
+        btn.textContent = hiddenIds.has(btn.dataset.id) ? 'Unhide' : 'Hide';
+        refreshCaseToolbar();
+      } catch (err) {
+        toast(err.message);
+      }
+      btn.disabled = false;
+    });
   }
 
   // Once logged in, show the admin menu; the login link remains only on older public shells.
@@ -369,11 +391,14 @@
     bar.innerHTML = `
       <button type="button" class="ed-btn ed-btn--primary" data-act="edit">✎ ${stashed ? 'Resume unsaved edits' : 'Edit this case study'}</button>
       ${stashed ? '<button type="button" class="ed-btn" data-act="discard">Discard unsaved edits</button>' : ''}
+      <button type="button" class="ed-btn" data-act="toggle-hidden">${hiddenIds.has(id) ? 'Unhide (show on public site)' : 'Hide from public site'}</button>
+      ${hiddenIds.has(id) ? '<span class="ed-badge" title="Visitors cannot see this case study. Only admins can.">Hidden</span>' : ''}
       ${editedIds().includes(id) ? '<span class="ed-badge" title="This case study has been edited on the site. The original is kept in data.js.">Edited</span>' : ''}`;
     bar.addEventListener('click', (e) => {
       const act = e.target.closest('[data-act]')?.dataset.act;
       if (act === 'edit') startEditing(id);
       if (act === 'discard') { state.stashed.delete(id); refreshCaseToolbar(); }
+      if (act === 'toggle-hidden') setHidden(id, !hiddenIds.has(id)).then(refreshCaseToolbar, (err) => toast(err.message));
     });
     back.after(bar);
   }

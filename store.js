@@ -51,6 +51,18 @@ function postgresStore(url) {
         [hash],
       );
     },
+    // Case studies hidden from the public site, as a JSON array of ids.
+    async getHiddenCaseIds() {
+      const { rows } = await pool.query("SELECT value FROM admin_settings WHERE key = 'hidden_cases'");
+      return rows[0] ? JSON.parse(rows[0].value) : [];
+    },
+    async saveHiddenCaseIds(ids) {
+      await pool.query(
+        `INSERT INTO admin_settings (key, value, updated_at) VALUES ('hidden_cases', $1, now())
+         ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now()`,
+        [JSON.stringify(ids)],
+      );
+    },
     async saveUpload(name, mime, buffer) {
       await pool.query('INSERT INTO uploads (name, mime, data) VALUES ($1, $2, $3)', [name, mime, buffer]);
     },
@@ -64,6 +76,7 @@ function postgresStore(url) {
 function fileStore(dir) {
   const file = path.join(dir, 'overrides.json');
   const adminFile = path.join(dir, 'admin.json');
+  const hiddenFile = path.join(dir, 'hidden.json');
   const uploadDir = path.join(dir, 'uploads');
   const read = () => (fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : {});
   const write = (obj) => fs.writeFileSync(file, JSON.stringify(obj, null, 2));
@@ -88,6 +101,8 @@ function fileStore(dir) {
       fs.writeFileSync(temp, JSON.stringify({ passwordHash }, null, 2), { mode: 0o600 });
       fs.renameSync(temp, adminFile);
     },
+    async getHiddenCaseIds() { return fs.existsSync(hiddenFile) ? JSON.parse(fs.readFileSync(hiddenFile, 'utf8')) : []; },
+    async saveHiddenCaseIds(ids) { fs.writeFileSync(hiddenFile, JSON.stringify(ids, null, 2)); },
     async saveUpload(name, mime, buffer) { fs.writeFileSync(path.join(uploadDir, name), buffer); },
     async getUpload(name) {
       const p = path.join(uploadDir, name);

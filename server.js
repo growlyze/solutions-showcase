@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
-const { create, mergedDataSource, originalCaseStudies } = require('./site-content');
+const { create, mergedDataSource, publicDataSource, originalCaseStudies } = require('./site-content');
 const { createStore } = require('./store');
-const { adminRouter } = require('./admin');
+const { adminRouter, isAdmin } = require('./admin');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,13 +15,16 @@ app.set('trust proxy', true);
 const store = createStore();
 const adminPassword = { value: process.env.ADMIN_PASSWORD || '', hash: '' };
 const overrides = new Map();
+const hidden = new Set();
 const original = originalCaseStudies();
 const originalById = new Map(original.cases.map((c) => [c.id, c]));
 let site = null;
 let dataJs = '';
+let adminDataJs = '';
 function rebuild() {
-  site = create(overrides);
-  dataJs = mergedDataSource(overrides);
+  site = create(overrides, hidden);
+  dataJs = publicDataSource(overrides, hidden);
+  adminDataJs = mergedDataSource(overrides, hidden, true);
 }
 
 const baseUrl = (req) => `${req.protocol}://${req.get('host')}`;
@@ -38,6 +41,7 @@ app.use('/api', adminRouter({
   getOriginal: (id) => originalById.get(id),
   categorySlugs: new Set(original.categories.map((c) => c.slug)),
   overrides,
+  hidden,
   adminPassword,
   onChange: rebuild,
 }));
@@ -49,6 +53,12 @@ app.get(['/admin', '/admin/'], (req, res) => {
 
 // The content the browser app reads: public/data.js with the saved edits applied.
 app.get('/data.js', (req, res) => send(res, 'application/javascript; charset=utf-8', dataJs));
+// The admin workspace's copy also has the hidden case studies, so it is only given to the admin and
+// never stored by a shared cache.
+app.get('/admin/data.js', (req, res) => {
+  res.status(200).set({ 'Content-Type': 'application/javascript; charset=utf-8', 'Cache-Control': 'private, no-store' })
+    .send(isAdmin(req, adminPassword) ? adminDataJs : dataJs);
+});
 
 // Images uploaded from the editor.
 app.get('/uploads/:name', async (req, res) => {
@@ -133,6 +143,7 @@ app.get('*', (req, res) => {
 (async () => {
   await store.init();
   adminPassword.hash = await store.getAdminPasswordHash();
+  for (const id of await store.getHiddenCaseIds()) hidden.add(id);
   for (const [id, o] of await store.allOverrides()) if (originalById.has(id) || o.isNew || o.isDeleted) overrides.set(id, o);
   rebuild();
   app.listen(PORT, () => {

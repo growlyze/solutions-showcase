@@ -26,7 +26,9 @@ const ORIGINAL_DATA_SRC = fs.readFileSync(path.join(PUBLIC_DIR, 'data.js'), 'utf
 
 // An override is either an edit of an original case study, or (isNew) a whole case study that was
 // created on the site; new ones are listed first, newest first.
-function mergedDataSource(overrides = new Map()) {
+// Hidden case studies are left out entirely, as if deleted, unless forAdmin: the admin workspace
+// gets them all, plus HIDDEN_CASE_IDS so it can show which ones the public does not see.
+function mergedDataSource(overrides = new Map(), hidden = new Set(), forAdmin = false) {
   const edits = {};
   const added = [];
   const deleted = [];
@@ -37,17 +39,32 @@ function mergedDataSource(overrides = new Map()) {
     else edits[id] = fields;
   }
   added.sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  if (!forAdmin) deleted.push(...hidden);
   return `${ORIGINAL_DATA_SRC}
 // Edits saved from the site's editor, laid over the original entries above, and case studies
 // created on the site.
 var EDITED_CASE_IDS = ${JSON.stringify(Object.keys(edits))};
-(function (edits, added, deleted) {
+${forAdmin ? `var HIDDEN_CASE_IDS = ${JSON.stringify([...hidden])};\n` : ''}(function (edits, added, deleted) {
   CASE_STUDIES.forEach(function (c) { if (edits[c.id]) Object.assign(c, edits[c.id]); });
   CASE_STUDIES.unshift.apply(CASE_STUDIES, added);
   for (var i = CASE_STUDIES.length - 1; i >= 0; i--) {
     if (deleted.indexOf(CASE_STUDIES[i].id) !== -1) CASE_STUDIES.splice(i, 1);
   }
 })(${JSON.stringify(edits)}, ${JSON.stringify(added)}, ${JSON.stringify(deleted)});
+`;
+}
+
+// What visitors' browsers get: the merged result written out as plain data. The merged source above
+// still carries the original text of hidden and deleted case studies (they are only removed when it
+// runs), and anyone can read /data.js, so the public copy is rebuilt without them.
+function publicDataSource(overrides, hidden) {
+  const context = vm.createContext({});
+  vm.runInContext(`${mergedDataSource(overrides, hidden)}\n;globalThis.__data = { CATEGORIES, GROUPS, CASE_STUDIES, EDITED_CASE_IDS };`, context);
+  const d = context.__data;
+  return `const CATEGORIES = ${JSON.stringify(d.CATEGORIES)};
+const GROUPS = ${JSON.stringify(d.GROUPS)};
+const CASE_STUDIES = ${JSON.stringify(d.CASE_STUDIES)};
+var EDITED_CASE_IDS = ${JSON.stringify(d.EDITED_CASE_IDS)};
 `;
 }
 
@@ -113,8 +130,8 @@ function createRenderer(dataSrc) {
   };
 }
 
-function create(overrides) {
-  const renderer = createRenderer(mergedDataSource(overrides));
+function create(overrides, hidden) {
+  const renderer = createRenderer(mergedDataSource(overrides, hidden));
   const categories = renderer.api.CATEGORIES;
   const cases = renderer.api.CASE_STUDIES.filter((c) => Array.isArray(c.content) && (c.content.length || c.isNew));
   const caseById = new Map(cases.map((c) => [c.id, c]));
@@ -365,4 +382,4 @@ function create(overrides) {
   };
 }
 
-module.exports = { create, mergedDataSource, originalCaseStudies };
+module.exports = { create, mergedDataSource, publicDataSource, originalCaseStudies };

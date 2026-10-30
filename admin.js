@@ -136,7 +136,7 @@ function cleanCase(body, categorySlugs) {
 // ---------- routes ----------
 // `getOriginal` returns a case study as public/data.js has it; `overrides` is the server's map of
 // saved edits; `onChange` is called after every save so the server can redraw its pages.
-function adminRouter({ store, getOriginal, categorySlugs, overrides, onChange, adminPassword = { value: password(), hash: '' } }) {
+function adminRouter({ store, getOriginal, categorySlugs, overrides, hidden = new Set(), onChange, adminPassword = { value: password(), hash: '' } }) {
   const router = express.Router();
   const requireAdmin = (req, res, next) => {
     if (!isAdmin(req, adminPassword)) return res.status(401).json({ error: 'Please log in again.' });
@@ -252,6 +252,10 @@ function adminRouter({ store, getOriginal, categorySlugs, overrides, onChange, a
     const existingNew = added(req.params.id);
     if ((!original && !existingNew) || (overrides.get(req.params.id) || {}).isDeleted) return res.status(404).json({ error: 'Case study not found.' });
     try {
+      if (hidden.has(req.params.id)) {
+        await store.saveHiddenCaseIds([...hidden].filter((h) => h !== req.params.id));
+        hidden.delete(req.params.id);
+      }
       if (existingNew) {
         await store.deleteOverride(req.params.id);
         overrides.delete(req.params.id);
@@ -265,6 +269,23 @@ function adminRouter({ store, getOriginal, categorySlugs, overrides, onChange, a
     } catch (e) {
       console.error('Deleting case study failed', e);
       res.status(500).json({ error: 'Deleting failed on the server. Please try again.' });
+    }
+  });
+
+  // Hiding takes a case study off the public site (pages, sitemap, llms.txt) without deleting it.
+  router.post('/cases/:id/visibility', requireAdmin, express.json({ limit: '10kb' }), async (req, res) => {
+    const id = req.params.id;
+    if ((!getOriginal(id) && !added(id)) || (overrides.get(id) || {}).isDeleted) return res.status(404).json({ error: 'Case study not found.' });
+    const hide = Boolean(req.body && req.body.hidden);
+    const ids = hide ? [...new Set([...hidden, id])] : [...hidden].filter((h) => h !== id);
+    try {
+      await store.saveHiddenCaseIds(ids);
+      if (hide) hidden.add(id); else hidden.delete(id);
+      onChange();
+      res.json({ ok: true, hidden: hide });
+    } catch (e) {
+      console.error('Changing visibility failed', e);
+      res.status(500).json({ error: 'Saving failed on the server. Please try again.' });
     }
   });
 
