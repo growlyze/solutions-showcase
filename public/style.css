@@ -722,7 +722,6 @@ a { color: inherit; text-decoration: none; }
 .content-list li strong { font-weight: 700; }
 
 .content-table tbody tr:nth-child(even) td { background: var(--surface-hover); }
-.content-table tbody tr:hover td { background: var(--accent-soft); }
 .content-table td:first-child { font-weight: 600; }
 
 .content-image {
@@ -1679,6 +1678,7 @@ select.ed-type:hover { background: var(--accent-soft); }
   --tc-yellow: #facc15;
   --tc-gray: #a8a2b5;
   --tbl-on: #120825;
+  --row-alt: #0d051c;  /* table rows between the lighter ones, a shade darker than the page */
 }
 :root[data-theme="light"] {
   --tc-orange: #c2410c;
@@ -1689,6 +1689,7 @@ select.ed-type:hover { background: var(--accent-soft); }
   --tc-yellow: #a16207;
   --tc-gray: #6b6475;
   --tbl-on: #ffffff;
+  --row-alt: #ece4d4;  /* a shade darker than the cream page, so the rows stand apart from it */
 }
 .tc-orange, .tbl-orange { --tc: var(--tc-orange); }
 .tc-red, .tbl-red { --tc: var(--tc-red); }
@@ -1711,10 +1712,14 @@ select.ed-type:hover { background: var(--accent-soft); }
 .marker-gray { --marker: var(--tc-gray); }
 .content-list[class*="marker-"] li::marker { color: var(--marker); }
 
-/* Tables: a colour tints the header text and the row highlight */
+/* Every table style keeps the site's rows: white and the cream base colour in turn (the
+   default stripes above), so the styles change only lines, the header and colours. */
+/* Table rows alternate: a shade darker than the page, then white (light) or the lighter surface (dark). */
+.content-table tbody tr:nth-child(odd) td { background: var(--row-alt); }
+
+/* Tables: a colour tints the header text. Rows do not change colour on hover. */
 .content-table-wrap.has-tbl { --tbl: var(--tc); }
 .content-table-wrap.has-tbl .content-table th { color: var(--tbl); }
-.content-table-wrap.has-tbl .content-table tbody tr:hover td { background: color-mix(in srgb, var(--tbl) 10%, transparent); }
 
 /* Bordered: every cell outlined, no stripes */
 .table--bordered .content-table th,
@@ -1723,12 +1728,10 @@ select.ed-type:hover { background: var(--accent-soft); }
 .table--bordered .content-table tr > :last-child { border-right: 0; }
 .table--bordered .content-table thead th { border-top: 0; }
 .table--bordered .content-table tbody tr:last-child td { border-bottom: 0; }
-.table--bordered .content-table tbody tr:nth-child(even) td { background: transparent; }
 
 /* Minimal: no box, a strong line under the header, light lines between rows */
 .content-table-wrap.table--minimal { border: 0; border-radius: 0; }
-.table--minimal .content-table th { background: transparent; border-bottom: 2px solid var(--tbl, var(--text)); color: var(--tbl, var(--text)); }
-.table--minimal .content-table tbody tr:nth-child(even) td { background: transparent; }
+.table--minimal .content-table th { border-bottom: 2px solid var(--tbl, var(--text)); color: var(--tbl, var(--text)); }
 .table--minimal .content-table td { padding-left: 4px; padding-right: 12px; }
 .table--minimal .content-table th { padding-left: 4px; }
 
@@ -1737,7 +1740,6 @@ select.ed-type:hover { background: var(--accent-soft); }
 .content-table-wrap.table--header.has-tbl { --tbl: var(--tc); }
 .table--header .content-table th,
 .content-table-wrap.has-tbl.table--header .content-table th { background: var(--tbl); color: var(--tbl-on); border-bottom-color: var(--tbl); }
-.table--header .content-table tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--tbl) 6%, transparent); }
 :root[data-theme="light"] .content-table-wrap.table--header:not(.has-tbl) { --tbl-on: #ffffff; }
 :root:not([data-theme="light"]) .content-table-wrap.table--header:not(.has-tbl) { --tbl-on: #ffffff; }
 

@@ -1961,7 +1961,7 @@
   // Built from the blocks (not a screenshot), so the text stays selectable and editable. Colours
   // use the light theme's shades, since both files are read on white paper.
   const PRINT_COLORS = { orange: '#c2410c', red: '#c62828', green: '#2e7d32', blue: '#1d4ed8', purple: '#7c3aed', yellow: '#a16207', gray: '#6b6475' };
-  const PRINT = { text: '#140827', muted: '#5c5468', accent: '#f55809', link: '#b8410a', border: '#e5dac6', soft: '#faf7f1', head: '#f4efe6', code: '#f1edf6' };
+  const PRINT = { text: '#140827', muted: '#5c5468', accent: '#f55809', link: '#b8410a', border: '#e5dac6', soft: '#faf7f1', base: '#ece4d4', code: '#f1edf6' };
   const CALLOUT_FILL = { default: '#f1ecfb', green: '#e8f5e9', blue: '#e8f0fe', yellow: '#fff8e1', red: '#fdecea', gray: '#f1f1f3' };
   // pdfmake's font has no emoji, which would print as empty boxes.
   const noEmoji = (s) => String(s || '').replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}\u{20E3}]/gu, '').replace(/\s{2,}/g, ' ');
@@ -2142,7 +2142,7 @@
           if (!b.headers.length) break;
           const style = b.tableStyle || 'default';
           const tc = PRINT_COLORS[b.tableColor];
-          const headFill = style === 'header' ? (tc || PRINT.accent) : (style === 'minimal' ? undefined : PRINT.head);
+          const headFill = style === 'header' ? (tc || PRINT.accent) : undefined; // white, as on the page
           const headColor = style === 'header' ? '#ffffff' : (tc || (style === 'minimal' ? PRINT.text : PRINT.muted));
           const body = [
             b.headers.map((h, c) => {
@@ -2153,7 +2153,7 @@
               const s = bodyCellStyle(b, ri, c) || {};
               return defined({
                 text: runs(r[c] || ''), fontSize: 9.5, color: PRINT_COLORS[s.color] || color,
-                fillColor: s.fill ? tint(PRINT_COLORS[s.fill]) : (ri % 2 && style === 'default' ? PRINT.soft : undefined),
+                fillColor: s.fill ? tint(PRINT_COLORS[s.fill]) : (ri % 2 ? undefined : PRINT.base),
               });
             })),
           ];
@@ -2292,7 +2292,7 @@
           if (!b.headers.length) break;
           const style = b.tableStyle || 'default';
           const tc = PRINT_COLORS[b.tableColor];
-          const headFill = style === 'header' ? (tc || PRINT.accent) : (style === 'minimal' ? undefined : PRINT.head);
+          const headFill = style === 'header' ? (tc || PRINT.accent) : undefined; // white, as on the page
           const headColor = style === 'header' ? '#ffffff' : (tc || (style === 'minimal' ? PRINT.text : PRINT.muted));
           const shade = (fill) => (fill ? { type: D.ShadingType.CLEAR, fill: hex(fill), color: 'auto' } : undefined);
           const headRow = new D.TableRow({ tableHeader: true, children: b.headers.map((h, c) => {
@@ -2308,7 +2308,7 @@
             const s = bodyCellStyle(b, ri, c) || {};
             return new D.TableCell(defined({
               margins: cellMargins,
-              shading: shade(s.fill ? tint(PRINT_COLORS[s.fill]) : (ri % 2 && style === 'default' ? PRINT.soft : undefined)),
+              shading: shade(s.fill ? tint(PRINT_COLORS[s.fill]) : (ri % 2 ? undefined : PRINT.base)),
               children: [new D.Paragraph({ children: runs(r[c] || '', { color: hex(PRINT_COLORS[s.color]) || color }) })],
             }));
           }) }));
