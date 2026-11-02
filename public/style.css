@@ -1667,3 +1667,189 @@ select.ed-type:hover { background: var(--accent-soft); }
   .card, .card-icon, .brand-mark { transition: none; }
   .card:hover { transform: none; }
 }
+
+/* ---- Text colours, bullet colours and table styles chosen in the editor ---- */
+/* Each named colour has a shade that reads well on the dark page and one for the cream page. */
+:root {
+  --tc-orange: #ff8a4c;
+  --tc-red: #f87171;
+  --tc-green: #4ade80;
+  --tc-blue: #60a5fa;
+  --tc-purple: #c4b5fd;
+  --tc-yellow: #facc15;
+  --tc-gray: #a8a2b5;
+  --tbl-on: #120825;
+}
+:root[data-theme="light"] {
+  --tc-orange: #c2410c;
+  --tc-red: #c62828;
+  --tc-green: #2e7d32;
+  --tc-blue: #1d4ed8;
+  --tc-purple: #7c3aed;
+  --tc-yellow: #a16207;
+  --tc-gray: #6b6475;
+  --tbl-on: #ffffff;
+}
+.tc-orange, .tbl-orange { --tc: var(--tc-orange); }
+.tc-red, .tbl-red { --tc: var(--tc-red); }
+.tc-green, .tbl-green { --tc: var(--tc-green); }
+.tc-blue, .tbl-blue { --tc: var(--tc-blue); }
+.tc-purple, .tbl-purple { --tc: var(--tc-purple); }
+.tc-yellow, .tbl-yellow { --tc: var(--tc-yellow); }
+.tc-gray, .tbl-gray { --tc: var(--tc-gray); }
+.tc { color: var(--tc); }
+/* A coloured block passes its colour down to text that otherwise sets its own. */
+.case-detail-content .tc :is(h3, h4, p, li, td, th, cite, .callout-text, .content-eyebrow, .content-label) { color: inherit; }
+.case-detail-content .tc .tc { color: var(--tc); }
+
+.marker-orange { --marker: var(--tc-orange); }
+.marker-red { --marker: var(--tc-red); }
+.marker-green { --marker: var(--tc-green); }
+.marker-blue { --marker: var(--tc-blue); }
+.marker-purple { --marker: var(--tc-purple); }
+.marker-yellow { --marker: var(--tc-yellow); }
+.marker-gray { --marker: var(--tc-gray); }
+.content-list[class*="marker-"] li::marker { color: var(--marker); }
+
+/* Tables: a colour tints the header text and the row highlight */
+.content-table-wrap.has-tbl { --tbl: var(--tc); }
+.content-table-wrap.has-tbl .content-table th { color: var(--tbl); }
+.content-table-wrap.has-tbl .content-table tbody tr:hover td { background: color-mix(in srgb, var(--tbl) 10%, transparent); }
+
+/* Bordered: every cell outlined, no stripes */
+.table--bordered .content-table th,
+.table--bordered .content-table td { border: 1px solid var(--border); }
+.table--bordered .content-table tr > :first-child { border-left: 0; }
+.table--bordered .content-table tr > :last-child { border-right: 0; }
+.table--bordered .content-table thead th { border-top: 0; }
+.table--bordered .content-table tbody tr:last-child td { border-bottom: 0; }
+.table--bordered .content-table tbody tr:nth-child(even) td { background: transparent; }
+
+/* Minimal: no box, a strong line under the header, light lines between rows */
+.content-table-wrap.table--minimal { border: 0; border-radius: 0; }
+.table--minimal .content-table th { background: transparent; border-bottom: 2px solid var(--tbl, var(--text)); color: var(--tbl, var(--text)); }
+.table--minimal .content-table tbody tr:nth-child(even) td { background: transparent; }
+.table--minimal .content-table td { padding-left: 4px; padding-right: 12px; }
+.table--minimal .content-table th { padding-left: 4px; }
+
+/* Bold header: the header row filled with the table colour (orange when none is chosen) */
+.content-table-wrap.table--header { --tbl: var(--accent-vivid); }
+.content-table-wrap.table--header.has-tbl { --tbl: var(--tc); }
+.table--header .content-table th,
+.content-table-wrap.has-tbl.table--header .content-table th { background: var(--tbl); color: var(--tbl-on); border-bottom-color: var(--tbl); }
+.table--header .content-table tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--tbl) 6%, transparent); }
+:root[data-theme="light"] .content-table-wrap.table--header:not(.has-tbl) { --tbl-on: #ffffff; }
+:root:not([data-theme="light"]) .content-table-wrap.table--header:not(.has-tbl) { --tbl-on: #ffffff; }
+
+/* ---- Editor: ticking blocks, colour swatches, table styles ---- */
+.ed-pick-wrap { display: inline-flex; align-items: center; justify-content: center; }
+.ed-pick { width: 15px; height: 15px; margin: 0; accent-color: var(--accent-vivid); cursor: pointer; }
+.ed-block.is-picked { border-color: var(--accent-vivid); border-style: solid; background: var(--accent-soft); }
+
+.ed-bulkbar {
+  position: fixed;
+  top: 76px;
+  left: 0;
+  right: 0;
+  z-index: 55;
+  width: max-content;
+  max-width: calc(100% - 24px);
+  margin: 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow-hover);
+}
+.ed-bulkbar .container { padding: 0; max-width: none; }
+.ed-bulkbar-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px 12px; font-size: 14px; }
+.ed-seg { display: inline-flex; gap: 2px; }
+
+.ed-swatches { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 10px 8px; }
+.ed-menu .ed-swatch,
+.ed-swatch {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid var(--surface);
+  background: var(--tc, var(--text));
+  box-shadow: 0 0 0 1px var(--border);
+  cursor: pointer;
+}
+.ed-menu .ed-swatch:hover, .ed-menu .ed-swatch:focus,
+.ed-swatch:hover, .ed-swatch:focus-visible { background: var(--tc, var(--text)); box-shadow: 0 0 0 2px var(--accent-vivid); outline: none; }
+.ed-swatch.is-on { box-shadow: 0 0 0 2px var(--text); }
+/* "Default" is drawn as the plain text colour with a slash through it */
+.ed-swatch--default { background: linear-gradient(135deg, var(--surface) 45%, #e53935 45%, #e53935 55%, var(--surface) 55%); }
+.ed-menu .ed-swatch--default:hover, .ed-menu .ed-swatch--default:focus { background: linear-gradient(135deg, var(--surface) 45%, #e53935 45%, #e53935 55%, var(--surface) 55%); }
+.ed-style-menu { min-width: 240px; max-width: 280px; }
+.ed-table-styles { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 0 6px 6px; }
+.ed-table-styles button { border: 1px solid var(--border) !important; font-size: 13px !important; text-align: center !important; }
+.ed-table-styles button.is-on { border-color: var(--accent-vivid) !important; background: var(--accent-soft); color: var(--accent-text); }
+
+.ed-color-a { font-weight: 800; text-decoration: underline 3px var(--accent-vivid); text-underline-offset: 3px; }
+.ed-format-colors {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  display: flex;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow-hover);
+}
+.ed-format-colors[hidden] { display: none; }
+.ed-format .ed-format-colors button.ed-swatch { min-width: 0; width: 24px; height: 24px; padding: 0; border-radius: 50%; background: var(--tc, var(--text)); }
+.ed-format .ed-format-colors button.ed-swatch--default { background: linear-gradient(135deg, var(--surface) 45%, #e53935 45%, #e53935 55%, var(--surface) 55%); }
+.ed-format .ed-format-colors .ed-swatch:hover { background: var(--tc, var(--text)); box-shadow: 0 0 0 2px var(--accent-vivid); }
+.ed-format .ed-format-colors .ed-swatch--default:hover { background: linear-gradient(135deg, var(--surface) 45%, #e53935 45%, #e53935 55%, var(--surface) 55%); }
+
+/* ---- Coloured table cells (text colour and fill, chosen per cell, row or column) ---- */
+.cf-orange { --cf: var(--tc-orange); }
+.cf-red { --cf: var(--tc-red); }
+.cf-green { --cf: var(--tc-green); }
+.cf-blue { --cf: var(--tc-blue); }
+.cf-purple { --cf: var(--tc-purple); }
+.cf-yellow { --cf: var(--tc-yellow); }
+.cf-gray { --cf: var(--tc-gray); }
+/* A fill is a soft tint so text stays readable; it wins over stripes and the header colour. */
+.content-table :is(td, th).cf { background: color-mix(in srgb, var(--cf) 20%, var(--surface)) !important; }
+.case-detail-content .content-table-wrap .content-table :is(td, th).tc { color: var(--tc); }
+
+/* Editor: row ▸ and column ▾ handles, the picked cells and the bar that colours them */
+.ed-editing .content-table th .ed-cell { padding-right: 36px; }
+.ed-line-pick {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--accent-text);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 18px;
+  cursor: pointer;
+}
+.ed-line-pick:hover { background: var(--accent-soft); color: var(--accent-text); }
+.ed-line-pick--col { position: absolute; top: 4px; right: 20px; }
+.ed-editing .ed-row-x { width: 46px; white-space: nowrap; }
+.ed-cell-picked { box-shadow: inset 0 0 0 2px var(--accent-vivid), inset 0 0 0 9999px rgba(245, 88, 9, 0.12); }
+.ed-cell-dragging, .ed-cell-dragging * { user-select: none; -webkit-user-select: none; }
+.ed-cell-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-top: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--accent-vivid);
+  border-radius: 12px;
+  background: var(--surface);
+  font-size: 13px;
+}
+.ed-cell-bar-group { display: inline-flex; align-items: center; gap: 5px; }
+.ed-cell-bar-group > span { margin-right: 2px; color: var(--text-muted); font-weight: 600; }
+.ed-cell-bar .ed-swatch { width: 22px; height: 22px; }

@@ -10,14 +10,27 @@ function escAttr(str) {
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+// Text colours an editor can give to a whole block or to selected words. Named rather than free
+// hex values so each one has a readable shade in both the light and the dark theme (style.css).
+const TEXT_COLORS = ['orange', 'red', 'green', 'blue', 'purple', 'yellow', 'gray'];
+const TABLE_STYLES = ['default', 'bordered', 'minimal', 'header'];
+const COLOR_SPAN = new RegExp(`\\{color:(${TEXT_COLORS.join('|')})\\}((?:(?!\\{color:)[\\s\\S])*?)\\{\\/color\\}`, 'g');
+
 // Inline formatting inside body text, written the markdown way: **bold**, *italic*,
-// ~~strikethrough~~, `code` and [links](https://…). A backslash keeps the next character as
-// it is (\* shows a plain asterisk). Everything else is escaped, so text can never add HTML.
+// ~~strikethrough~~, `code` and [links](https://…), plus {color:red}coloured words{/color}.
+// A backslash keeps the next character as it is (\* shows a plain asterisk). Everything else
+// is escaped, so text can never add HTML.
 function emphasisHtml(s) {
-  return s
+  let out = s
     .replace(/\*\*(?=\S)([\s\S]*?\S)\*\*/g, '<strong>$1</strong>')
     .replace(/(^|[^\w*])\*(?=[^\s*])([\s\S]*?[^\s*])\*(?![\w*])/g, '$1<em>$2</em>')
     .replace(/~~(?=\S)([\s\S]*?\S)~~/g, '<s>$1</s>');
+  // Innermost first, so a colour inside another colour pairs with its own closing mark.
+  for (let prev = ''; prev !== out;) {
+    prev = out;
+    out = out.replace(COLOR_SPAN, '<span class="tc tc-$1" data-color="$1">$2</span>');
+  }
+  return out;
 }
 
 function inlineHtml(text) {
@@ -212,14 +225,35 @@ function splitLeadIn(text) {
 // A single bold item in an otherwise plain list looks like a mistake, so terms
 // are only bolded when at least half of the list's items are written that way.
 // Items that already carry their own **bold** are left as written.
-function listHtml(items, ordered) {
+function listHtml(items, ordered, marker) {
   const bold = items.filter(splitLeadIn).length * 2 >= items.length;
   const li = (text) => {
     const m = bold && !/^\*\*/.test(text) && splitLeadIn(text);
     return `<li>${m ? `<strong>${inlineHtml(m[1])}:</strong> ${inlineHtml(m[2])}` : inlineHtml(text)}</li>`;
   };
   const tag = ordered ? 'ol' : 'ul';
-  return `<${tag} class="content-list${ordered ? ' content-olist' : ''}">${items.map(li).join('')}</${tag}>`;
+  const markerClass = TEXT_COLORS.includes(marker) ? ` marker-${marker}` : '';
+  return `<${tag} class="content-list${ordered ? ' content-olist' : ''}${markerClass}">${items.map(li).join('')}</${tag}>`;
+}
+
+// Single cells can have their own text colour and fill, as in Word: `headStyles[c]` for the header
+// row and `cellStyles[r][c]` for the body, each null or { color, fill } (names from TEXT_COLORS).
+const headCellStyle = (block, c) => (Array.isArray(block.headStyles) ? block.headStyles[c] : null) || null;
+const bodyCellStyle = (block, r, c) => (Array.isArray(block.cellStyles) && Array.isArray(block.cellStyles[r]) ? block.cellStyles[r][c] : null) || null;
+function tableCellClass(style) {
+  if (!style) return '';
+  const classes = [];
+  if (TEXT_COLORS.includes(style.color)) classes.push('tc', `tc-${style.color}`);
+  if (TEXT_COLORS.includes(style.fill)) classes.push('cf', `cf-${style.fill}`);
+  return classes.join(' ');
+}
+const classAttr = (classes) => (classes ? ` class="${classes}"` : '');
+
+// Classes for a table's look: one of TABLE_STYLES plus an optional colour for its header and lines.
+function tableWrapClass(block) {
+  const style = TABLE_STYLES.includes(block.tableStyle) && block.tableStyle !== 'default' ? ` table--${block.tableStyle}` : '';
+  const color = TEXT_COLORS.includes(block.tableColor) ? ` has-tbl tbl-${block.tableColor}` : '';
+  return `content-table-wrap${style}${color}`;
 }
 
 const CALLOUT_TONES = ['default', 'green', 'blue', 'yellow', 'red', 'gray'];
@@ -239,10 +273,10 @@ function contentBlockInnerHtml(block) {
     return `<figure class="content-figure"><img class="content-image" src="${escapeHtml(block.file)}" alt="${alt}" loading="lazy" tabindex="0" role="button" aria-label="${label}" />${caption}</figure>`;
   }
   if (block.type === 'list') {
-    return listHtml(block.items);
+    return listHtml(block.items, false, block.marker);
   }
   if (block.type === 'olist') {
-    return listHtml(block.items, true);
+    return listHtml(block.items, true, block.marker);
   }
   if (block.type === 'callout') {
     const tone = CALLOUT_TONES.includes(block.tone) ? block.tone : 'default';
@@ -256,9 +290,9 @@ function contentBlockInnerHtml(block) {
     return `<div class="content-stats">${block.items.map((s) => `<div class="stat-tile"><div class="stat-value">${escapeHtml(s.value)}</div><div class="stat-label">${escapeHtml(s.label)}</div></div>`).join('')}</div>`;
   }
   if (block.type === 'table') {
-    const head = `<tr>${block.headers.map((h) => `<th>${escapeHtml(h)}</th>`).join('')}</tr>`;
-    const body = block.rows.map((row) => `<tr>${row.map((cell) => `<td>${inlineHtml(cell)}</td>`).join('')}</tr>`).join('');
-    return `<div class="content-table-wrap"><table class="content-table"><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
+    const head = `<tr>${block.headers.map((h, c) => `<th${classAttr(tableCellClass(headCellStyle(block, c)))}>${escapeHtml(h)}</th>`).join('')}</tr>`;
+    const body = block.rows.map((row, r) => `<tr>${row.map((cell, c) => `<td${classAttr(tableCellClass(bodyCellStyle(block, r, c)))}>${inlineHtml(cell)}</td>`).join('')}</tr>`).join('');
+    return `<div class="${tableWrapClass(block)}"><table class="content-table"><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
   }
   if (block.type === 'code') {
     return `<pre class="content-code" tabindex="0"><code>${escapeHtml(block.text)}</code></pre>`;
@@ -269,10 +303,18 @@ function contentBlockInnerHtml(block) {
   return `<p>${inlineHtml(block.text)}</p>`;
 }
 
+// Alignment and a whole-block text colour are drawn as a wrapper around the block.
+function blockWrapClasses(block) {
+  const classes = [];
+  if (['center', 'right', 'justify'].includes(block.align)) classes.push('content-align', `content-align--${block.align}`);
+  if (TEXT_COLORS.includes(block.color)) classes.push('tc', `tc-${block.color}`);
+  return classes;
+}
+
 function contentBlockHtml(block) {
   const html = contentBlockInnerHtml(block);
-  const alignment = ['center', 'right', 'justify'].includes(block.align) ? block.align : '';
-  return alignment ? `<div class="content-align content-align--${alignment}">${html}</div>` : html;
+  const classes = blockWrapClasses(block);
+  return classes.length ? `<div class="${classes.join(' ')}">${html}</div>` : html;
 }
 
 // Many case studies open with the same sentence that is used as the card

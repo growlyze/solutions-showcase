@@ -15,6 +15,10 @@ const BLOCK_TYPES = ['eyebrow', 'heading', 'subheading', 'label', 'p', 'list', '
 const CALLOUT_TONES = ['default', 'green', 'blue', 'yellow', 'red', 'gray'];
 const ALIGNABLE_BLOCKS = ['eyebrow', 'heading', 'subheading', 'label', 'p', 'list', 'olist', 'callout', 'quote'];
 const TEXT_ALIGNMENTS = ['left', 'center', 'right', 'justify'];
+// Kept in step with TEXT_COLORS and TABLE_STYLES in public/app.js.
+const TEXT_COLORS = ['orange', 'red', 'green', 'blue', 'purple', 'yellow', 'gray'];
+const TABLE_STYLES = ['bordered', 'minimal', 'header'];
+const COLORABLE_BLOCKS = [...ALIGNABLE_BLOCKS, 'table'];
 const IMAGE_PATH = /^(case-content\/[\w.-]+\/[\w.-]+\.(png|jpe?g|webp|gif)|uploads\/[a-f0-9]{24}\.(png|jpg|webp|gif))$/i;
 
 const password = () => process.env.ADMIN_PASSWORD || '';
@@ -81,14 +85,19 @@ const str = (v, max = 20000) => typeof v === 'string' && v.length <= max;
 
 function cleanBlock(b) {
   if (!b || !BLOCK_TYPES.includes(b.type)) throw new Error('Unknown block type');
+  // Alignment and a whole-block text colour; anything not on the lists is dropped.
   const withAlignment = (block) => {
     if (ALIGNABLE_BLOCKS.includes(b.type) && TEXT_ALIGNMENTS.includes(b.align) && b.align !== 'left') block.align = b.align;
+    if (COLORABLE_BLOCKS.includes(b.type) && TEXT_COLORS.includes(b.color)) block.color = b.color;
     return block;
   };
   switch (b.type) {
-    case 'list': case 'olist':
+    case 'list': case 'olist': {
       if (!Array.isArray(b.items) || !b.items.every((i) => str(i))) throw new Error('A list has an invalid item');
-      return withAlignment({ type: b.type, items: b.items });
+      const list = withAlignment({ type: b.type, items: b.items });
+      if (TEXT_COLORS.includes(b.marker)) list.marker = b.marker;
+      return list;
+    }
     case 'callout':
       if (!str(b.text) || !str(b.icon || '', 16)) throw new Error('A callout is invalid');
       return withAlignment({ type: 'callout', text: b.text, icon: b.icon || '', tone: CALLOUT_TONES.includes(b.tone) ? b.tone : 'default' });
@@ -103,7 +112,27 @@ function cleanBlock(b) {
     case 'table':
       if (!Array.isArray(b.headers) || !b.headers.every((h) => str(h, 1000))) throw new Error('A table header is invalid');
       if (!Array.isArray(b.rows) || !b.rows.every((r) => Array.isArray(r) && r.every((c) => str(c, 5000)))) throw new Error('A table row is invalid');
-      return { type: 'table', headers: b.headers, rows: b.rows };
+    {
+      // Per-cell colours are reshaped to the table and kept only when at least one cell has one.
+      const cellStyle = (s) => {
+        if (!s || typeof s !== 'object') return null;
+        const o = {};
+        if (TEXT_COLORS.includes(s.color)) o.color = s.color;
+        if (TEXT_COLORS.includes(s.fill)) o.fill = s.fill;
+        return Object.keys(o).length ? o : null;
+      };
+      const headStyles = Array.isArray(b.headStyles) ? b.headers.map((_, c) => cellStyle(b.headStyles[c])) : [];
+      const cellStyles = Array.isArray(b.cellStyles)
+        ? b.rows.map((row, r) => row.map((_, c) => cellStyle(Array.isArray(b.cellStyles[r]) ? b.cellStyles[r][c] : null)))
+        : [];
+      return withAlignment({
+        type: 'table', headers: b.headers, rows: b.rows,
+        ...(TABLE_STYLES.includes(b.tableStyle) ? { tableStyle: b.tableStyle } : {}),
+        ...(TEXT_COLORS.includes(b.tableColor) ? { tableColor: b.tableColor } : {}),
+        ...(headStyles.some(Boolean) ? { headStyles } : {}),
+        ...(cellStyles.some((row) => row.some(Boolean)) ? { cellStyles } : {}),
+      });
+    }
     case 'quote':
       if (!str(b.text) || !str(b.attribution || '', 500)) throw new Error('A quote is invalid');
       return withAlignment({ type: 'quote', text: b.text, attribution: b.attribution || '' });

@@ -40,6 +40,10 @@
   const ALIGNMENTS = [['left', 'Align Left'], ['center', 'Center Align'], ['right', 'Align Right'], ['justify', 'Justify']];
   const CONVERTIBLE = [...RICH, ...PLAIN, ...LISTS];
   const TONES = [['default', 'Purple'], ['green', 'Green'], ['blue', 'Blue'], ['yellow', 'Yellow'], ['red', 'Red'], ['gray', 'Gray']];
+  // Text colours and table styles (TEXT_COLORS and TABLE_STYLES come from app.js).
+  const COLORABLE = [...ALIGNABLE, 'table'];
+  const COLOR_NAME = (c) => c.charAt(0).toUpperCase() + c.slice(1);
+  const TABLE_STYLE_LABELS = { default: 'Standard', bordered: 'Bordered', minimal: 'Minimal', header: 'Bold header' };
   const EMOJIS = '📲 📞 🤖 ⚡ 🚀 📊 📈 💬 🛒 🧾 🗂️ ✅ 📅 🏗️ 🏠 💼 🧠 🔗 📦 🎯 💡 🔍 📣 🛠️ ⚙️ 🧪 📝 📚 🎨 🌐 🔒 💰 ⏱️ 📧 🧩 🏥 🚚 ✈️ 🎬 ⭐ ⚠️ ❗ ℹ️ 🔥 👉 🏆'.split(' ');
   const IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/webp', 'image/gif'];
 
@@ -123,6 +127,8 @@
         const href = n.getAttribute('href').replace(/[()\s]/g, (c) => encodeURIComponent(c));
         inner = `[${inner.trim()}](${href})`;
       }
+      const color = n.getAttribute('data-color');
+      if (TEXT_COLORS.includes(color) && inner.trim()) inner = `{color:${color}}${inner}{/color}`;
       if (/^(div|p|li|h[1-6]|tr|blockquote)$/.test(tag) && out && !/\s$/.test(out)) out += ' ';
       out += inner;
     });
@@ -210,7 +216,7 @@
     state.admin = false;
     state.editing = null;
     showAdminWorkspace(false);
-    document.querySelector('.ed-savebar')?.remove();
+    document.querySelectorAll('.ed-savebar, .ed-bulkbar').forEach((b) => b.remove());
     drawAdminChrome();
     router();
   }
@@ -257,7 +263,7 @@
         state.admin = false;
         state.editing = null;
         showAdminWorkspace(false);
-        document.querySelector('.ed-savebar')?.remove();
+        document.querySelectorAll('.ed-savebar, .ed-bulkbar').forEach((b) => b.remove());
         drawAdminChrome();
         router();
         toast('Password changed. Log in with your new password.');
@@ -391,6 +397,7 @@
     bar.innerHTML = `
       <button type="button" class="ed-btn ed-btn--primary" data-act="edit">✎ ${stashed ? 'Resume unsaved edits' : 'Edit this case study'}</button>
       ${stashed ? '<button type="button" class="ed-btn" data-act="discard">Discard unsaved edits</button>' : ''}
+      <button type="button" class="ed-btn" data-act="download">⬇ Download PDF / Word</button>
       <button type="button" class="ed-btn" data-act="toggle-hidden">${hiddenIds.has(id) ? 'Unhide (show on public site)' : 'Hide from public site'}</button>
       ${hiddenIds.has(id) ? '<span class="ed-badge" title="Visitors cannot see this case study. Only admins can.">Hidden</span>' : ''}
       ${editedIds().includes(id) ? '<span class="ed-badge" title="This case study has been edited on the site. The original is kept in data.js.">Edited</span>' : ''}`;
@@ -399,6 +406,7 @@
       if (act === 'edit') startEditing(id);
       if (act === 'discard') { state.stashed.delete(id); refreshCaseToolbar(); }
       if (act === 'toggle-hidden') setHidden(id, !hiddenIds.has(id)).then(refreshCaseToolbar, (err) => toast(err.message));
+      if (act === 'download') openDownloadMenu(e.target.closest('[data-act]'), () => CASE_STUDIES.find((c) => c.id === id));
     });
     back.after(bar);
   }
@@ -411,6 +419,7 @@
     state.stashed.delete(id);
     state.editing = {
       id,
+      picked: new Set(),      // blocks ticked for changing several at once
       dirty: Boolean(stashed),
       draft: stashed || clone({ title: cs.title, description: cs.description, tags: cs.tags, content: cs.content, cover: cs.cover || '', icon: cs.icon || '' }),
     };
@@ -420,7 +429,7 @@
   // A case study that doesn't exist yet (id null): Save creates it. `draft` may come from an
   // imported file.
   function startNewCase(draft) {
-    state.editing = { id: null, dirty: true, draft };
+    state.editing = { id: null, picked: new Set(), dirty: true, draft };
     openEditor();
   }
 
@@ -434,7 +443,7 @@
   function stopEditing() {
     const id = state.editing.id;
     state.editing = null;
-    document.querySelector('.ed-savebar')?.remove();
+    document.querySelectorAll('.ed-savebar, .ed-bulkbar').forEach((b) => b.remove());
     closePopups();
     if (id) keepScroll(() => renderCaseDetail(id)); else router();
   }
@@ -486,8 +495,8 @@
       case 'eyebrow': return `<p class="content-eyebrow" ${CE} data-k="text" data-placeholder="Section heading">${esc(b.text)}</p>`;
       case 'label': return `<p class="content-label" ${CE} data-k="text" data-placeholder="Bold line">${esc(b.text)}</p>`;
       // Lists use rich editing so Enter starts a new bullet and formatting works inside items.
-      case 'list': return `<ul class="content-list" ${CE_RICH} data-k="items">${listItemsHtml(b.items)}</ul>`;
-      case 'olist': return `<ol class="content-list content-olist" ${CE_RICH} data-k="items">${listItemsHtml(b.items)}</ol>`;
+      case 'list': return `<ul class="content-list${TEXT_COLORS.includes(b.marker) ? ` marker-${b.marker}` : ''}" ${CE_RICH} data-k="items">${listItemsHtml(b.items)}</ul>`;
+      case 'olist': return `<ol class="content-list content-olist${TEXT_COLORS.includes(b.marker) ? ` marker-${b.marker}` : ''}" ${CE_RICH} data-k="items">${listItemsHtml(b.items)}</ol>`;
       case 'callout': return `
         <div class="content-callout callout-${esc(b.tone || 'default')}">
           <button type="button" class="callout-icon ed-callout-icon" data-act="callout-icon" data-i="${i}" title="Change icon" aria-label="Change callout icon">${esc(b.icon || '💡')}</button>
@@ -513,10 +522,12 @@
         </div>
         <button type="button" class="ed-btn ed-btn--small" data-act="add-stat" data-i="${i}">+ Add stat</button>`;
       case 'table': {
-        const head = b.headers.map((h, c) => `<th><div class="ed-cell" ${CE} data-placeholder="Column">${esc(h)}</div><button type="button" class="ed-x" data-act="del-col" data-i="${i}" data-j="${c}" aria-label="Remove this column" title="Remove column">×</button></th>`).join('');
-        const rows = b.rows.map((r, ri) => `<tr>${b.headers.map((_, c) => `<td><div class="ed-cell" ${CE_RICH}>${inlineHtml(r[c] || '')}</div></td>`).join('')}<td class="ed-row-x"><button type="button" class="ed-x" data-act="del-row" data-i="${i}" data-j="${ri}" aria-label="Remove this row" title="Remove row">×</button></td></tr>`).join('');
+        // ▸ picks a whole row and ▾ a whole column for colouring; dragging across cells picks a block of them.
+        const pickRow = (r) => `<button type="button" class="ed-line-pick" data-act="pick-row" data-i="${i}" data-j="${r}" aria-label="Select this row" title="Select this row to colour it (Shift-click to add more rows)">▸</button>`;
+        const head = b.headers.map((h, c) => `<th${classAttr(tableCellClass(headCellStyle(b, c)))}><div class="ed-cell" ${CE} data-placeholder="Column">${esc(h)}</div><button type="button" class="ed-line-pick ed-line-pick--col" data-act="pick-col" data-i="${i}" data-j="${c}" aria-label="Select this column" title="Select this column to colour it (Shift-click to add more columns)">▾</button><button type="button" class="ed-x" data-act="del-col" data-i="${i}" data-j="${c}" aria-label="Remove this column" title="Remove column">×</button></th>`).join('');
+        const rows = b.rows.map((r, ri) => `<tr>${b.headers.map((_, c) => `<td${classAttr(tableCellClass(bodyCellStyle(b, ri, c)))}><div class="ed-cell" ${CE_RICH}>${inlineHtml(r[c] || '')}</div></td>`).join('')}<td class="ed-row-x">${pickRow(ri)}<button type="button" class="ed-x" data-act="del-row" data-i="${i}" data-j="${ri}" aria-label="Remove this row" title="Remove row">×</button></td></tr>`).join('');
         return `
-          <div class="content-table-wrap"><table class="content-table"><thead><tr>${head}<th class="ed-row-x"></th></tr></thead><tbody>${rows}</tbody></table></div>
+          <div class="${tableWrapClass(b)}"><table class="content-table"><thead><tr>${head}<th class="ed-row-x">${pickRow(-1)}</th></tr></thead><tbody>${rows}</tbody></table></div>
           <div class="ed-inline-actions">
             <button type="button" class="ed-btn ed-btn--small" data-act="add-row" data-i="${i}">+ Row</button>
             <button type="button" class="ed-btn ed-btn--small" data-act="add-col" data-i="${i}">+ Column</button>
@@ -542,18 +553,23 @@
     const toneControl = b.type === 'callout'
       ? `<select class="ed-type ed-tone" data-i="${i}" aria-label="Callout colour">${TONES.map(([v, l]) => `<option value="${v}"${v === (b.tone || 'default') ? ' selected' : ''}>${l}</option>`).join('')}</select>`
       : '';
+    const picked = state.editing.picked.has(i);
+    const hasStyle = COLORABLE.includes(b.type);
+    const colorClass = hasStyle && TEXT_COLORS.includes(b.color) ? ` tc tc-${b.color}` : '';
     return `
-      <div class="ed-block ed-block--${b.type}" data-i="${i}">
+      <div class="ed-block ed-block--${b.type}${picked ? ' is-picked' : ''}" data-i="${i}">
         <div class="ed-tools" role="toolbar" aria-label="Block ${i + 1} controls">
+          <label class="ed-tool ed-pick-wrap" title="Select this block (to change several at once)"><input type="checkbox" class="ed-pick" data-i="${i}"${picked ? ' checked' : ''} aria-label="Select block ${i + 1}" /></label>
           <span class="ed-tool ed-handle" draggable="true" data-i="${i}" title="Drag to move" aria-hidden="true">⋮⋮</span>
           ${typeControl}${alignControl}${toneControl}
+          ${hasStyle ? `<button type="button" class="ed-tool" data-act="style" data-i="${i}" aria-label="Colours${b.type === 'table' ? ' and table style' : ''}" title="Colours${b.type === 'table' ? ' and table style' : ''}">🎨</button>` : ''}
           <button type="button" class="ed-tool" data-act="up" data-i="${i}" aria-label="Move up" title="Move up"${i === 0 ? ' disabled' : ''}>↑</button>
           <button type="button" class="ed-tool" data-act="down" data-i="${i}" aria-label="Move down" title="Move down"${i === count - 1 ? ' disabled' : ''}>↓</button>
           <button type="button" class="ed-tool" data-act="duplicate" data-i="${i}" aria-label="Duplicate block" title="Duplicate">⧉</button>
           <button type="button" class="ed-tool" data-act="add" data-i="${i}" aria-label="Add a block below" title="Add a block below">+</button>
           <button type="button" class="ed-tool ed-tool--danger" data-act="delete" data-i="${i}" aria-label="Delete block" title="Delete block">🗑</button>
         </div>
-        <div class="ed-body"${ALIGNABLE.includes(b.type) ? ` style="text-align:${ALIGNMENTS.some(([value]) => value === b.align) ? b.align : 'left'}"` : ''}>${blockBodyHtml(b, i)}</div>
+        <div class="ed-body${colorClass}"${ALIGNABLE.includes(b.type) ? ` style="text-align:${ALIGNMENTS.some(([value]) => value === b.align) ? b.align : 'left'}"` : ''}>${blockBodyHtml(b, i)}</div>
       </div>`;
   }
 
@@ -598,11 +614,13 @@
         </div>
       </div>`; });
     drawSaveBar(id);
+    drawBulkBar();
+    drawCellPick();
     if (focus) focusBlock(focus.index, focus.at);
   }
 
   function drawSaveBar(id) {
-    document.querySelector('.ed-savebar')?.remove();
+    document.querySelectorAll('.ed-savebar, .ed-bulkbar').forEach((b) => b.remove());
     const bar = document.createElement('div');
     bar.className = 'ed-savebar';
     bar.innerHTML = `
@@ -611,6 +629,8 @@
           <button type="button" class="ed-tool" data-act="undo" title="Undo (Ctrl+Z)" aria-label="Undo"${history.undo.length ? '' : ' disabled'}>↶</button>
           <button type="button" class="ed-tool" data-act="redo" title="Redo (Ctrl+Shift+Z)" aria-label="Redo"${history.redo.length ? '' : ' disabled'}>↷</button>
           <span class="ed-status" aria-live="polite">${state.editing.dirty ? 'Unsaved changes' : 'No changes yet'}</span>
+          <button type="button" class="ed-btn ed-btn--small ed-btn--ghost" data-act="select-all" title="Tick every block to change their alignment, colours or table style together (Ctrl+A outside a text field)">☑ Select all</button>
+          <button type="button" class="ed-btn ed-btn--small ed-btn--ghost" data-act="download" title="Download this case study, with any unsaved edits, as a PDF or Word file">⬇ Download</button>
         </div>
         <div class="ed-savebar-actions">
           ${editedIds().includes(id) ? '<button type="button" class="ed-btn ed-btn--ghost" data-act="revert">Revert to original</button>' : ''}
@@ -627,6 +647,8 @@
       if (act === 'delete-case') deleteCase();
       if (act === 'undo') undo();
       if (act === 'redo') redo();
+      if (act === 'select-all') toggleSelectAll();
+      if (act === 'download') openDownloadMenu(e.target.closest('[data-act]'), () => collect(), true);
     });
     document.body.appendChild(bar);
   }
@@ -710,14 +732,16 @@
   }
 
   // Any change to the page's structure (blocks, cover, icon) goes through here: it records an
-  // undo step, applies the change to the draft and redraws the editor.
-  function restructure(fn, focus) {
+  // undo step, applies the change to the draft and redraws the editor. Ticked blocks stay ticked
+  // only when the change keeps every block where it was (`keepPicked`).
+  function restructure(fn, focus, keepPicked) {
     collect();
     history.undo.push(clone(state.editing.draft));
     if (history.undo.length > 100) history.undo.shift();
     history.redo = [];
     history.lastWasStructural = true;
     fn(state.editing.draft.content, state.editing.draft);
+    if (!keepPicked) { state.editing.picked.clear(); state.editing.cellPick = null; }
     markDirty();
     drawEditor(focus);
   }
@@ -727,6 +751,8 @@
     history.redo.push(clone(collect()));
     state.editing.draft = history.undo.pop();
     history.lastWasStructural = true;
+    state.editing.picked.clear();
+    state.editing.cellPick = null;
     markDirty();
     drawEditor();
   }
@@ -736,15 +762,264 @@
     history.undo.push(clone(collect()));
     state.editing.draft = history.redo.pop();
     history.lastWasStructural = true;
+    state.editing.picked.clear();
+    state.editing.cellPick = null;
     markDirty();
     drawEditor();
+  }
+
+  // ---------- changing several blocks at once ----------
+  // `change` is one of { align }, { color }, { marker }, { tableStyle }, { tableColor }; '' or
+  // 'left'/'default' removes the setting. Blocks without that setting are skipped.
+  function applyStyle(indices, change) {
+    const [key, value] = Object.entries(change)[0];
+    const fits = {
+      align: (b) => ALIGNABLE.includes(b.type),
+      color: (b) => COLORABLE.includes(b.type),
+      marker: (b) => LISTS.includes(b.type),
+      tableStyle: (b) => b.type === 'table',
+      tableColor: (b) => b.type === 'table',
+    }[key];
+    const blocks = state.editing.draft.content;
+    const targets = indices.filter((i) => blocks[i] && fits(blocks[i]));
+    if (!targets.length) return toast('None of the selected blocks have that setting.', 'error');
+    restructure((c) => targets.forEach((i) => {
+      if (!value || value === 'left' || value === 'default') delete c[i][key];
+      else c[i][key] = value;
+    }), null, true);
+    if (targets.length < indices.length) toast(`Changed ${targets.length} of ${indices.length} selected blocks. The others don’t have that setting.`);
+  }
+
+  function setPicked(indices, on) {
+    indices.forEach((i) => (on ? state.editing.picked.add(i) : state.editing.picked.delete(i)));
+    document.querySelectorAll('.ed-block').forEach((el) => {
+      const isOn = state.editing.picked.has(Number(el.dataset.i));
+      el.classList.toggle('is-picked', isOn);
+      const box = el.querySelector(':scope > .ed-tools .ed-pick');
+      if (box) box.checked = isOn;
+    });
+    drawBulkBar();
+  }
+
+  function toggleSelectAll() {
+    const all = state.editing.draft.content.map((_, i) => i);
+    setPicked(all, state.editing.picked.size < all.length);
+  }
+
+  // Bar shown while blocks are ticked: alignment, colours and table style for all of them at once.
+  function drawBulkBar() {
+    document.querySelector('.ed-bulkbar')?.remove();
+    const n = state.editing ? state.editing.picked.size : 0;
+    const selectAll = document.querySelector('.ed-savebar [data-act="select-all"]');
+    if (selectAll) selectAll.textContent = n && n === state.editing.draft.content.length ? '☐ Clear selection' : '☑ Select all';
+    if (!n) return;
+    const bar = document.createElement('div');
+    bar.className = 'ed-bulkbar';
+    bar.setAttribute('role', 'toolbar');
+    bar.setAttribute('aria-label', 'Change the selected blocks');
+    bar.innerHTML = `
+      <div class="container ed-bulkbar-inner">
+        <strong>${n} block${n === 1 ? '' : 's'} selected</strong>
+        <span class="ed-seg" role="group" aria-label="Text alignment">${ALIGNMENTS.map(([v, l]) => `<button type="button" class="ed-btn ed-btn--small" data-align="${v}" title="${l}">${{ left: '⇤ Left', center: '↔ Center', right: 'Right ⇥', justify: '☰ Justify' }[v]}</button>`).join('')}</span>
+        <button type="button" class="ed-btn ed-btn--small" data-act="bulk-style">🎨 Colours &amp; table style</button>
+        <button type="button" class="ed-btn ed-btn--small ed-btn--danger" data-act="bulk-delete">Delete selected</button>
+        <button type="button" class="ed-btn ed-btn--small ed-btn--ghost" data-act="bulk-clear">Clear selection</button>
+      </div>`;
+    bar.addEventListener('click', (e) => {
+      const picked = [...state.editing.picked].sort((a, b) => a - b);
+      const align = e.target.closest('[data-align]');
+      if (align) return applyStyle(picked, { align: align.dataset.align });
+      const act = e.target.closest('[data-act]')?.dataset.act;
+      if (act === 'bulk-style') openStyleMenu(e.target.closest('[data-act]'), picked);
+      if (act === 'bulk-clear') setPicked(picked, false);
+      if (act === 'bulk-delete' && confirm(`Delete the ${picked.length} selected block${picked.length === 1 ? '' : 's'}?`)) {
+        restructure((c) => {
+          picked.slice().reverse().forEach((i) => c.splice(i, 1));
+          if (!c.length) c.push({ type: 'p', text: '' });
+        });
+      }
+    });
+    document.body.appendChild(bar);
+  }
+
+  // ---------- colouring table cells, rows and columns (as in Word) ----------
+  // state.editing.cellPick is { i, r1, r2, c1, c2 }: a rectangle of cells in table block i, where
+  // row -1 is the header row. Picked by dragging across cells, Shift-clicking a cell, or the ▸ / ▾
+  // handles for a whole row or column.
+  function cellPos(cell) {
+    const tr = cell.parentElement;
+    const r = tr.parentElement.tagName === 'THEAD' ? -1 : [...tr.parentElement.children].indexOf(tr);
+    const c = [...tr.children].filter((x) => !x.classList.contains('ed-row-x')).indexOf(cell);
+    return { r, c };
+  }
+
+  function setCellPick(i, a, b) {
+    state.editing.cellPick = { i, r1: Math.min(a.r, b.r), r2: Math.max(a.r, b.r), c1: Math.min(a.c, b.c), c2: Math.max(a.c, b.c) };
+    drawCellPick();
+  }
+
+  function clearCellPick() {
+    if (!state.editing || !state.editing.cellPick) return;
+    state.editing.cellPick = null;
+    drawCellPick();
+  }
+
+  function pickLine(i, kind, j, extend) {
+    const t = state.editing.draft.content[i];
+    const lastR = t.rows.length - 1;
+    const lastC = t.headers.length - 1;
+    let a = kind === 'row' ? { r: j, c: 0 } : { r: -1, c: j };
+    const b = kind === 'row' ? { r: j, c: lastC } : { r: lastR, c: j };
+    const prev = state.editing.cellPick;
+    if (extend && prev && prev.i === i) a = kind === 'row' ? { r: j < prev.r1 ? prev.r2 : prev.r1, c: 0 } : { r: -1, c: j < prev.c1 ? prev.c2 : prev.c1 };
+    setCellPick(i, a, b);
+  }
+
+  // Highlights the picked cells and shows the cell colour bar under that table.
+  function drawCellPick() {
+    document.querySelectorAll('.ed-cell-picked').forEach((el) => el.classList.remove('ed-cell-picked'));
+    document.querySelector('.ed-cell-bar')?.remove();
+    const pick = state.editing && state.editing.cellPick;
+    const blockEl = pick && document.querySelector(`.ed-block[data-i="${pick.i}"]`);
+    const table = blockEl && blockEl.querySelector('.content-table');
+    if (!table) { if (state.editing) state.editing.cellPick = null; return; }
+    let count = 0;
+    [...table.rows].forEach((tr, k) => {
+      const r = k - 1; // the first row is the header
+      if (r < pick.r1 || r > pick.r2) return;
+      [...tr.children].filter((x) => !x.classList.contains('ed-row-x')).forEach((cell, c) => {
+        if (c >= pick.c1 && c <= pick.c2) { cell.classList.add('ed-cell-picked'); count++; }
+      });
+    });
+    const swatches = (key) => ['', ...TEXT_COLORS].map((c) => `
+      <button type="button" class="ed-swatch${c ? ` tc-${c}` : ' ed-swatch--default'}" data-cell-key="${key}" data-value="${c}" title="${c ? COLOR_NAME(c) : 'None'}" aria-label="${key === 'fill' ? 'Fill' : 'Text'} ${c ? COLOR_NAME(c) : 'none'}"></button>`).join('');
+    const bar = document.createElement('div');
+    bar.className = 'ed-cell-bar';
+    bar.setAttribute('role', 'toolbar');
+    bar.setAttribute('aria-label', 'Colour the selected cells');
+    bar.innerHTML = `
+      <strong>${count} cell${count === 1 ? '' : 's'} selected</strong>
+      <span class="ed-cell-bar-group"><span>Text</span>${swatches('color')}</span>
+      <span class="ed-cell-bar-group"><span>Fill</span>${swatches('fill')}</span>
+      <button type="button" class="ed-btn ed-btn--small ed-btn--ghost" data-cell-clear>Clear colours</button>
+      <button type="button" class="ed-btn ed-btn--small ed-btn--ghost" data-cell-done aria-label="Close" title="Done (Esc)">✕</button>`;
+    bar.addEventListener('mousedown', (e) => e.preventDefault()); // keep the cells picked
+    bar.addEventListener('click', (e) => {
+      const sw = e.target.closest('[data-cell-key]');
+      if (sw) applyCellStyle(sw.dataset.cellKey, sw.dataset.value);
+      if (e.target.closest('[data-cell-clear]')) applyCellStyle(null);
+      if (e.target.closest('[data-cell-done]')) clearCellPick();
+    });
+    blockEl.querySelector('.content-table-wrap').after(bar);
+  }
+
+  // Sets `key` ('color' or 'fill') on every picked cell; '' removes it, and key null clears both.
+  function applyCellStyle(key, value) {
+    const pick = state.editing.cellPick;
+    if (!pick) return;
+    restructure((content) => {
+      const t = content[pick.i];
+      const lineOf = (r) => {
+        if (r === -1) return (t.headStyles = Array.isArray(t.headStyles) ? t.headStyles : []);
+        if (!Array.isArray(t.cellStyles)) t.cellStyles = [];
+        return (t.cellStyles[r] = Array.isArray(t.cellStyles[r]) ? t.cellStyles[r] : []);
+      };
+      for (let r = pick.r1; r <= pick.r2; r++) {
+        const line = lineOf(r);
+        for (let c = pick.c1; c <= pick.c2; c++) {
+          const s = key ? { ...(line[c] || {}) } : {};
+          if (key && value) s[key] = value;
+          else if (key) delete s[key];
+          line[c] = Object.keys(s).length ? s : null;
+        }
+      }
+    }, null, true);
+  }
+
+  // Dragging from one cell into another picks every cell in between, instead of selecting text.
+  let cellDrag = null;
+  const cellAt = (target) => (target && target.closest ? target.closest('.ed-editing .content-table :is(td, th):not(.ed-row-x)') : null);
+  document.addEventListener('mousedown', (e) => {
+    if (!state.editing) return;
+    if (e.target.closest && e.target.closest('.ed-cell-bar, [data-act="pick-row"], [data-act="pick-col"], .ed-format, .ed-menu')) return;
+    const cell = cellAt(e.target);
+    if (!cell || e.target.closest('.ed-x')) { clearCellPick(); return; }
+    const i = Number(cell.closest('.ed-block').dataset.i);
+    const pos = cellPos(cell);
+    const prev = state.editing.cellPick;
+    if (e.shiftKey && prev && prev.i === i) {
+      e.preventDefault();
+      setCellPick(i, { r: prev.r1, c: prev.c1 }, pos);
+      return;
+    }
+    clearCellPick();
+    cellDrag = { i, from: pos, table: cell.closest('table') };
+  });
+  document.addEventListener('mouseover', (e) => {
+    if (!cellDrag) return;
+    const cell = cellAt(e.target);
+    if (!cell || cell.closest('table') !== cellDrag.table) return;
+    const pos = cellPos(cell);
+    if (!state.editing.cellPick && pos.r === cellDrag.from.r && pos.c === cellDrag.from.c) return;
+    cellDrag.table.classList.add('ed-cell-dragging');
+    window.getSelection().removeAllRanges();
+    setCellPick(cellDrag.i, cellDrag.from, pos);
+  });
+  document.addEventListener('mouseup', () => {
+    if (cellDrag) cellDrag.table.classList.remove('ed-cell-dragging');
+    cellDrag = null;
+  });
+
+  // Colour swatches and table styles for one block, or for every ticked block.
+  function openStyleMenu(anchor, indices) {
+    closePopups();
+    const blocks = indices.map((i) => state.editing.draft.content[i]).filter(Boolean);
+    const one = blocks.length === 1 ? blocks[0] : null;
+    const swatches = (key, current) => `<div class="ed-swatches">${['', ...TEXT_COLORS].map((c) => `
+      <button type="button" class="ed-swatch${c ? ` tc-${c}` : ' ed-swatch--default'}${one && (current || '') === c ? ' is-on' : ''}" data-key="${key}" data-value="${c}" title="${c ? COLOR_NAME(c) : 'Default'}" aria-label="${c ? COLOR_NAME(c) : 'Default colour'}"></button>`).join('')}
+      </div>`;
+    const sections = [];
+    if (blocks.some((b) => COLORABLE.includes(b.type))) sections.push(`<p class="ed-menu-title">Text colour</p>${swatches('color', one && one.color)}`);
+    if (blocks.some((b) => LISTS.includes(b.type))) sections.push(`<p class="ed-menu-title">Bullet / number colour</p>${swatches('marker', one && one.marker)}`);
+    if (blocks.some((b) => b.type === 'table')) {
+      sections.push(`<p class="ed-menu-title">Table style</p><div class="ed-table-styles">${Object.entries(TABLE_STYLE_LABELS).map(([v, l]) => `
+        <button type="button" class="${one && (one.tableStyle || 'default') === v ? 'is-on' : ''}" data-key="tableStyle" data-value="${v}">${l}</button>`).join('')}</div>`);
+      sections.push(`<p class="ed-menu-title">Table colour</p>${swatches('tableColor', one && one.tableColor)}`);
+    }
+    if (!sections.length) return toast('The selected blocks have no colour settings.', 'error');
+    const menu = document.createElement('div');
+    menu.className = 'ed-menu ed-style-menu';
+    menu.setAttribute('role', 'dialog');
+    menu.setAttribute('aria-label', 'Colours and table style');
+    menu.innerHTML = sections.join('');
+    placePopup(menu, anchor);
+    // The bulk bar is fixed on screen, so its menu must stay put when the page scrolls.
+    if (anchor.closest('.ed-bulkbar')) {
+      menu.style.position = 'fixed';
+      menu.style.top = `${anchor.getBoundingClientRect().bottom + 6}px`;
+      menu.style.left = `${parseFloat(menu.style.left) - window.scrollX}px`;
+    }
+    menu.querySelector('button').focus();
+    menu.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-key]');
+      if (!b) return;
+      closePopups();
+      applyStyle(indices, { [b.dataset.key]: b.dataset.value });
+    });
+    menu.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopups(); });
   }
 
   // Turn a block into another type, keeping its text.
   function convert(b, type) {
     if (b.type === type) return b;
-    if (LISTS.includes(b.type) && LISTS.includes(type)) return { type, items: b.items, ...(b.align ? { align: b.align } : {}) };
-    const align = ALIGNABLE.includes(type) && b.align ? { align: b.align } : {};
+    if (LISTS.includes(b.type) && LISTS.includes(type)) {
+      return { type, items: b.items, ...(b.align ? { align: b.align } : {}), ...(b.color ? { color: b.color } : {}), ...(b.marker ? { marker: b.marker } : {}) };
+    }
+    // Alignment and text colour carry over to any type that has them.
+    const align = {
+      ...(ALIGNABLE.includes(type) && b.align ? { align: b.align } : {}),
+      ...(COLORABLE.includes(type) && b.color ? { color: b.color } : {}),
+    };
     let md;
     if (LISTS.includes(b.type)) md = b.items.join(type === 'code' ? '\n' : ' ');
     else if (RICH.includes(b.type)) md = b.text || '';
@@ -1056,11 +1331,22 @@
         <button type="button" data-fmt="strikeThrough" title="Strikethrough (Ctrl+Shift+S)" aria-label="Strikethrough"><s>S</s></button>
         <button type="button" data-fmt="code" title="Inline code (Ctrl+E)" aria-label="Inline code">&lt;/&gt;</button>
         <button type="button" data-fmt="link" title="Link (Ctrl+K)" aria-label="Link">🔗</button>
-        <button type="button" data-fmt="clear" title="Clear formatting" aria-label="Clear formatting">T<sub>x</sub></button>`;
+        <button type="button" data-fmt="color-menu" title="Text colour" aria-label="Text colour" aria-expanded="false"><span class="ed-color-a">A</span></button>
+        <button type="button" data-fmt="clear" title="Clear formatting" aria-label="Clear formatting">T<sub>x</sub></button>
+        <div class="ed-format-colors" hidden>${['', ...TEXT_COLORS].map((c) => `
+          <button type="button" class="ed-swatch${c ? ` tc-${c}` : ' ed-swatch--default'}" data-fmt="color:${c}" title="${c ? COLOR_NAME(c) : 'Default colour'}" aria-label="${c ? COLOR_NAME(c) : 'Default colour'}"></button>`).join('')}
+        </div>`;
       bar.addEventListener('mousedown', (e) => e.preventDefault()); // keep the selection
       bar.addEventListener('click', (e) => {
         const b = e.target.closest('[data-fmt]');
-        if (b) format(b.dataset.fmt);
+        if (!b) return;
+        if (b.dataset.fmt === 'color-menu') {
+          const colors = bar.querySelector('.ed-format-colors');
+          colors.hidden = !colors.hidden;
+          b.setAttribute('aria-expanded', String(!colors.hidden));
+          return;
+        }
+        format(b.dataset.fmt);
       });
       document.body.appendChild(bar);
     }
@@ -1090,9 +1376,12 @@
       if (!url.trim()) document.execCommand('unlink');
       else if (!isAllowedHref(url.trim())) return toast('Links must start with https://, http://, mailto: or /', 'error');
       else document.execCommand('createLink', false, url.trim());
+    } else if (cmd.startsWith('color:')) {
+      colorSelection(cmd.slice(6));
     } else if (cmd === 'clear') {
       document.execCommand('removeFormat');
       document.execCommand('unlink');
+      uncolorSelection();
     } else {
       document.execCommand(cmd);
     }
@@ -1102,11 +1391,35 @@
     updateFormatBar();
   }
 
+  // Colour the selected words ({color:x}…{/color} once saved); '' takes the colour off again.
+  function colorSelection(color) {
+    const sel = window.getSelection();
+    if (sel.isCollapsed) return;
+    if (!TEXT_COLORS.includes(color)) { uncolorSelection(); return; }
+    const box = document.createElement('div');
+    box.appendChild(sel.getRangeAt(0).cloneContents());
+    box.querySelectorAll('[data-color]').forEach((s) => s.replaceWith(...s.childNodes));
+    document.execCommand('insertHTML', false, `<span class="tc tc-${color}" data-color="${color}">${box.innerHTML}</span>`);
+  }
+
+  // Coloured words the selection touches lose their colour.
+  function uncolorSelection() {
+    const sel = window.getSelection();
+    if (!sel.rangeCount) return;
+    const range = sel.getRangeAt(0);
+    const field = richFieldOf(range.commonAncestorContainer);
+    if (!field) return;
+    const inside = (range.commonAncestorContainer.nodeType === 1 ? range.commonAncestorContainer : range.commonAncestorContainer.parentElement).closest('[data-color]');
+    [...field.querySelectorAll('[data-color]'), ...(inside ? [inside] : [])]
+      .filter((s) => s.isConnected && range.intersectsNode(s))
+      .forEach((s) => s.replaceWith(...s.childNodes));
+  }
+
   document.addEventListener('selectionchange', () => { if (state.editing) updateFormatBar(); });
 
   // ---------- events inside the editor ----------
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('.ed-menu') && !e.target.closest('[data-act="add"], [data-act="icon-pick"], [data-act="cover-pick"], [data-act="callout-icon"]')) {
+    if (!e.target.closest('.ed-menu') && !e.target.closest('[data-act="add"], [data-act="icon-pick"], [data-act="cover-pick"], [data-act="callout-icon"], [data-act="style"], [data-act="bulk-style"], [data-act="download"]')) {
       document.querySelectorAll('.ed-menu').forEach((m) => m.remove());
     }
     if (!state.editing || !e.target.closest('.ed-editing')) return;
@@ -1126,12 +1439,21 @@
       case 'del-stat': restructure((c) => c[i].items.splice(j, 1)); break;
       case 'add-row': restructure((c) => c[i].rows.push(c[i].headers.map(() => ''))); break;
       case 'add-col': restructure((c) => { c[i].headers.push(''); c[i].rows.forEach((r) => r.push('')); }); break;
-      case 'del-row': restructure((c) => c[i].rows.splice(j, 1)); break;
-      case 'del-col': restructure((c) => { c[i].headers.splice(j, 1); c[i].rows.forEach((r) => r.splice(j, 1)); }); break;
+      // Cell colours move with their cells when a row or column is removed.
+      case 'del-row': restructure((c) => { c[i].rows.splice(j, 1); if (Array.isArray(c[i].cellStyles)) c[i].cellStyles.splice(j, 1); }); break;
+      case 'del-col': restructure((c) => {
+        c[i].headers.splice(j, 1);
+        c[i].rows.forEach((r) => r.splice(j, 1));
+        if (Array.isArray(c[i].headStyles)) c[i].headStyles.splice(j, 1);
+        if (Array.isArray(c[i].cellStyles)) c[i].cellStyles.forEach((r) => Array.isArray(r) && r.splice(j, 1));
+      }); break;
+      case 'pick-row': case 'pick-col': pickLine(i, btn.dataset.act === 'pick-row' ? 'row' : 'col', j, e.shiftKey); break;
       case 'callout-icon': openEmojiPicker(btn, (emoji) => restructure((c) => { c[i].icon = emoji || '💡'; })); break;
       case 'icon-pick': openEmojiPicker(btn, (emoji) => restructure((c, d) => { d.icon = emoji; }), Boolean(state.editing.draft.icon)); break;
       case 'cover-pick': openCoverMenu(btn); break;
       case 'cover-remove': restructure((c, d) => { d.cover = ''; }); break;
+      // The 🎨 of a ticked block changes all ticked blocks; of any other block, just that one.
+      case 'style': openStyleMenu(btn, state.editing.picked.has(i) ? [...state.editing.picked].sort((a, b) => a - b) : [i]); break;
     }
   });
 
@@ -1148,6 +1470,8 @@
     } else if (e.target.matches('.ed-type')) {
       const type = e.target.value;
       restructure((c) => { c[i] = convert(c[i], type); }, { index: i, at: 'end' });
+    } else if (e.target.matches('.ed-pick')) {
+      setPicked([i], e.target.checked);
     } else if (e.target.closest('.ed-tags')) {
       markDirty();
       collect();
@@ -1302,6 +1626,20 @@
     const mod = e.ctrlKey || e.metaKey;
     const key = e.key.toLowerCase();
     if (mod && key === 's') { e.preventDefault(); save(); return; }
+    // Ctrl+A outside a text field ticks every block; inside one it selects the text as usual.
+    if (mod && key === 'a' && !e.target.isContentEditable && !/^(input|textarea|select)$/i.test(e.target.tagName)) {
+      e.preventDefault();
+      toggleSelectAll();
+      return;
+    }
+    if (e.key === 'Escape' && state.editing.cellPick && !document.querySelector('.ed-menu, .ed-modal')) {
+      clearCellPick();
+      return;
+    }
+    if (e.key === 'Escape' && state.editing.picked.size && !document.querySelector('.ed-menu, .ed-modal')) {
+      setPicked([...state.editing.picked], false);
+      return;
+    }
     const el = e.target;
     const inEditor = el.closest && el.closest('.ed-editing');
     // Undo/redo of block changes; inside a text field after typing, the browser's own undo runs.
@@ -1394,14 +1732,15 @@
   // Leaving edit mode by a link asks first when there are unsaved changes.
   document.addEventListener('click', (e) => {
     if (!state.editing || !state.editing.dirty) return;
-    const link = e.target.closest('a[href], [data-back]');
+    // A download link (a[download]) saves a file and does not leave the page.
+    const link = e.target.closest('a[href]:not([download]), [data-back]');
     if (!link || link.closest('.ed-editing [contenteditable]')) return;
     if (!confirm('You have unsaved changes. Leave without saving?')) {
       e.preventDefault();
       e.stopImmediatePropagation();
     } else {
       state.editing = null;
-      document.querySelector('.ed-savebar')?.remove();
+      document.querySelectorAll('.ed-savebar, .ed-bulkbar').forEach((b) => b.remove());
     }
   }, true);
 
@@ -1417,7 +1756,7 @@
     if (!state.editing) return;
     if (state.editing.dirty && state.editing.id) state.stashed.set(state.editing.id, state.editing.draft);
     state.editing = null;
-    document.querySelector('.ed-savebar')?.remove();
+    document.querySelectorAll('.ed-savebar, .ed-bulkbar').forEach((b) => b.remove());
   });
 
   window.addEventListener('beforeunload', (e) => {
@@ -1470,7 +1809,7 @@
         const res = await api('POST', '/api/cases', body);
         applyToPage(res.caseStudy, true);
         state.editing = null;
-        document.querySelector('.ed-savebar')?.remove();
+        document.querySelectorAll('.ed-savebar, .ed-bulkbar').forEach((b) => b.remove());
         window.location.hash = `#/case/${res.caseStudy.id}`;
         toast('Case study created. It is live for everyone.');
         return;
@@ -1514,7 +1853,7 @@
       const index = CASE_STUDIES.indexOf(cs);
       if (index >= 0) CASE_STUDIES.splice(index, 1);
       state.editing = null;
-      document.querySelector('.ed-savebar')?.remove();
+      document.querySelectorAll('.ed-savebar, .ed-bulkbar').forEach((b) => b.remove());
       window.location.hash = cs && cs.tags[0] ? `#/tag/${cs.tags[0]}` : '#/';
       toast('Case study deleted.');
     } catch (err) {
@@ -1618,11 +1957,402 @@
     drop.addEventListener('drop', (e) => { e.preventDefault(); drop.classList.remove('is-over'); run(e.dataTransfer.files[0]); });
   }
 
+  // ---------- downloading a case study as PDF or Word ----------
+  // Built from the blocks (not a screenshot), so the text stays selectable and editable. Colours
+  // use the light theme's shades, since both files are read on white paper.
+  const PRINT_COLORS = { orange: '#c2410c', red: '#c62828', green: '#2e7d32', blue: '#1d4ed8', purple: '#7c3aed', yellow: '#a16207', gray: '#6b6475' };
+  const PRINT = { text: '#140827', muted: '#5c5468', accent: '#f55809', link: '#b8410a', border: '#e5dac6', soft: '#faf7f1', head: '#f4efe6', code: '#f1edf6' };
+  const CALLOUT_FILL = { default: '#f1ecfb', green: '#e8f5e9', blue: '#e8f0fe', yellow: '#fff8e1', red: '#fdecea', gray: '#f1f1f3' };
+  // pdfmake's font has no emoji, which would print as empty boxes.
+  const noEmoji = (s) => String(s || '').replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}\u{20E3}]/gu, '').replace(/\s{2,}/g, ' ');
+  const absUrl = (href) => new URL(href, `${window.location.origin}/`).href;
+  // A cell fill on paper: the colour mixed into white, like the soft tint on the page.
+  const tint = (hex, amount = 0.22) => `#${[1, 3, 5].map((k) => Math.round(parseInt(hex.substr(k, 2), 16) * amount + 255 * (1 - amount)).toString(16).padStart(2, '0')).join('')}`;
+  const downloadName = (cs, ext) => `${(cs.title || 'case-study').replace(/[^\p{L}\p{N}\s-]/gu, '').trim().replace(/\s+/g, '-').slice(0, 80) || 'case-study'}.${ext}`;
+
+  function openDownloadMenu(anchor, getCase, upward) {
+    closePopups();
+    const menu = document.createElement('div');
+    menu.className = 'ed-menu';
+    menu.setAttribute('role', 'menu');
+    menu.setAttribute('aria-label', 'Download');
+    menu.innerHTML = `
+      <p class="ed-menu-title">Download${state.editing ? ' (includes unsaved edits)' : ''}</p>
+      <button type="button" role="menuitem" data-format="pdf">PDF document (.pdf)</button>
+      <button type="button" role="menuitem" data-format="docx">Word document (.docx)</button>`;
+    placePopup(menu, anchor);
+    if (upward) menu.style.top = `${window.scrollY + anchor.getBoundingClientRect().top - menu.offsetHeight - 6}px`;
+    menu.querySelector('button').focus();
+    menu.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopups(); });
+    menu.addEventListener('click', async (e) => {
+      const b = e.target.closest('[data-format]');
+      if (!b) return;
+      closePopups();
+      const cs = getCase();
+      if (!cs) return;
+      toast(`Preparing the ${b.dataset.format === 'pdf' ? 'PDF' : 'Word file'}…`);
+      try {
+        if (b.dataset.format === 'pdf') await downloadPdf(cs);
+        else await downloadDocx(cs);
+      } catch (err) {
+        console.error(err);
+        toast(err.message || 'The file could not be made. Please try again.', 'error');
+      }
+    });
+  }
+
+  // Markdown-style text to runs of text with their formatting, read from the same HTML the page shows.
+  function inlineRuns(md) {
+    const box = document.createElement('div');
+    box.innerHTML = inlineHtml(md || '');
+    const runs = [];
+    (function walk(node, fmt) {
+      node.childNodes.forEach((n) => {
+        if (n.nodeType === 3) { if (n.nodeValue) runs.push({ ...fmt, text: n.nodeValue }); return; }
+        if (n.nodeType !== 1) return;
+        const tag = n.tagName.toLowerCase();
+        const f = { ...fmt };
+        if (tag === 'strong' || tag === 'b') f.bold = true;
+        if (tag === 'em' || tag === 'i') f.italics = true;
+        if (tag === 's') f.strike = true;
+        if (tag === 'code') f.code = true;
+        if (tag === 'a') f.link = absUrl(n.getAttribute('href'));
+        if (TEXT_COLORS.includes(n.getAttribute('data-color'))) f.color = n.getAttribute('data-color');
+        walk(n, f);
+      });
+    })(box, {});
+    return runs;
+  }
+
+  // List items with their "Term:" lead-ins bolded the way the page shows them (listHtml in app.js).
+  function exportItems(items) {
+    const bold = items.filter(splitLeadIn).length * 2 >= items.length;
+    return items.map((t) => {
+      const m = bold && !/^\*\*/.test(t) && splitLeadIn(t);
+      return m ? `**${m[1]}:** ${m[2]}` : t;
+    });
+  }
+
+  // An image on the page as a data URL, at most 1600px wide (JPEG gets a white background).
+  async function imageForFile(file, type) {
+    try {
+      const img = new Image();
+      img.src = absUrl(file);
+      await img.decode();
+      const scale = Math.min(1, 1600 / img.naturalWidth);
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(img.naturalWidth * scale);
+      canvas.height = Math.round(img.naturalHeight * scale);
+      const ctx = canvas.getContext('2d');
+      if (type === 'image/jpeg') { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      return { dataUrl: canvas.toDataURL(type, 0.88), width: canvas.width, height: canvas.height };
+    } catch (e) {
+      return null; // a missing image is left out rather than stopping the download
+    }
+  }
+
+  function saveBlob(blob, name) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+  }
+
+  const defined = (o) => Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined && v !== false));
+
+  async function downloadPdf(cs) {
+    await loadScript(LIBS.pdfmake);
+    await loadScript(LIBS.pdfFonts);
+    const W = 495; // A4 width minus the margins, in points
+    const runs = (md) => inlineRuns(md).map((r) => defined({
+      text: noEmoji(r.text),
+      bold: r.bold,
+      italics: r.italics,
+      decoration: r.strike ? 'lineThrough' : undefined,
+      color: r.color ? PRINT_COLORS[r.color] : (r.link ? PRINT.link : undefined),
+      link: r.link,
+      background: r.code ? PRINT.code : undefined,
+    }));
+    const lines = (style) => ({
+      hLineWidth: (i, node) => (style === 'minimal' ? (i === 1 ? 1.5 : (i === 0 || i === node.table.body.length ? 0 : 0.5)) : 0.5),
+      vLineWidth: (i, node) => (style === 'bordered' || ((style === 'default' || style === 'header') && (i === 0 || i === node.table.widths.length)) ? 0.5 : 0),
+      hLineColor: () => PRINT.border,
+      vLineColor: () => PRINT.border,
+      paddingLeft: () => 6, paddingRight: () => 6, paddingTop: () => 4, paddingBottom: () => 4,
+    });
+
+    const content = [];
+    if (cs.cover) {
+      const im = await imageForFile(cs.cover, 'image/jpeg');
+      if (im) content.push({ image: im.dataUrl, fit: [W, 200], alignment: 'center', margin: [0, 0, 0, 14] });
+    }
+    content.push({ text: noEmoji(cs.title), style: 'title' });
+    if (cs.description) content.push({ text: noEmoji(cs.description), style: 'lead' });
+
+    for (const b of cs.content) {
+      const color = PRINT_COLORS[b.color];
+      const alignment = b.align || 'left';
+      switch (b.type) {
+        case 'heading': case 'eyebrow': content.push(defined({ text: noEmoji(b.text), style: 'h2', color, alignment })); break;
+        case 'subheading': content.push(defined({ text: noEmoji(b.text), style: 'h3', color, alignment })); break;
+        case 'label': content.push(defined({ text: noEmoji(b.text), bold: true, color, alignment, margin: [0, 4, 0, 4] })); break;
+        case 'list': case 'olist':
+          if (!b.items.length) break;
+          content.push(defined({
+            [b.type === 'olist' ? 'ol' : 'ul']: exportItems(b.items).map((t) => ({ text: runs(t), alignment })),
+            color, markerColor: PRINT_COLORS[b.marker] || PRINT.accent, margin: [0, 0, 0, 8],
+          }));
+          break;
+        case 'callout':
+          content.push({
+            table: { widths: ['*'], body: [[defined({ text: runs(b.text), fillColor: CALLOUT_FILL[b.tone] || CALLOUT_FILL.default, color, alignment, margin: [10, 8, 10, 8] })]] },
+            layout: 'noBorders', margin: [0, 4, 0, 10],
+          });
+          break;
+        case 'quote':
+          content.push({
+            table: { widths: ['*'], body: [[{ stack: [defined({ text: runs(b.text), italics: true, color, alignment }), b.attribution ? { text: `— ${noEmoji(b.attribution)}`, fontSize: 9, color: PRINT.muted, margin: [0, 4, 0, 0] } : ''], margin: [10, 4, 0, 4] }]] },
+            layout: { hLineWidth: () => 0, vLineWidth: (i) => (i === 0 ? 3 : 0), vLineColor: () => PRINT.accent },
+            margin: [0, 4, 0, 10],
+          });
+          break;
+        case 'divider': content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: W, y2: 0, lineWidth: 0.5, lineColor: PRINT.border }], margin: [0, 8, 0, 8] }); break;
+        case 'img': {
+          const im = await imageForFile(b.file, 'image/jpeg');
+          if (!im) break;
+          const width = Math.min(W, im.width * 0.75);
+          content.push(width * (im.height / im.width) > 680
+            ? { image: im.dataUrl, fit: [W, 680], alignment: 'center', margin: [0, 6, 0, b.caption ? 2 : 10] }
+            : { image: im.dataUrl, width, alignment: 'center', margin: [0, 6, 0, b.caption ? 2 : 10] });
+          if (b.caption) content.push({ text: noEmoji(b.caption), fontSize: 9, color: PRINT.muted, alignment: 'center', margin: [0, 0, 0, 10] });
+          break;
+        }
+        case 'stats':
+          if (!b.items.length) break;
+          content.push({
+            table: { widths: b.items.map(() => '*'), body: [b.items.map((s) => ({ stack: [{ text: noEmoji(s.value), fontSize: 16, bold: true, color: PRINT.link, alignment: 'center' }, { text: noEmoji(s.label), fontSize: 8.5, color: PRINT.muted, alignment: 'center' }], fillColor: PRINT.soft, margin: [4, 6, 4, 6] }))] },
+            layout: lines('bordered'), margin: [0, 4, 0, 10],
+          });
+          break;
+        case 'table': {
+          if (!b.headers.length) break;
+          const style = b.tableStyle || 'default';
+          const tc = PRINT_COLORS[b.tableColor];
+          const headFill = style === 'header' ? (tc || PRINT.accent) : (style === 'minimal' ? undefined : PRINT.head);
+          const headColor = style === 'header' ? '#ffffff' : (tc || (style === 'minimal' ? PRINT.text : PRINT.muted));
+          const body = [
+            b.headers.map((h, c) => {
+              const s = headCellStyle(b, c) || {};
+              return defined({ text: noEmoji(h), bold: true, fontSize: 9.5, fillColor: s.fill ? tint(PRINT_COLORS[s.fill]) : headFill, color: PRINT_COLORS[s.color] || headColor });
+            }),
+            ...b.rows.map((r, ri) => b.headers.map((_, c) => {
+              const s = bodyCellStyle(b, ri, c) || {};
+              return defined({
+                text: runs(r[c] || ''), fontSize: 9.5, color: PRINT_COLORS[s.color] || color,
+                fillColor: s.fill ? tint(PRINT_COLORS[s.fill]) : (ri % 2 && style === 'default' ? PRINT.soft : undefined),
+              });
+            })),
+          ];
+          content.push({ table: { headerRows: 1, widths: b.headers.map(() => '*'), body }, layout: lines(style), margin: [0, 4, 0, 12] });
+          break;
+        }
+        case 'code':
+          content.push({ table: { widths: ['*'], body: [[{ text: b.text, fontSize: 8.5, preserveLeadingSpaces: true, fillColor: PRINT.code, margin: [8, 6, 8, 6] }]] }, layout: 'noBorders', margin: [0, 4, 0, 10] });
+          break;
+        default:
+          if (b.text) content.push(defined({ text: runs(b.text), color, alignment, margin: [0, 0, 0, 8] }));
+      }
+    }
+
+    window.pdfMake.createPdf({
+      pageSize: 'A4',
+      pageMargins: [50, 50, 50, 56],
+      info: { title: cs.title, creator: 'Growlyze Solutions Showcase' },
+      content,
+      footer: (page, pages) => ({ text: `${page} / ${pages}`, alignment: 'center', fontSize: 8, color: PRINT.muted, margin: [0, 20, 0, 0] }),
+      defaultStyle: { fontSize: 10.5, lineHeight: 1.3, color: PRINT.text },
+      styles: {
+        title: { fontSize: 22, bold: true, margin: [0, 0, 0, 6] },
+        lead: { fontSize: 11.5, color: PRINT.muted, margin: [0, 0, 0, 14] },
+        h2: { fontSize: 15, bold: true, margin: [0, 14, 0, 6] },
+        h3: { fontSize: 12.5, bold: true, margin: [0, 10, 0, 4] },
+      },
+    }).download(downloadName(cs, 'pdf'));
+  }
+
+  async function downloadDocx(cs) {
+    await loadScript(LIBS.docx);
+    const D = window.docx;
+    const hex = (c) => (c ? c.replace('#', '').toUpperCase() : undefined);
+    const ALIGN = { left: D.AlignmentType.LEFT, center: D.AlignmentType.CENTER, right: D.AlignmentType.RIGHT, justify: D.AlignmentType.JUSTIFIED };
+    const runs = (md, base = {}) => inlineRuns(md).map((r) => {
+      const run = new D.TextRun(defined({
+        text: r.text,
+        bold: r.bold || base.bold,
+        italics: r.italics || base.italics,
+        strike: r.strike,
+        color: r.color ? hex(PRINT_COLORS[r.color]) : base.color,
+        font: r.code ? 'Consolas' : undefined,
+        shading: r.code ? { type: D.ShadingType.CLEAR, fill: hex(PRINT.code), color: 'auto' } : undefined,
+        style: r.link ? 'Hyperlink' : undefined,
+      }));
+      return r.link ? new D.ExternalHyperlink({ link: r.link, children: [run] }) : run;
+    });
+    const para = (children, opts = {}) => new D.Paragraph({ children, spacing: { after: 120 }, ...opts });
+    const plain = (text, opts = {}) => new D.TextRun(defined({ text: String(text || ''), ...opts }));
+    const line = (color = hex(PRINT.border), size = 4) => ({ style: D.BorderStyle.SINGLE, size, color });
+    const none = { style: D.BorderStyle.NONE, size: 0, color: 'FFFFFF' };
+    const cellMargins = { top: 80, bottom: 80, left: 120, right: 120 };
+
+    // One numbering style per list kind and bullet colour; each list restarts its own count.
+    const numbering = [];
+    const numberingRefs = new Set();
+    let listInstance = 0;
+    const listRef = (ordered, marker) => {
+      const ref = `${ordered ? 'ol' : 'ul'}-${marker || 'default'}`;
+      if (!numberingRefs.has(ref)) {
+        numberingRefs.add(ref);
+        numbering.push({
+          reference: ref,
+          levels: [{
+            level: 0, format: ordered ? D.LevelFormat.DECIMAL : D.LevelFormat.BULLET, text: ordered ? '%1.' : '•', alignment: D.AlignmentType.START,
+            style: { run: { color: hex(PRINT_COLORS[marker] || PRINT.accent) }, paragraph: { indent: { left: 720, hanging: 360 } } },
+          }],
+        });
+      }
+      return ref;
+    };
+    const tableOf = (rows, borders, widths) => new D.Table({ width: { size: 100, type: D.WidthType.PERCENTAGE }, columnWidths: widths, rows, borders });
+    const even = (n) => Array.from({ length: n }, () => Math.floor(9000 / n));
+
+    const children = [];
+    if (cs.cover) {
+      const im = await imageForFile(cs.cover, 'image/png');
+      if (im) children.push(para([new D.ImageRun({ data: im.dataUrl, transformation: { width: 600, height: Math.round(600 * im.height / im.width) } })], { alignment: D.AlignmentType.CENTER }));
+    }
+    children.push(new D.Paragraph({ heading: D.HeadingLevel.TITLE, children: [plain(cs.title, { color: hex(PRINT.text) })] }));
+    if (cs.description) children.push(para([plain(cs.description, { color: hex(PRINT.muted), size: 24 })], { spacing: { after: 240 } }));
+
+    for (const b of cs.content) {
+      const color = hex(PRINT_COLORS[b.color]);
+      const alignment = ALIGN[b.align] || undefined;
+      switch (b.type) {
+        case 'heading': case 'eyebrow':
+          children.push(new D.Paragraph(defined({ heading: D.HeadingLevel.HEADING_1, alignment, children: [plain(b.text, { color: color || hex(PRINT.text) })] })));
+          break;
+        case 'subheading':
+          children.push(new D.Paragraph(defined({ heading: D.HeadingLevel.HEADING_2, alignment, children: [plain(b.text, { color: color || hex(PRINT.text) })] })));
+          break;
+        case 'label': children.push(para([plain(b.text, defined({ bold: true, color }))], defined({ alignment }))); break;
+        case 'list': case 'olist': {
+          const reference = listRef(b.type === 'olist', b.marker);
+          const instance = ++listInstance;
+          exportItems(b.items).forEach((t) => children.push(new D.Paragraph(defined({ numbering: { reference, level: 0, instance }, alignment, spacing: { after: 60 }, children: runs(t, { color }) }))));
+          children.push(para([]));
+          break;
+        }
+        case 'callout':
+          children.push(tableOf([new D.TableRow({ children: [new D.TableCell({
+            margins: cellMargins,
+            shading: { type: D.ShadingType.CLEAR, fill: hex(CALLOUT_FILL[b.tone] || CALLOUT_FILL.default), color: 'auto' },
+            children: [new D.Paragraph(defined({ alignment, children: [...(b.icon ? [plain(`${b.icon}  `)] : []), ...runs(b.text, { color })] }))],
+          })] })], { top: none, bottom: none, left: none, right: none, insideHorizontal: none, insideVertical: none }, [9000]));
+          children.push(para([]));
+          break;
+        case 'quote':
+          children.push(para(runs(b.text, { italics: true, color }), defined({ alignment, indent: { left: 240 }, border: { left: line(hex(PRINT.accent), 18) } })));
+          if (b.attribution) children.push(para([plain(`— ${b.attribution}`, { color: hex(PRINT.muted), size: 18 })], { indent: { left: 240 } }));
+          break;
+        case 'divider': children.push(para([], { border: { bottom: line() } })); break;
+        case 'img': {
+          const im = await imageForFile(b.file, 'image/png');
+          if (!im) break;
+          const width = Math.min(600, im.width);
+          children.push(para([new D.ImageRun({ data: im.dataUrl, transformation: { width, height: Math.round(width * im.height / im.width) } })], { alignment: D.AlignmentType.CENTER, spacing: { after: b.caption ? 40 : 160 } }));
+          if (b.caption) children.push(para([plain(b.caption, { color: hex(PRINT.muted), size: 18, italics: true })], { alignment: D.AlignmentType.CENTER }));
+          break;
+        }
+        case 'stats':
+          if (!b.items.length) break;
+          children.push(tableOf([new D.TableRow({ children: b.items.map((s) => new D.TableCell({
+            margins: cellMargins,
+            shading: { type: D.ShadingType.CLEAR, fill: hex(PRINT.soft), color: 'auto' },
+            children: [
+              new D.Paragraph({ alignment: D.AlignmentType.CENTER, children: [plain(s.value, { bold: true, size: 32, color: hex(PRINT.link) })] }),
+              new D.Paragraph({ alignment: D.AlignmentType.CENTER, children: [plain(s.label, { size: 17, color: hex(PRINT.muted) })] }),
+            ],
+          })) })], { top: line(), bottom: line(), left: line(), right: line(), insideHorizontal: line(), insideVertical: line() }, even(b.items.length)));
+          children.push(para([]));
+          break;
+        case 'table': {
+          if (!b.headers.length) break;
+          const style = b.tableStyle || 'default';
+          const tc = PRINT_COLORS[b.tableColor];
+          const headFill = style === 'header' ? (tc || PRINT.accent) : (style === 'minimal' ? undefined : PRINT.head);
+          const headColor = style === 'header' ? '#ffffff' : (tc || (style === 'minimal' ? PRINT.text : PRINT.muted));
+          const shade = (fill) => (fill ? { type: D.ShadingType.CLEAR, fill: hex(fill), color: 'auto' } : undefined);
+          const headRow = new D.TableRow({ tableHeader: true, children: b.headers.map((h, c) => {
+            const s = headCellStyle(b, c) || {};
+            return new D.TableCell(defined({
+              margins: cellMargins,
+              shading: shade(s.fill ? tint(PRINT_COLORS[s.fill]) : headFill),
+              borders: style === 'minimal' ? { bottom: line(hex(tc || PRINT.text), 12), top: none, left: none, right: none } : undefined,
+              children: [new D.Paragraph({ children: [plain(h, { bold: true, color: hex(PRINT_COLORS[s.color] || headColor) })] })],
+            }));
+          }) });
+          const rows = b.rows.map((r, ri) => new D.TableRow({ children: b.headers.map((_, c) => {
+            const s = bodyCellStyle(b, ri, c) || {};
+            return new D.TableCell(defined({
+              margins: cellMargins,
+              shading: shade(s.fill ? tint(PRINT_COLORS[s.fill]) : (ri % 2 && style === 'default' ? PRINT.soft : undefined)),
+              children: [new D.Paragraph({ children: runs(r[c] || '', { color: hex(PRINT_COLORS[s.color]) || color }) })],
+            }));
+          }) }));
+          const borders = {
+            default: { top: line(), bottom: line(), left: line(), right: line(), insideHorizontal: line(), insideVertical: none },
+            bordered: { top: line(), bottom: line(), left: line(), right: line(), insideHorizontal: line(), insideVertical: line() },
+            minimal: { top: none, bottom: none, left: none, right: none, insideHorizontal: line(), insideVertical: none },
+            header: { top: line(), bottom: line(), left: line(), right: line(), insideHorizontal: line(), insideVertical: none },
+          }[style] || {};
+          children.push(tableOf([headRow, ...rows], borders, even(b.headers.length)));
+          children.push(para([]));
+          break;
+        }
+        case 'code':
+          b.text.split('\n').forEach((t, k, all) => children.push(new D.Paragraph({
+            shading: { type: D.ShadingType.CLEAR, fill: hex(PRINT.code), color: 'auto' },
+            spacing: { after: k === all.length - 1 ? 160 : 0 },
+            children: [plain(t, { font: 'Consolas', size: 18 })],
+          })));
+          break;
+        default:
+          if (b.text) children.push(para(runs(b.text, { color }), defined({ alignment })));
+      }
+    }
+
+    const doc = new D.Document({
+      creator: 'Growlyze Solutions Showcase',
+      title: cs.title,
+      styles: { default: { document: { run: { font: 'Calibri', size: 22, color: hex(PRINT.text) } } } },
+      numbering: { config: numbering },
+      sections: [{ children }],
+    });
+    saveBlob(await D.Packer.toBlob(doc), downloadName(cs, 'docx'));
+  }
+
   // ---------- importing files ----------
   const LIBS = {
     pdf: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
     pdfWorker: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js',
     mammoth: 'https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js',
+    // for downloads
+    pdfmake: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/pdfmake.min.js',
+    pdfFonts: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/vfs_fonts.min.js',
+    docx: 'https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js',
   };
   const loaded = {};
   function loadScript(src) {

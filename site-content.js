@@ -299,7 +299,8 @@ function create(overrides, hidden) {
       `> ${cs.description}`,
       cats ? `Section: ${cats}` : '',
       `Page: ${base}/case/${cs.id}`,
-      ...cs.content.map((b) => blockMd(b, base)),
+      // Text colours ({color:red}…{/color}) mean nothing in plain text, so only the words are kept.
+      ...cs.content.map((b) => blockMd(b, base).replace(/\{color:[a-z]+\}|\{\/color\}/g, '')),
     ].filter(Boolean).join('\n\n') + '\n';
   }
 
