@@ -12,8 +12,14 @@ function escAttr(str) {
 
 // Text colours an editor can give to a whole block or to selected words. Named rather than free
 // hex values so each one has a readable shade in both the light and the dark theme (style.css).
-const TEXT_COLORS = ['orange', 'red', 'green', 'blue', 'purple', 'yellow', 'gray'];
+// 'ink' is the strongest text colour: near-black on the cream page, white on the dark one.
+const TEXT_COLORS = ['orange', 'red', 'green', 'blue', 'purple', 'yellow', 'gray', 'pink', 'teal', 'indigo', 'brown', 'ink'];
 const TABLE_STYLES = ['default', 'bordered', 'minimal', 'header'];
+// Text size of a block: small, normal (no setting), large, extra large.
+const TEXT_SIZES = ['sm', 'lg', 'xl'];
+// How heavy a table's header row and first column are; semibold (no setting) is the default.
+const TABLE_WEIGHTS = ['regular', 'bold'];
+const CELL_ALIGNS = ['left', 'center', 'right'];
 const COLOR_SPAN = new RegExp(`\\{color:(${TEXT_COLORS.join('|')})\\}((?:(?!\\{color:)[\\s\\S])*?)\\{\\/color\\}`, 'g');
 
 // Inline formatting inside body text, written the markdown way: **bold**, *italic*,
@@ -236,24 +242,34 @@ function listHtml(items, ordered, marker) {
   return `<${tag} class="content-list${ordered ? ' content-olist' : ''}${markerClass}">${items.map(li).join('')}</${tag}>`;
 }
 
-// Single cells can have their own text colour and fill, as in Word: `headStyles[c]` for the header
-// row and `cellStyles[r][c]` for the body, each null or { color, fill } (names from TEXT_COLORS).
+// Single cells can be styled as in Word: `headStyles[c]` for the header row and `cellStyles[r][c]`
+// for the body, each null or { color, fill, strong, bold, italic, align }. `fill` is a soft tint of
+// a TEXT_COLORS colour, or the solid colour when `strong` is set.
 const headCellStyle = (block, c) => (Array.isArray(block.headStyles) ? block.headStyles[c] : null) || null;
 const bodyCellStyle = (block, r, c) => (Array.isArray(block.cellStyles) && Array.isArray(block.cellStyles[r]) ? block.cellStyles[r][c] : null) || null;
 function tableCellClass(style) {
   if (!style) return '';
   const classes = [];
   if (TEXT_COLORS.includes(style.color)) classes.push('tc', `tc-${style.color}`);
-  if (TEXT_COLORS.includes(style.fill)) classes.push('cf', `cf-${style.fill}`);
+  if (TEXT_COLORS.includes(style.fill)) classes.push('cf', `cf-${style.fill}`, ...(style.strong ? ['cf-strong'] : []));
+  if (style.bold) classes.push('cell-bold');
+  if (style.italic) classes.push('cell-italic');
+  if (CELL_ALIGNS.includes(style.align)) classes.push(`cell-${style.align}`);
   return classes.join(' ');
 }
 const classAttr = (classes) => (classes ? ` class="${classes}"` : '');
 
-// Classes for a table's look: one of TABLE_STYLES plus an optional colour for its header and lines.
+// Classes for a table's look: one of TABLE_STYLES, an optional colour for its header and lines, and
+// how heavy its header row and first column are.
 function tableWrapClass(block) {
   const style = TABLE_STYLES.includes(block.tableStyle) && block.tableStyle !== 'default' ? ` table--${block.tableStyle}` : '';
   const color = TEXT_COLORS.includes(block.tableColor) ? ` has-tbl tbl-${block.tableColor}` : '';
-  return `content-table-wrap${style}${color}`;
+  const head = TABLE_WEIGHTS.includes(block.headWeight) ? ` head-${block.headWeight}` : '';
+  const first = TABLE_WEIGHTS.includes(block.firstColWeight) ? ` first-${block.firstColWeight}` : '';
+  // Background of the header row and of the striped rows (cream when not set; 'none' = all white).
+  const headFill = TEXT_COLORS.includes(block.headFill) ? ` has-hf hf-${block.headFill}` : '';
+  const stripe = block.stripe === 'none' ? ' st-none' : (TEXT_COLORS.includes(block.stripe) ? ` has-st st-${block.stripe}` : '');
+  return `content-table-wrap${style}${color}${head}${first}${headFill}${stripe}`;
 }
 
 const CALLOUT_TONES = ['default', 'green', 'blue', 'yellow', 'red', 'gray'];
@@ -308,6 +324,7 @@ function blockWrapClasses(block) {
   const classes = [];
   if (['center', 'right', 'justify'].includes(block.align)) classes.push('content-align', `content-align--${block.align}`);
   if (TEXT_COLORS.includes(block.color)) classes.push('tc', `tc-${block.color}`);
+  if (TEXT_SIZES.includes(block.size)) classes.push('ts', `ts-${block.size}`);
   return classes;
 }
 

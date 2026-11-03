@@ -42,8 +42,11 @@
   const TONES = [['default', 'Purple'], ['green', 'Green'], ['blue', 'Blue'], ['yellow', 'Yellow'], ['red', 'Red'], ['gray', 'Gray']];
   // Text colours and table styles (TEXT_COLORS and TABLE_STYLES come from app.js).
   const COLORABLE = [...ALIGNABLE, 'table'];
-  const COLOR_NAME = (c) => c.charAt(0).toUpperCase() + c.slice(1);
+  const SIZABLE = [...COLORABLE, 'stats', 'code'];
+  const COLOR_NAME = (c) => (c === 'ink' ? 'Black' : c.charAt(0).toUpperCase() + c.slice(1));
   const TABLE_STYLE_LABELS = { default: 'Standard', bordered: 'Bordered', minimal: 'Minimal', header: 'Bold header' };
+  const SIZE_LABELS = { sm: 'Small', '': 'Normal', lg: 'Large', xl: 'Extra large' };
+  const WEIGHT_LABELS = { regular: 'Regular', '': 'Semibold', bold: 'Bold' };
   const EMOJIS = '📲 📞 🤖 ⚡ 🚀 📊 📈 💬 🛒 🧾 🗂️ ✅ 📅 🏗️ 🏠 💼 🧠 🔗 📦 🎯 💡 🔍 📣 🛠️ ⚙️ 🧪 📝 📚 🎨 🌐 🔒 💰 ⏱️ 📧 🧩 🏥 🚚 ✈️ 🎬 ⭐ ⚠️ ❗ ℹ️ 🔥 👉 🏆'.split(' ');
   const IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/webp', 'image/gif'];
 
@@ -531,6 +534,7 @@
           <div class="ed-inline-actions">
             <button type="button" class="ed-btn ed-btn--small" data-act="add-row" data-i="${i}">+ Row</button>
             <button type="button" class="ed-btn ed-btn--small" data-act="add-col" data-i="${i}">+ Column</button>
+            <button type="button" class="ed-btn ed-btn--small ed-btn--ghost" data-act="pick-table" data-i="${i}" title="Select every cell, to colour or format the whole table">▦ Select all cells</button>
           </div>`;
       }
       case 'code': return `<pre class="content-code"><code ${CE} data-k="text" data-placeholder="Code">${esc(b.text)}</code></pre>`;
@@ -554,15 +558,16 @@
       ? `<select class="ed-type ed-tone" data-i="${i}" aria-label="Callout colour">${TONES.map(([v, l]) => `<option value="${v}"${v === (b.tone || 'default') ? ' selected' : ''}>${l}</option>`).join('')}</select>`
       : '';
     const picked = state.editing.picked.has(i);
-    const hasStyle = COLORABLE.includes(b.type);
-    const colorClass = hasStyle && TEXT_COLORS.includes(b.color) ? ` tc tc-${b.color}` : '';
+    const hasStyle = SIZABLE.includes(b.type);
+    const colorClass = (COLORABLE.includes(b.type) && TEXT_COLORS.includes(b.color) ? ` tc tc-${b.color}` : '')
+      + (TEXT_SIZES.includes(b.size) ? ` ts ts-${b.size}` : '');
     return `
       <div class="ed-block ed-block--${b.type}${picked ? ' is-picked' : ''}" data-i="${i}">
         <div class="ed-tools" role="toolbar" aria-label="Block ${i + 1} controls">
           <label class="ed-tool ed-pick-wrap" title="Select this block (to change several at once)"><input type="checkbox" class="ed-pick" data-i="${i}"${picked ? ' checked' : ''} aria-label="Select block ${i + 1}" /></label>
           <span class="ed-tool ed-handle" draggable="true" data-i="${i}" title="Drag to move" aria-hidden="true">⋮⋮</span>
           ${typeControl}${alignControl}${toneControl}
-          ${hasStyle ? `<button type="button" class="ed-tool" data-act="style" data-i="${i}" aria-label="Colours${b.type === 'table' ? ' and table style' : ''}" title="Colours${b.type === 'table' ? ' and table style' : ''}">🎨</button>` : ''}
+          ${hasStyle ? `<button type="button" class="ed-tool" data-act="style" data-i="${i}" aria-label="Text size and colours${b.type === 'table' ? ' and table style' : ''}" title="Text size and colours${b.type === 'table' ? ' and table style' : ''}">🎨</button>` : ''}
           <button type="button" class="ed-tool" data-act="up" data-i="${i}" aria-label="Move up" title="Move up"${i === 0 ? ' disabled' : ''}>↑</button>
           <button type="button" class="ed-tool" data-act="down" data-i="${i}" aria-label="Move down" title="Move down"${i === count - 1 ? ' disabled' : ''}>↓</button>
           <button type="button" class="ed-tool" data-act="duplicate" data-i="${i}" aria-label="Duplicate block" title="Duplicate">⧉</button>
@@ -779,6 +784,11 @@
       marker: (b) => LISTS.includes(b.type),
       tableStyle: (b) => b.type === 'table',
       tableColor: (b) => b.type === 'table',
+      headWeight: (b) => b.type === 'table',
+      firstColWeight: (b) => b.type === 'table',
+      headFill: (b) => b.type === 'table',
+      stripe: (b) => b.type === 'table',
+      size: (b) => SIZABLE.includes(b.type),
     }[key];
     const blocks = state.editing.draft.content;
     const targets = indices.filter((i) => blocks[i] && fits(blocks[i]));
@@ -821,7 +831,7 @@
       <div class="container ed-bulkbar-inner">
         <strong>${n} block${n === 1 ? '' : 's'} selected</strong>
         <span class="ed-seg" role="group" aria-label="Text alignment">${ALIGNMENTS.map(([v, l]) => `<button type="button" class="ed-btn ed-btn--small" data-align="${v}" title="${l}">${{ left: '⇤ Left', center: '↔ Center', right: 'Right ⇥', justify: '☰ Justify' }[v]}</button>`).join('')}</span>
-        <button type="button" class="ed-btn ed-btn--small" data-act="bulk-style">🎨 Colours &amp; table style</button>
+        <button type="button" class="ed-btn ed-btn--small" data-act="bulk-style">🎨 Text size, colours &amp; table style</button>
         <button type="button" class="ed-btn ed-btn--small ed-btn--danger" data-act="bulk-delete">Delete selected</button>
         <button type="button" class="ed-btn ed-btn--small ed-btn--ghost" data-act="bulk-clear">Clear selection</button>
       </div>`;
@@ -891,32 +901,71 @@
         if (c >= pick.c1 && c <= pick.c2) { cell.classList.add('ed-cell-picked'); count++; }
       });
     });
-    const swatches = (key) => ['', ...TEXT_COLORS].map((c) => `
-      <button type="button" class="ed-swatch${c ? ` tc-${c}` : ' ed-swatch--default'}" data-cell-key="${key}" data-value="${c}" title="${c ? COLOR_NAME(c) : 'None'}" aria-label="${key === 'fill' ? 'Fill' : 'Text'} ${c ? COLOR_NAME(c) : 'none'}"></button>`).join('');
+    const t = state.editing.draft.content[pick.i];
+    const all = (test) => pickedStyles(t, pick).every(test);
+    const swatches = (key, label) => ['', ...TEXT_COLORS].map((c) => `
+      <button type="button" class="ed-swatch${c ? ` tc-${c}` : ' ed-swatch--default'}${key === 'strongFill' && c ? ' ed-swatch--solid' : ''}" data-cell-key="${key}" data-value="${c}" title="${c ? COLOR_NAME(c) : 'None'}" aria-label="${label} ${c ? COLOR_NAME(c) : 'none'}"></button>`).join('');
+    const on = (yes) => (yes ? ' is-on' : '');
     const bar = document.createElement('div');
     bar.className = 'ed-cell-bar';
     bar.setAttribute('role', 'toolbar');
-    bar.setAttribute('aria-label', 'Colour the selected cells');
+    bar.setAttribute('aria-label', 'Format the selected cells');
     bar.innerHTML = `
-      <strong>${count} cell${count === 1 ? '' : 's'} selected</strong>
-      <span class="ed-cell-bar-group"><span>Text</span>${swatches('color')}</span>
-      <span class="ed-cell-bar-group"><span>Fill</span>${swatches('fill')}</span>
-      <button type="button" class="ed-btn ed-btn--small ed-btn--ghost" data-cell-clear>Clear colours</button>
-      <button type="button" class="ed-btn ed-btn--small ed-btn--ghost" data-cell-done aria-label="Close" title="Done (Esc)">✕</button>`;
+      <div class="ed-cell-bar-row">
+        <strong>${count} cell${count === 1 ? '' : 's'} selected</strong>
+        <span class="ed-cell-bar-group">
+          <button type="button" class="ed-cell-tool${on(all((s) => s.bold))}" data-cell-key="bold" title="Bold" aria-label="Bold"><b>B</b></button>
+          <button type="button" class="ed-cell-tool${on(all((s) => s.italic))}" data-cell-key="italic" title="Italic" aria-label="Italic"><i>I</i></button>
+        </span>
+        <span class="ed-cell-bar-group">${CELL_ALIGNS.map((a) => `
+          <button type="button" class="ed-cell-tool${on(all((s) => (s.align || 'left') === a))}" data-cell-key="align" data-value="${a}" title="Align ${a}" aria-label="Align ${a}">${{ left: '⇤', center: '↔', right: '⇥' }[a]}</button>`).join('')}
+        </span>
+        <button type="button" class="ed-btn ed-btn--small ed-btn--ghost" data-cell-clear>Clear formatting</button>
+        <button type="button" class="ed-btn ed-btn--small ed-btn--ghost" data-cell-done aria-label="Close" title="Done (Esc)">✕</button>
+      </div>
+      <div class="ed-cell-bar-row"><span class="ed-cell-bar-label">Text colour</span>${swatches('color', 'Text')}</div>
+      <div class="ed-cell-bar-row"><span class="ed-cell-bar-label">Light fill</span>${swatches('fill', 'Light fill')}</div>
+      <div class="ed-cell-bar-row"><span class="ed-cell-bar-label">Strong fill</span>${swatches('strongFill', 'Strong fill')}</div>`;
     bar.addEventListener('mousedown', (e) => e.preventDefault()); // keep the cells picked
     bar.addEventListener('click', (e) => {
-      const sw = e.target.closest('[data-cell-key]');
-      if (sw) applyCellStyle(sw.dataset.cellKey, sw.dataset.value);
+      const btn = e.target.closest('[data-cell-key]');
+      if (btn) applyCellStyle(btn.dataset.cellKey, btn.dataset.value);
       if (e.target.closest('[data-cell-clear]')) applyCellStyle(null);
       if (e.target.closest('[data-cell-done]')) clearCellPick();
     });
     blockEl.querySelector('.content-table-wrap').after(bar);
   }
 
-  // Sets `key` ('color' or 'fill') on every picked cell; '' removes it, and key null clears both.
+  // Style objects of the picked cells as they are now ({} for a plain cell).
+  function pickedStyles(t, pick) {
+    const out = [];
+    for (let r = pick.r1; r <= pick.r2; r++) {
+      for (let c = pick.c1; c <= pick.c2; c++) out.push((r === -1 ? headCellStyle(t, c) : bodyCellStyle(t, r, c)) || {});
+    }
+    return out;
+  }
+
+  // Changes every picked cell. Keys: 'color', 'fill' (light tint), 'strongFill' (solid colour),
+  // 'align', and 'bold' / 'italic', which turn on, or off when every picked cell already has them.
+  // A '' value removes that setting; key null clears all of them.
   function applyCellStyle(key, value) {
     const pick = state.editing.cellPick;
     if (!pick) return;
+    const current = pickedStyles(state.editing.draft.content[pick.i], pick);
+    const toggleOn = (k) => !current.every((s) => s[k]);
+    const change = (s) => {
+      if (!key) return {};
+      if (key === 'bold' || key === 'italic') { if (toggleOn(key)) s[key] = true; else delete s[key]; return s; }
+      if (key === 'fill' || key === 'strongFill') {
+        delete s.strong;
+        if (!value) delete s.fill;
+        else { s.fill = value; if (key === 'strongFill') s.strong = true; }
+        return s;
+      }
+      if (key === 'align' && value === 'left') { delete s.align; return s; }
+      if (value) s[key] = value; else delete s[key];
+      return s;
+    };
     restructure((content) => {
       const t = content[pick.i];
       const lineOf = (r) => {
@@ -927,9 +976,7 @@
       for (let r = pick.r1; r <= pick.r2; r++) {
         const line = lineOf(r);
         for (let c = pick.c1; c <= pick.c2; c++) {
-          const s = key ? { ...(line[c] || {}) } : {};
-          if (key && value) s[key] = value;
-          else if (key) delete s[key];
+          const s = change({ ...(line[c] || {}) });
           line[c] = Object.keys(s).length ? s : null;
         }
       }
@@ -941,7 +988,7 @@
   const cellAt = (target) => (target && target.closest ? target.closest('.ed-editing .content-table :is(td, th):not(.ed-row-x)') : null);
   document.addEventListener('mousedown', (e) => {
     if (!state.editing) return;
-    if (e.target.closest && e.target.closest('.ed-cell-bar, [data-act="pick-row"], [data-act="pick-col"], .ed-format, .ed-menu')) return;
+    if (e.target.closest && e.target.closest('.ed-cell-bar, [data-act="pick-row"], [data-act="pick-col"], [data-act="pick-table"], .ed-format, .ed-menu')) return;
     const cell = cellAt(e.target);
     if (!cell || e.target.closest('.ed-x')) { clearCellPick(); return; }
     const i = Number(cell.closest('.ed-block').dataset.i);
@@ -978,15 +1025,25 @@
     const swatches = (key, current) => `<div class="ed-swatches">${['', ...TEXT_COLORS].map((c) => `
       <button type="button" class="ed-swatch${c ? ` tc-${c}` : ' ed-swatch--default'}${one && (current || '') === c ? ' is-on' : ''}" data-key="${key}" data-value="${c}" title="${c ? COLOR_NAME(c) : 'Default'}" aria-label="${c ? COLOR_NAME(c) : 'Default colour'}"></button>`).join('')}
       </div>`;
+    // A row of word buttons for one setting; '' is its default (no setting stored).
+    const choices = (key, labels, current) => `<div class="ed-table-styles ed-choice-${Object.keys(labels).length}">${Object.entries(labels).map(([v, l]) => `
+      <button type="button" class="${one && (current || '') === v ? 'is-on' : ''}" data-key="${key}" data-value="${v}">${l}</button>`).join('')}</div>`;
     const sections = [];
+    if (blocks.some((b) => SIZABLE.includes(b.type))) sections.push(`<p class="ed-menu-title">Text size</p>${choices('size', SIZE_LABELS, one && one.size)}`);
     if (blocks.some((b) => COLORABLE.includes(b.type))) sections.push(`<p class="ed-menu-title">Text colour</p>${swatches('color', one && one.color)}`);
     if (blocks.some((b) => LISTS.includes(b.type))) sections.push(`<p class="ed-menu-title">Bullet / number colour</p>${swatches('marker', one && one.marker)}`);
     if (blocks.some((b) => b.type === 'table')) {
       sections.push(`<p class="ed-menu-title">Table style</p><div class="ed-table-styles">${Object.entries(TABLE_STYLE_LABELS).map(([v, l]) => `
         <button type="button" class="${one && (one.tableStyle || 'default') === v ? 'is-on' : ''}" data-key="tableStyle" data-value="${v}">${l}</button>`).join('')}</div>`);
       sections.push(`<p class="ed-menu-title">Table colour</p>${swatches('tableColor', one && one.tableColor)}`);
+      sections.push(`<p class="ed-menu-title">Header background</p>${swatches('headFill', one && one.headFill)}`);
+      sections.push(`<p class="ed-menu-title">Row stripes</p>${swatches('stripe', one && one.stripe !== 'none' ? one.stripe : '')}
+        <div class="ed-table-styles ed-choice-1"><button type="button" class="${one && one.stripe === 'none' ? 'is-on' : ''}" data-key="stripe" data-value="none">No stripes (all white)</button></div>`);
+      sections.push(`<p class="ed-menu-title">Header row text</p>${choices('headWeight', WEIGHT_LABELS, one && one.headWeight)}`);
+      sections.push(`<p class="ed-menu-title">First column text</p>${choices('firstColWeight', WEIGHT_LABELS, one && one.firstColWeight)}`);
+      sections.push('<p class="ed-menu-note">For single cells, rows or columns: select them in the table (▸ ▾ or drag).</p>');
     }
-    if (!sections.length) return toast('The selected blocks have no colour settings.', 'error');
+    if (!sections.length) return toast('The selected blocks have no style settings.', 'error');
     const menu = document.createElement('div');
     menu.className = 'ed-menu ed-style-menu';
     menu.setAttribute('role', 'dialog');
@@ -1013,12 +1070,13 @@
   function convert(b, type) {
     if (b.type === type) return b;
     if (LISTS.includes(b.type) && LISTS.includes(type)) {
-      return { type, items: b.items, ...(b.align ? { align: b.align } : {}), ...(b.color ? { color: b.color } : {}), ...(b.marker ? { marker: b.marker } : {}) };
+      return { type, items: b.items, ...(b.align ? { align: b.align } : {}), ...(b.color ? { color: b.color } : {}), ...(b.marker ? { marker: b.marker } : {}), ...(b.size ? { size: b.size } : {}) };
     }
-    // Alignment and text colour carry over to any type that has them.
+    // Alignment, text colour and text size carry over to any type that has them.
     const align = {
       ...(ALIGNABLE.includes(type) && b.align ? { align: b.align } : {}),
       ...(COLORABLE.includes(type) && b.color ? { color: b.color } : {}),
+      ...(SIZABLE.includes(type) && b.size ? { size: b.size } : {}),
     };
     let md;
     if (LISTS.includes(b.type)) md = b.items.join(type === 'code' ? '\n' : ' ');
@@ -1448,6 +1506,11 @@
         if (Array.isArray(c[i].cellStyles)) c[i].cellStyles.forEach((r) => Array.isArray(r) && r.splice(j, 1));
       }); break;
       case 'pick-row': case 'pick-col': pickLine(i, btn.dataset.act === 'pick-row' ? 'row' : 'col', j, e.shiftKey); break;
+      case 'pick-table': {
+        const t = state.editing.draft.content[i];
+        setCellPick(i, { r: -1, c: 0 }, { r: t.rows.length - 1, c: t.headers.length - 1 });
+        break;
+      }
       case 'callout-icon': openEmojiPicker(btn, (emoji) => restructure((c) => { c[i].icon = emoji || '💡'; })); break;
       case 'icon-pick': openEmojiPicker(btn, (emoji) => restructure((c, d) => { d.icon = emoji; }), Boolean(state.editing.draft.icon)); break;
       case 'cover-pick': openCoverMenu(btn); break;
@@ -1960,7 +2023,14 @@
   // ---------- downloading a case study as PDF or Word ----------
   // Built from the blocks (not a screenshot), so the text stays selectable and editable. Colours
   // use the light theme's shades, since both files are read on white paper.
-  const PRINT_COLORS = { orange: '#c2410c', red: '#c62828', green: '#2e7d32', blue: '#1d4ed8', purple: '#7c3aed', yellow: '#a16207', gray: '#6b6475' };
+  const PRINT_COLORS = {
+    orange: '#c2410c', red: '#c62828', green: '#2e7d32', blue: '#1d4ed8', purple: '#7c3aed', yellow: '#a16207', gray: '#6b6475',
+    pink: '#be185d', teal: '#0f766e', indigo: '#4338ca', brown: '#8b5a2b', ink: '#140827',
+  };
+  // Text size of a block, as a multiple of the normal size (style.css draws them with zoom).
+  const SIZE_FACTOR = { sm: 0.88, lg: 1.15, xl: 1.3 };
+  // Fill of a cell on paper: the solid colour when strong, otherwise a soft tint.
+  const cellFill = (s) => (s.fill ? (s.strong ? PRINT_COLORS[s.fill] : tint(PRINT_COLORS[s.fill])) : undefined);
   const PRINT = { text: '#140827', muted: '#5c5468', accent: '#f55809', link: '#b8410a', border: '#e5dac6', soft: '#faf7f1', base: '#ece4d4', code: '#f1edf6' };
   const CALLOUT_FILL = { default: '#f1ecfb', green: '#e8f5e9', blue: '#e8f0fe', yellow: '#fff8e1', red: '#fdecea', gray: '#f1f1f3' };
   // pdfmake's font has no emoji, which would print as empty boxes.
@@ -2096,9 +2166,12 @@
     for (const b of cs.content) {
       const color = PRINT_COLORS[b.color];
       const alignment = b.align || 'left';
+      const f = SIZE_FACTOR[b.size] || 1;
+      const fs = (n) => (f === 1 ? n : Math.round(n * f * 10) / 10);
+      const start = content.length;
       switch (b.type) {
-        case 'heading': case 'eyebrow': content.push(defined({ text: noEmoji(b.text), style: 'h2', color, alignment })); break;
-        case 'subheading': content.push(defined({ text: noEmoji(b.text), style: 'h3', color, alignment })); break;
+        case 'heading': case 'eyebrow': content.push(defined({ text: noEmoji(b.text), style: 'h2', color, alignment, fontSize: f === 1 ? undefined : fs(15) })); break;
+        case 'subheading': content.push(defined({ text: noEmoji(b.text), style: 'h3', color, alignment, fontSize: f === 1 ? undefined : fs(12.5) })); break;
         case 'label': content.push(defined({ text: noEmoji(b.text), bold: true, color, alignment, margin: [0, 4, 0, 4] })); break;
         case 'list': case 'olist':
           if (!b.items.length) break;
@@ -2134,7 +2207,7 @@
         case 'stats':
           if (!b.items.length) break;
           content.push({
-            table: { widths: b.items.map(() => '*'), body: [b.items.map((s) => ({ stack: [{ text: noEmoji(s.value), fontSize: 16, bold: true, color: PRINT.link, alignment: 'center' }, { text: noEmoji(s.label), fontSize: 8.5, color: PRINT.muted, alignment: 'center' }], fillColor: PRINT.soft, margin: [4, 6, 4, 6] }))] },
+            table: { widths: b.items.map(() => '*'), body: [b.items.map((s) => ({ stack: [{ text: noEmoji(s.value), fontSize: fs(16), bold: true, color: PRINT.link, alignment: 'center' }, { text: noEmoji(s.label), fontSize: fs(8.5), color: PRINT.muted, alignment: 'center' }], fillColor: PRINT.soft, margin: [4, 6, 4, 6] }))] },
             layout: lines('bordered'), margin: [0, 4, 0, 10],
           });
           break;
@@ -2142,18 +2215,30 @@
           if (!b.headers.length) break;
           const style = b.tableStyle || 'default';
           const tc = PRINT_COLORS[b.tableColor];
-          const headFill = style === 'header' ? (tc || PRINT.accent) : undefined; // white, as on the page
-          const headColor = style === 'header' ? '#ffffff' : (tc || (style === 'minimal' ? PRINT.text : PRINT.muted));
+          // Header: a chosen background tint, else the bold-header colour, else white as on the page.
+          const headTint = b.headFill ? tint(PRINT_COLORS[b.headFill], 0.18) : undefined;
+          const headFill = headTint || (style === 'header' ? (tc || PRINT.accent) : undefined);
+          const headColor = style === 'header' && !headTint ? '#ffffff' : (tc || (style === 'minimal' || style === 'header' ? PRINT.text : PRINT.muted));
+          // Striped rows: cream, a chosen tint, or none.
+          const stripeFill = b.stripe === 'none' ? undefined : (b.stripe ? tint(PRINT_COLORS[b.stripe], 0.12) : PRINT.base);
+          // Header and first column are bold unless set to regular (PDF has no semibold); a cell's own
+          // bold, italic, alignment, colour and fill come on top.
+          const headBold = b.headWeight !== 'regular';
+          const firstBold = b.firstColWeight !== 'regular';
           const body = [
             b.headers.map((h, c) => {
               const s = headCellStyle(b, c) || {};
-              return defined({ text: noEmoji(h), bold: true, fontSize: 9.5, fillColor: s.fill ? tint(PRINT_COLORS[s.fill]) : headFill, color: PRINT_COLORS[s.color] || headColor });
+              return defined({
+                text: noEmoji(h), bold: headBold || s.bold, italics: s.italic, alignment: s.align, fontSize: fs(9.5),
+                fillColor: cellFill(s) || headFill, color: PRINT_COLORS[s.color] || (s.strong ? '#ffffff' : headColor),
+              });
             }),
             ...b.rows.map((r, ri) => b.headers.map((_, c) => {
               const s = bodyCellStyle(b, ri, c) || {};
               return defined({
-                text: runs(r[c] || ''), fontSize: 9.5, color: PRINT_COLORS[s.color] || color,
-                fillColor: s.fill ? tint(PRINT_COLORS[s.fill]) : (ri % 2 ? undefined : PRINT.base),
+                text: runs(r[c] || ''), fontSize: fs(9.5), bold: (c === 0 && firstBold) || s.bold, italics: s.italic, alignment: s.align,
+                color: PRINT_COLORS[s.color] || (s.strong ? '#ffffff' : color),
+                fillColor: cellFill(s) || (ri % 2 ? undefined : stripeFill),
               });
             })),
           ];
@@ -2161,11 +2246,13 @@
           break;
         }
         case 'code':
-          content.push({ table: { widths: ['*'], body: [[{ text: b.text, fontSize: 8.5, preserveLeadingSpaces: true, fillColor: PRINT.code, margin: [8, 6, 8, 6] }]] }, layout: 'noBorders', margin: [0, 4, 0, 10] });
+          content.push({ table: { widths: ['*'], body: [[{ text: b.text, fontSize: fs(8.5), preserveLeadingSpaces: true, fillColor: PRINT.code, margin: [8, 6, 8, 6] }]] }, layout: 'noBorders', margin: [0, 4, 0, 10] });
           break;
         default:
           if (b.text) content.push(defined({ text: runs(b.text), color, alignment, margin: [0, 0, 0, 8] }));
       }
+      // Text without its own size (paragraphs, lists, callouts, quotes) takes the block's size from a wrapper.
+      if (f !== 1 && content.length > start) content.push({ stack: content.splice(start), fontSize: fs(10.5) });
     }
 
     window.pdfMake.createPdf({
@@ -2199,6 +2286,7 @@
         font: r.code ? 'Consolas' : undefined,
         shading: r.code ? { type: D.ShadingType.CLEAR, fill: hex(PRINT.code), color: 'auto' } : undefined,
         style: r.link ? 'Hyperlink' : undefined,
+        size: base.size,
       }));
       return r.link ? new D.ExternalHyperlink({ link: r.link, children: [run] }) : run;
     });
@@ -2240,18 +2328,22 @@
     for (const b of cs.content) {
       const color = hex(PRINT_COLORS[b.color]);
       const alignment = ALIGN[b.align] || undefined;
+      // Text size of the block: Word sizes are in half-points (22 = 11pt, the normal size).
+      const f = SIZE_FACTOR[b.size] || 1;
+      const hp = (n) => (f === 1 ? undefined : Math.round(n * f));
+      const sz = hp(22);
       switch (b.type) {
         case 'heading': case 'eyebrow':
-          children.push(new D.Paragraph(defined({ heading: D.HeadingLevel.HEADING_1, alignment, children: [plain(b.text, { color: color || hex(PRINT.text) })] })));
+          children.push(new D.Paragraph(defined({ heading: D.HeadingLevel.HEADING_1, alignment, children: [plain(b.text, { color: color || hex(PRINT.text), size: hp(32) })] })));
           break;
         case 'subheading':
-          children.push(new D.Paragraph(defined({ heading: D.HeadingLevel.HEADING_2, alignment, children: [plain(b.text, { color: color || hex(PRINT.text) })] })));
+          children.push(new D.Paragraph(defined({ heading: D.HeadingLevel.HEADING_2, alignment, children: [plain(b.text, { color: color || hex(PRINT.text), size: hp(26) })] })));
           break;
-        case 'label': children.push(para([plain(b.text, defined({ bold: true, color }))], defined({ alignment }))); break;
+        case 'label': children.push(para([plain(b.text, defined({ bold: true, color, size: sz }))], defined({ alignment }))); break;
         case 'list': case 'olist': {
           const reference = listRef(b.type === 'olist', b.marker);
           const instance = ++listInstance;
-          exportItems(b.items).forEach((t) => children.push(new D.Paragraph(defined({ numbering: { reference, level: 0, instance }, alignment, spacing: { after: 60 }, children: runs(t, { color }) }))));
+          exportItems(b.items).forEach((t) => children.push(new D.Paragraph(defined({ numbering: { reference, level: 0, instance }, alignment, spacing: { after: 60 }, children: runs(t, { color, size: sz }) }))));
           children.push(para([]));
           break;
         }
@@ -2259,12 +2351,12 @@
           children.push(tableOf([new D.TableRow({ children: [new D.TableCell({
             margins: cellMargins,
             shading: { type: D.ShadingType.CLEAR, fill: hex(CALLOUT_FILL[b.tone] || CALLOUT_FILL.default), color: 'auto' },
-            children: [new D.Paragraph(defined({ alignment, children: [...(b.icon ? [plain(`${b.icon}  `)] : []), ...runs(b.text, { color })] }))],
+            children: [new D.Paragraph(defined({ alignment, children: [...(b.icon ? [plain(`${b.icon}  `)] : []), ...runs(b.text, { color, size: sz })] }))],
           })] })], { top: none, bottom: none, left: none, right: none, insideHorizontal: none, insideVertical: none }, [9000]));
           children.push(para([]));
           break;
         case 'quote':
-          children.push(para(runs(b.text, { italics: true, color }), defined({ alignment, indent: { left: 240 }, border: { left: line(hex(PRINT.accent), 18) } })));
+          children.push(para(runs(b.text, { italics: true, color, size: sz }), defined({ alignment, indent: { left: 240 }, border: { left: line(hex(PRINT.accent), 18) } })));
           if (b.attribution) children.push(para([plain(`— ${b.attribution}`, { color: hex(PRINT.muted), size: 18 })], { indent: { left: 240 } }));
           break;
         case 'divider': children.push(para([], { border: { bottom: line() } })); break;
@@ -2282,8 +2374,8 @@
             margins: cellMargins,
             shading: { type: D.ShadingType.CLEAR, fill: hex(PRINT.soft), color: 'auto' },
             children: [
-              new D.Paragraph({ alignment: D.AlignmentType.CENTER, children: [plain(s.value, { bold: true, size: 32, color: hex(PRINT.link) })] }),
-              new D.Paragraph({ alignment: D.AlignmentType.CENTER, children: [plain(s.label, { size: 17, color: hex(PRINT.muted) })] }),
+              new D.Paragraph({ alignment: D.AlignmentType.CENTER, children: [plain(s.value, { bold: true, size: hp(32) || 32, color: hex(PRINT.link) })] }),
+              new D.Paragraph({ alignment: D.AlignmentType.CENTER, children: [plain(s.label, { size: hp(17) || 17, color: hex(PRINT.muted) })] }),
             ],
           })) })], { top: line(), bottom: line(), left: line(), right: line(), insideHorizontal: line(), insideVertical: line() }, even(b.items.length)));
           children.push(para([]));
@@ -2292,24 +2384,31 @@
           if (!b.headers.length) break;
           const style = b.tableStyle || 'default';
           const tc = PRINT_COLORS[b.tableColor];
-          const headFill = style === 'header' ? (tc || PRINT.accent) : undefined; // white, as on the page
-          const headColor = style === 'header' ? '#ffffff' : (tc || (style === 'minimal' ? PRINT.text : PRINT.muted));
+          // Header: a chosen background tint, else the bold-header colour, else white as on the page.
+          const headTint = b.headFill ? tint(PRINT_COLORS[b.headFill], 0.18) : undefined;
+          const headFill = headTint || (style === 'header' ? (tc || PRINT.accent) : undefined);
+          const headColor = style === 'header' && !headTint ? '#ffffff' : (tc || (style === 'minimal' || style === 'header' ? PRINT.text : PRINT.muted));
+          // Striped rows: cream, a chosen tint, or none.
+          const stripeFill = b.stripe === 'none' ? undefined : (b.stripe ? tint(PRINT_COLORS[b.stripe], 0.12) : PRINT.base);
           const shade = (fill) => (fill ? { type: D.ShadingType.CLEAR, fill: hex(fill), color: 'auto' } : undefined);
           const headRow = new D.TableRow({ tableHeader: true, children: b.headers.map((h, c) => {
             const s = headCellStyle(b, c) || {};
             return new D.TableCell(defined({
               margins: cellMargins,
-              shading: shade(s.fill ? tint(PRINT_COLORS[s.fill]) : headFill),
+              shading: shade(cellFill(s) || headFill),
               borders: style === 'minimal' ? { bottom: line(hex(tc || PRINT.text), 12), top: none, left: none, right: none } : undefined,
-              children: [new D.Paragraph({ children: [plain(h, { bold: true, color: hex(PRINT_COLORS[s.color] || headColor) })] })],
+              children: [new D.Paragraph(defined({ alignment: ALIGN[s.align], children: [plain(h, { bold: b.headWeight !== 'regular' || s.bold, italics: s.italic, size: sz, color: hex(PRINT_COLORS[s.color] || (s.strong ? '#ffffff' : headColor)) })] }))],
             }));
           }) });
           const rows = b.rows.map((r, ri) => new D.TableRow({ children: b.headers.map((_, c) => {
             const s = bodyCellStyle(b, ri, c) || {};
             return new D.TableCell(defined({
               margins: cellMargins,
-              shading: shade(s.fill ? tint(PRINT_COLORS[s.fill]) : (ri % 2 ? undefined : PRINT.base)),
-              children: [new D.Paragraph({ children: runs(r[c] || '', { color: hex(PRINT_COLORS[s.color]) || color }) })],
+              shading: shade(cellFill(s) || (ri % 2 ? undefined : stripeFill)),
+              children: [new D.Paragraph(defined({ alignment: ALIGN[s.align], children: runs(r[c] || '', {
+                color: hex(PRINT_COLORS[s.color]) || (s.strong ? 'FFFFFF' : color),
+                bold: (c === 0 && b.firstColWeight !== 'regular') || s.bold, italics: s.italic, size: sz,
+              }) }))],
             }));
           }) }));
           const borders = {
@@ -2326,7 +2425,7 @@
           b.text.split('\n').forEach((t, k, all) => children.push(new D.Paragraph({
             shading: { type: D.ShadingType.CLEAR, fill: hex(PRINT.code), color: 'auto' },
             spacing: { after: k === all.length - 1 ? 160 : 0 },
-            children: [plain(t, { font: 'Consolas', size: 18 })],
+            children: [plain(t, { font: 'Consolas', size: hp(18) || 18 })],
           })));
           break;
         default:

@@ -15,10 +15,14 @@ const BLOCK_TYPES = ['eyebrow', 'heading', 'subheading', 'label', 'p', 'list', '
 const CALLOUT_TONES = ['default', 'green', 'blue', 'yellow', 'red', 'gray'];
 const ALIGNABLE_BLOCKS = ['eyebrow', 'heading', 'subheading', 'label', 'p', 'list', 'olist', 'callout', 'quote'];
 const TEXT_ALIGNMENTS = ['left', 'center', 'right', 'justify'];
-// Kept in step with TEXT_COLORS and TABLE_STYLES in public/app.js.
-const TEXT_COLORS = ['orange', 'red', 'green', 'blue', 'purple', 'yellow', 'gray'];
+// Kept in step with TEXT_COLORS, TABLE_STYLES, TEXT_SIZES, TABLE_WEIGHTS and CELL_ALIGNS in public/app.js.
+const TEXT_COLORS = ['orange', 'red', 'green', 'blue', 'purple', 'yellow', 'gray', 'pink', 'teal', 'indigo', 'brown', 'ink'];
 const TABLE_STYLES = ['bordered', 'minimal', 'header'];
+const TEXT_SIZES = ['sm', 'lg', 'xl'];
+const TABLE_WEIGHTS = ['regular', 'bold'];
+const CELL_ALIGNS = ['left', 'center', 'right'];
 const COLORABLE_BLOCKS = [...ALIGNABLE_BLOCKS, 'table'];
+const SIZABLE_BLOCKS = [...COLORABLE_BLOCKS, 'stats', 'code'];
 const IMAGE_PATH = /^(case-content\/[\w.-]+\/[\w.-]+\.(png|jpe?g|webp|gif)|uploads\/[a-f0-9]{24}\.(png|jpg|webp|gif))$/i;
 
 const password = () => process.env.ADMIN_PASSWORD || '';
@@ -85,10 +89,11 @@ const str = (v, max = 20000) => typeof v === 'string' && v.length <= max;
 
 function cleanBlock(b) {
   if (!b || !BLOCK_TYPES.includes(b.type)) throw new Error('Unknown block type');
-  // Alignment and a whole-block text colour; anything not on the lists is dropped.
+  // Alignment, a whole-block text colour and text size; anything not on the lists is dropped.
   const withAlignment = (block) => {
     if (ALIGNABLE_BLOCKS.includes(b.type) && TEXT_ALIGNMENTS.includes(b.align) && b.align !== 'left') block.align = b.align;
     if (COLORABLE_BLOCKS.includes(b.type) && TEXT_COLORS.includes(b.color)) block.color = b.color;
+    if (SIZABLE_BLOCKS.includes(b.type) && TEXT_SIZES.includes(b.size)) block.size = b.size;
     return block;
   };
   switch (b.type) {
@@ -108,17 +113,20 @@ function cleanBlock(b) {
       return b.caption ? { type: 'img', file: b.file, caption: String(b.caption).slice(0, 2000) } : { type: 'img', file: b.file };
     case 'stats':
       if (!Array.isArray(b.items) || !b.items.every((s) => s && str(s.value, 200) && str(s.label, 500))) throw new Error('A stats block is invalid');
-      return { type: 'stats', items: b.items.map((s) => ({ value: s.value, label: s.label })) };
+      return withAlignment({ type: 'stats', items: b.items.map((s) => ({ value: s.value, label: s.label })) });
     case 'table':
       if (!Array.isArray(b.headers) || !b.headers.every((h) => str(h, 1000))) throw new Error('A table header is invalid');
       if (!Array.isArray(b.rows) || !b.rows.every((r) => Array.isArray(r) && r.every((c) => str(c, 5000)))) throw new Error('A table row is invalid');
     {
-      // Per-cell colours are reshaped to the table and kept only when at least one cell has one.
+      // Per-cell styles are reshaped to the table and kept only when at least one cell has one.
       const cellStyle = (s) => {
         if (!s || typeof s !== 'object') return null;
         const o = {};
         if (TEXT_COLORS.includes(s.color)) o.color = s.color;
-        if (TEXT_COLORS.includes(s.fill)) o.fill = s.fill;
+        if (TEXT_COLORS.includes(s.fill)) { o.fill = s.fill; if (s.strong === true) o.strong = true; }
+        if (s.bold === true) o.bold = true;
+        if (s.italic === true) o.italic = true;
+        if (CELL_ALIGNS.includes(s.align)) o.align = s.align;
         return Object.keys(o).length ? o : null;
       };
       const headStyles = Array.isArray(b.headStyles) ? b.headers.map((_, c) => cellStyle(b.headStyles[c])) : [];
@@ -129,6 +137,10 @@ function cleanBlock(b) {
         type: 'table', headers: b.headers, rows: b.rows,
         ...(TABLE_STYLES.includes(b.tableStyle) ? { tableStyle: b.tableStyle } : {}),
         ...(TEXT_COLORS.includes(b.tableColor) ? { tableColor: b.tableColor } : {}),
+        ...(TABLE_WEIGHTS.includes(b.headWeight) ? { headWeight: b.headWeight } : {}),
+        ...(TABLE_WEIGHTS.includes(b.firstColWeight) ? { firstColWeight: b.firstColWeight } : {}),
+        ...(TEXT_COLORS.includes(b.headFill) ? { headFill: b.headFill } : {}),
+        ...(b.stripe === 'none' || TEXT_COLORS.includes(b.stripe) ? { stripe: b.stripe } : {}),
         ...(headStyles.some(Boolean) ? { headStyles } : {}),
         ...(cellStyles.some((row) => row.some(Boolean)) ? { cellStyles } : {}),
       });
@@ -138,7 +150,7 @@ function cleanBlock(b) {
       return withAlignment({ type: 'quote', text: b.text, attribution: b.attribution || '' });
     case 'code':
       if (!str(b.text, 100000)) throw new Error('A code block is invalid');
-      return b.language ? { type: 'code', text: b.text, language: String(b.language).slice(0, 40) } : { type: 'code', text: b.text };
+      return withAlignment(b.language ? { type: 'code', text: b.text, language: String(b.language).slice(0, 40) } : { type: 'code', text: b.text });
     default:
       if (!str(b.text)) throw new Error('A text block is invalid');
       return withAlignment({ type: b.type, text: b.text });

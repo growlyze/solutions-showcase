@@ -1677,6 +1677,12 @@ select.ed-type:hover { background: var(--accent-soft); }
   --tc-purple: #c4b5fd;
   --tc-yellow: #facc15;
   --tc-gray: #a8a2b5;
+  --tc-pink: #f9a8d4;
+  --tc-teal: #2dd4bf;
+  --tc-indigo: #a5b4fc;
+  --tc-brown: #d6a77a;
+  --tc-ink: #ffffff;
+  --strong-on: #120825;  /* text on a strong (solid) cell fill */
   --tbl-on: #120825;
   --row-alt: #0d051c;  /* table rows between the lighter ones, a shade darker than the page */
 }
@@ -1688,6 +1694,12 @@ select.ed-type:hover { background: var(--accent-soft); }
   --tc-purple: #7c3aed;
   --tc-yellow: #a16207;
   --tc-gray: #6b6475;
+  --tc-pink: #be185d;
+  --tc-teal: #0f766e;
+  --tc-indigo: #4338ca;
+  --tc-brown: #8b5a2b;
+  --tc-ink: #140827;
+  --strong-on: #ffffff;
   --tbl-on: #ffffff;
   --row-alt: #ece4d4;  /* a shade darker than the cream page, so the rows stand apart from it */
 }
@@ -1698,6 +1710,11 @@ select.ed-type:hover { background: var(--accent-soft); }
 .tc-purple, .tbl-purple { --tc: var(--tc-purple); }
 .tc-yellow, .tbl-yellow { --tc: var(--tc-yellow); }
 .tc-gray, .tbl-gray { --tc: var(--tc-gray); }
+.tc-pink, .tbl-pink { --tc: var(--tc-pink); }
+.tc-teal, .tbl-teal { --tc: var(--tc-teal); }
+.tc-indigo, .tbl-indigo { --tc: var(--tc-indigo); }
+.tc-brown, .tbl-brown { --tc: var(--tc-brown); }
+.tc-ink, .tbl-ink { --tc: var(--tc-ink); }
 .tc { color: var(--tc); }
 /* A coloured block passes its colour down to text that otherwise sets its own. */
 .case-detail-content .tc :is(h3, h4, p, li, td, th, cite, .callout-text, .content-eyebrow, .content-label) { color: inherit; }
@@ -1710,6 +1727,11 @@ select.ed-type:hover { background: var(--accent-soft); }
 .marker-purple { --marker: var(--tc-purple); }
 .marker-yellow { --marker: var(--tc-yellow); }
 .marker-gray { --marker: var(--tc-gray); }
+.marker-pink { --marker: var(--tc-pink); }
+.marker-teal { --marker: var(--tc-teal); }
+.marker-indigo { --marker: var(--tc-indigo); }
+.marker-brown { --marker: var(--tc-brown); }
+.marker-ink { --marker: var(--tc-ink); }
 .content-list[class*="marker-"] li::marker { color: var(--marker); }
 
 /* Every table style keeps the site's rows: white and the cream base colour in turn (the
@@ -1816,6 +1838,11 @@ select.ed-type:hover { background: var(--accent-soft); }
 .cf-purple { --cf: var(--tc-purple); }
 .cf-yellow { --cf: var(--tc-yellow); }
 .cf-gray { --cf: var(--tc-gray); }
+.cf-pink { --cf: var(--tc-pink); }
+.cf-teal { --cf: var(--tc-teal); }
+.cf-indigo { --cf: var(--tc-indigo); }
+.cf-brown { --cf: var(--tc-brown); }
+.cf-ink { --cf: var(--tc-ink); }
 /* A fill is a soft tint so text stays readable; it wins over stripes and the header colour. */
 .content-table :is(td, th).cf { background: color-mix(in srgb, var(--cf) 20%, var(--surface)) !important; }
 .case-detail-content .content-table-wrap .content-table :is(td, th).tc { color: var(--tc); }
@@ -1855,3 +1882,84 @@ select.ed-type:hover { background: var(--accent-soft); }
 .ed-cell-bar-group { display: inline-flex; align-items: center; gap: 5px; }
 .ed-cell-bar-group > span { margin-right: 2px; color: var(--text-muted); font-weight: 600; }
 .ed-cell-bar .ed-swatch { width: 22px; height: 22px; }
+
+/* ---- More table options: strong fills, bold/italic/aligned cells, header and first-column weight ---- */
+/* A strong fill is the solid colour; its text turns white (cream page) or ink (dark page) to stay readable. */
+.content-table :is(td, th).cf.cf-strong { background: var(--cf) !important; color: var(--strong-on); }
+.case-detail-content .content-table :is(td, th).cf-strong:not(.tc) { color: var(--strong-on); }
+.content-table :is(td, th).cell-bold { font-weight: 700; }
+.content-table :is(td, th).cell-italic { font-style: italic; }
+.content-table :is(td, th).cell-left { text-align: left; }
+.content-table :is(td, th).cell-center { text-align: center; }
+.content-table :is(td, th).cell-right { text-align: right; }
+.content-table-wrap.head-regular .content-table th:not(.cell-bold) { font-weight: 400; }
+.content-table-wrap.head-bold .content-table th { font-weight: 800; }
+.content-table-wrap.first-regular .content-table td:first-child:not(.cell-bold) { font-weight: 400; }
+.content-table-wrap.first-bold .content-table td:first-child { font-weight: 800; }
+
+/* ---- Text size of a block: small, large, extra large (normal has no class) ---- */
+.ts-sm { zoom: 0.88; }
+.ts-lg { zoom: 1.15; }
+.ts-xl { zoom: 1.3; }
+
+/* ---- Editor: cell formatting bar rows, size/weight choices ---- */
+.ed-cell-bar { flex-direction: column; align-items: stretch; gap: 6px; }
+.ed-cell-bar-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.ed-cell-bar-label { min-width: 78px; color: var(--text-muted); font-weight: 600; }
+.ed-cell-tool {
+  min-width: 30px;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+.ed-cell-tool:hover { border-color: var(--accent-vivid); }
+.ed-cell-tool.is-on { border-color: var(--accent-vivid); background: var(--accent-soft); color: var(--accent-text); }
+/* Light-fill swatches show the soft tint they give; strong-fill swatches are square and solid */
+.ed-cell-bar [data-cell-key="fill"].ed-swatch:not(.ed-swatch--default) { background: color-mix(in srgb, var(--tc) 25%, var(--surface)); }
+.ed-cell-bar .ed-swatch--solid { border-radius: 6px; }
+.ed-choice-3 { grid-template-columns: repeat(3, 1fr); }
+.ed-choice-4 { grid-template-columns: repeat(2, 1fr); }
+.ed-style-menu { max-height: 70vh; overflow-y: auto; }
+.ed-menu-note { margin: 4px 10px 6px; font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+
+/* ---- Table backgrounds: header row and striped rows (chosen per table) ---- */
+.hf-orange { --hb: var(--tc-orange); }
+.st-orange { --sb: var(--tc-orange); }
+.hf-red { --hb: var(--tc-red); }
+.st-red { --sb: var(--tc-red); }
+.hf-green { --hb: var(--tc-green); }
+.st-green { --sb: var(--tc-green); }
+.hf-blue { --hb: var(--tc-blue); }
+.st-blue { --sb: var(--tc-blue); }
+.hf-purple { --hb: var(--tc-purple); }
+.st-purple { --sb: var(--tc-purple); }
+.hf-yellow { --hb: var(--tc-yellow); }
+.st-yellow { --sb: var(--tc-yellow); }
+.hf-gray { --hb: var(--tc-gray); }
+.st-gray { --sb: var(--tc-gray); }
+.hf-pink { --hb: var(--tc-pink); }
+.st-pink { --sb: var(--tc-pink); }
+.hf-teal { --hb: var(--tc-teal); }
+.st-teal { --sb: var(--tc-teal); }
+.hf-indigo { --hb: var(--tc-indigo); }
+.st-indigo { --sb: var(--tc-indigo); }
+.hf-brown { --hb: var(--tc-brown); }
+.st-brown { --sb: var(--tc-brown); }
+.hf-ink { --hb: var(--tc-ink); }
+.st-ink { --sb: var(--tc-ink); }
+/* A soft tint of the colour; a single cell's own fill still shows over it. */
+.case-detail-content .content-table-wrap.has-hf .content-table thead th { background: color-mix(in srgb, var(--hb) 18%, var(--surface-hover)); }
+.content-table-wrap.has-st .content-table tbody tr:nth-child(odd) td { background: color-mix(in srgb, var(--sb) 12%, var(--surface-hover)); }
+.content-table-wrap.st-none .content-table tbody tr:nth-child(odd) td { background: var(--surface-hover); }
+/* On a tinted header the bold-header style's white text would vanish, so it turns dark again. */
+.case-detail-content .content-table-wrap.table--header.has-hf .content-table thead th:not(.tc) { color: var(--text); }
+.ed-choice-1 { grid-template-columns: 1fr; }
+/* The "default" swatch keeps its slash inside menus too, so it is not mistaken for Black. */
+.ed-menu .ed-swatch--default,
+.ed-cell-bar .ed-swatch--default { background: linear-gradient(135deg, var(--surface) 45%, #e53935 45%, #e53935 55%, var(--surface) 55%); }
