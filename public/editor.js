@@ -282,42 +282,101 @@
   // Every case study, oldest first. data.js has no dates, so its order stands in for creation order
   // and those all predate site-created ones, which carry createdAt (the merged list puts them first,
   // newest first).
+  // Every case study of every category with whether visitors can see it; the status can be switched
+  // from the list, and a name opens that case study. Admin only: this file is never loaded publicly.
   function openCaseList() {
     document.querySelector('.ed-modal')?.remove();
     const added = CASE_STUDIES.filter((c) => c.isNew)
       .sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)));
     const ordered = [...CASE_STUDIES.filter((c) => !c.isNew), ...added];
+    const catName = new Map(CATEGORIES.map((c) => [c.slug, c.name]));
     const dateOf = (c) => (c.createdAt ? new Date(c.createdAt).toLocaleDateString() : 'Original');
+    const statusHtml = (id) => (hiddenIds.has(id)
+      ? '<span class="ed-status-pill is-hidden">Hidden</span>'
+      : '<span class="ed-status-pill is-shown">Shown</span>');
+    const toggleLabel = (id) => (hiddenIds.has(id) ? 'Show on site' : 'Hide from site');
     const modal = document.createElement('div');
     modal.className = 'ed-modal';
     modal.innerHTML = `
       <div class="ed-modal-box ed-case-list-box" role="dialog" aria-modal="true" aria-labelledby="ed-case-list-title">
         <h2 id="ed-case-list-title">All case studies</h2>
-        <p>${ordered.length} case studies, in the order they were created.</p>
-        <ol class="ed-case-list">
-          ${ordered.map((c) => `
-            <li><a href="#/case/${esc(c.id)}">${esc(c.title)}</a><span>${esc(dateOf(c))}<button type="button" class="ed-btn ed-case-list-toggle" data-id="${esc(c.id)}">${hiddenIds.has(c.id) ? 'Unhide' : 'Hide'}</button></span></li>`).join('')}
-        </ol>
+        <p class="ed-case-list-count" aria-live="polite"></p>
+        <div class="ed-case-list-filters">
+          <input type="search" class="ed-case-list-search" placeholder="Search by name" aria-label="Search case studies by name" />
+          <select class="ed-case-list-cat" aria-label="Category">
+            <option value="">All categories</option>
+            ${CATEGORIES.map((c) => `<option value="${esc(c.slug)}">${esc(c.name)}</option>`).join('')}
+          </select>
+          <select class="ed-case-list-status" aria-label="Status">
+            <option value="">Shown and hidden</option>
+            <option value="shown">Shown only</option>
+            <option value="hidden">Hidden only</option>
+          </select>
+        </div>
+        <div class="ed-case-list-scroll">
+          <table class="ed-case-table">
+            <thead><tr><th>#</th><th>Case study</th><th>Category</th><th>Status</th><th><span class="ed-sr">Change status</span></th></tr></thead>
+            <tbody>
+              ${ordered.map((c, k) => `
+                <tr data-id="${esc(c.id)}" data-tags="${esc(c.tags.join(' '))}" data-title="${esc(c.title.toLowerCase())}">
+                  <td class="ed-case-num">${k + 1}</td>
+                  <td><a href="#/case/${esc(c.id)}">${esc(c.title)}</a><div class="ed-case-date">${esc(dateOf(c))}</div></td>
+                  <td class="ed-case-cats">${c.tags.map((t) => esc(catName.get(t) || t)).join(', ')}</td>
+                  <td class="ed-case-status">${statusHtml(c.id)}</td>
+                  <td><button type="button" class="ed-btn ed-btn--small ed-case-list-toggle" data-id="${esc(c.id)}">${toggleLabel(c.id)}</button></td>
+                </tr>`).join('')}
+            </tbody>
+          </table>
+          <p class="ed-case-list-empty" hidden>No case studies match.</p>
+        </div>
         <div class="ed-modal-actions">
           <button type="button" class="ed-btn" data-act="close">Close</button>
         </div>
       </div>`;
     document.body.appendChild(modal);
-    modal.querySelector('[data-act="close"]').focus();
+    const search = modal.querySelector('.ed-case-list-search');
+    const cat = modal.querySelector('.ed-case-list-cat');
+    const status = modal.querySelector('.ed-case-list-status');
+    const rows = [...modal.querySelectorAll('.ed-case-table tbody tr')];
+
+    // Applies the search and filters, and keeps the counts up to date.
+    function refresh() {
+      const q = search.value.trim().toLowerCase();
+      let shown = 0;
+      rows.forEach((tr) => {
+        const hidden = hiddenIds.has(tr.dataset.id);
+        tr.hidden = (q && !tr.dataset.title.includes(q))
+          || (cat.value && !tr.dataset.tags.split(' ').includes(cat.value))
+          || (status.value === 'shown' && hidden) || (status.value === 'hidden' && !hidden);
+        if (!tr.hidden) shown++;
+      });
+      const hiddenCount = ordered.filter((c) => hiddenIds.has(c.id)).length;
+      modal.querySelector('.ed-case-list-count').textContent =
+        `${ordered.length} case studies: ${ordered.length - hiddenCount} shown on the site, ${hiddenCount} hidden.`
+        + (shown < rows.length ? ` Showing ${shown} that match.` : '');
+      modal.querySelector('.ed-case-list-empty').hidden = shown > 0;
+    }
+    refresh();
+    search.focus();
+    [search, cat, status].forEach((el) => el.addEventListener('input', refresh));
+
     modal.addEventListener('click', (e) => {
-      if (e.target === modal || e.target.dataset.act === 'close' || e.target.closest('.ed-case-list a')) modal.remove();
+      if (e.target === modal || e.target.dataset.act === 'close' || e.target.closest('.ed-case-table a')) modal.remove();
     });
     modal.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.remove(); });
-    modal.querySelector('.ed-case-list').addEventListener('click', async (e) => {
+    modal.querySelector('.ed-case-table').addEventListener('click', async (e) => {
       const btn = e.target.closest('.ed-case-list-toggle');
       if (!btn) return;
+      const id = btn.dataset.id;
       btn.disabled = true;
       try {
-        await setHidden(btn.dataset.id, !hiddenIds.has(btn.dataset.id));
-        btn.textContent = hiddenIds.has(btn.dataset.id) ? 'Unhide' : 'Hide';
+        await setHidden(id, !hiddenIds.has(id));
+        btn.textContent = toggleLabel(id);
+        btn.closest('tr').querySelector('.ed-case-status').innerHTML = statusHtml(id);
+        refresh();
         refreshCaseToolbar();
       } catch (err) {
-        toast(err.message);
+        toast(err.message, 'error');
       }
       btn.disabled = false;
     });
@@ -327,9 +386,17 @@
   function drawAdminChrome() {
     document.querySelector('.ed-admin-chip')?.remove();
     document.querySelector('.ed-login-link')?.remove();
+    document.querySelector('.ed-cases-link')?.remove();
     const nav = document.querySelector('.header-nav');
     if (!nav) return;
     if (state.admin) {
+      // The list of every case study, one click away in the header.
+      const casesLink = document.createElement('button');
+      casesLink.type = 'button';
+      casesLink.className = 'ed-cases-link';
+      casesLink.innerHTML = '<span aria-hidden="true">📋</span> All case studies';
+      casesLink.addEventListener('click', openCaseList);
+      nav.appendChild(casesLink);
       const chip = document.createElement('div');
       chip.className = 'ed-admin-chip';
       chip.innerHTML = `
