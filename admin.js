@@ -177,7 +177,34 @@ function cleanCase(body, categorySlugs) {
 // ---------- routes ----------
 // `getOriginal` returns a case study as public/data.js has it; `overrides` is the server's map of
 // saved edits; `onChange` is called after every save so the server can redraw its pages.
-function adminRouter({ store, getOriginal, categorySlugs, overrides, hidden = new Set(), onChange, adminPassword = { value: password(), hash: '' } }) {
+// ---------- validating a new category ----------
+// Tile colours the site has (style.css .tint-*). The emoji is drawn as-is, so it may not contain
+// anything HTML could read as markup.
+const CATEGORY_TINTS = ['indigo', 'violet', 'blue', 'teal', 'orange', 'amber', 'pink'];
+const SAFE_EMOJI = /^[^<>&"'`\\\s]{1,8}$/u;
+const slugify = (text, fallback) => text.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 50).replace(/-+$/, '') || fallback;
+
+function cleanCategory(body) {
+  if (!body || !str(body.name, 60) || !body.name.trim()) throw new Error('The category name is required (up to 60 characters).');
+  if (!str(body.description || '', 300)) throw new Error('The description can be up to 300 characters.');
+  const icon = String(body.icon || '').trim() || '📁';
+  if (!SAFE_EMOJI.test(icon)) throw new Error('The icon should be a single emoji.');
+  if (body.tint && !CATEGORY_TINTS.includes(body.tint)) throw new Error('Pick one of the listed colours.');
+  if (body.logoFile && (!str(body.logoFile, 300) || !/^uploads\/[a-f0-9]{24}\.(png|jpg|webp|gif)$/.test(body.logoFile))) throw new Error('The logo image is invalid.');
+  if (body.newGroup !== undefined && body.newGroup !== '' && (!str(body.newGroup, 60) || !body.newGroup.trim())) throw new Error('The section name can be up to 60 characters.');
+  return {
+    name: body.name.trim(),
+    description: String(body.description || '').trim(),
+    icon,
+    tint: body.tint || '',
+    logoFile: body.logoFile || '',
+    group: typeof body.group === 'string' ? body.group : '',
+    newGroup: String(body.newGroup || '').trim(),
+  };
+}
+
+function adminRouter({ store, getOriginal, categorySlugs, originalGroups = [], siteCats = { categories: [], groups: [] }, overrides, hidden = new Set(), onChange, adminPassword = { value: password(), hash: '' } }) {
   const router = express.Router();
   const requireAdmin = (req, res, next) => {
     if (!isAdmin(req, adminPassword)) return res.status(401).json({ error: 'Please log in again.' });
@@ -328,6 +355,51 @@ function adminRouter({ store, getOriginal, categorySlugs, overrides, hidden = ne
       console.error('Changing visibility failed', e);
       res.status(500).json({ error: 'Saving failed on the server. Please try again.' });
     }
+  });
+
+  // A new category: listed on the home page in the chosen section (or a new section), with its own
+  // page, and selectable for any case study. Stored apart from data.js, like every other admin edit.
+  router.post('/categories', requireAdmin, express.json({ limit: '10kb' }), async (req, res) => {
+    let data;
+    try { data = cleanCategory(req.body); } catch (e) { return res.status(400).json({ error: e.message }); }
+    const allGroups = [...originalGroups, ...siteCats.groups];
+    const groupKeys = new Set(allGroups.map((g) => g.key));
+    let group = null;
+    if (data.newGroup) {
+      // A "new" section with the same name as an existing one just uses that section.
+      const taken = allGroups.find((g) => g.title.toLowerCase() === data.newGroup.toLowerCase());
+      if (taken) data.group = taken.key;
+      else {
+        const base = slugify(data.newGroup, 'section');
+        let key = base;
+        for (let n = 2; groupKeys.has(key); n++) key = `${base}-${n}`;
+        group = { key, title: data.newGroup };
+        data.group = key;
+      }
+    } else if (!groupKeys.has(data.group)) {
+      return res.status(400).json({ error: 'Pick the section the category goes in.' });
+    }
+    const base = slugify(data.name, 'category');
+    let slug = base;
+    for (let n = 2; categorySlugs.has(slug); n++) slug = `${base}-${n}`;
+    const category = { slug, icon: data.icon, group: data.group, name: data.name, description: data.description };
+    if (data.tint) category.tint = data.tint;
+    if (data.logoFile) category.logoFile = data.logoFile;
+    const next = {
+      categories: [...siteCats.categories, category],
+      groups: group ? [...siteCats.groups, group] : siteCats.groups,
+    };
+    try {
+      await store.saveSiteCategories(next);
+    } catch (e) {
+      console.error('Saving category failed', e);
+      return res.status(500).json({ error: 'Saving failed on the server. Please try again.' });
+    }
+    siteCats.categories.push(category);
+    if (group) siteCats.groups.push(group);
+    categorySlugs.add(slug);
+    onChange();
+    res.status(201).json({ ok: true, category, group });
   });
 
   router.post('/uploads', requireAdmin, express.raw({ type: Object.values(MIME_BY_EXT), limit: '8mb' }), async (req, res) => {

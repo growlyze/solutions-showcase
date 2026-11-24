@@ -63,6 +63,18 @@ function postgresStore(url) {
         [JSON.stringify(ids)],
       );
     },
+    // Categories (and home-page sections) added on the site, as JSON { categories, groups }.
+    async getSiteCategories() {
+      const { rows } = await pool.query("SELECT value FROM admin_settings WHERE key = 'site_categories'");
+      return rows[0] ? JSON.parse(rows[0].value) : { categories: [], groups: [] };
+    },
+    async saveSiteCategories(data) {
+      await pool.query(
+        `INSERT INTO admin_settings (key, value, updated_at) VALUES ('site_categories', $1, now())
+         ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now()`,
+        [JSON.stringify(data)],
+      );
+    },
     async saveUpload(name, mime, buffer) {
       await pool.query('INSERT INTO uploads (name, mime, data) VALUES ($1, $2, $3)', [name, mime, buffer]);
     },
@@ -77,6 +89,7 @@ function fileStore(dir) {
   const file = path.join(dir, 'overrides.json');
   const adminFile = path.join(dir, 'admin.json');
   const hiddenFile = path.join(dir, 'hidden.json');
+  const categoriesFile = path.join(dir, 'categories.json');
   const uploadDir = path.join(dir, 'uploads');
   const read = () => (fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : {});
   const write = (obj) => fs.writeFileSync(file, JSON.stringify(obj, null, 2));
@@ -103,6 +116,10 @@ function fileStore(dir) {
     },
     async getHiddenCaseIds() { return fs.existsSync(hiddenFile) ? JSON.parse(fs.readFileSync(hiddenFile, 'utf8')) : []; },
     async saveHiddenCaseIds(ids) { fs.writeFileSync(hiddenFile, JSON.stringify(ids, null, 2)); },
+    async getSiteCategories() {
+      return fs.existsSync(categoriesFile) ? JSON.parse(fs.readFileSync(categoriesFile, 'utf8')) : { categories: [], groups: [] };
+    },
+    async saveSiteCategories(data) { fs.writeFileSync(categoriesFile, JSON.stringify(data, null, 2)); },
     async saveUpload(name, mime, buffer) { fs.writeFileSync(path.join(uploadDir, name), buffer); },
     async getUpload(name) {
       const p = path.join(uploadDir, name);

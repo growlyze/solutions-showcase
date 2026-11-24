@@ -386,7 +386,7 @@
   function drawAdminChrome() {
     document.querySelector('.ed-admin-chip')?.remove();
     document.querySelector('.ed-login-link')?.remove();
-    document.querySelector('.ed-cases-link')?.remove();
+    document.querySelectorAll('.ed-cases-link').forEach((el) => el.remove());
     const nav = document.querySelector('.header-nav');
     if (!nav) return;
     if (state.admin) {
@@ -397,6 +397,12 @@
       casesLink.innerHTML = '<span aria-hidden="true">📋</span> All case studies';
       casesLink.addEventListener('click', openCaseList);
       nav.appendChild(casesLink);
+      const catLink = document.createElement('button');
+      catLink.type = 'button';
+      catLink.className = 'ed-cases-link ed-newcat-link';
+      catLink.innerHTML = '<span aria-hidden="true">＋</span> New category';
+      catLink.addEventListener('click', openNewCategory);
+      nav.appendChild(catLink);
       const chip = document.createElement('div');
       chip.className = 'ed-admin-chip';
       chip.innerHTML = `
@@ -405,10 +411,12 @@
         </button>
         <div class="ed-admin-menu" role="menu" hidden>
           <button type="button" role="menuitem" data-act="list-cases">All case studies</button>
+          <button type="button" role="menuitem" data-act="new-category">New category</button>
           <button type="button" role="menuitem" data-act="change-password">Change password</button>
           <button type="button" role="menuitem" data-act="logout">Log out</button>
         </div>`;
       chip.querySelector('[data-act="list-cases"]').addEventListener('click', openCaseList);
+      chip.querySelector('[data-act="new-category"]').addEventListener('click', openNewCategory);
       chip.querySelector('[data-act="change-password"]').addEventListener('click', openChangePassword);
       chip.querySelector('[data-act="logout"]').addEventListener('click', logout);
       const toggle = chip.querySelector('.ed-admin-toggle');
@@ -1989,6 +1997,167 @@
     } catch (err) {
       toast(err.message, 'error');
     }
+  }
+
+  // ---------- adding a category ----------
+  // Name, short description, the home-page section it goes in (or a new section), an emoji and
+  // tile colour, and optionally a logo image. The preview is the real home-page card.
+  const CATEGORY_TINTS = ['indigo', 'violet', 'blue', 'teal', 'orange', 'amber', 'pink'];
+  function openNewCategory() {
+    if (state.editing) return toast('Save or cancel the case study you are editing first.', 'error');
+    document.querySelector('.ed-modal')?.remove();
+    const modal = document.createElement('div');
+    modal.className = 'ed-modal';
+    modal.innerHTML = `
+      <form class="ed-modal-box ed-newcat-box" role="dialog" aria-modal="true" aria-labelledby="ed-newcat-title">
+        <h2 id="ed-newcat-title">New category</h2>
+        <p>It appears on the home page straight away, gets its own page, and can be picked for any case study.</p>
+        <div class="ed-newcat-grid">
+          <div class="ed-newcat-fields">
+            <label class="ed-field"><span>Name</span><input type="text" name="name" maxlength="60" required placeholder="e.g. HubSpot Automations" /></label>
+            <label class="ed-field"><span>Short description</span><textarea name="description" maxlength="300" rows="3" placeholder="One or two sentences shown on the card."></textarea></label>
+            <label class="ed-field"><span>Home page section</span>
+              <select name="group">
+                ${GROUPS.map((g) => `<option value="${esc(g.key)}">${esc(g.title)}</option>`).join('')}
+                <option value="__new">＋ New section…</option>
+              </select>
+            </label>
+            <label class="ed-field" data-new-group hidden><span>New section name</span><input type="text" name="newGroup" maxlength="60" placeholder="e.g. CRM Platforms" /></label>
+            <div class="ed-newcat-row">
+              <label class="ed-field ed-newcat-emoji"><span>Icon</span><input type="text" name="icon" maxlength="8" value="📁" /></label>
+              <div class="ed-field"><span>Colour</span>
+                <div class="ed-newcat-tints" role="radiogroup" aria-label="Tile colour">
+                  <button type="button" class="ed-newcat-tint is-on" data-tint="" aria-label="Default" aria-checked="true" role="radio"></button>
+                  ${CATEGORY_TINTS.map((t) => `<button type="button" class="ed-newcat-tint card-icon tint-${t}" data-tint="${t}" aria-label="${t}" aria-checked="false" role="radio"></button>`).join('')}
+                </div>
+              </div>
+            </div>
+            <div class="ed-field"><span>Logo image <em>(optional; shown instead of the icon)</em></span>
+              <div class="ed-newcat-logo">
+                <label class="ed-btn"><input type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden />Upload logo</label>
+                <button type="button" class="ed-btn ed-btn--ghost" data-act="remove-logo" hidden>Remove</button>
+                <span class="ed-newcat-logo-status" role="status"></span>
+              </div>
+            </div>
+          </div>
+          <div class="ed-newcat-preview-wrap">
+            <span class="ed-newcat-preview-label">Preview</span>
+            <div class="ed-newcat-preview"></div>
+          </div>
+        </div>
+        <p class="ed-error" hidden></p>
+        <div class="ed-modal-actions">
+          <button type="button" class="ed-btn" data-act="close">Cancel</button>
+          <button type="submit" class="ed-btn ed-btn--primary">Create category</button>
+        </div>
+      </form>`;
+    document.body.appendChild(modal);
+    const form = modal.querySelector('form');
+    const f = form.elements;
+    const error = form.querySelector('.ed-error');
+    const preview = form.querySelector('.ed-newcat-preview');
+    const newGroupField = form.querySelector('[data-new-group]');
+    const logoStatus = form.querySelector('.ed-newcat-logo-status');
+    const removeLogo = form.querySelector('[data-act="remove-logo"]');
+    let tint = '';
+    let logoFile = '';
+    let busy = false;
+
+    const draft = () => ({
+      slug: 'preview',
+      name: f.name.value.trim() || 'Category name',
+      description: f.description.value.trim() || 'A short description of what this category covers.',
+      icon: f.icon.value.replace(/[<>&"'`\\\s]/g, '') || '📁',
+      ...(tint ? { tint } : {}),
+      ...(logoFile ? { logoFile } : {}),
+    });
+    const drawPreview = () => {
+      preview.innerHTML = categoryCardHtml(draft(), false);
+      preview.querySelector('a').removeAttribute('href');
+      attachLogoFallbacks(preview);
+    };
+    drawPreview();
+    f.name.focus();
+
+    const close = () => { if (!busy) modal.remove(); };
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target.closest('[data-act="close"]')) close();
+      const swatch = e.target.closest('.ed-newcat-tint');
+      if (swatch) {
+        tint = swatch.dataset.tint;
+        form.querySelectorAll('.ed-newcat-tint').forEach((b) => {
+          b.classList.toggle('is-on', b === swatch);
+          b.setAttribute('aria-checked', String(b === swatch));
+        });
+        drawPreview();
+      }
+      if (e.target.closest('[data-act="remove-logo"]')) {
+        logoFile = '';
+        removeLogo.hidden = true;
+        logoStatus.textContent = '';
+        drawPreview();
+      }
+    });
+    modal.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    form.addEventListener('input', drawPreview);
+    f.group.addEventListener('change', () => {
+      newGroupField.hidden = f.group.value !== '__new';
+      if (!newGroupField.hidden) f.newGroup.focus();
+    });
+    form.querySelector('input[type="file"]').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      e.target.value = '';
+      if (!file) return;
+      logoStatus.textContent = 'Uploading…';
+      try {
+        logoFile = await uploadFile(file);
+        logoStatus.textContent = 'Logo added.';
+        removeLogo.hidden = false;
+        drawPreview();
+      } catch (err) {
+        logoStatus.textContent = '';
+        error.textContent = err.message;
+        error.hidden = false;
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (busy) return;
+      error.hidden = true;
+      const isNewGroup = f.group.value === '__new';
+      if (isNewGroup && !f.newGroup.value.trim()) {
+        error.textContent = 'Give the new section a name.';
+        error.hidden = false;
+        f.newGroup.focus();
+        return;
+      }
+      busy = true;
+      form.querySelector('[type="submit"]').classList.add('is-disabled');
+      try {
+        const { category, group } = await api('POST', '/api/categories', {
+          name: f.name.value,
+          description: f.description.value,
+          group: isNewGroup ? '' : f.group.value,
+          newGroup: isNewGroup ? f.newGroup.value : '',
+          icon: f.icon.value,
+          tint,
+          logoFile,
+        });
+        if (group) GROUPS.push(group);
+        CATEGORIES.push(category);
+        busy = false;
+        modal.remove();
+        window.location.hash = `#/tag/${category.slug}`;
+        toast(`Category "${category.name}" created. Add case studies to it here.`);
+      } catch (err) {
+        busy = false;
+        form.querySelector('[type="submit"]').classList.remove('is-disabled');
+        error.textContent = err.message;
+        error.hidden = false;
+        if (err.status === 401) { modal.remove(); state.admin = false; openLogin(); }
+      }
+    });
   }
 
   // ---------- adding a case study ----------

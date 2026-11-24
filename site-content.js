@@ -28,7 +28,9 @@ const ORIGINAL_DATA_SRC = fs.readFileSync(path.join(PUBLIC_DIR, 'data.js'), 'utf
 // created on the site; new ones are listed first, newest first.
 // Hidden case studies are left out entirely, as if deleted, unless forAdmin: the admin workspace
 // gets them all, plus HIDDEN_CASE_IDS so it can show which ones the public does not see.
-function mergedDataSource(overrides = new Map(), hidden = new Set(), forAdmin = false) {
+// Categories added on the site (siteCats: { categories, groups }) go after the ones in data.js, each
+// in its home-page section; a section added on the site goes after the existing sections.
+function mergedDataSource(overrides = new Map(), hidden = new Set(), forAdmin = false, siteCats = { categories: [], groups: [] }) {
   const edits = {};
   const added = [];
   const deleted = [];
@@ -51,15 +53,18 @@ ${forAdmin ? `var HIDDEN_CASE_IDS = ${JSON.stringify([...hidden])};\n` : ''}(fun
     if (deleted.indexOf(CASE_STUDIES[i].id) !== -1) CASE_STUDIES.splice(i, 1);
   }
 })(${JSON.stringify(edits)}, ${JSON.stringify(added)}, ${JSON.stringify(deleted)});
+// Categories and sections added on the site.
+GROUPS.push.apply(GROUPS, ${JSON.stringify(siteCats.groups || [])});
+CATEGORIES.push.apply(CATEGORIES, ${JSON.stringify(siteCats.categories || [])});
 `;
 }
 
 // What visitors' browsers get: the merged result written out as plain data. The merged source above
 // still carries the original text of hidden and deleted case studies (they are only removed when it
 // runs), and anyone can read /data.js, so the public copy is rebuilt without them.
-function publicDataSource(overrides, hidden) {
+function publicDataSource(overrides, hidden, siteCats) {
   const context = vm.createContext({});
-  vm.runInContext(`${mergedDataSource(overrides, hidden)}\n;globalThis.__data = { CATEGORIES, GROUPS, CASE_STUDIES, EDITED_CASE_IDS };`, context);
+  vm.runInContext(`${mergedDataSource(overrides, hidden, false, siteCats)}\n;globalThis.__data = { CATEGORIES, GROUPS, CASE_STUDIES, EDITED_CASE_IDS };`, context);
   const d = context.__data;
   return `const CATEGORIES = ${JSON.stringify(d.CATEGORIES)};
 const GROUPS = ${JSON.stringify(d.GROUPS)};
@@ -71,8 +76,8 @@ var EDITED_CASE_IDS = ${JSON.stringify(d.EDITED_CASE_IDS)};
 // The case studies exactly as public/data.js has them, for "revert to original".
 function originalCaseStudies() {
   const context = vm.createContext({});
-  vm.runInContext(`${ORIGINAL_DATA_SRC}\n;globalThis.__cases = CASE_STUDIES; globalThis.__cats = CATEGORIES;`, context);
-  return { cases: context.__cases, categories: context.__cats };
+  vm.runInContext(`${ORIGINAL_DATA_SRC}\n;globalThis.__cases = CASE_STUDIES; globalThis.__cats = CATEGORIES; globalThis.__groups = GROUPS;`, context);
+  return { cases: context.__cases, categories: context.__cats, groups: context.__groups };
 }
 
 // ---------- run the app's rendering code on the server ----------
@@ -130,8 +135,8 @@ function createRenderer(dataSrc) {
   };
 }
 
-function create(overrides, hidden) {
-  const renderer = createRenderer(mergedDataSource(overrides, hidden));
+function create(overrides, hidden, siteCats) {
+  const renderer = createRenderer(mergedDataSource(overrides, hidden, false, siteCats));
   const categories = renderer.api.CATEGORIES;
   const cases = renderer.api.CASE_STUDIES.filter((c) => Array.isArray(c.content) && (c.content.length || c.isNew));
   const caseById = new Map(cases.map((c) => [c.id, c]));

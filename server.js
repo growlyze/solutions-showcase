@@ -18,13 +18,16 @@ const overrides = new Map();
 const hidden = new Set();
 const original = originalCaseStudies();
 const originalById = new Map(original.cases.map((c) => [c.id, c]));
+// Categories (and home-page sections) added from the admin, on top of the ones in data.js.
+const siteCats = { categories: [], groups: [] };
+const categorySlugs = new Set(original.categories.map((c) => c.slug));
 let site = null;
 let dataJs = '';
 let adminDataJs = '';
 function rebuild() {
-  site = create(overrides, hidden);
-  dataJs = publicDataSource(overrides, hidden);
-  adminDataJs = mergedDataSource(overrides, hidden, true);
+  site = create(overrides, hidden, siteCats);
+  dataJs = publicDataSource(overrides, hidden, siteCats);
+  adminDataJs = mergedDataSource(overrides, hidden, true, siteCats);
 }
 
 const baseUrl = (req) => `${req.protocol}://${req.get('host')}`;
@@ -39,7 +42,9 @@ function send(res, type, body, status = 200) {
 app.use('/api', adminRouter({
   store,
   getOriginal: (id) => originalById.get(id),
-  categorySlugs: new Set(original.categories.map((c) => c.slug)),
+  categorySlugs,
+  originalGroups: original.groups.map((g) => ({ key: g.key, title: g.title })),
+  siteCats,
   overrides,
   hidden,
   adminPassword,
@@ -144,6 +149,10 @@ app.get('*', (req, res) => {
   await store.init();
   adminPassword.hash = await store.getAdminPasswordHash();
   for (const id of await store.getHiddenCaseIds()) hidden.add(id);
+  const savedCats = await store.getSiteCategories();
+  siteCats.groups.push(...(savedCats.groups || []));
+  siteCats.categories.push(...(savedCats.categories || []));
+  for (const c of siteCats.categories) categorySlugs.add(c.slug);
   for (const [id, o] of await store.allOverrides()) if (originalById.has(id) || o.isNew || o.isDeleted) overrides.set(id, o);
   rebuild();
   app.listen(PORT, () => {

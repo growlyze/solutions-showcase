@@ -1996,3 +1996,39 @@ select.ed-type:hover { background: var(--accent-soft); }
 /* The "default" swatch keeps its slash inside menus too, so it is not mistaken for Black. */
 .ed-menu .ed-swatch--default,
 .ed-cell-bar .ed-swatch--default { background: linear-gradient(135deg, var(--surface) 45%, #e53935 45%, #e53935 55%, var(--surface) 55%); }
+
+/* New category (admin): the form on the left, the real home-page card as a preview on the right */
+.ed-newcat-box { width: min(860px, calc(100vw - 32px)); max-width: none; max-height: calc(100vh - 32px); overflow: auto; }
+.ed-newcat-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
+.ed-newcat-fields { display: flex; flex-direction: column; gap: 14px; }
+.ed-newcat-fields .ed-field textarea,
+.ed-newcat-fields .ed-field select {
+  padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border);
+  background: var(--bg); color: var(--text); font: inherit; font-size: 15px; font-weight: 400; resize: vertical;
+}
+.ed-newcat-fields .ed-field textarea:focus,
+.ed-newcat-fields .ed-field select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.ed-newcat-fields .ed-field em { font-style: normal; font-weight: 400; color: var(--text-muted); }
+.ed-newcat-fields .ed-field[hidden] { display: none; }
+.ed-newcat-row { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+.ed-newcat-emoji { width: 84px; }
+.ed-newcat-emoji input { text-align: center; font-size: 20px; padding: 6px 8px; }
+.ed-newcat-tints { display: flex; flex-wrap: wrap; gap: 8px; }
+.ed-newcat-tint {
+  width: 34px; height: 34px; padding: 0; border-radius: 10px; border: 2px solid transparent; cursor: pointer;
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+.ed-newcat-tint[data-tint=""] { background: linear-gradient(135deg, var(--surface) 45%, var(--border) 45%, var(--border) 55%, var(--surface) 55%); }
+.ed-newcat-tint.card-icon { margin: 0; }
+.ed-newcat-tint.is-on { border-color: var(--accent-vivid); box-shadow: 0 0 0 2px var(--accent-soft); }
+.ed-newcat-logo { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-weight: 400; }
+.ed-newcat-logo label.ed-btn { cursor: pointer; }
+.ed-newcat-logo-status { font-size: 13px; color: var(--text-muted); }
+.ed-newcat-preview-wrap { position: sticky; top: 0; }
+.ed-newcat-preview-label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); }
+.ed-newcat-preview .card { pointer-events: none; }
+@media (max-width: 720px) {
+  .ed-newcat-grid { grid-template-columns: 1fr; }
+  .ed-newcat-preview-wrap { position: static; }
+}
+.ed-newcat-logo [hidden] { display: none; }
